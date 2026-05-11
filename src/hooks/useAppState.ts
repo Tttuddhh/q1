@@ -22,7 +22,7 @@ function savePages(pages: Page[]) {
 export function useAppState() {
   const [sidebarExpanded, setSidebarExpanded] = useState(false);
   const [pageTreeVisible, setPageTreeVisible] = useState(true);
-  const [currentView, setCurrentView] = useState<ViewType>('home');
+  const [currentView, setCurrentView] = useState<ViewType>('page');
   const [currentPageId, setCurrentPageId] = useState<string | null>('1');
   const [searchOpen, setSearchOpen] = useState(false);
   const [downloadOpen, setDownloadOpen] = useState(false);

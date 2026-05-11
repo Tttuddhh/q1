@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import {
   Settings,
   Palette,
@@ -39,6 +39,8 @@ import {
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../i18n';
 import type { ThemeColor, FontSize, IndentSize, BackupFrequency, Language, DateFormat, TimeFormat } from '../hooks/useSettings';
+import { ThemeColorCarousel, colorSchemes } from './ThemeColorCarousel';
+
 
 type TabId = 'general' | 'appearance' | 'editor' | 'notifications' | 'account' | 'security' | 'data';
 
@@ -306,6 +308,25 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
   const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<TabId>('general');
   const [editingProfile, setEditingProfile] = useState(false);
+  const navRef = useRef<HTMLElement>(null);
+  const tabRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const [indicatorStyle, setIndicatorStyle] = useState({ left: 10, top: 8, width: 180, height: 40 });
+
+  // 更新指示器位置
+  useEffect(() => {
+    const activeIndex = tabs.findIndex(tab => tab.id === activeTab);
+    const activeBtn = tabRefs.current[activeIndex];
+    if (activeBtn && navRef.current) {
+      const navRect = navRef.current.getBoundingClientRect();
+      const btnRect = activeBtn.getBoundingClientRect();
+      setIndicatorStyle({
+        left: btnRect.left - navRect.left,
+        top: btnRect.top - navRect.top,
+        width: btnRect.width,
+        height: btnRect.height,
+      });
+    }
+  }, [activeTab]);
 
   const {
     theme,
@@ -349,6 +370,8 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
     { id: 'security', label: t('settings.tab.security'), icon: <ShieldCheck size={18} /> },
     { id: 'data', label: t('settings.tab.data'), icon: <Database size={18} /> },
   ];
+
+
 
   const fonts = [
     { value: 'system', label: t('settings.font_system') },
@@ -419,32 +442,26 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
             ]}
           />
         </SettingRow>
-        <SettingRow label={t('settings.theme_color')} description={t('settings.theme_color_desc')}>
-          <div style={{ display: 'flex', gap: 10 }}>
-            {themeColors.map((tc) => (
-              <button
-                key={tc.id}
-                onClick={() => setAppearance({ themeColor: tc.id })}
-                title={tc.label}
-                style={{
-                  width: 28,
-                  height: 28,
-                  borderRadius: '50%',
-                  background: tc.color,
-                  border: appearance.themeColor === tc.id ? '2px solid #1a1a1a' : '2px solid transparent',
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  transition: 'all 0.15s',
-                  boxShadow: appearance.themeColor === tc.id ? `0 0 0 2px ${tc.color}40` : 'none',
-                }}
-              >
-                {appearance.themeColor === tc.id && <Check size={14} color="#fff" strokeWidth={3} />}
-              </button>
-            ))}
+      </SectionCard>
+
+      <SectionCard title="主题配色">
+        <div style={{ marginBottom: 16 }}>
+          <div style={{ fontSize: 13, color: '#6B7280', marginBottom: 12 }}>
+            选择你喜欢的配色方案，每个方案包含一组协调的颜色
           </div>
-        </SettingRow>
+          <ThemeColorCarousel
+            selectedScheme={appearance.themeColor || 'brand'}
+            onSelect={(schemeId) => {
+              const scheme = colorSchemes.find(s => s.id === schemeId);
+              if (scheme) {
+                setAppearance({ themeColor: scheme.id as ThemeColor });
+              }
+            }}
+          />
+        </div>
+      </SectionCard>
+
+      <SectionCard>
         <SettingRow label={t('settings.sidebar_width')} description={t('settings.sidebar_width_desc')}>
           <Slider
             value={appearance.sidebarWidth}
@@ -1107,9 +1124,9 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
       <div
         style={{
           width: '100%',
-          maxWidth: 900,
-          height: '85vh',
-          maxHeight: 700,
+          maxWidth: 1100,
+          height: '90vh',
+          maxHeight: 800,
           borderRadius: 16,
           overflow: 'hidden',
           display: 'flex',
@@ -1165,52 +1182,103 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
             </button>
           </div>
 
-          <nav style={{ flex: 1, overflow: 'auto', padding: '8px 10px' }} className="page-tree-scroll">
-            {tabs.map((tab, index) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`settings-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+          <div style={{ flex: 1, overflow: 'hidden', position: 'relative' }}>
+            {/* 左侧边缘淡出 */}
+            <div
+              style={{
+                position: 'absolute',
+                left: 0,
+                top: 0,
+                bottom: 0,
+                width: 24,
+                zIndex: 2,
+                pointerEvents: 'none',
+              }}
+              className="settings-fade-left"
+            />
+            {/* 右侧边缘淡出 */}
+            <div
+              style={{
+                position: 'absolute',
+                right: 0,
+                top: 0,
+                bottom: 0,
+                width: 24,
+                zIndex: 2,
+                pointerEvents: 'none',
+              }}
+              className="settings-fade-right"
+            />
+            <nav
+              ref={navRef}
+              style={{
+                flex: 1,
+                overflow: 'hidden',
+                padding: '8px 10px',
+                position: 'relative',
+              }}
+            >
+              {/* 活动指示器方框 - 绝对定位，平滑移动 */}
+              <div
+                className="settings-indicator"
                 style={{
-                  width: '100%',
-                  padding: '10px 12px',
+                  position: 'absolute',
+                  left: indicatorStyle.left,
+                  top: indicatorStyle.top,
+                  width: indicatorStyle.width,
+                  height: indicatorStyle.height,
                   borderRadius: 8,
-                  border: 'none',
-                  background: activeTab === tab.id ? 'var(--color-active-bg)' : 'transparent',
-                  cursor: 'pointer',
-                  fontSize: 14,
-                  fontWeight: 500,
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  marginBottom: 2,
-                  transition: 'all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                  textAlign: 'left',
-                  color: activeTab === tab.id ? 'var(--color-primary-dark)' : 'inherit',
-                  transform: activeTab === tab.id ? 'translateX(4px)' : 'translateX(0)',
+                  background: 'var(--color-active-bg)',
+                  zIndex: 0,
                 }}
-              >
-                <span
+              />
+              {/* 静态标签列表 */}
+              {tabs.map((tab, index) => (
+                <button
+                  key={tab.id}
+                  ref={(el) => { tabRefs.current[index] = el; }}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`settings-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
                   style={{
+                    width: '100%',
+                    padding: '10px 12px',
+                    borderRadius: 8,
+                    border: 'none',
+                    background: 'transparent',
+                    cursor: 'pointer',
+                    fontSize: 14,
+                    fontWeight: 500,
                     display: 'flex',
                     alignItems: 'center',
-                    justifyContent: 'center',
-                    width: 20,
-                    height: 20,
-                    transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    transform: activeTab === tab.id ? 'scale(1.15) rotate(-5deg)' : 'scale(1) rotate(0deg)',
+                    gap: 10,
+                    marginBottom: 2,
+                    transition: 'color 0.2s ease',
+                    textAlign: 'left',
+                    color: activeTab === tab.id ? 'var(--color-primary-dark)' : 'inherit',
+                    position: 'relative',
+                    zIndex: 1,
                   }}
-                  className={activeTab === tab.id ? 'text-primary dark:text-orange-400' : 'text-gray-400 dark:text-gray-500'}
                 >
-                  {tab.icon}
-                </span>
-                <span style={{ transition: 'transform 0.2s ease', transform: activeTab === tab.id ? 'translateX(2px)' : 'translateX(0)' }}>{tab.label}</span>
-                {activeTab === tab.id && (
-                  <ChevronRight size={14} style={{ marginLeft: 'auto', transition: 'transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)' }} className="text-primary dark:text-orange-400" />
-                )}
-              </button>
-            ))}
-          </nav>
+                  <span
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      width: 20,
+                      height: 20,
+                    }}
+                    className={activeTab === tab.id ? 'text-primary dark:text-orange-400' : 'text-gray-400 dark:text-gray-500'}
+                  >
+                    {tab.icon}
+                  </span>
+                  <span>{tab.label}</span>
+                  {activeTab === tab.id && (
+                    <ChevronRight size={14} style={{ marginLeft: 'auto' }} className="text-primary dark:text-orange-400" />
+                  )}
+                </button>
+              ))}
+            </nav>
+          </div>
         </div>
 
         {/* Right Content */}
