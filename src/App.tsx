@@ -10,15 +10,12 @@ import { SettingsPage } from './components/SettingsPage';
 import { useAppState } from './hooks/useAppState';
 import { useSettings } from './hooks/useSettings';
 import { useTranslation } from './i18n';
+import { colorSchemes } from './components/ThemeColorCarousel';
 
-const themeColorMap: Record<string, string> = {
-  orange: '#ff6a3d',
-  blue: '#3b82f6',
-  green: '#22c55e',
-  purple: '#a855f7',
-  pink: '#ec4899',
-  amber: '#f59e0b',
-};
+const themeColorMap: Record<string, string> = colorSchemes.reduce((map, scheme) => {
+  map[scheme.id] = scheme.accent;
+  return map;
+}, {} as Record<string, string>);
 
 function App() {
   const state = useAppState();

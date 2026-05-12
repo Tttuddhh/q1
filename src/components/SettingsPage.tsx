@@ -50,14 +50,7 @@ interface TabItem {
   icon: React.ReactNode;
 }
 
-const themeColors: { id: ThemeColor; label: string; color: string }[] = [
-  { id: 'orange', label: '活力橙', color: '#ff6a3d' },
-  { id: 'blue', label: '天空蓝', color: '#3b82f6' },
-  { id: 'green', label: '森林绿', color: '#22c55e' },
-  { id: 'purple', label: '梦幻紫', color: '#a855f7' },
-  { id: 'pink', label: '樱花粉', color: '#ec4899' },
-  { id: 'amber', label: '琥珀黄', color: '#f59e0b' },
-];
+
 
 const timezones = [
   { value: 'Asia/Shanghai', label: '中国 (UTC+8)' },

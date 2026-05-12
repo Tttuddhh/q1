@@ -4,7 +4,7 @@ export type Theme = 'light' | 'dark' | 'system';
 export type Language = 'zh' | 'en' | 'ja' | 'ko';
 export type DateFormat = 'YYYY-MM-DD' | 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY/MM/DD' | 'DD-MM-YYYY';
 export type TimeFormat = '24h' | '12h';
-export type ThemeColor = 'orange' | 'blue' | 'green' | 'purple' | 'pink' | 'amber';
+export type ThemeColor = 'low-saturation' | 'fresh' | 'summer' | 'bauhaus' | 'brand' | 'elegant' | 'nature' | 'ocean';
 export type FontSize = 'small' | 'medium' | 'large' | 'xlarge';
 export type IndentSize = '2' | '4' | 'tab';
 export type BackupFrequency = 'daily' | 'weekly' | 'monthly';
@@ -188,7 +188,7 @@ function getInitialAppearance(): AppearanceSettings {
     if (stored) {
       const parsed = JSON.parse(stored);
       return {
-        themeColor: parsed.themeColor ?? 'orange',
+        themeColor: parsed.themeColor ?? 'brand',
         sidebarWidth: parsed.sidebarWidth ?? 260,
         compactMode: parsed.compactMode ?? false,
       };
@@ -197,7 +197,7 @@ function getInitialAppearance(): AppearanceSettings {
     // ignore
   }
   return {
-    themeColor: 'orange',
+    themeColor: 'brand',
     sidebarWidth: 260,
     compactMode: false,
   };
