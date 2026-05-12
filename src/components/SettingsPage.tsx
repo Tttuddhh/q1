@@ -1119,7 +1119,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
         justifyContent: 'center',
         padding: 24,
       }}
-      className="bg-black/50 backdrop-blur-sm"
+      className="modal-overlay"
     >
       <div
         style={{

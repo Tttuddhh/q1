@@ -621,13 +621,9 @@ body {
 }
 
 /* Dialog overlay */
-[data-radix-dialog-overlay] {
+.modal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
-}
-
-[data-radix-dropdown-menu-content] {
-  animation: slide-down 0.15s ease-out;
 }
 
 /* Gradient orange */

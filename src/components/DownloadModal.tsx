@@ -35,7 +35,7 @@ export function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
         justifyContent: 'center',
         padding: 24,
       }}
-      className="bg-black/50 backdrop-blur-sm"
+      className="modal-overlay"
       onClick={onClose}
     >
       <div

@@ -90,12 +90,6 @@ function ToolbarButton({
           e.currentTarget.style.transform = 'scale(1.1)';
         }
       }}
-      onMouseLeave={e => {
-        if (!active) {
-          e.currentTarget.style.background = 'transparent';
-          e.currentTarget.style.transform = 'scale(1)';
-        }
-      }}
     >
       {children}
     </button>

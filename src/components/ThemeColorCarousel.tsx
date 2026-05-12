@@ -217,10 +217,10 @@ const colorSchemes: ThemeColorScheme[] = [
     hex: '#44A08D',
     subDesc: '薄荷绿',
     variants: [
-      { bg: '#44A08D', text: '#FFFFFF', accent: '#4ECDC4', hex: '#44A08D', subDesc: '薄荷绿' },
-      { bg: '#4ECDC4', text: '#FFFFFF', accent: '#96E6A1', hex: '#4ECDC4', subDesc: '青绿' },
-      { bg: '#96E6A1', text: '#2D3748', accent: '#44A08D', hex: '#96E6A1', subDesc: '嫩绿' },
-      { bg: '#88D8B0', text: '#2D3748', accent: '#44A08D', hex: '#88D8B0', subDesc: '薄荷' },
+      { bg: '#44A08D', text: '#FFFFFF', accent: '#4ECDC4', hex: '#44A08D', subDesc: '薄荷绿', variantDesc: '清爽自然的薄荷绿色调，带来清晨般的清新体验' },
+      { bg: '#4ECDC4', text: '#FFFFFF', accent: '#96E6A1', hex: '#4ECDC4', subDesc: '青绿', variantDesc: '明快活泼的青绿色调，充满生机与活力' },
+      { bg: '#96E6A1', text: '#2D3748', accent: '#44A08D', hex: '#96E6A1', subDesc: '嫩绿', variantDesc: '柔和淡雅的嫩绿色调，营造轻松愉悦的氛围' },
+      { bg: '#88D8B0', text: '#2D3748', accent: '#44A08D', hex: '#88D8B0', subDesc: '薄荷', variantDesc: '轻盈通透的薄荷色调，让思绪更加清晰明朗' },
     ],
   },
   {
@@ -234,10 +234,10 @@ const colorSchemes: ThemeColorScheme[] = [
     hex: '#FF6B6B',
     subDesc: '珊瑚红',
     variants: [
-      { bg: '#FF6B6B', text: '#FFFFFF', accent: '#FFA07A', hex: '#FF6B6B', subDesc: '珊瑚红' },
-      { bg: '#FFA07A', text: '#FFFFFF', accent: '#FFD93D', hex: '#FFA07A', subDesc: '浅珊瑚' },
-      { bg: '#FFD93D', text: '#2D3748', accent: '#FF6B6B', hex: '#FFD93D', subDesc: '柠檬黄' },
-      { bg: '#6BCB77', text: '#FFFFFF', accent: '#4D96FF', hex: '#6BCB77', subDesc: '草绿' },
+      { bg: '#FF6B6B', text: '#FFFFFF', accent: '#FFA07A', hex: '#FF6B6B', subDesc: '珊瑚红', variantDesc: '热情奔放的珊瑚红色调，点亮夏日的无限活力' },
+      { bg: '#FFA07A', text: '#FFFFFF', accent: '#FFD93D', hex: '#FFA07A', subDesc: '浅珊瑚', variantDesc: '温暖柔和的浅珊瑚色调，如夕阳般浪漫迷人' },
+      { bg: '#FFD93D', text: '#2D3748', accent: '#FF6B6B', hex: '#FFD93D', subDesc: '柠檬黄', variantDesc: '明亮欢快的柠檬黄色调，带来阳光般的愉悦心情' },
+      { bg: '#6BCB77', text: '#FFFFFF', accent: '#4D96FF', hex: '#6BCB77', subDesc: '草绿', variantDesc: '清新自然的草绿色调，感受夏日的生机盎然' },
     ],
   },
   {
@@ -251,10 +251,10 @@ const colorSchemes: ThemeColorScheme[] = [
     hex: '#457B9D',
     subDesc: '经典蓝',
     variants: [
-      { bg: '#457B9D', text: '#FFFFFF', accent: '#E63946', hex: '#457B9D', subDesc: '经典蓝' },
-      { bg: '#E63946', text: '#FFFFFF', accent: '#F1FAEE', hex: '#E63946', subDesc: '包豪斯红' },
-      { bg: '#F1FAEE', text: '#1D3557', accent: '#457B9D', hex: '#F1FAEE', subDesc: '米白' },
-      { bg: '#A8DADC', text: '#1D3557', accent: '#457B9D', hex: '#A8DADC', subDesc: '浅蓝' },
+      { bg: '#457B9D', text: '#FFFFFF', accent: '#E63946', hex: '#457B9D', subDesc: '经典蓝', variantDesc: '沉稳大气的经典蓝色调，诠释现代主义的设计美学' },
+      { bg: '#E63946', text: '#FFFFFF', accent: '#F1FAEE', hex: '#E63946', subDesc: '包豪斯红', variantDesc: '鲜明有力的包豪斯红色调，几何与色彩的完美碰撞' },
+      { bg: '#F1FAEE', text: '#1D3557', accent: '#457B9D', hex: '#F1FAEE', subDesc: '米白', variantDesc: '纯净简约的米白色调，留白之间尽显艺术格调' },
+      { bg: '#A8DADC', text: '#1D3557', accent: '#457B9D', hex: '#A8DADC', subDesc: '浅蓝', variantDesc: '柔和雅致的浅蓝色调，如水墨般宁静悠远' },
     ],
   },
   {
@@ -268,10 +268,10 @@ const colorSchemes: ThemeColorScheme[] = [
     hex: '#FF6A3D',
     subDesc: '活力橙',
     variants: [
-      { bg: '#FF6A3D', text: '#FFFFFF', accent: '#FF8C69', hex: '#FF6A3D', subDesc: '活力橙' },
-      { bg: '#FF8C69', text: '#FFFFFF', accent: '#FFB199', hex: '#FF8C69', subDesc: '浅橙' },
-      { bg: '#FFB199', text: '#2D3748', accent: '#FF6A3D', hex: '#FFB199', subDesc: '蜜桃' },
-      { bg: '#FFD4C4', text: '#2D3748', accent: '#FF6A3D', hex: '#FFD4C4', subDesc: '杏色' },
+      { bg: '#FF6A3D', text: '#FFFFFF', accent: '#FF8C69', hex: '#FF6A3D', subDesc: '活力橙', variantDesc: '鲜明夺目的活力橙色调，让品牌瞬间脱颖而出' },
+      { bg: '#FF8C69', text: '#FFFFFF', accent: '#FFB199', hex: '#FF8C69', subDesc: '浅橙', variantDesc: '温暖亲和的浅橙色调，传递友好与热情' },
+      { bg: '#FFB199', text: '#2D3748', accent: '#FF6A3D', hex: '#FFB199', subDesc: '蜜桃', variantDesc: '甜美柔和的蜜桃色调，营造温馨愉悦的氛围' },
+      { bg: '#FFD4C4', text: '#2D3748', accent: '#FF6A3D', hex: '#FFD4C4', subDesc: '杏色', variantDesc: '淡雅清新的杏色调，简约中透着精致品味' },
     ],
   },
   {
@@ -285,10 +285,10 @@ const colorSchemes: ThemeColorScheme[] = [
     hex: '#6B5B95',
     subDesc: '薰衣草',
     variants: [
-      { bg: '#6B5B95', text: '#FFFFFF', accent: '#92A8D1', hex: '#6B5B95', subDesc: '薰衣草' },
-      { bg: '#92A8D1', text: '#FFFFFF', accent: '#F7CAC9', hex: '#92A8D1', subDesc: '淡紫' },
-      { bg: '#F7CAC9', text: '#2D3748', accent: '#6B5B95', hex: '#F7CAC9', subDesc: '玫瑰粉' },
-      { bg: '#88B04B', text: '#FFFFFF', accent: '#92A8D1', hex: '#88B04B', subDesc: '橄榄绿' },
+      { bg: '#6B5B95', text: '#FFFFFF', accent: '#92A8D1', hex: '#6B5B95', subDesc: '薰衣草', variantDesc: '高贵优雅的薰衣草色调，沉稳中透着浪漫气息' },
+      { bg: '#92A8D1', text: '#FFFFFF', accent: '#F7CAC9', hex: '#92A8D1', subDesc: '淡紫', variantDesc: '柔和梦幻的淡紫色调，营造宁静优雅的氛围' },
+      { bg: '#F7CAC9', text: '#2D3748', accent: '#6B5B95', hex: '#F7CAC9', subDesc: '玫瑰粉', variantDesc: '温婉柔美的玫瑰粉色调，甜美而不失高级感' },
+      { bg: '#88B04B', text: '#FFFFFF', accent: '#92A8D1', hex: '#88B04B', subDesc: '橄榄绿', variantDesc: '自然沉稳的橄榄绿色调，平衡优雅与生机' },
     ],
   },
   {
@@ -302,10 +302,10 @@ const colorSchemes: ThemeColorScheme[] = [
     hex: '#228B22',
     subDesc: '森林绿',
     variants: [
-      { bg: '#228B22', text: '#FFFFFF', accent: '#8FBC8F', hex: '#228B22', subDesc: '森林绿' },
-      { bg: '#8FBC8F', text: '#2D3748', accent: '#228B22', hex: '#8FBC8F', subDesc: '浅绿' },
-      { bg: '#DEB887', text: '#2D3748', accent: '#228B22', hex: '#DEB887', subDesc: '麦色' },
-      { bg: '#F4A460', text: '#FFFFFF', accent: '#DEB887', hex: '#F4A460', subDesc: '沙棕' },
+      { bg: '#228B22', text: '#FFFFFF', accent: '#8FBC8F', hex: '#228B22', subDesc: '森林绿', variantDesc: '深邃浓郁的森林绿色调，感受大自然的原始力量' },
+      { bg: '#8FBC8F', text: '#2D3748', accent: '#228B22', hex: '#8FBC8F', subDesc: '浅绿', variantDesc: '清新淡雅的浅绿色调，如春风拂面般舒适' },
+      { bg: '#DEB887', text: '#2D3748', accent: '#228B22', hex: '#DEB887', subDesc: '麦色', variantDesc: '温暖质朴的麦色调，回归田园般的宁静时光' },
+      { bg: '#F4A460', text: '#FFFFFF', accent: '#DEB887', hex: '#F4A460', subDesc: '沙棕', variantDesc: '醇厚自然的沙棕色调，感受大地的温暖怀抱' },
     ],
   },
   {
@@ -319,10 +319,10 @@ const colorSchemes: ThemeColorScheme[] = [
     hex: '#006994',
     subDesc: '深海蓝',
     variants: [
-      { bg: '#006994', text: '#FFFFFF', accent: '#4A90E2', hex: '#006994', subDesc: '深海蓝' },
-      { bg: '#4A90E2', text: '#FFFFFF', accent: '#87CEEB', hex: '#4A90E2', subDesc: '天蓝' },
-      { bg: '#87CEEB', text: '#2D3748', accent: '#006994', hex: '#87CEEB', subDesc: '浅蓝' },
-      { bg: '#B0E0E6', text: '#2D3748', accent: '#4A90E2', hex: '#B0E0E6', subDesc: '粉蓝' },
+      { bg: '#006994', text: '#FFFFFF', accent: '#4A90E2', hex: '#006994', subDesc: '深海蓝', variantDesc: '深邃神秘的深海蓝色调，适合沉静思考与创作' },
+      { bg: '#4A90E2', text: '#FFFFFF', accent: '#87CEEB', hex: '#4A90E2', subDesc: '天蓝', variantDesc: '明朗开阔的天蓝色调，让思维如天空般自由' },
+      { bg: '#87CEEB', text: '#2D3748', accent: '#006994', hex: '#87CEEB', subDesc: '浅蓝', variantDesc: '清澈柔和的浅蓝色调，带来宁静平和的心境' },
+      { bg: '#B0E0E6', text: '#2D3748', accent: '#4A90E2', hex: '#B0E0E6', subDesc: '粉蓝', variantDesc: '淡雅恬静的粉蓝色调，如水彩般温柔细腻' },
     ],
   },
 ];

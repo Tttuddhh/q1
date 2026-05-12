@@ -93,7 +93,7 @@ export function SearchModal({ isOpen, onClose, pages, onNavigateToPage }: Search
         justifyContent: 'center',
         paddingTop: '15vh',
       }}
-      className="bg-black/50 backdrop-blur-sm"
+      className="modal-overlay"
       onClick={onClose}
     >
       <div
