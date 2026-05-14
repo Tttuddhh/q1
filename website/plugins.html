@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>插件市场 - 橙光笔录</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Page header */
+    .plugins-hero {
+      padding: 140px 0 60px;
+      background: linear-gradient(135deg, #1a0f0a 0%, #0f0f0f 50%, #1a0f0a 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .plugins-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 116, 61, 0.1) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, rgba(255, 177, 153, 0.08) 0%, transparent 50%);
+      animation: heroFloat 10s ease-in-out infinite;
+    }
+
+    @keyframes heroFloat {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-2%, -2%); }
+    }
+
+    .plugins-hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .plugins-hero h1 {
+      font-size: 2.75rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FF743D 0%, #FFB199 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .plugins-hero p {
+      font-size: 1.125rem;
+      color: rgba(255, 255, 255, 0.7);
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* Search and filter */
+    .plugins-toolbar {
+      padding: 40px 0 24px;
+      background-color: var(--bg);
+      position: sticky;
+      top: 60px;
+      z-index: 100;
+    }
+
+    .plugins-toolbar-inner {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .search-box {
+      position: relative;
+      max-width: 480px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 20px 14px 48px;
+      font-size: 0.9375rem;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background-color: var(--card-bg);
+      color: var(--text);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 116, 61, 0.1);
+    }
+
+    .search-box input::placeholder {
+      color: #999;
+    }
+
+    .search-box .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #999;
+      pointer-events: none;
+    }
+
+    .category-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .category-tab {
+      padding: 8px 20px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      background-color: var(--card-bg);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+
+    .category-tab:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .category-tab.active {
+      background-color: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 14px rgba(255, 116, 61, 0.35);
+    }
+
+    /* Plugin grid */
+    .plugins-section {
+      padding: 24px 0 120px;
+      background-color: var(--bg);
+    }
+
+    .plugins-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .plugin-card {
+      background-color: var(--card-bg);
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      padding: 28px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      opacity: 1;
+    }
+
+    .plugin-card.hidden-card {
+      opacity: 0;
+      transform: scale(0.95);
+      pointer-events: none;
+      position: absolute;
+      visibility: hidden;
+    }
+
+    .plugin-card:hover {
+      transform: scale(1.03);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.1);
+    }
+
+    .plugin-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .plugin-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #FF743D 0%, #FFB199 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .plugin-card:hover .plugin-icon {
+      transform: scale(1.1);
+      filter: brightness(1.1);
+    }
+
+    .plugin-category-tag {
+      font-size: 0.75rem;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 20px;
+      background-color: rgba(255, 116, 61, 0.1);
+      color: var(--primary);
+    }
+
+    .plugin-name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .plugin-desc {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .plugin-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      font-size: 0.8125rem;
+      color: #888;
+    }
+
+    .plugin-author {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .plugin-installs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .plugin-install-btn {
+      width: 100%;
+      padding: 10px 20px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 8px;
+      background-color: var(--primary);
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease, transform 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .plugin-install-btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .plugin-install-btn:active {
+      transform: scale(0.98);
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 80px 24px;
+      color: var(--text-secondary);
+      display: none;
+    }
+
+    .no-results.show {
+      display: block;
+    }
+
+    .no-results i {
+      color: var(--border);
+      margin-bottom: 16px;
+    }
+
+    .no-results h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .plugins-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .plugins-hero h1 {
+        font-size: 2rem;
+      }
+
+      .plugins-hero p {
+        font-size: 1rem;
+      }
+
+      .plugins-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .plugins-toolbar {
+        top: 56px;
+      }
+
+      .category-tabs {
+        gap: 6px;
+      }
+
+      .category-tab {
+        padding: 6px 14px;
+        font-size: 0.8125rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">橙光笔录</a>
+      <div class="navbar-nav">
+        <a href="index.html">首页</a>
+        <a href="product.html">产品</a>
+        <a href="about.html">关于我们</a>
+        <a href="plugins.html" class="active">插件市场</a>
+        <a href="enterprise.html">企业合作</a>
+        <a href="http://localhost:5174/" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.875rem;">立即使用</a>
+      </div>
+      <button class="navbar-toggle" aria-label="菜单">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="plugins-hero">
+    <div class="container">
+      <div class="plugins-hero-content animate fade-in-up">
+        <h1>扩展你的知识库</h1>
+        <p>发现丰富的插件，让橙光笔录更强大</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Toolbar -->
+  <section class="plugins-toolbar">
+    <div class="container">
+      <div class="plugins-toolbar-inner">
+        <div class="search-box">
+          <i data-lucide="search" class="search-icon" style="width: 18px; height: 18px;"></i>
+          <input type="text" id="pluginSearch" placeholder="搜索插件名称或描述..." autocomplete="off">
+        </div>
+        <div class="category-tabs">
+          <button class="category-tab active" data-category="all">全部</button>
+          <button class="category-tab" data-category="efficiency">效率</button>
+          <button class="category-tab" data-category="beautify">美化</button>
+          <button class="category-tab" data-category="integration">集成</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Plugins Grid -->
+  <section class="plugins-section">
+    <div class="container">
+      <div class="plugins-grid" id="pluginsGrid">
+
+        <div class="plugin-card animate fade-in-up" data-category="efficiency" data-name="目录生成器" data-desc="自动生成页面目录，支持锚点跳转">
+          <div class="plugin-card-header">
+            <div class="plugin-icon">
+              <i data-lucide="list-tree" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="plugin-category-tag">效率</span>
+          </div>
+          <h3 class="plugin-name">目录生成器</h3>
+          <p class="plugin-desc">自动生成页面目录，支持锚点跳转</p>
+          <div class="plugin-meta">
+            <span class="plugin-author">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+              橙光官方
+            </span>
+            <span class="plugin-installs">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              1.2k 安装
+            </span>
+          </div>
+          <button class="plugin-install-btn">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            安装
+          </button>
+        </div>
+
+        <div class="plugin-card animate fade-in-up" data-category="efficiency" data-name="思维导图" data-desc="将知识树可视化为思维导图">
+          <div class="plugin-card-header">
+            <div class="plugin-icon">
+              <i data-lucide="git-branch" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="plugin-category-tag">效率</span>
+          </div>
+          <h3 class="plugin-name">思维导图</h3>
+          <p class="plugin-desc">将知识树可视化为思维导图</p>
+          <div class="plugin-meta">
+            <span class="plugin-author">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+              橙光官方
+            </span>
+            <span class="plugin-installs">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              890 安装
+            </span>
+          </div>
+          <button class="plugin-install-btn">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            安装
+          </button>
+        </div>
+
+        <div class="plugin-card animate fade-in-up" data-category="beautify" data-name="代码高亮" data-desc="支持 50+ 编程语言的语法高亮">
+          <div class="plugin-card-header">
+            <div class="plugin-icon">
+              <i data-lucide="code-2" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="plugin-category-tag">美化</span>
+          </div>
+          <h3 class="plugin-name">代码高亮</h3>
+          <p class="plugin-desc">支持 50+ 编程语言的语法高亮</p>
+          <div class="plugin-meta">
+            <span class="plugin-author">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+              DevTeam
+            </span>
+            <span class="plugin-installs">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              2.1k 安装
+            </span>
+          </div>
+          <button class="plugin-install-btn">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            安装
+          </button>
+        </div>
+
+        <div class="plugin-card animate fade-in-up" data-category="beautify" data-name="数学公式" data-desc="LaTeX 公式渲染，支持行内和块级">
+          <div class="plugin-card-header">
+            <div class="plugin-icon">
+              <i data-lucide="sigma" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="plugin-category-tag">美化</span>
+          </div>
+          <h3 class="plugin-name">数学公式</h3>
+          <p class="plugin-desc">LaTeX 公式渲染，支持行内和块级</p>
+          <div class="plugin-meta">
+            <span class="plugin-author">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+              MathLab
+            </span>
+            <span class="plugin-installs">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              650 安装
+            </span>
+          </div>
+          <button class="plugin-install-btn">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            安装
+          </button>
+        </div>
+
+        <div class="plugin-card animate fade-in-up" data-category="integration" data-name="Draw.io 集成" data-desc="嵌入 Draw.io 图表，实时编辑">
+          <div class="plugin-card-header">
+            <div class="plugin-icon">
+              <i data-lucide="pen-tool" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="plugin-category-tag">集成</span>
+          </div>
+          <h3 class="plugin-name">Draw.io 集成</h3>
+          <p class="plugin-desc">嵌入 Draw.io 图表，实时编辑</p>
+          <div class="plugin-meta">
+            <span class="plugin-author">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+              橙光官方
+            </span>
+            <span class="plugin-installs">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              430 安装
+            </span>
+          </div>
+          <button class="plugin-install-btn">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            安装
+          </button>
+        </div>
+
+        <div class="plugin-card animate fade-in-up" data-category="integration" data-name="Mermaid 图表" data-desc="流程图、时序图、甘特图">
+          <div class="plugin-card-header">
+            <div class="plugin-icon">
+              <i data-lucide="workflow" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="plugin-category-tag">集成</span>
+          </div>
+          <h3 class="plugin-name">Mermaid 图表</h3>
+          <p class="plugin-desc">流程图、时序图、甘特图</p>
+          <div class="plugin-meta">
+            <span class="plugin-author">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+              橙光官方
+            </span>
+            <span class="plugin-installs">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              780 安装
+            </span>
+          </div>
+          <button class="plugin-install-btn">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            安装
+          </button>
+        </div>
+
+        <div class="plugin-card animate fade-in-up" data-category="beautify" data-name="深色模式增强" data-desc="更舒适的夜间阅读体验">
+          <div class="plugin-card-header">
+            <div class="plugin-icon">
+              <i data-lucide="moon" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="plugin-category-tag">美化</span>
+          </div>
+          <h3 class="plugin-name">深色模式增强</h3>
+          <p class="plugin-desc">更舒适的夜间阅读体验</p>
+          <div class="plugin-meta">
+            <span class="plugin-author">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+              NightOwl
+            </span>
+            <span class="plugin-installs">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              1.5k 安装
+            </span>
+          </div>
+          <button class="plugin-install-btn">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            安装
+          </button>
+        </div>
+
+        <div class="plugin-card animate fade-in-up" data-category="efficiency" data-name="数据备份同步" data-desc="自动备份到云端，多设备同步">
+          <div class="plugin-card-header">
+            <div class="plugin-icon">
+              <i data-lucide="cloud-upload" style="width: 24px; height: 24px;"></i>
+            </div>
+            <span class="plugin-category-tag">效率</span>
+          </div>
+          <h3 class="plugin-name">数据备份同步</h3>
+          <p class="plugin-desc">自动备份到云端，多设备同步</p>
+          <div class="plugin-meta">
+            <span class="plugin-author">
+              <i data-lucide="user" style="width: 14px; height: 14px;"></i>
+              橙光官方
+            </span>
+            <span class="plugin-installs">
+              <i data-lucide="download" style="width: 14px; height: 14px;"></i>
+              960 安装
+            </span>
+          </div>
+          <button class="plugin-install-btn">
+            <i data-lucide="plus" style="width: 16px; height: 16px;"></i>
+            安装
+          </button>
+        </div>
+
+      </div>
+
+      <div class="no-results" id="noResults">
+        <i data-lucide="search-x" style="width: 48px; height: 48px;"></i>
+        <h3>未找到相关插件</h3>
+        <p>请尝试其他关键词或分类</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">橙光笔录</div>
+          <p>让知识井井有条，让创作灵感飞扬。橙光笔录是你值得信赖的知识管理与创作伙伴。</p>
+        </div>
+        <div class="footer-links">
+          <h4>产品</h4>
+          <ul>
+            <li><a href="product.html">功能介绍</a></li>
+            <li><a href="plugins.html">插件市场</a></li>
+            <li><a href="enterprise.html">企业版</a></li>
+            <li><a href="#">更新日志</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>支持</h4>
+          <ul>
+            <li><a href="#">帮助中心</a></li>
+            <li><a href="#">使用文档</a></li>
+            <li><a href="#">社区论坛</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>关于</h4>
+          <ul>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="#">加入团队</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">服务条款</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2024 橙光笔录. 保留所有权利.</div>
+        <div class="social-links">
+          <a href="#" aria-label="微博"><i data-lucide="globe" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="微信"><i data-lucide="message-circle" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="GitHub"><i data-lucide="github" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width: 16px; height: 16px;"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // DOM elements
+      const searchInput = document.getElementById('pluginSearch');
+      const categoryTabs = document.querySelectorAll('.category-tab');
+      const pluginCards = document.querySelectorAll('.plugin-card');
+      const noResults = document.getElementById('noResults');
+      const grid = document.getElementById('pluginsGrid');
+
+      let currentCategory = 'all';
+      let currentSearch = '';
+
+      function filterPlugins() {
+        const searchLower = currentSearch.toLowerCase().trim();
+        let visibleCount = 0;
+
+        pluginCards.forEach(function(card) {
+          const category = card.dataset.category;
+          const name = card.dataset.name.toLowerCase();
+          const desc = card.dataset.desc.toLowerCase();
+
+          const matchesCategory = currentCategory === 'all' || category === currentCategory;
+          const matchesSearch = !searchLower || name.includes(searchLower) || desc.includes(searchLower);
+
+          if (matchesCategory && matchesSearch) {
+            card.classList.remove('hidden-card');
+            card.style.position = '';
+            card.style.visibility = '';
+            visibleCount++;
+          } else {
+            card.classList.add('hidden-card');
+            card.style.position = 'absolute';
+            card.style.visibility = 'hidden';
+          }
+        });
+
+        if (visibleCount === 0) {
+          noResults.classList.add('show');
+        } else {
+          noResults.classList.remove('show');
+        }
+      }
+
+      // Category tabs
+      categoryTabs.forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          categoryTabs.forEach(function(t) { t.classList.remove('active'); });
+          tab.classList.add('active');
+          currentCategory = tab.dataset.category;
+          filterPlugins();
+        });
+      });
+
+      // Search input
+      searchInput.addEventListener('input', function() {
+        currentSearch = this.value;
+        filterPlugins();
+      });
+
+      // Install button feedback
+      document.querySelectorAll('.plugin-install-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const originalText = btn.innerHTML;
+          btn.innerHTML = '<i data-lucide="check" style="width: 16px; height: 16px;"></i> 已安装';
+          btn.style.backgroundColor = '#22c55e';
+          lucide.createIcons();
+
+          setTimeout(function() {
+            btn.innerHTML = originalText;
+            btn.style.backgroundColor = '';
+            lucide.createIcons();
+          }, 2000);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

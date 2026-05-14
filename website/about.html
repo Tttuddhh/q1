@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>关于我们 - 橙光笔录</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Dot grid background */
+    .dot-grid-bg {
+      background-color: var(--bg);
+      background-image: radial-gradient(circle, var(--border) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+
+    /* Hero manifesto */
+    .about-hero {
+      padding: 160px 24px 100px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .about-hero .manifesto {
+      font-size: 2.5rem;
+      font-weight: 700;
+      line-height: 1.5;
+      color: var(--text);
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .about-hero .manifesto-accent {
+      color: var(--primary);
+    }
+
+    /* Timeline */
+    .timeline-section {
+      padding: 80px 0 100px;
+      position: relative;
+    }
+
+    .timeline-section .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .timeline-section .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .timeline-section .section-header p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary), var(--primary-light));
+      transform: translateX(-50%);
+    }
+
+    .timeline-item {
+      position: relative;
+      width: 50%;
+      padding: 0 48px 48px 0;
+      box-sizing: border-box;
+    }
+
+    .timeline-item:nth-child(even) {
+      margin-left: 50%;
+      padding: 0 0 48px 48px;
+    }
+
+    .timeline-item:last-child {
+      padding-bottom: 0;
+    }
+
+    .timeline-dot {
+      position: absolute;
+      top: 8px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      border: 3px solid var(--bg);
+      box-shadow: 0 0 0 2px var(--primary);
+      z-index: 2;
+    }
+
+    .timeline-item:nth-child(odd) .timeline-dot {
+      right: -8px;
+    }
+
+    .timeline-item:nth-child(even) .timeline-dot {
+      left: -8px;
+    }
+
+    .timeline-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .timeline-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+    }
+
+    .timeline-card .date {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .timeline-card h3 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .timeline-card p {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Team */
+    .team-section {
+      padding: 80px 0 100px;
+      background-color: #fff;
+    }
+
+    .team-section .section-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .team-section .section-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .team-section .section-header p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .team-card {
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .team-card .avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      object-fit: cover;
+      border: 3px solid var(--primary-light);
+    }
+
+    .team-card .name {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .team-card .role {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--primary);
+      margin-bottom: 12px;
+    }
+
+    .team-card .bio {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* Stats */
+    .stats-section {
+      padding: 100px 0;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 50%, var(--primary-light) 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stats-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      animation: statsFloat 8s ease-in-out infinite;
+    }
+
+    @keyframes statsFloat {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-2%, -2%); }
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-item {
+      text-align: center;
+      color: #fff;
+    }
+
+    .stat-item .number {
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -1px;
+    }
+
+    .stat-item .label {
+      font-size: 1rem;
+      opacity: 0.9;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .about-hero {
+        padding: 120px 24px 60px;
+      }
+
+      .about-hero .manifesto {
+        font-size: 1.5rem;
+      }
+
+      .timeline::before {
+        left: 16px;
+      }
+
+      .timeline-item,
+      .timeline-item:nth-child(even) {
+        width: 100%;
+        margin-left: 0;
+        padding: 0 0 32px 48px;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-dot,
+      .timeline-item:nth-child(even) .timeline-dot {
+        left: 8px;
+        right: auto;
+      }
+
+      .team-grid {
+        grid-template-columns: 1fr;
+        max-width: 400px;
+      }
+
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+      }
+
+      .stat-item .number {
+        font-size: 2rem;
+      }
+
+      .timeline-section .section-header h2,
+      .team-section .section-header h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">橙光笔录</a>
+      <div class="navbar-nav">
+        <a href="index.html">首页</a>
+        <a href="product.html">产品</a>
+        <a href="about.html" class="active">关于我们</a>
+        <a href="plugins.html">插件市场</a>
+        <a href="enterprise.html">企业合作</a>
+        <a href="http://localhost:5174/" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.875rem;">立即使用</a>
+      </div>
+      <button class="navbar-toggle" aria-label="菜单">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero Manifesto -->
+  <section class="about-hero dot-grid-bg">
+    <div class="container">
+      <h1 class="manifesto animate fade-in-up">
+        我们相信，<span class="manifesto-accent">每一个想法</span>都值得被记录，<span class="manifesto-accent">每一份知识</span>都应该被传承
+      </h1>
+    </div>
+  </section>
+
+  <!-- Timeline -->
+  <section class="timeline-section dot-grid-bg">
+    <div class="container">
+      <div class="section-header animate fade-in-up">
+        <h2>发展历程</h2>
+        <p>橙光笔录的成长之路，每一步都承载着对知识管理的执着追求</p>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item animate slide-in-left">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="date">
+              <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+              2023.06
+            </div>
+            <h3>橙光笔录诞生</h3>
+            <p>从一个简单的笔记工具开始，我们踏上了知识管理的探索之旅。</p>
+          </div>
+        </div>
+        <div class="timeline-item animate slide-in-right">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="date">
+              <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+              2024.03
+            </div>
+            <h3>知识树功能上线</h3>
+            <p>引入可视化树状知识组织，让知识之间的关系一目了然。</p>
+          </div>
+        </div>
+        <div class="timeline-item animate slide-in-left">
+          <div class="timeline-dot"></div>
+          <div class="timeline-card">
+            <div class="date">
+              <i data-lucide="calendar" style="width: 14px; height: 14px;"></i>
+              2025.01
+            </div>
+            <h3>多主题配色系统</h3>
+            <p>支持 8 套配色方案，让知识库更有个性，满足不同用户的审美需求。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Team -->
+  <section class="team-section">
+    <div class="container">
+      <div class="section-header animate fade-in-up">
+        <h2>核心团队</h2>
+        <p>一群热爱知识管理的人，致力于打造最好的知识创作工具</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card animate fade-in-up">
+          <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=zhangming&backgroundColor=ffdfbf" alt="张明头像">
+          <div class="name">张明</div>
+          <div class="role">创始人 & CEO</div>
+          <div class="bio">热爱知识管理，追求极致用户体验</div>
+        </div>
+        <div class="team-card animate fade-in-up">
+          <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=lixue&backgroundColor=c0aede" alt="李雪头像">
+          <div class="name">李雪</div>
+          <div class="role">技术负责人</div>
+          <div class="bio">全栈开发专家，专注性能优化</div>
+        </div>
+        <div class="team-card animate fade-in-up">
+          <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=wanghao&backgroundColor=b6e3f4" alt="王浩头像">
+          <div class="name">王浩</div>
+          <div class="role">产品设计师</div>
+          <div class="bio">擅长将复杂功能变得简单易用</div>
+        </div>
+        <div class="team-card animate fade-in-up">
+          <img class="avatar" src="https://api.dicebear.com/7.x/avataaars/svg?seed=chenyue&backgroundColor=ffd5dc" alt="陈悦头像">
+          <div class="name">陈悦</div>
+          <div class="role">运营总监</div>
+          <div class="bio">连接用户与产品，传递知识管理价值</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats-section">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-item animate scale-in">
+          <div class="number" data-target="10000" data-suffix="+">0</div>
+          <div class="label">活跃用户</div>
+        </div>
+        <div class="stat-item animate scale-in">
+          <div class="number" data-target="500000" data-suffix="+">0</div>
+          <div class="label">创建页面</div>
+        </div>
+        <div class="stat-item animate scale-in">
+          <div class="number" data-target="8" data-suffix="">0</div>
+          <div class="label">套主题配色</div>
+        </div>
+        <div class="stat-item animate scale-in">
+          <div class="number" data-target="6" data-suffix="">0</div>
+          <div class="label">款官方插件</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">橙光笔录</div>
+          <p>让知识井井有条，让创作灵感飞扬。橙光笔录是你值得信赖的知识管理与创作伙伴。</p>
+        </div>
+        <div class="footer-links">
+          <h4>产品</h4>
+          <ul>
+            <li><a href="product.html">功能介绍</a></li>
+            <li><a href="plugins.html">插件市场</a></li>
+            <li><a href="enterprise.html">企业版</a></li>
+            <li><a href="#">更新日志</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>支持</h4>
+          <ul>
+            <li><a href="#">帮助中心</a></li>
+            <li><a href="#">使用文档</a></li>
+            <li><a href="#">社区论坛</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>关于</h4>
+          <ul>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="#">加入团队</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">服务条款</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2024 橙光笔录. 保留所有权利.</div>
+        <div class="social-links">
+          <a href="#" aria-label="微博"><i data-lucide="globe" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="微信"><i data-lucide="message-circle" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="GitHub"><i data-lucide="github" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width: 16px; height: 16px;"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // Counter animation using window.KB.animateCounter
+      function initCounters() {
+        const statItems = document.querySelectorAll('.stat-item');
+        if (!statItems.length || !window.KB || !window.KB.animateCounter) return;
+
+        const observer = new IntersectionObserver(function(entries) {
+          entries.forEach(function(entry) {
+            if (entry.isIntersecting) {
+              const numberEl = entry.target.querySelector('.number');
+              if (numberEl && !numberEl.dataset.animated) {
+                const target = parseInt(numberEl.dataset.target, 10);
+                const suffix = numberEl.dataset.suffix || '';
+                numberEl.dataset.animated = 'true';
+                window.KB.animateCounter(numberEl, target, 2000);
+                // Append suffix after animation completes (approximate)
+                setTimeout(function() {
+                  numberEl.textContent = target.toLocaleString() + suffix;
+                }, 2100);
+              }
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.5 });
+
+        statItems.forEach(function(item) {
+          observer.observe(item);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', function() {
+        initCounters();
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -10,13 +10,6 @@ import { SettingsPage } from './components/SettingsPage';
 import { useAppState } from './hooks/useAppState';
 import { useSettings } from './hooks/useSettings';
 import { useTranslation } from './i18n';
-import { colorSchemes } from './components/ThemeColorCarousel';
-
-const themeColorMap: Record<string, string> = colorSchemes.reduce((map, scheme) => {
-  map[scheme.id] = scheme.accent;
-  return map;
-}, {} as Record<string, string>);
-
 function App() {
   const state = useAppState();
   const settings = useSettings();
@@ -53,19 +46,20 @@ function App() {
     state.navigateToSettings();
   };
 
-  // Apply settings
+  // Apply theme color settings
   useEffect(() => {
-    const color = themeColorMap[settings.appearance.themeColor] || '#ff6a3d';
-    document.documentElement.style.setProperty('--color-primary', color);
-    document.documentElement.style.setProperty('--color-primary-dark', color);
-  }, [settings.appearance.themeColor]);
+    const color = settings.appearance.themeColorValue || '#FF743D';
+    document.documentElement.style.setProperty('--theme-primary', color);
+    document.documentElement.style.setProperty('--theme-primary-dark', color);
+  }, [settings.appearance.themeColorValue, settings.appearance.themeColor]);
 
   // Ensure default theme color is set on mount
   useEffect(() => {
-    const current = document.documentElement.style.getPropertyValue('--color-primary');
-    if (!current || current === '') {
-      document.documentElement.style.setProperty('--color-primary', '#ff6a3d');
-      document.documentElement.style.setProperty('--color-primary-dark', '#ea580c');
+    const current = document.documentElement.style.getPropertyValue('--theme-primary');
+    const storedValue = settings.appearance.themeColorValue;
+    if (!current || current === '' || !storedValue || storedValue === '') {
+      document.documentElement.style.setProperty('--theme-primary', '#FF743D');
+      document.documentElement.style.setProperty('--theme-primary-dark', '#FF743D');
     }
   }, []);
 

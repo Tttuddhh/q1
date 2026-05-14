@@ -39,7 +39,8 @@ import {
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../i18n';
 import type { ThemeColor, FontSize, IndentSize, BackupFrequency, Language, DateFormat, TimeFormat } from '../hooks/useSettings';
-import { ThemeColorCarousel, colorSchemes } from './ThemeColorCarousel';
+import { ThemeColorCarousel } from './ThemeColorCarousel';
+import { colorSchemes } from './colorSchemes';
 
 
 type TabId = 'general' | 'appearance' | 'editor' | 'notifications' | 'account' | 'security' | 'data';
@@ -137,7 +138,7 @@ function SettingRow({
   );
 }
 
-function SectionCard({ title, children }: { title?: string; children: React.ReactNode }) {
+function SectionCard({ title, children }: { title?: string | React.ReactNode; children: React.ReactNode }) {
   return (
     <div
       style={{
@@ -237,7 +238,7 @@ function ButtonGroup<T extends string>({
           }}
           className={
             value === opt.value
-              ? 'border-primary bg-active-bg text-primary-dark dark:bg-gray-700 dark:text-orange-400 dark:border-orange-400'
+              ? 'border-primary bg-active-bg text-primary-dark dark:bg-gray-700 dark:text-primary dark:border-primary'
               : 'border-gray-200 bg-white text-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600'
           }
         >
@@ -437,17 +438,55 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
         </SettingRow>
       </SectionCard>
 
-      <SectionCard title="主题配色">
+      <SectionCard
+        title={
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <span>主题配色</span>
+            <span
+              onClick={() => {
+                setAppearance({ themeColor: 'brand' as ThemeColor, themeColorValue: '#FF743D', themeColorVariantHex: undefined });
+                document.documentElement.style.setProperty('--theme-primary', '#FF743D');
+                document.documentElement.style.setProperty('--theme-primary-dark', '#FF743D');
+              }}
+              style={{
+                fontSize: 13,
+                color: '#9CA3AF',
+                cursor: 'pointer',
+                fontWeight: 400,
+                transition: 'color 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'var(--color-primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = '#9CA3AF';
+              }}
+            >
+              恢复默认
+            </span>
+          </div>
+        }
+      >
         <div style={{ marginBottom: 16 }}>
           <div style={{ fontSize: 13, color: '#6B7280', marginBottom: 12 }}>
             选择你喜欢的配色方案，每个方案包含一组协调的颜色
           </div>
           <ThemeColorCarousel
-            selectedScheme={appearance.themeColor || 'brand'}
-            onSelect={(schemeId) => {
+            selectedScheme={appearance.themeColor || 'low-saturation'}
+            selectedVariantHex={appearance.themeColorVariantHex}
+            onSelect={(schemeId, variantHex) => {
               const scheme = colorSchemes.find(s => s.id === schemeId);
               if (scheme) {
-                setAppearance({ themeColor: scheme.id as ThemeColor });
+                const variant = scheme.variants.find(v => v.hex === variantHex);
+                if (variant) {
+                  setAppearance({
+                    themeColor: scheme.id as ThemeColor,
+                    themeColorValue: variant.bg,
+                    themeColorVariantHex: variantHex,
+                  });
+                  document.documentElement.style.setProperty('--theme-primary', variant.bg);
+                  document.documentElement.style.setProperty('--theme-primary-dark', variant.bg);
+                }
               }
             }}
           />
@@ -667,7 +706,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
               }}
-              className="border-primary text-primary-dark bg-active-bg dark:bg-gray-700 dark:text-orange-400 dark:border-orange-400"
+              className="border-primary text-primary-dark bg-active-bg dark:bg-gray-700 dark:text-primary dark:border-primary"
             >
               {editingProfile ? t('settings.save') : t('settings.edit_profile')}
             </button>
@@ -1135,8 +1174,9 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
             display: 'flex',
             flexDirection: 'column',
             borderRight: '1px solid #f3f4f6',
+            background: 'color-mix(in srgb, var(--theme-primary) 3%, white)',
           }}
-          className="dark:[border-right:1px_solid_#374151] bg-gray-50/50 dark:bg-gray-900/50"
+          className="dark:[border-right:1px_solid_#374151] dark:!bg-[color-mix(in_srgb,var(--theme-primary)_5%,#111827)]"
         >
           <div
             style={{
@@ -1203,74 +1243,74 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
               className="settings-fade-right"
             />
             <nav
-              ref={navRef}
+            ref={navRef}
+            style={{
+              flex: 1,
+              overflow: 'hidden',
+              padding: '8px 10px',
+              position: 'relative',
+            }}
+          >
+            {/* 活动指示器方框 - 绝对定位，平滑移动 */}
+            <div
+              className="settings-indicator"
               style={{
-                flex: 1,
-                overflow: 'hidden',
-                padding: '8px 10px',
-                position: 'relative',
+                position: 'absolute',
+                left: indicatorStyle.left,
+                top: indicatorStyle.top,
+                width: indicatorStyle.width,
+                height: indicatorStyle.height,
+                borderRadius: 8,
+                background: 'var(--color-active-bg)',
+                zIndex: 0,
               }}
-            >
-              {/* 活动指示器方框 - 绝对定位，平滑移动 */}
-              <div
-                className="settings-indicator"
+            />
+            {/* 静态标签列表 */}
+            {tabs.map((tab, index) => (
+              <button
+                key={tab.id}
+                ref={(el) => { tabRefs.current[index] = el; }}
+                onClick={() => setActiveTab(tab.id)}
+                className={`settings-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
                 style={{
-                  position: 'absolute',
-                  left: indicatorStyle.left,
-                  top: indicatorStyle.top,
-                  width: indicatorStyle.width,
-                  height: indicatorStyle.height,
+                  width: '100%',
+                  padding: '10px 12px',
                   borderRadius: 8,
-                  background: 'var(--color-active-bg)',
-                  zIndex: 0,
+                  border: 'none',
+                  background: 'transparent',
+                  cursor: 'pointer',
+                  fontSize: 14,
+                  fontWeight: 500,
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 10,
+                  marginBottom: 2,
+                  transition: 'color 0.2s ease',
+                  textAlign: 'left',
+                  color: activeTab === tab.id ? 'var(--theme-primary-dark)' : 'inherit',
+                  position: 'relative',
+                  zIndex: 1,
                 }}
-              />
-              {/* 静态标签列表 */}
-              {tabs.map((tab, index) => (
-                <button
-                  key={tab.id}
-                  ref={(el) => { tabRefs.current[index] = el; }}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`settings-tab-btn ${activeTab === tab.id ? 'active' : ''}`}
+              >
+                <span
                   style={{
-                    width: '100%',
-                    padding: '10px 12px',
-                    borderRadius: 8,
-                    border: 'none',
-                    background: 'transparent',
-                    cursor: 'pointer',
-                    fontSize: 14,
-                    fontWeight: 500,
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 10,
-                    marginBottom: 2,
-                    transition: 'color 0.2s ease',
-                    textAlign: 'left',
-                    color: activeTab === tab.id ? 'var(--color-primary-dark)' : 'inherit',
-                    position: 'relative',
-                    zIndex: 1,
+                    justifyContent: 'center',
+                    width: 20,
+                    height: 20,
                   }}
+                  className={activeTab === tab.id ? 'text-primary' : 'text-gray-400 dark:text-gray-500'}
                 >
-                  <span
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      width: 20,
-                      height: 20,
-                    }}
-                    className={activeTab === tab.id ? 'text-primary dark:text-orange-400' : 'text-gray-400 dark:text-gray-500'}
-                  >
-                    {tab.icon}
-                  </span>
-                  <span>{tab.label}</span>
-                  {activeTab === tab.id && (
-                    <ChevronRight size={14} style={{ marginLeft: 'auto' }} className="text-primary dark:text-orange-400" />
-                  )}
-                </button>
-              ))}
-            </nav>
+                  {tab.icon}
+                </span>
+                <span style={{ color: activeTab === tab.id ? 'var(--theme-primary-dark)' : undefined }} className={activeTab === tab.id ? 'text-primary-dark' : 'text-gray-700 dark:text-gray-300'}>{tab.label}</span>
+                {activeTab === tab.id && (
+                  <ChevronRight size={14} style={{ marginLeft: 'auto' }} className="text-primary" />
+                )}
+              </button>
+            ))}
+          </nav>
           </div>
         </div>
 
@@ -1291,7 +1331,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
               marginBottom: 24,
             }}
           >
-            <span className="text-primary dark:text-orange-400">
+            <span className="text-primary dark:text-primary">
               {tabs.find((t) => t.id === activeTab)?.icon}
             </span>
             <h2

@@ -64,19 +64,19 @@ export function FuncSidebar({
       <div className={`func-section-items ${!sections.knowledge ? 'collapsed' : ''}`}>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
-            <Clock />
+            <Clock className="func-sidebar-svg" />
           </span>
           <span className="func-sidebar-text">{t('sidebar.time_record')}</span>
         </a>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
-            <Bookmark />
+            <Bookmark className="func-sidebar-svg" />
           </span>
           <span className="func-sidebar-text">{t('sidebar.favorites')}</span>
         </a>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
-            <Tag />
+            <Tag className="func-sidebar-svg" />
           </span>
           <span className="func-sidebar-text">{t('sidebar.tags')}</span>
         </a>
@@ -100,7 +100,7 @@ export function FuncSidebar({
       <div className={`func-section-items ${!sections.system ? 'collapsed' : ''}`}>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
-            <Trash2 />
+            <Trash2 className="func-sidebar-svg" />
           </span>
           <span className="func-sidebar-text">{t('sidebar.trash')}</span>
         </a>

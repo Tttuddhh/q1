@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>橙光笔录 - 让知识井井有条，让创作灵感飞扬</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Hero */
+    .hero {
+      position: relative;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #0f0f0f;
+    }
+
+    .hero-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 120px 24px 80px;
+      max-width: 800px;
+    }
+
+    .hero-brand {
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FF743D 0%, #FFB199 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 24px;
+      letter-spacing: -1px;
+    }
+
+    .hero-subtitle {
+      font-size: 1.5rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 40px;
+      min-height: 2.4rem;
+    }
+
+    .hero-subtitle .cursor {
+      display: inline-block;
+      width: 2px;
+      height: 1.5em;
+      background-color: #FF743D;
+      margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-buttons .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .hero-buttons .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+      border-color: rgba(255, 255, 255, 0.4);
+      color: #fff;
+    }
+
+    /* Features */
+    .features {
+      padding: 120px 0;
+      background-color: var(--bg);
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .features-header h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .features-header p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      perspective: 1000px;
+    }
+
+    .feature-card {
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 40px 32px;
+      text-align: center;
+      transition: transform 0.1s ease, box-shadow 0.3s ease;
+      transform-style: preserve-3d;
+      will-change: transform;
+    }
+
+    .feature-card:hover {
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.1);
+    }
+
+    .feature-card .icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, #FF743D 0%, #FFB199 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+      color: #fff;
+    }
+
+    .feature-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .feature-card p {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Testimonials */
+    .testimonials {
+      padding: 120px 0;
+      background-color: #fff;
+    }
+
+    .testimonials-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .testimonials-header h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .testimonials-header p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+    }
+
+    .testimonials-carousel {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+
+    .testimonials-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .testimonial-slide {
+      min-width: 100%;
+      padding: 0 16px;
+      box-sizing: border-box;
+    }
+
+    .testimonial-card {
+      background-color: var(--bg);
+      border-radius: 20px;
+      padding: 48px 40px;
+      text-align: center;
+    }
+
+    .testimonial-card .quote-icon {
+      color: var(--primary);
+      margin-bottom: 20px;
+      opacity: 0.5;
+    }
+
+    .testimonial-card blockquote {
+      font-size: 1.125rem;
+      color: var(--text);
+      line-height: 1.8;
+      margin-bottom: 28px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .testimonial-author .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF743D 0%, #FFB199 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .testimonial-author .info {
+      text-align: left;
+    }
+
+    .testimonial-author .name {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 0.9375rem;
+    }
+
+    .testimonial-author .role {
+      font-size: 0.875rem;
+      color: var(--text-secondary);
+    }
+
+    .carousel-nav {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 24px;
+      margin-top: 40px;
+    }
+
+    .carousel-arrow {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background-color: #fff;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .carousel-arrow:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background-color: rgba(255, 116, 61, 0.05);
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 8px;
+    }
+
+    .carousel-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--border);
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .carousel-dot.active {
+      background-color: var(--primary);
+      width: 24px;
+      border-radius: 4px;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      padding: 120px 0;
+      background: linear-gradient(135deg, #FF743D 0%, #ea580c 50%, #FFB199 100%);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.15) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 50%);
+      animation: ctaFloat 8s ease-in-out infinite;
+    }
+
+    @keyframes ctaFloat {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-2%, -2%); }
+    }
+
+    .cta-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .cta-section h2 {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+
+    .cta-section .btn {
+      background-color: #fff;
+      color: var(--primary);
+      font-size: 1rem;
+      padding: 14px 36px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .cta-section .btn:hover {
+      background-color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Social icons */
+    .social-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .social-links a {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #aaa;
+      transition: all 0.2s ease;
+    }
+
+    .social-links a:hover {
+      background-color: var(--primary);
+      color: #fff;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .hero-brand {
+        font-size: 2.5rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1.125rem;
+      }
+
+      .features-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .features-header h2,
+      .testimonials-header h2,
+      .cta-section h2 {
+        font-size: 1.75rem;
+      }
+
+      .testimonial-card {
+        padding: 32px 24px;
+      }
+
+      .feature-card {
+        padding: 32px 24px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">橙光笔录</a>
+      <div class="navbar-nav">
+        <a href="index.html" class="active">首页</a>
+        <a href="product.html">产品</a>
+        <a href="about.html">关于我们</a>
+        <a href="plugins.html">插件市场</a>
+        <a href="enterprise.html">企业合作</a>
+        <a href="http://localhost:5174/" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.875rem;">立即使用</a>
+      </div>
+      <button class="navbar-toggle" aria-label="菜单">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <canvas class="hero-canvas" id="heroCanvas"></canvas>
+    <div class="hero-content">
+      <h1 class="hero-brand">橙光笔录</h1>
+      <p class="hero-subtitle" id="typewriter"><span class="cursor"></span></p>
+      <div class="hero-buttons">
+        <a href="http://localhost:5174/" class="btn btn-primary">立即使用</a>
+        <a href="#features" class="btn btn-secondary">了解更多</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="container">
+      <div class="features-header animate fade-in-up">
+        <h2>强大功能，助力知识管理</h2>
+        <p>从记录到整理，从创作到分享，橙光笔录为你提供一站式知识管理解决方案</p>
+      </div>
+      <div class="features-grid">
+        <div class="feature-card animate fade-in-up" data-tilt>
+          <div class="icon-wrap">
+            <i data-lucide="notebook-pen" style="width: 28px; height: 28px;"></i>
+          </div>
+          <h3>智能笔记</h3>
+          <p>支持 Markdown、富文本、代码块等多种格式，让记录随心所欲。AI 辅助润色，一键优化表达。</p>
+        </div>
+        <div class="feature-card animate fade-in-up" data-tilt>
+          <div class="icon-wrap">
+            <i data-lucide="folder-tree" style="width: 28px; height: 28px;"></i>
+          </div>
+          <h3>知识库管理</h3>
+          <p>无限层级文件夹、标签系统、双向链接，构建属于你的知识网络，让信息井然有序。</p>
+        </div>
+        <div class="feature-card animate fade-in-up" data-tilt>
+          <div class="icon-wrap">
+            <i data-lucide="sparkles" style="width: 28px; height: 28px;"></i>
+          </div>
+          <h3>灵感创作</h3>
+          <p>内置思维导图、白板画布、模板市场，激发创作灵感，让想法从记录到成品一气呵成。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials -->
+  <section class="testimonials">
+    <div class="container">
+      <div class="testimonials-header animate fade-in-up">
+        <h2>用户真实评价</h2>
+        <p>听听他们如何使用橙光笔录改变工作方式</p>
+      </div>
+      <div class="testimonials-carousel animate fade-in">
+        <div class="testimonials-track" id="testimonialsTrack">
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="quote-icon">
+                <i data-lucide="quote" style="width: 32px; height: 32px;"></i>
+              </div>
+              <blockquote>"橙光笔录彻底改变了我的知识管理方式。以前笔记散落在各处，现在所有内容都井井有条，查找效率提升了不止一倍。"</blockquote>
+              <div class="testimonial-author">
+                <div class="avatar">李</div>
+                <div class="info">
+                  <div class="name">李明远</div>
+                  <div class="role">产品经理 · 字节跳动</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="quote-icon">
+                <i data-lucide="quote" style="width: 32px; height: 32px;"></i>
+              </div>
+              <blockquote>"作为一名内容创作者，灵感稍纵即逝。橙光笔录的快捷记录和标签系统让我再也不怕好点子溜走，创作效率直线上升。"</blockquote>
+              <div class="testimonial-author">
+                <div class="avatar">张</div>
+                <div class="info">
+                  <div class="name">张思琪</div>
+                  <div class="role">自由撰稿人</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-slide">
+            <div class="testimonial-card">
+              <div class="quote-icon">
+                <i data-lucide="quote" style="width: 32px; height: 32px;"></i>
+              </div>
+              <blockquote>"团队使用橙光笔录进行知识共享后，新人上手速度明显加快。知识库成为了我们最宝贵的团队资产。"</blockquote>
+              <div class="testimonial-author">
+                <div class="avatar">王</div>
+                <div class="info">
+                  <div class="name">王浩然</div>
+                  <div class="role">技术总监 · 某独角兽企业</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-nav">
+          <button class="carousel-arrow" id="prevBtn" aria-label="上一条">
+            <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="carousel-dots" id="carouselDots">
+            <button class="carousel-dot active" data-index="0" aria-label="第1条"></button>
+            <button class="carousel-dot" data-index="1" aria-label="第2条"></button>
+            <button class="carousel-dot" data-index="2" aria-label="第3条"></button>
+          </div>
+          <button class="carousel-arrow" id="nextBtn" aria-label="下一条">
+            <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2>准备好整理你的知识了吗？</h2>
+        <a href="http://localhost:5174/" class="btn">立即免费使用</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">橙光笔录</div>
+          <p>让知识井井有条，让创作灵感飞扬。橙光笔录是你值得信赖的知识管理与创作伙伴。</p>
+        </div>
+        <div class="footer-links">
+          <h4>产品</h4>
+          <ul>
+            <li><a href="product.html">功能介绍</a></li>
+            <li><a href="plugins.html">插件市场</a></li>
+            <li><a href="enterprise.html">企业版</a></li>
+            <li><a href="#">更新日志</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>支持</h4>
+          <ul>
+            <li><a href="#">帮助中心</a></li>
+            <li><a href="#">使用文档</a></li>
+            <li><a href="#">社区论坛</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>关于</h4>
+          <ul>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="#">加入团队</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">服务条款</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2024 橙光笔录. 保留所有权利.</div>
+        <div class="social-links">
+          <a href="#" aria-label="微博"><i data-lucide="globe" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="微信"><i data-lucide="message-circle" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="GitHub"><i data-lucide="github" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width: 16px; height: 16px;"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // Canvas particle background
+      const canvas = document.getElementById('heroCanvas');
+      const ctx = canvas.getContext('2d');
+      let particles = [];
+      let animationId;
+
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+
+      function createParticles() {
+        particles = [];
+        const count = Math.min(Math.floor(window.innerWidth * window.innerHeight / 12000), 80);
+        for (let i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            radius: Math.random() * 3 + 1,
+            speedX: (Math.random() - 0.5) * 0.3,
+            speedY: (Math.random() - 0.5) * 0.3,
+            opacity: Math.random() * 0.5 + 0.2,
+            color: Math.random() > 0.5 ? '#FF743D' : '#FFB199'
+          });
+        }
+      }
+
+      function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        // Draw gradient background
+        const gradient = ctx.createRadialGradient(
+          canvas.width * 0.5, canvas.height * 0.5, 0,
+          canvas.width * 0.5, canvas.height * 0.5, canvas.width * 0.8
+        );
+        gradient.addColorStop(0, '#1a0f0a');
+        gradient.addColorStop(0.5, '#0f0f0f');
+        gradient.addColorStop(1, '#0a0a0a');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw glow orbs
+        const time = Date.now() * 0.0003;
+        const orb1x = canvas.width * 0.3 + Math.sin(time) * 100;
+        const orb1y = canvas.height * 0.4 + Math.cos(time * 0.7) * 80;
+        const orb2x = canvas.width * 0.7 + Math.cos(time * 0.8) * 120;
+        const orb2y = canvas.height * 0.6 + Math.sin(time * 0.6) * 60;
+
+        const glow1 = ctx.createRadialGradient(orb1x, orb1y, 0, orb1x, orb1y, 300);
+        glow1.addColorStop(0, 'rgba(255, 116, 61, 0.15)');
+        glow1.addColorStop(1, 'rgba(255, 116, 61, 0)');
+        ctx.fillStyle = glow1;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        const glow2 = ctx.createRadialGradient(orb2x, orb2y, 0, orb2x, orb2y, 250);
+        glow2.addColorStop(0, 'rgba(255, 177, 153, 0.12)');
+        glow2.addColorStop(1, 'rgba(255, 177, 153, 0)');
+        ctx.fillStyle = glow2;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Draw particles
+        particles.forEach(function(p) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          ctx.fillStyle = p.color;
+          ctx.globalAlpha = p.opacity;
+          ctx.fill();
+          ctx.globalAlpha = 1;
+
+          p.x += p.speedX;
+          p.y += p.speedY;
+
+          if (p.x < -10) p.x = canvas.width + 10;
+          if (p.x > canvas.width + 10) p.x = -10;
+          if (p.y < -10) p.y = canvas.height + 10;
+          if (p.y > canvas.height + 10) p.y = -10;
+        });
+
+        // Draw connections
+        ctx.strokeStyle = '#FF743D';
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i < particles.length; i++) {
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 150) {
+              ctx.globalAlpha = (1 - dist / 150) * 0.15;
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+
+        animationId = requestAnimationFrame(drawParticles);
+      }
+
+      resizeCanvas();
+      createParticles();
+      drawParticles();
+
+      window.addEventListener('resize', function() {
+        resizeCanvas();
+        createParticles();
+      });
+
+      // Typewriter effect
+      const subtitleText = '让知识井井有条，让创作灵感飞扬';
+      const typewriterEl = document.getElementById('typewriter');
+      const cursorEl = typewriterEl.querySelector('.cursor');
+      let charIndex = 0;
+
+      function typeWriter() {
+        if (charIndex < subtitleText.length) {
+          const span = document.createElement('span');
+          span.textContent = subtitleText.charAt(charIndex);
+          typewriterEl.insertBefore(span, cursorEl);
+          charIndex++;
+          setTimeout(typeWriter, 100);
+        }
+      }
+
+      setTimeout(typeWriter, 800);
+
+      // 3D tilt effect for feature cards
+      document.querySelectorAll('[data-tilt]').forEach(function(card) {
+        card.addEventListener('mousemove', function(e) {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = (y - centerY) / centerY * -8;
+          const rotateY = (x - centerX) / centerX * 8;
+          card.style.transform = 'perspective(1000px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) translateZ(10px)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+          card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateZ(0)';
+        });
+      });
+
+      // Testimonials carousel
+      const track = document.getElementById('testimonialsTrack');
+      const dots = document.querySelectorAll('.carousel-dot');
+      const prevBtn = document.getElementById('prevBtn');
+      const nextBtn = document.getElementById('nextBtn');
+      let currentSlide = 0;
+      const totalSlides = 3;
+      let autoPlayInterval;
+
+      function goToSlide(index) {
+        if (index < 0) index = totalSlides - 1;
+        if (index >= totalSlides) index = 0;
+        currentSlide = index;
+        track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+        dots.forEach(function(dot, i) {
+          dot.classList.toggle('active', i === currentSlide);
+        });
+      }
+
+      function nextSlide() {
+        goToSlide(currentSlide + 1);
+      }
+
+      function prevSlide() {
+        goToSlide(currentSlide - 1);
+      }
+
+      function startAutoPlay() {
+        autoPlayInterval = setInterval(nextSlide, 5000);
+      }
+
+      function stopAutoPlay() {
+        clearInterval(autoPlayInterval);
+      }
+
+      prevBtn.addEventListener('click', function() {
+        stopAutoPlay();
+        prevSlide();
+        startAutoPlay();
+      });
+
+      nextBtn.addEventListener('click', function() {
+        stopAutoPlay();
+        nextSlide();
+        startAutoPlay();
+      });
+
+      dots.forEach(function(dot) {
+        dot.addEventListener('click', function() {
+          stopAutoPlay();
+          goToSlide(parseInt(dot.dataset.index));
+          startAutoPlay();
+        });
+      });
+
+      startAutoPlay();
+    })();
+  </script>
+</body>
+</html>

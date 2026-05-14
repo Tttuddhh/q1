@@ -112,13 +112,13 @@ export function Header({
                       display: 'flex',
                       alignItems: 'center',
                       gap: 6,
-                      background: isLast ? '#f3f4f6' : 'transparent',
+                      background: isLast ? 'color-mix(in srgb, var(--theme-primary) 6%, white)' : 'transparent',
                       border: 'none',
                       cursor: isLast ? 'default' : 'pointer',
                       fontSize: 14,
                       fontWeight: 500,
                     }}
-                    className={`text-near-black dark:text-gray-100 ${!isLast ? 'hover:bg-gray-100 dark:hover:bg-gray-800' : ''}`}
+                    className={`text-near-black dark:text-gray-100 ${!isLast ? 'hover:bg-gray-100 dark:hover:bg-gray-800' : 'dark:[background:color-mix(in_srgb,var(--theme-primary)_8%,#1f2937)]'}`}
                   >
                     <span>{page.emoji}</span>
                     <span>{page.isEdited === false ? t('page.untitled') : page.title}</span>
@@ -136,13 +136,13 @@ export function Header({
                 display: 'flex',
                 alignItems: 'center',
                 gap: 6,
-                background: '#f3f4f6',
+                background: 'color-mix(in srgb, var(--theme-primary) 6%, white)',
                 border: 'none',
                 cursor: 'pointer',
                 fontSize: 14,
                 fontWeight: 500,
               }}
-              className="text-near-black dark:bg-gray-800 dark:text-gray-100"
+              className="text-near-black dark:text-gray-100 dark:[background:color-mix(in_srgb,var(--theme-primary)_8%,#1f2937)]"
             >
               <span>{currentPageEmoji}</span>
               <span>{currentPageTitle}</span>
@@ -276,8 +276,9 @@ export function Header({
                 padding: '6px',
                 boxShadow: '0 10px 40px -10px rgba(0,0,0,0.2)',
                 zIndex: 100,
+                background: 'color-mix(in srgb, var(--theme-primary) 8%, white)',
               }}
-              className="bg-white border-gray-200 dark:bg-gray-800 dark:border-gray-700 animate-slide-down"
+              className="border-gray-200 dark:border-gray-700 dark:!bg-[color-mix(in_srgb,var(--theme-primary)_10%,#1f2937)] animate-slide-down"
             >
               <div
                 style={{
@@ -308,11 +309,12 @@ export function Header({
                   alignItems: 'center',
                   gap: 8,
                   textAlign: 'left',
+                  color: 'var(--color-primary-dark)',
                 }}
-                className="text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                className="hover:bg-gray-100/50 dark:hover:bg-gray-700/50"
               >
-                <User size={14} />
-                {t('header.profile')}
+                <User size={14} className="text-primary" />
+                <span className="text-primary-dark">{t('header.profile')}</span>
               </button>
               <button
                 onClick={() => {
@@ -331,11 +333,12 @@ export function Header({
                   alignItems: 'center',
                   gap: 8,
                   textAlign: 'left',
+                  color: 'var(--color-primary-dark)',
                 }}
-                className="text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700"
+                className="hover:bg-gray-100/50 dark:hover:bg-gray-700/50"
               >
-                <LogOut size={14} />
-                {t('header.logout')}
+                <LogOut size={14} className="text-primary" />
+                <span className="text-primary-dark">{t('header.logout')}</span>
               </button>
             </div>
           )}

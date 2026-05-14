@@ -81,7 +81,7 @@ function ToolbarButton({
         cursor: 'pointer',
         transition: 'all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1)',
         flexShrink: 0,
-        boxShadow: active ? '0 1px 3px rgba(255, 106, 61, 0.3)' : 'none',
+        boxShadow: active ? '0 1px 3px color-mix(in srgb, var(--color-primary) 30%, transparent)' : 'none',
         transform: isPressed ? 'scale(0.85)' : 'scale(1)',
       }}
       onMouseEnter={e => {

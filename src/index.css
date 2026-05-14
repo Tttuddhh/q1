@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #ff6a3d;
-  --color-primary-dark: #ea580c;
+  --color-primary: var(--theme-primary, #FF743D);
+  --color-primary-dark: var(--theme-primary-dark, #ea580c);
   --color-near-black: #1a1a1a;
   --color-text-secondary: #374151;
   --color-text-gray: #6b7280;
@@ -10,7 +10,7 @@
   --color-bg-hover: #f3f4f6;
   --color-bg-light: #f5f5f5;
   --color-border-gray: #e5e7eb;
-  --color-active-bg: #fff7ed;
+  --color-active-bg: color-mix(in srgb, var(--theme-primary) 8%, white);
   --color-blue-title: #2563eb;
   --color-green-info: #22c55e;
   --color-cyan-title: #0891b2;
@@ -23,6 +23,11 @@
   --color-gray-700: #374151;
   --color-gray-800: #1f2937;
   --color-gray-900: #111827;
+}
+
+:root {
+  --theme-primary: #FF743D;
+  --theme-primary-dark: #ea580c;
 }
 
 html {
@@ -43,13 +48,18 @@ body {
   width: 56px;
   min-width: 56px;
   height: 100vh;
-  background: #f9fafb;
-  border-right: 1px solid #e5e7eb;
+  background: color-mix(in srgb, var(--theme-primary) 3%, white);
+  border-right: 1px solid color-mix(in srgb, var(--theme-primary) 10%, #e5e7eb);
   display: flex;
   flex-direction: column;
   padding: 20px 8px 0;
   overflow: hidden;
   transition: width 0.25s ease, min-width 0.25s ease;
+}
+
+.dark .func-sidebar {
+  background: color-mix(in srgb, var(--theme-primary) 5%, #111827);
+  border-right: 1px solid color-mix(in srgb, var(--theme-primary) 15%, #374151);
 }
 
 .func-sidebar.expanded {
@@ -67,7 +77,7 @@ body {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
-  color: #9ca3af;
+  color: color-mix(in srgb, var(--theme-primary) 50%, #9ca3af);
   cursor: pointer;
   white-space: nowrap;
   overflow: hidden;
@@ -80,7 +90,7 @@ body {
 }
 
 .func-section-title:hover {
-  color: #6b7280;
+  color: color-mix(in srgb, var(--theme-primary) 70%, #6b7280);
 }
 
 .func-chevron {
@@ -116,7 +126,7 @@ body {
   margin: 2px 0;
   cursor: pointer;
   text-decoration: none;
-  color: #6b7280;
+  color: color-mix(in srgb, var(--theme-primary) 70%, #6b7280);
   border-radius: 8px;
   position: relative;
   user-select: none;
@@ -125,18 +135,29 @@ body {
 }
 
 .func-sidebar-item:hover {
-  background: #f3f4f6;
-  color: #111827;
+  background: color-mix(in srgb, var(--theme-primary) 6%, white);
+  color: color-mix(in srgb, var(--theme-primary) 90%, #111827);
+}
+
+.dark .func-sidebar-item:hover {
+  background: color-mix(in srgb, var(--theme-primary) 12%, #1f2937);
+  color: color-mix(in srgb, var(--theme-primary) 90%, #f3f4f6);
 }
 
 .func-sidebar-item:active {
-  background: #e5e7eb;
+  background: color-mix(in srgb, var(--theme-primary) 12%, white);
+}
+
+.dark .func-sidebar-item:active {
+  background: color-mix(in srgb, var(--theme-primary) 20%, #1f2937);
 }
 
 .func-sidebar-item.active {
   color: var(--color-primary-dark);
   background: var(--color-active-bg);
 }
+
+
 
 .func-sidebar.expanded .func-sidebar-item.active::before {
   content: '';
@@ -349,8 +370,8 @@ body {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(255, 106, 61, 0.4); }
-  50% { box-shadow: 0 0 0 8px rgba(255, 106, 61, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-primary) 40%, transparent); }
+  50% { box-shadow: 0 0 0 8px color-mix(in srgb, var(--color-primary) 0%, transparent); }
 }
 
 @keyframes shake {
@@ -521,7 +542,7 @@ body {
 .tree-item-ripple .ripple-effect {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 106, 61, 0.15);
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
   pointer-events: none;
   animation: tree-ripple-animation 0.6s ease-out forwards;
 }
@@ -557,7 +578,7 @@ body {
 
 .new-page-btn:hover {
   transform: translateY(-2px);
-  box-shadow: rgba(255, 106, 61, 0.4) 0px 6px 20px;
+  box-shadow: color-mix(in srgb, var(--color-primary) 40%, transparent) 0px 6px 20px;
 }
 
 .new-page-btn:hover::before {
@@ -626,9 +647,9 @@ body {
   backdrop-filter: blur(4px);
 }
 
-/* Gradient orange */
+/* Gradient using theme primary color */
 .gradient-orange {
-  background: linear-gradient(135deg, var(--color-primary), rgb(255, 143, 107));
+  background: linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, white));
 }
 
 /* Tree item */

@@ -3,12 +3,16 @@ import './index.css'
 import App from './App.tsx'
 import { SettingsProvider } from './hooks/useSettings'
 
-// Ensure default settings are correct (reset to defaults)
+// Ensure default settings are correct (only set defaults if not already set)
 try {
-  // Reset theme color to brand (default scheme)
-  localStorage.setItem('kb-appearance', JSON.stringify({ themeColor: 'brand', sidebarWidth: 260, compactMode: false }));
-  // Reset language to Chinese
-  localStorage.setItem('kb-language', 'zh');
+  const existing = localStorage.getItem('kb-appearance');
+  if (!existing) {
+    localStorage.setItem('kb-appearance', JSON.stringify({ themeColor: 'brand', themeColorValue: '#FF743D', sidebarWidth: 260, compactMode: false }));
+  }
+  const existingLang = localStorage.getItem('kb-language');
+  if (!existingLang) {
+    localStorage.setItem('kb-language', 'zh');
+  }
 } catch {
   // ignore
 }

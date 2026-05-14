@@ -131,7 +131,7 @@ export function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
                 </span>
                 <span
                   style={{ fontSize: 14, fontWeight: 600 }}
-                  className={selectedFormat === format.id ? 'text-primary-dark dark:text-orange-400' : 'text-gray-700 dark:text-gray-300'}
+                  className={selectedFormat === format.id ? 'text-primary-dark dark:text-primary' : 'text-gray-700 dark:text-gray-300'}
                 >
                   {format.label}
                 </span>
@@ -234,7 +234,7 @@ export function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
               display: 'flex',
               alignItems: 'center',
               gap: 8,
-              background: 'linear-gradient(135deg, var(--color-primary), rgb(255, 143, 107))',
+              background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, white))',
             }}
             onClick={() => {
               const formatLabel = formats.find(f => f.id === selectedFormat)?.label || '';

@@ -246,8 +246,8 @@ export function PageTree({
           style={{
             padding: '6px 8px',
             paddingLeft: 6 + depth * 16,
-            backgroundColor: isActive ? 'rgba(255, 106, 61, 0.082)' : 'transparent',
-            color: isActive ? 'rgb(255, 106, 61)' : 'rgb(55, 65, 81)',
+            backgroundColor: isActive ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
+            color: isActive ? 'var(--color-primary)' : 'rgb(55, 65, 81)',
             opacity: 1,
           }}
           onClick={(e) => {
@@ -269,7 +269,7 @@ export function PageTree({
                 size={14}
                 className="tree-chevron"
                 style={{
-                  color: isActive ? 'rgb(255, 106, 61)' : 'rgb(156, 163, 175)',
+                  color: isActive ? 'var(--color-primary)' : 'rgb(156, 163, 175)',
                 }}
               />
             </button>
@@ -334,7 +334,7 @@ export function PageTree({
             <div
               className="w-8 h-8 rounded-full flex items-center justify-center relative overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, rgb(255, 106, 61), rgba(255, 106, 61, 0.867))',
+                background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 87%, transparent))',
               }}
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 256 256" className="text-white">
@@ -371,8 +371,8 @@ export function PageTree({
           onClick={() => onCreatePage?.()}
           className="new-page-btn w-full flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-white font-medium"
           style={{
-            background: 'linear-gradient(135deg, rgb(255, 106, 61), rgba(255, 106, 61, 0.867))',
-            boxShadow: 'rgba(255, 106, 61, 0.25) 0px 4px 15px',
+            background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 87%, transparent))',
+            boxShadow: 'color-mix(in srgb, var(--color-primary) 25%, transparent) 0px 4px 15px',
             border: 'none',
             cursor: 'pointer',
           }}

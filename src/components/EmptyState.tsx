@@ -52,7 +52,7 @@ export function EmptyState({ onCreatePage }: EmptyStateProps) {
             display: 'inline-flex',
             alignItems: 'center',
             gap: 8,
-            background: 'linear-gradient(135deg, var(--color-primary), rgb(255, 143, 107))',
+            background: 'linear-gradient(135deg, var(--color-primary), color-mix(in srgb, var(--color-primary) 70%, white))',
             boxShadow: '0 4px 12px color-mix(in srgb, var(--color-primary) 30%, transparent)',
             transition: 'transform 0.2s, box-shadow 0.2s',
           }}

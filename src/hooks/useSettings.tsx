@@ -35,6 +35,8 @@ export interface EditorSettings {
 
 export interface AppearanceSettings {
   themeColor: ThemeColor;
+  themeColorValue: string;
+  themeColorVariantHex?: string;
   sidebarWidth: number;
   compactMode: boolean;
 }
@@ -189,6 +191,8 @@ function getInitialAppearance(): AppearanceSettings {
       const parsed = JSON.parse(stored);
       return {
         themeColor: parsed.themeColor ?? 'brand',
+        themeColorValue: parsed.themeColorValue ?? '#FF743D',
+        themeColorVariantHex: parsed.themeColorVariantHex ?? undefined,
         sidebarWidth: parsed.sidebarWidth ?? 260,
         compactMode: parsed.compactMode ?? false,
       };
@@ -198,6 +202,8 @@ function getInitialAppearance(): AppearanceSettings {
   }
   return {
     themeColor: 'brand',
+    themeColorValue: '#FF743D',
+    themeColorVariantHex: undefined,
     sidebarWidth: 260,
     compactMode: false,
   };

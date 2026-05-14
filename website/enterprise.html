@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>企业合作 - 橙光笔录</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    /* Page Hero */
+    .page-hero {
+      position: relative;
+      width: 100%;
+      padding: 160px 0 120px;
+      background: linear-gradient(135deg, #0f0f0f 0%, #1a0f0a 50%, #0f0f0f 100%);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .page-hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 116, 61, 0.12) 0%, transparent 50%),
+                  radial-gradient(circle at 70% 70%, rgba(255, 177, 153, 0.08) 0%, transparent 50%);
+      animation: heroFloat 10s ease-in-out infinite;
+    }
+
+    @keyframes heroFloat {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(-2%, -2%); }
+    }
+
+    .page-hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .page-hero h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #FF743D 0%, #FFB199 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+
+    .page-hero p {
+      font-size: 1.25rem;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.7;
+    }
+
+    /* Wave Divider */
+    .wave-divider {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+      line-height: 0;
+    }
+
+    .wave-divider svg {
+      position: relative;
+      display: block;
+      width: calc(100% + 1.3px);
+      height: 80px;
+    }
+
+    .wave-divider .shape-fill {
+      fill: var(--bg);
+    }
+
+    /* Pricing Section */
+    .pricing-section {
+      padding: 80px 0 120px;
+      background-color: var(--bg);
+    }
+
+    .pricing-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .pricing-header h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .pricing-header p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      align-items: start;
+    }
+
+    .pricing-card {
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 40px 32px;
+      position: relative;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .pricing-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.1);
+    }
+
+    .pricing-card.featured {
+      border: 2px solid var(--primary);
+      transform: scale(1.02);
+    }
+
+    .pricing-card.featured:hover {
+      transform: scale(1.02) translateY(-6px);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #FF743D 0%, #ea580c 100%);
+      color: #fff;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
+
+    .pricing-tier {
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .pricing-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--text);
+      text-align: center;
+      margin-bottom: 4px;
+    }
+
+    .pricing-price .unit {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .pricing-desc {
+      text-align: center;
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      margin-bottom: 32px;
+    }
+
+    .pricing-features {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      margin-bottom: 32px;
+    }
+
+    .pricing-feature {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9375rem;
+      color: var(--text);
+    }
+
+    .pricing-feature i {
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .pricing-card .btn {
+      width: 100%;
+    }
+
+    /* Logo Marquee */
+    .logo-marquee-section {
+      padding: 80px 0;
+      background-color: #fff;
+      overflow: hidden;
+    }
+
+    .logo-marquee-header {
+      text-align: center;
+      margin-bottom: 48px;
+    }
+
+    .logo-marquee-header h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+    }
+
+    .marquee-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .marquee-wrapper::before,
+    .marquee-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      width: 120px;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .marquee-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, #fff, transparent);
+    }
+
+    .marquee-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, #fff, transparent);
+    }
+
+    .marquee-track {
+      display: flex;
+      gap: 80px;
+      width: max-content;
+      animation: marqueeScroll 20s linear infinite;
+    }
+
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    .marquee-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 160px;
+      height: 60px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-secondary);
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+      white-space: nowrap;
+    }
+
+    .marquee-item:hover {
+      opacity: 1;
+      color: var(--text);
+    }
+
+    /* Contact Form */
+    .contact-section {
+      padding: 120px 0;
+      background-color: var(--bg);
+    }
+
+    .contact-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .contact-header h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .contact-header p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+    }
+
+    .contact-form-wrapper {
+      max-width: 640px;
+      margin: 0 auto;
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      border: 1px solid var(--border);
+      padding: 48px;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .form-group label .required {
+      color: var(--primary);
+      margin-left: 2px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      font-size: 0.9375rem;
+      font-family: inherit;
+      color: var(--text);
+      background-color: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      outline: none;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(255, 116, 61, 0.1);
+    }
+
+    .form-group input.error,
+    .form-group textarea.error {
+      border-color: #ef4444;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    }
+
+    .form-error {
+      font-size: 0.8125rem;
+      color: #ef4444;
+      margin-top: 6px;
+      display: none;
+    }
+
+    .form-error.visible {
+      display: block;
+    }
+
+    .form-group textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .contact-form .btn {
+      width: 100%;
+      padding: 14px 28px;
+      font-size: 1rem;
+    }
+
+    .form-success {
+      display: none;
+      text-align: center;
+      padding: 48px 24px;
+    }
+
+    .form-success.visible {
+      display: block;
+    }
+
+    .form-success .icon-wrap {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #FF743D 0%, #FFB199 100%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+
+    .form-success h3 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+
+    .form-success p {
+      color: var(--text-secondary);
+    }
+
+    /* FAQ Accordion */
+    .faq-section {
+      padding: 120px 0;
+      background-color: #fff;
+    }
+
+    .faq-header {
+      text-align: center;
+      margin-bottom: 64px;
+    }
+
+    .faq-header h2 {
+      font-size: 2.25rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .faq-header p {
+      font-size: 1.125rem;
+      color: var(--text-secondary);
+    }
+
+    .faq-list {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-question {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 0;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: left;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .faq-question:hover {
+      color: var(--primary);
+    }
+
+    .faq-question i {
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+      color: var(--text-secondary);
+    }
+
+    .faq-item.open .faq-question i {
+      transform: rotate(180deg);
+      color: var(--primary);
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 24px;
+    }
+
+    .faq-answer p {
+      font-size: 0.9375rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .pricing-card.featured {
+        transform: scale(1);
+        grid-column: span 2;
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .pricing-card.featured:hover {
+        transform: translateY(-6px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .page-hero {
+        padding: 120px 0 80px;
+      }
+
+      .page-hero h1 {
+        font-size: 2rem;
+      }
+
+      .page-hero p {
+        font-size: 1rem;
+      }
+
+      .pricing-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pricing-card.featured {
+        grid-column: span 1;
+        max-width: none;
+      }
+
+      .contact-form-wrapper {
+        padding: 32px 24px;
+      }
+
+      .faq-question {
+        font-size: 0.9375rem;
+        padding: 20px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-logo">橙光笔录</a>
+      <div class="navbar-nav">
+        <a href="index.html">首页</a>
+        <a href="product.html">产品</a>
+        <a href="about.html">关于我们</a>
+        <a href="plugins.html">插件市场</a>
+        <a href="enterprise.html" class="active">企业合作</a>
+        <a href="http://localhost:5174/" class="btn btn-primary" style="padding: 8px 20px; font-size: 0.875rem;">立即使用</a>
+      </div>
+      <button class="navbar-toggle" aria-label="菜单">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="page-hero">
+    <div class="page-hero-content">
+      <h1>企业级知识管理方案</h1>
+      <p>为团队和组织量身定制的知识库解决方案</p>
+    </div>
+    <div class="wave-divider">
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+        <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+        <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section class="pricing-section">
+    <div class="container">
+      <div class="pricing-header animate fade-in-up">
+        <h2>选择适合你的方案</h2>
+        <p>灵活的定价，满足不同规模团队的需求</p>
+      </div>
+      <div class="pricing-grid">
+        <!-- Personal -->
+        <div class="pricing-card animate fade-in-up">
+          <div class="pricing-tier">个人版</div>
+          <div class="pricing-price">免费</div>
+          <div class="pricing-desc">适合个人用户</div>
+          <div class="pricing-features">
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>无限页面</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>基础搜索</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>3 套主题</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>社区支持</span>
+            </div>
+          </div>
+          <a href="http://localhost:5174/" class="btn btn-secondary">免费开始</a>
+        </div>
+
+        <!-- Team -->
+        <div class="pricing-card featured animate fade-in-up">
+          <div class="pricing-badge">最受欢迎</div>
+          <div class="pricing-tier">团队版</div>
+          <div class="pricing-price">¥29<span class="unit">/月/人</span></div>
+          <div class="pricing-desc">适合小型团队</div>
+          <div class="pricing-features">
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>个人版全部功能</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>团队协作空间</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>全文搜索</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>8 套主题</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>优先支持</span>
+            </div>
+          </div>
+          <a href="http://localhost:5174/" class="btn btn-primary">开始试用</a>
+        </div>
+
+        <!-- Enterprise -->
+        <div class="pricing-card animate fade-in-up">
+          <div class="pricing-tier">企业版</div>
+          <div class="pricing-price">定制报价</div>
+          <div class="pricing-desc">适合大型企业</div>
+          <div class="pricing-features">
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>团队版全部功能</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>SSO 单点登录</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>私有化部署</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>专属客户经理</span>
+            </div>
+            <div class="pricing-feature">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>SLA 保障</span>
+            </div>
+          </div>
+          <a href="#contact" class="btn btn-secondary">联系销售</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Logo Marquee -->
+  <section class="logo-marquee-section">
+    <div class="container">
+      <div class="logo-marquee-header animate fade-in-up">
+        <h2>深受优秀企业信赖</h2>
+      </div>
+    </div>
+    <div class="marquee-wrapper animate fade-in">
+      <div class="marquee-track" id="marqueeTrack">
+        <div class="marquee-item">字节跳动</div>
+        <div class="marquee-item">阿里巴巴</div>
+        <div class="marquee-item">腾讯</div>
+        <div class="marquee-item">华为</div>
+        <div class="marquee-item">小米</div>
+        <div class="marquee-item">美团</div>
+        <div class="marquee-item">字节跳动</div>
+        <div class="marquee-item">阿里巴巴</div>
+        <div class="marquee-item">腾讯</div>
+        <div class="marquee-item">华为</div>
+        <div class="marquee-item">小米</div>
+        <div class="marquee-item">美团</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form -->
+  <section class="contact-section" id="contact">
+    <div class="container">
+      <div class="contact-header animate fade-in-up">
+        <h2>联系我们</h2>
+        <p>告诉我们你的需求，我们将尽快与你取得联系</p>
+      </div>
+      <div class="contact-form-wrapper animate fade-in-up">
+        <form class="contact-form" id="contactForm" novalidate>
+          <div class="form-group">
+            <label for="name">姓名 <span class="required">*</span></label>
+            <input type="text" id="name" name="name" placeholder="请输入你的姓名">
+            <div class="form-error" id="nameError">请输入姓名</div>
+          </div>
+          <div class="form-group">
+            <label for="email">邮箱 <span class="required">*</span></label>
+            <input type="email" id="email" name="email" placeholder="请输入你的邮箱">
+            <div class="form-error" id="emailError">请输入有效的邮箱地址</div>
+          </div>
+          <div class="form-group">
+            <label for="company">公司名称 <span class="required">*</span></label>
+            <input type="text" id="company" name="company" placeholder="请输入公司名称">
+            <div class="form-error" id="companyError">请输入公司名称</div>
+          </div>
+          <div class="form-group">
+            <label for="message">需求描述 <span class="required">*</span></label>
+            <textarea id="message" name="message" placeholder="请简要描述你的需求"></textarea>
+            <div class="form-error" id="messageError">请输入需求描述</div>
+          </div>
+          <button type="submit" class="btn btn-primary">提交</button>
+        </form>
+        <div class="form-success" id="formSuccess">
+          <div class="icon-wrap">
+            <i data-lucide="check" style="width: 32px; height: 32px;"></i>
+          </div>
+          <h3>提交成功</h3>
+          <p>我们已收到你的信息，将尽快与你联系。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="faq-header animate fade-in-up">
+        <h2>常见问题</h2>
+        <p>关于企业合作的常见疑问解答</p>
+      </div>
+      <div class="faq-list animate fade-in-up">
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            <span>橙光笔录支持私有化部署吗？</span>
+            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="faq-answer">
+            <p>是的，企业版支持私有化部署。你可以将橙光笔录部署在自己的服务器或私有云环境中，确保数据完全由企业掌控，满足合规和安全要求。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            <span>团队版和企业版有什么区别？</span>
+            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="faq-answer">
+            <p>团队版适合小型团队使用，提供协作空间、全文搜索和优先支持等功能。企业版在团队版基础上增加了 SSO 单点登录、私有化部署、专属客户经理和 SLA 保障等企业级功能，更适合大型组织的复杂需求。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            <span>如何迁移现有知识库数据？</span>
+            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="faq-answer">
+            <p>我们提供完善的数据迁移方案，支持从 Notion、Confluence、语雀等主流知识库工具导入数据。企业版客户还可获得专属迁移顾问的一对一支持，确保数据平稳过渡。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            <span>是否支持与其他工具集成？</span>
+            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="faq-answer">
+            <p>橙光笔录提供丰富的 API 和 Webhook 支持，可与 Slack、钉钉、飞书、Jira、GitHub 等常用工具无缝集成。企业版还可根据需求定制专属集成方案。</p>
+          </div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-question" type="button">
+            <span>提供技术支持吗？</span>
+            <i data-lucide="chevron-down" style="width: 20px; height: 20px;"></i>
+          </button>
+          <div class="faq-answer">
+            <p>个人版用户可通过社区论坛获得支持。团队版用户享有优先工单响应。企业版客户配备专属客户经理，提供 7×24 小时技术支持，并签署 SLA 服务保障协议。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo">橙光笔录</div>
+          <p>让知识井井有条，让创作灵感飞扬。橙光笔录是你值得信赖的知识管理与创作伙伴。</p>
+        </div>
+        <div class="footer-links">
+          <h4>产品</h4>
+          <ul>
+            <li><a href="product.html">功能介绍</a></li>
+            <li><a href="plugins.html">插件市场</a></li>
+            <li><a href="enterprise.html">企业版</a></li>
+            <li><a href="#">更新日志</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>支持</h4>
+          <ul>
+            <li><a href="#">帮助中心</a></li>
+            <li><a href="#">使用文档</a></li>
+            <li><a href="#">社区论坛</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h4>关于</h4>
+          <ul>
+            <li><a href="about.html">关于我们</a></li>
+            <li><a href="#">加入团队</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">服务条款</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2024 橙光笔录. 保留所有权利.</div>
+        <div class="social-links">
+          <a href="#" aria-label="微博"><i data-lucide="globe" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="微信"><i data-lucide="message-circle" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="GitHub"><i data-lucide="github" style="width: 16px; height: 16px;"></i></a>
+          <a href="#" aria-label="Twitter"><i data-lucide="twitter" style="width: 16px; height: 16px;"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script>
+    (function() {
+      'use strict';
+
+      // Initialize Lucide icons
+      lucide.createIcons();
+
+      // FAQ Accordion
+      document.querySelectorAll('.faq-question').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var item = btn.parentElement;
+          var isOpen = item.classList.contains('open');
+
+          // Close all
+          document.querySelectorAll('.faq-item').forEach(function(i) {
+            i.classList.remove('open');
+          });
+
+          // Open clicked if it was closed
+          if (!isOpen) {
+            item.classList.add('open');
+          }
+        });
+      });
+
+      // Form Validation
+      var form = document.getElementById('contactForm');
+      var formSuccess = document.getElementById('formSuccess');
+
+      function showError(fieldId, show) {
+        var field = document.getElementById(fieldId);
+        var error = document.getElementById(fieldId + 'Error');
+        if (show) {
+          field.classList.add('error');
+          error.classList.add('visible');
+        } else {
+          field.classList.remove('error');
+          error.classList.remove('visible');
+        }
+      }
+
+      function validateEmail(email) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+      }
+
+      if (form) {
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          var valid = true;
+
+          var name = document.getElementById('name').value.trim();
+          var email = document.getElementById('email').value.trim();
+          var company = document.getElementById('company').value.trim();
+          var message = document.getElementById('message').value.trim();
+
+          if (!name) {
+            showError('name', true);
+            valid = false;
+          } else {
+            showError('name', false);
+          }
+
+          if (!email || !validateEmail(email)) {
+            showError('email', true);
+            valid = false;
+          } else {
+            showError('email', false);
+          }
+
+          if (!company) {
+            showError('company', true);
+            valid = false;
+          } else {
+            showError('company', false);
+          }
+
+          if (!message) {
+            showError('message', true);
+            valid = false;
+          } else {
+            showError('message', false);
+          }
+
+          if (valid) {
+            form.style.display = 'none';
+            formSuccess.classList.add('visible');
+            lucide.createIcons();
+          }
+        });
+
+        // Clear errors on input
+        ['name', 'email', 'company', 'message'].forEach(function(id) {
+          var el = document.getElementById(id);
+          if (el) {
+            el.addEventListener('input', function() {
+              showError(id, false);
+            });
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
