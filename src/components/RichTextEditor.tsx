@@ -40,6 +40,12 @@ import {
   TableIcon,
   GitMergeIcon,
   SplitIcon,
+  ArrowUp01Icon,
+  ArrowDown01Icon,
+  ArrowLeft01Icon,
+  ArrowRight01Icon,
+  DeleteRowIcon,
+  DeleteColumnIcon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
@@ -1418,6 +1424,42 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
               title={t('editor.split_cell')}
             >
               <HugeiconsIcon icon={SplitIcon} size={20} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().addRowBefore().run()}
+              title={t('editor.add_row_before')}
+            >
+              <HugeiconsIcon icon={ArrowUp01Icon} size={20} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().addRowAfter().run()}
+              title={t('editor.add_row_after')}
+            >
+              <HugeiconsIcon icon={ArrowDown01Icon} size={20} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().addColumnBefore().run()}
+              title={t('editor.add_column_before')}
+            >
+              <HugeiconsIcon icon={ArrowLeft01Icon} size={20} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().addColumnAfter().run()}
+              title={t('editor.add_column_after')}
+            >
+              <HugeiconsIcon icon={ArrowRight01Icon} size={20} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().deleteRow().run()}
+              title={t('editor.delete_row')}
+            >
+              <HugeiconsIcon icon={DeleteRowIcon} size={20} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().deleteColumn().run()}
+              title={t('editor.delete_column')}
+            >
+              <HugeiconsIcon icon={DeleteColumnIcon} size={20} strokeWidth={2} />
             </ToolbarButton>
           </>
         )}
