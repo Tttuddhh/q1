@@ -15,6 +15,8 @@ import { TableHeader } from '@tiptap/extension-table-header';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { FileUploadDialog } from './FileUploadDialog';
 import {
+  UndoIcon,
+  RedoIcon,
   TextBoldIcon,
   TextItalicIcon,
   TextUnderlineIcon,
@@ -1038,11 +1040,14 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const [showTablePicker, setShowTablePicker] = useState(false);
   const [showVideoPicker, setShowVideoPicker] = useState(false);
   const [showFileDialog, setShowFileDialog] = useState(false);
+  const [showTableMenu, setShowTableMenu] = useState(false);
+  const [tableMenuPos, setTableMenuPos] = useState({ top: 0, left: 0 });
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const tableButtonRef = useRef<HTMLDivElement>(null);
   const videoButtonRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
+  const editorContentRef = useRef<HTMLDivElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   const editor = useEditor({
@@ -1090,6 +1095,45 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         setActiveFormats(getActiveFormats(editor));
       });
     }
+  }, [editor]);
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const updateTableMenu = () => {
+      const isTableActive = editor.isActive('table');
+      if (!isTableActive) {
+        setShowTableMenu(false);
+        return;
+      }
+
+      const { selection } = editor.state;
+      const view = editor.view;
+      const fromPos = selection.from;
+      const domAtPos = view.domAtPos(fromPos);
+      const node = domAtPos.node as HTMLElement;
+      const tableElement = node.closest('table');
+
+      if (tableElement && editorContentRef.current) {
+        const editorRect = editorContentRef.current.getBoundingClientRect();
+        const tableRect = tableElement.getBoundingClientRect();
+        setTableMenuPos({
+          top: tableRect.top - editorRect.top - 44,
+          left: tableRect.left - editorRect.left,
+        });
+        setShowTableMenu(true);
+      } else {
+        setShowTableMenu(false);
+      }
+    };
+
+    editor.on('selectionUpdate', updateTableMenu);
+    editor.on('transaction', updateTableMenu);
+
+    return () => {
+      editor.off('selectionUpdate', updateTableMenu);
+      editor.off('transaction', updateTableMenu);
+    };
   }, [editor]);
 
   const setLink = useCallback(() => {
@@ -1422,59 +1466,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           )}
         </div>
 
-        {editor.isActive('table') && (
-          <>
-            <ToolbarButton
-              onClick={() => editor.chain().focus().mergeCells().run()}
-              title={t('editor.merge_cells')}
-            >
-              <HugeiconsIcon icon={GitMergeIcon} size={20} strokeWidth={2} />
-            </ToolbarButton>
-            <ToolbarButton
-              onClick={() => editor.chain().focus().splitCell().run()}
-              title={t('editor.split_cell')}
-            >
-              <HugeiconsIcon icon={SplitIcon} size={20} strokeWidth={2} />
-            </ToolbarButton>
-            <ToolbarButton
-              onClick={() => editor.chain().focus().addRowBefore().run()}
-              title={t('editor.add_row_before')}
-            >
-              <HugeiconsIcon icon={ArrowUp01Icon} size={20} strokeWidth={2} />
-            </ToolbarButton>
-            <ToolbarButton
-              onClick={() => editor.chain().focus().addRowAfter().run()}
-              title={t('editor.add_row_after')}
-            >
-              <HugeiconsIcon icon={ArrowDown01Icon} size={20} strokeWidth={2} />
-            </ToolbarButton>
-            <ToolbarButton
-              onClick={() => editor.chain().focus().addColumnBefore().run()}
-              title={t('editor.add_column_before')}
-            >
-              <HugeiconsIcon icon={ArrowLeft01Icon} size={20} strokeWidth={2} />
-            </ToolbarButton>
-            <ToolbarButton
-              onClick={() => editor.chain().focus().addColumnAfter().run()}
-              title={t('editor.add_column_after')}
-            >
-              <HugeiconsIcon icon={ArrowRight01Icon} size={20} strokeWidth={2} />
-            </ToolbarButton>
-            <ToolbarButton
-              onClick={() => editor.chain().focus().deleteRow().run()}
-              title={t('editor.delete_row')}
-            >
-              <HugeiconsIcon icon={DeleteRowIcon} size={20} strokeWidth={2} />
-            </ToolbarButton>
-            <ToolbarButton
-              onClick={() => editor.chain().focus().deleteColumn().run()}
-              title={t('editor.delete_column')}
-            >
-              <HugeiconsIcon icon={DeleteColumnIcon} size={20} strokeWidth={2} />
-            </ToolbarButton>
-          </>
-        )}
-
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 
         <div ref={emojiButtonRef} style={{ position: 'relative' }}>
@@ -1519,16 +1510,88 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       </div>
 
       {/* Editor content */}
-      <EditorContent
-        editor={editor}
-        style={{
-          minHeight: 300,
-          outline: 'none',
-          border: 'none',
-          boxShadow: 'none',
-          fontSize: editorFontSize,
-        }}
-      />
+      <div ref={editorContentRef} style={{ position: 'relative' }}>
+        <EditorContent
+          editor={editor}
+          style={{
+            minHeight: 300,
+            outline: 'none',
+            border: 'none',
+            boxShadow: 'none',
+            fontSize: editorFontSize,
+          }}
+        />
+
+        {showTableMenu && (
+          <div
+            style={{
+              position: 'absolute',
+              top: tableMenuPos.top,
+              left: tableMenuPos.left,
+              zIndex: 100,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 2,
+              padding: '4px 6px',
+              background: '#ffffff',
+              border: '1px solid #e5e7eb',
+              borderRadius: 8,
+              boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+            }}
+          >
+            <ToolbarButton
+              onClick={() => editor.chain().focus().mergeCells().run()}
+              title={t('editor.merge_cells')}
+            >
+              <HugeiconsIcon icon={GitMergeIcon} size={18} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().splitCell().run()}
+              title={t('editor.split_cell')}
+            >
+              <HugeiconsIcon icon={SplitIcon} size={18} strokeWidth={2} />
+            </ToolbarButton>
+            <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 2px' }} />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().addRowBefore().run()}
+              title={t('editor.add_row_before')}
+            >
+              <HugeiconsIcon icon={ArrowUp01Icon} size={18} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().addRowAfter().run()}
+              title={t('editor.add_row_after')}
+            >
+              <HugeiconsIcon icon={ArrowDown01Icon} size={18} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().addColumnBefore().run()}
+              title={t('editor.add_column_before')}
+            >
+              <HugeiconsIcon icon={ArrowLeft01Icon} size={18} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().addColumnAfter().run()}
+              title={t('editor.add_column_after')}
+            >
+              <HugeiconsIcon icon={ArrowRight01Icon} size={18} strokeWidth={2} />
+            </ToolbarButton>
+            <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 2px' }} />
+            <ToolbarButton
+              onClick={() => editor.chain().focus().deleteRow().run()}
+              title={t('editor.delete_row')}
+            >
+              <HugeiconsIcon icon={DeleteRowIcon} size={18} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().deleteColumn().run()}
+              title={t('editor.delete_column')}
+            >
+              <HugeiconsIcon icon={DeleteColumnIcon} size={18} strokeWidth={2} />
+            </ToolbarButton>
+          </div>
+        )}
+      </div>
       <style>{`
         .ProseMirror img {
           max-width: 100%;
