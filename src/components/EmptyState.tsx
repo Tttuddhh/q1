@@ -1,4 +1,5 @@
-import { Sparkles, Plus } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { AiMagicIcon, Add01Icon } from '@hugeicons/core-free-icons';
 import { useTranslation } from '../i18n';
 
 interface EmptyStateProps {
@@ -24,7 +25,7 @@ export function EmptyState({ onCreatePage }: EmptyStateProps) {
           maxWidth: 400,
         }}
       >
-        <Sparkles size={64} color="var(--color-primary)" />
+        <HugeiconsIcon icon={AiMagicIcon} size={64} strokeWidth={1.5} color="var(--color-primary)" />
         <h2
           style={{
             fontSize: '1.5rem',
@@ -65,7 +66,7 @@ export function EmptyState({ onCreatePage }: EmptyStateProps) {
             e.currentTarget.style.boxShadow = '0 4px 12px color-mix(in srgb, var(--color-primary) 30%, transparent)';
           }}
         >
-          <Plus size={18} />
+          <HugeiconsIcon icon={Add01Icon} size={18} strokeWidth={1.5} />
           {t('empty.create')}
         </button>
       </div>

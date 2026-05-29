@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { X, Download, FileText, FileCode, FileJson, FileType } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Cancel01Icon, Download04Icon, File01Icon, FileCodeIcon, Pdf01Icon } from '@hugeicons/core-free-icons';
 import { useTranslation } from '../i18n';
 
 interface DownloadModalProps {
@@ -10,10 +11,10 @@ interface DownloadModalProps {
 export function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
   const { t } = useTranslation();
   const formats = [
-    { id: 'markdown', label: 'Markdown', icon: <FileText size={24} />, description: t('download.format_markdown_desc') },
-    { id: 'html', label: 'HTML', icon: <FileCode size={24} />, description: t('download.format_html_desc') },
-    { id: 'json', label: 'JSON', icon: <FileJson size={24} />, description: t('download.format_json_desc') },
-    { id: 'pdf', label: 'PDF', icon: <FileType size={24} />, description: t('download.format_pdf_desc') },
+    { id: 'markdown', label: 'Markdown', icon: <HugeiconsIcon icon={File01Icon} size={24} strokeWidth={1.5} />, description: t('download.format_markdown_desc') },
+    { id: 'html', label: 'HTML', icon: <HugeiconsIcon icon={FileCodeIcon} size={24} strokeWidth={1.5} />, description: t('download.format_html_desc') },
+    { id: 'json', label: 'JSON', icon: <HugeiconsIcon icon={FileCodeIcon} size={24} strokeWidth={1.5} />, description: t('download.format_json_desc') },
+    { id: 'pdf', label: 'PDF', icon: <HugeiconsIcon icon={Pdf01Icon} size={24} strokeWidth={1.5} />, description: t('download.format_pdf_desc') },
   ];
   const [selectedFormat, setSelectedFormat] = useState('markdown');
   const [includeChildren, setIncludeChildren] = useState(true);
@@ -85,7 +86,7 @@ export function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
             }}
             className="text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800"
           >
-            <X size={18} />
+            <HugeiconsIcon icon={Cancel01Icon} size={18} strokeWidth={1.5} />
           </button>
         </div>
 
@@ -242,7 +243,7 @@ export function DownloadModal({ isOpen, onClose }: DownloadModalProps) {
               onClose();
             }}
           >
-            <Download size={16} />
+            <HugeiconsIcon icon={Download04Icon} size={16} strokeWidth={1.5} />
             {t('download.download')}
           </button>
         </div>

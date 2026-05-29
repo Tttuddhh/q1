@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Home, Clock, Bookmark, Tag, Trash2, Settings, ChevronDown } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Home01Icon, Clock01Icon, Bookmark01Icon, Tag01Icon, ArchiveIcon, Settings01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
 import { useTranslation } from '../i18n';
 
 interface FuncSidebarProps {
@@ -41,7 +42,7 @@ export function FuncSidebar({
         onClick={onNavigateHome}
       >
         <span className="func-sidebar-icon">
-          <Home />
+          <HugeiconsIcon icon={Home01Icon} size={20} strokeWidth={1.5} />
         </span>
         <span className="func-sidebar-text">{t('sidebar.home')}</span>
       </a>
@@ -53,8 +54,10 @@ export function FuncSidebar({
         className="func-section-title"
         onClick={() => toggleSection('knowledge')}
       >
-        <ChevronDown
+        <HugeiconsIcon
+          icon={ArrowDown01Icon}
           size={14}
+          strokeWidth={1.5}
           className={`func-chevron ${!sections.knowledge ? 'collapsed' : ''}`}
           style={{ marginRight: 6, flexShrink: 0 }}
         />
@@ -64,19 +67,19 @@ export function FuncSidebar({
       <div className={`func-section-items ${!sections.knowledge ? 'collapsed' : ''}`}>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
-            <Clock className="func-sidebar-svg" />
+            <HugeiconsIcon icon={Clock01Icon} size={20} strokeWidth={1.5} />
           </span>
           <span className="func-sidebar-text">{t('sidebar.time_record')}</span>
         </a>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
-            <Bookmark className="func-sidebar-svg" />
+            <HugeiconsIcon icon={Bookmark01Icon} size={20} strokeWidth={1.5} />
           </span>
           <span className="func-sidebar-text">{t('sidebar.favorites')}</span>
         </a>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
-            <Tag className="func-sidebar-svg" />
+            <HugeiconsIcon icon={Tag01Icon} size={20} strokeWidth={1.5} />
           </span>
           <span className="func-sidebar-text">{t('sidebar.tags')}</span>
         </a>
@@ -89,8 +92,10 @@ export function FuncSidebar({
         className="func-section-title"
         onClick={() => toggleSection('system')}
       >
-        <ChevronDown
+    <HugeiconsIcon
+          icon={ArrowDown01Icon}
           size={14}
+          strokeWidth={1.5}
           className={`func-chevron ${!sections.system ? 'collapsed' : ''}`}
           style={{ marginRight: 6, flexShrink: 0 }}
         />
@@ -100,7 +105,7 @@ export function FuncSidebar({
       <div className={`func-section-items ${!sections.system ? 'collapsed' : ''}`}>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
-            <Trash2 className="func-sidebar-svg" />
+            <HugeiconsIcon icon={ArchiveIcon} size={20} strokeWidth={1.5} />
           </span>
           <span className="func-sidebar-text">{t('sidebar.trash')}</span>
         </a>
@@ -109,7 +114,7 @@ export function FuncSidebar({
           onClick={onNavigateSettings}
         >
           <span className="func-sidebar-icon">
-            <Settings />
+            <HugeiconsIcon icon={Settings01Icon} size={20} strokeWidth={1.5} />
           </span>
           <span className="func-sidebar-text">{t('sidebar.settings')}</span>
         </a>

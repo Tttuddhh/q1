@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { Search, X, ArrowUp, ArrowDown, CornerDownLeft, FileText, Folder } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Search01Icon, Cancel01Icon, ArrowUp01Icon, ArrowDown01Icon, ArrowTurnDownIcon } from '@hugeicons/core-free-icons';
 import type { Page } from '../types';
 import { useTranslation } from '../i18n';
 
@@ -118,7 +119,7 @@ export function SearchModal({ isOpen, onClose, pages, onNavigateToPage }: Search
           }}
           className="dark:[border-bottom:1px_solid_#374151]"
         >
-          <Search size={20} className="text-gray-400 dark:text-gray-500" />
+          <HugeiconsIcon icon={Search01Icon} size={20} strokeWidth={1.5} className="text-gray-400 dark:text-gray-500" />
           <input
             ref={inputRef}
             type="text"
@@ -150,7 +151,7 @@ export function SearchModal({ isOpen, onClose, pages, onNavigateToPage }: Search
               }}
               className="dark:bg-gray-700"
             >
-              <X size={14} />
+              <HugeiconsIcon icon={Cancel01Icon} size={14} strokeWidth={1.5} />
             </button>
           )}
           <div
@@ -244,7 +245,7 @@ export function SearchModal({ isOpen, onClose, pages, onNavigateToPage }: Search
                   </div>
                 </div>
                 {index === selectedIndex && (
-                  <CornerDownLeft size={14} className="text-gray-400 dark:text-gray-500" />
+                  <HugeiconsIcon icon={ArrowTurnDownIcon} size={14} strokeWidth={1.5} className="text-gray-400 dark:text-gray-500" />
                 )}
               </button>
             ))
@@ -264,12 +265,12 @@ export function SearchModal({ isOpen, onClose, pages, onNavigateToPage }: Search
           className="text-gray-400 dark:text-gray-500 dark:[border-top:1px_solid_#374151]"
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <ArrowUp size={12} />
-            <ArrowDown size={12} />
+            <HugeiconsIcon icon={ArrowUp01Icon} size={12} strokeWidth={1.5} />
+            <HugeiconsIcon icon={ArrowDown01Icon} size={12} strokeWidth={1.5} />
             {t('search.nav')}
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <CornerDownLeft size={12} />
+            <HugeiconsIcon icon={ArrowTurnDownIcon} size={12} strokeWidth={1.5} />
             {t('search.select')}
           </span>
           <span style={{ marginLeft: 'auto' }}>

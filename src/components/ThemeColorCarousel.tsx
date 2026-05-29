@@ -1,5 +1,6 @@
 import { useState, useCallback, useRef, useLayoutEffect } from 'react';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowLeft01Icon, ArrowRight01Icon } from '@hugeicons/core-free-icons';
 import { colorSchemes } from './colorSchemes';
 
 function getLuminance(hexColor: string): number {
@@ -442,7 +443,7 @@ export function ThemeColorCarousel({ selectedScheme, selectedVariantHex, onSelec
             e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
           }}
         >
-          <ChevronLeft size={20} className="text-gray-600" />
+          <HugeiconsIcon icon={ArrowLeft01Icon} size={20} strokeWidth={1.5} className="text-gray-600" />
         </button>
 
         <div
@@ -583,7 +584,7 @@ export function ThemeColorCarousel({ selectedScheme, selectedVariantHex, onSelec
             e.currentTarget.style.transform = 'translateY(-50%) scale(1)';
           }}
         >
-          <ChevronRight size={20} className="text-gray-600" />
+          <HugeiconsIcon icon={ArrowRight01Icon} size={20} strokeWidth={1.5} className="text-gray-600" />
         </button>
       </div>
 

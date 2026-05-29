@@ -1,41 +1,34 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
+import { HugeiconsIcon } from '@hugeicons/react';
 import {
-  Settings,
-  Palette,
-  PenLine,
-  Bell,
-  UserCircle,
-  ShieldCheck,
-  Database,
-  X,
-  Sun,
-  Moon,
-  Monitor,
-  Type,
-  Clock,
-  Calendar,
-  Globe,
-  AArrowDown,
-  AArrowUp,
-  Indent,
-  WrapText,
-  Save,
-  Check,
-  Smartphone,
-  Mail,
-  KeyRound,
-  Laptop,
-  LogOut,
-  AlertTriangle,
-  Download,
-  FileText,
-  FileCode,
-  FileJson,
-  FileType,
-  Puzzle,
-  Trash2,
-  ChevronRight,
-} from 'lucide-react';
+  Settings01Icon,
+  ColorsIcon,
+  Edit01Icon,
+  Notification01Icon,
+  UserSquareIcon,
+  SecurityCheckIcon,
+  DatabaseIcon,
+  Cancel01Icon,
+  Sun01Icon,
+  Moon01Icon,
+  ComputerIcon,
+  TextFontIcon,
+  Calendar01Icon,
+  MinusSignIcon,
+  PlusSignIcon,
+
+  Tick01Icon,
+  SmartPhone01Icon,
+  Mail01Icon,
+  LaptopIcon,
+  Logout01Icon,
+  Alert01Icon,
+  File01Icon,
+  FileCodeIcon,
+  Pdf01Icon,
+  Delete01Icon,
+  ArrowRight01Icon,
+} from '@hugeicons/core-free-icons';
 import { useSettings } from '../hooks/useSettings';
 import { useTranslation } from '../i18n';
 import type { ThemeColor, FontSize, IndentSize, BackupFrequency, Language, DateFormat, TimeFormat } from '../hooks/useSettings';
@@ -356,13 +349,13 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
   }, [onClose]);
 
   const tabs: TabItem[] = [
-    { id: 'general', label: t('settings.tab.general'), icon: <Settings size={18} /> },
-    { id: 'appearance', label: t('settings.tab.appearance'), icon: <Palette size={18} /> },
-    { id: 'editor', label: t('settings.tab.editor'), icon: <PenLine size={18} /> },
-    { id: 'notifications', label: t('settings.tab.notifications'), icon: <Bell size={18} /> },
-    { id: 'account', label: t('settings.tab.account'), icon: <UserCircle size={18} /> },
-    { id: 'security', label: t('settings.tab.security'), icon: <ShieldCheck size={18} /> },
-    { id: 'data', label: t('settings.tab.data'), icon: <Database size={18} /> },
+    { id: 'general', label: t('settings.tab.general'), icon: <HugeiconsIcon icon={Settings01Icon} size={18} strokeWidth={1.5} /> },
+    { id: 'appearance', label: t('settings.tab.appearance'), icon: <HugeiconsIcon icon={ColorsIcon} size={18} strokeWidth={1.5} /> },
+    { id: 'editor', label: t('settings.tab.editor'), icon: <HugeiconsIcon icon={Edit01Icon} size={18} strokeWidth={1.5} /> },
+    { id: 'notifications', label: t('settings.tab.notifications'), icon: <HugeiconsIcon icon={Notification01Icon} size={18} strokeWidth={1.5} /> },
+    { id: 'account', label: t('settings.tab.account'), icon: <HugeiconsIcon icon={UserSquareIcon} size={18} strokeWidth={1.5} /> },
+    { id: 'security', label: t('settings.tab.security'), icon: <HugeiconsIcon icon={SecurityCheckIcon} size={18} strokeWidth={1.5} /> },
+    { id: 'data', label: t('settings.tab.data'), icon: <HugeiconsIcon icon={DatabaseIcon} size={18} strokeWidth={1.5} /> },
   ];
 
 
@@ -430,9 +423,9 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
             value={theme}
             onChange={setTheme}
             options={[
-              { value: 'light', label: t('settings.theme_light'), icon: <Sun size={16} /> },
-              { value: 'dark', label: t('settings.theme_dark'), icon: <Moon size={16} /> },
-              { value: 'system', label: t('settings.theme_system'), icon: <Monitor size={16} /> },
+              { value: 'light', label: t('settings.theme_light'), icon: <HugeiconsIcon icon={Sun01Icon} size={16} strokeWidth={1.5} /> },
+              { value: 'dark', label: t('settings.theme_dark'), icon: <HugeiconsIcon icon={Moon01Icon} size={16} strokeWidth={1.5} /> },
+              { value: 'system', label: t('settings.theme_system'), icon: <HugeiconsIcon icon={ComputerIcon} size={16} strokeWidth={1.5} /> },
             ]}
           />
         </SettingRow>
@@ -552,10 +545,10 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
             value={editor.fontSize}
             onChange={(v) => setEditor({ fontSize: v })}
             options={[
-              { value: 'small', label: 'Aa小', icon: <AArrowDown size={14} /> },
-              { value: 'medium', label: 'Aa中', icon: <Type size={14} /> },
-              { value: 'large', label: 'Aa大', icon: <AArrowUp size={14} /> },
-              { value: 'xlarge', label: 'Aa特大', icon: <AArrowUp size={16} /> },
+              { value: 'small', label: 'Aa小', icon: <HugeiconsIcon icon={MinusSignIcon} size={14} strokeWidth={1.5} /> },
+              { value: 'medium', label: 'Aa中', icon: <HugeiconsIcon icon={TextFontIcon} size={14} strokeWidth={1.5} /> },
+              { value: 'large', label: 'Aa大', icon: <HugeiconsIcon icon={PlusSignIcon} size={14} strokeWidth={1.5} /> },
+              { value: 'xlarge', label: 'Aa特大', icon: <HugeiconsIcon icon={PlusSignIcon} size={16} strokeWidth={1.5} /> },
             ]}
           />
         </SettingRow>
@@ -751,9 +744,9 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
       <SectionCard title="账号统计">
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 16, padding: '8px 0' }}>
           {[
-            { label: t('settings.stats_pages'), value: '128', icon: <FileText size={20} className="text-primary" /> },
-            { label: t('settings.stats_words'), value: '45.2K', icon: <Type size={20} className="text-primary" /> },
-            { label: t('settings.stats_days'), value: '365', icon: <Calendar size={20} className="text-primary" /> },
+            { label: t('settings.stats_pages'), value: '128', icon: <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={1.5} className="text-primary" /> },
+            { label: t('settings.stats_words'), value: '45.2K', icon: <HugeiconsIcon icon={TextFontIcon} size={20} strokeWidth={1.5} className="text-primary" /> },
+            { label: t('settings.stats_days'), value: '365', icon: <HugeiconsIcon icon={Calendar01Icon} size={20} strokeWidth={1.5} className="text-primary" /> },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -825,7 +818,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
                 : 'border-gray-200 bg-white text-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600'
             }
           >
-            {security.phoneBound ? <Check size={14} /> : <Smartphone size={14} />}
+            {security.phoneBound ? <HugeiconsIcon icon={Tick01Icon} size={14} strokeWidth={1.5} /> : <HugeiconsIcon icon={SmartPhone01Icon} size={14} strokeWidth={1.5} />}
             {security.phoneBound ? t('settings.phone_bound_btn') : t('settings.phone_bind_btn')}
           </button>
         </SettingRow>
@@ -848,7 +841,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
                 : 'border-gray-200 bg-white text-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600'
             }
           >
-            {security.emailVerified ? <Check size={14} /> : <Mail size={14} />}
+            {security.emailVerified ? <HugeiconsIcon icon={Tick01Icon} size={14} strokeWidth={1.5} /> : <HugeiconsIcon icon={Mail01Icon} size={14} strokeWidth={1.5} />}
             {security.emailVerified ? t('settings.email_verified_btn') : t('settings.email_verify_btn')}
           </button>
         </SettingRow>
@@ -874,7 +867,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
               className="border-gray-100 bg-white dark:bg-gray-900 dark:border-gray-700"
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                <Laptop size={18} className="text-gray-400 dark:text-gray-500" />
+                <HugeiconsIcon icon={LaptopIcon} size={18} strokeWidth={1.5} className="text-gray-400 dark:text-gray-500" />
                 <div>
                   <div style={{ fontSize: 14, fontWeight: 500 }} className="text-gray-700 dark:text-gray-200">
                     {device.name}
@@ -940,7 +933,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
               }
             }}
           >
-            <LogOut size={16} />
+            <HugeiconsIcon icon={Logout01Icon} size={16} strokeWidth={1.5} />
             {t('settings.logout_all')}
           </button>
           <button
@@ -963,7 +956,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
               }
             }}
           >
-            <AlertTriangle size={16} />
+            <HugeiconsIcon icon={Alert01Icon} size={16} strokeWidth={1.5} />
             {t('settings.delete_account')}
           </button>
         </div>
@@ -1030,10 +1023,10 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
       <SectionCard title={t('settings.export')}>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 10 }}>
           {[
-            { label: 'Markdown', icon: <FileText size={16} /> },
-            { label: 'HTML', icon: <FileCode size={16} /> },
-            { label: 'JSON', icon: <FileJson size={16} /> },
-            { label: 'PDF', icon: <FileType size={16} /> },
+            { label: 'Markdown', icon: <HugeiconsIcon icon={File01Icon} size={16} strokeWidth={1.5} /> },
+            { label: 'HTML', icon: <HugeiconsIcon icon={FileCodeIcon} size={16} strokeWidth={1.5} /> },
+            { label: 'JSON', icon: <HugeiconsIcon icon={FileCodeIcon} size={16} strokeWidth={1.5} /> },
+            { label: 'PDF', icon: <HugeiconsIcon icon={Pdf01Icon} size={16} strokeWidth={1.5} /> },
           ].map((fmt) => (
             <button
               key={fmt.label}
@@ -1120,8 +1113,8 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
             }
           }}
         >
-          <Trash2 size={16} />
-          {t('settings.delete_all')}
+          <HugeiconsIcon icon={Delete01Icon} size={16} strokeWidth={1.5} />
+            {t('settings.delete_all')}
         </button>
       </SectionCard>
     </div>
@@ -1211,7 +1204,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
                 cursor: 'pointer',
               }}
             >
-              <X size={16} />
+              <HugeiconsIcon icon={Cancel01Icon} size={16} strokeWidth={1.5} />
             </button>
           </div>
 
@@ -1306,7 +1299,7 @@ export function SettingsPage({ onClose }: SettingsPageProps) {
                 </span>
                 <span style={{ color: activeTab === tab.id ? 'var(--theme-primary-dark)' : undefined }} className={activeTab === tab.id ? 'text-primary-dark' : 'text-gray-700 dark:text-gray-300'}>{tab.label}</span>
                 {activeTab === tab.id && (
-                  <ChevronRight size={14} style={{ marginLeft: 'auto' }} className="text-primary" />
+                  <HugeiconsIcon icon={ArrowRight01Icon} size={14} strokeWidth={1.5} style={{ marginLeft: 'auto' }} className="text-primary" />
                 )}
               </button>
             ))}

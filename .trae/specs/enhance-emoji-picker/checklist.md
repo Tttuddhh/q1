@@ -1,0 +1,20 @@
+# 增强表情选择器 - Verification Checklist
+
+- [x] Checkpoint 1: 😎表情已添加到EMOJIS数组并正确显示
+- [x] Checkpoint 2: 表情选择器显示四个分类标签（默认表情、最近使用、我的收藏、颜文字）
+- [x] Checkpoint 3: 点击分类标签正确切换内容
+- [x] Checkpoint 4: 默认表情分类包含更多emoji表情
+- [x] Checkpoint 5: 颜文字分类显示常用颜文字列表
+- [x] Checkpoint 6: 点击颜文字可以插入到编辑器
+- [x] Checkpoint 7: 我的收藏分类显示上传按钮
+- [x] Checkpoint 8: 上传图片后添加到收藏列表
+- [x] Checkpoint 9: 点击收藏的表情图片插入到编辑器
+- [x] Checkpoint 10: 刷新页面后收藏的表情仍然存在
+- [x] Checkpoint 11: 最近使用分类显示最近使用过的表情
+- [x] Checkpoint 12: 使用表情后自动记录到最近使用
+- [x] Checkpoint 13: 刷新页面后最近使用记录仍然存在
+- [x] Checkpoint 14: 登录用户收藏表情同步到云端
+- [x] Checkpoint 15: 换设备登录后收藏表情从云端同步下来
+- [x] Checkpoint 16: 未登录用户可以使用本地收藏
+- [x] Checkpoint 17: 所有表情（emoji、颜文字、收藏）插入功能正常
+- [x] Checkpoint 18: 应用构建成功，没有TypeScript错误

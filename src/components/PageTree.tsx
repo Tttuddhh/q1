@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
-import { ChevronRight, MoreHorizontal, FileText, Plus, Folder, Search } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { ArrowRight01Icon, MoreHorizontalIcon, File01Icon, Add01Icon, Folder01Icon, Search01Icon, FolderAddIcon, Edit01Icon, PencilEdit01Icon, InformationCircleIcon, Move01Icon, Copy01Icon, DashboardSquare01Icon, Delete02Icon } from '@hugeicons/core-free-icons';
 import type { Page } from '../types';
 import { useTranslation } from '../i18n';
 
@@ -265,8 +266,10 @@ export function PageTree({
               className="chevron-btn w-5 h-5 flex items-center justify-center rounded-md relative overflow-visible"
               style={{ background: 'none', border: 'none', cursor: 'pointer', padding: 0 }}
             >
-              <ChevronRight
+              <HugeiconsIcon
+                icon={ArrowRight01Icon}
                 size={14}
+                strokeWidth={1.5}
                 className="tree-chevron"
                 style={{
                   color: isActive ? 'var(--color-primary)' : 'rgb(156, 163, 175)',
@@ -305,7 +308,7 @@ export function PageTree({
             }}
             title="更多操作"
           >
-            <MoreHorizontal size={14} />
+            <HugeiconsIcon icon={MoreHorizontalIcon} size={16} strokeWidth={1.5} />
           </button>
         </div>
 
@@ -350,13 +353,13 @@ export function PageTree({
               className="w-7 h-7 flex items-center justify-center rounded-md"
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgb(107, 114, 128)' }}
             >
-              <Search size={16} />
+              <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={1.5} />
             </button>
             <button
               className="w-7 h-7 flex items-center justify-center rounded-md"
               style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'rgb(107, 114, 128)' }}
             >
-              <ChevronRight size={16} className="rotate-90" />
+              <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className="rotate-90" />
             </button>
           </div>
         </div>
@@ -377,7 +380,7 @@ export function PageTree({
             cursor: 'pointer',
           }}
         >
-          <Plus size={16} />
+          <HugeiconsIcon icon={Add01Icon} size={16} strokeWidth={1.5} />
           <span>{t('tree.new_page')}</span>
         </button>
       </div>
@@ -429,14 +432,14 @@ export function PageTree({
           {(() => {
             const isChild = isChildPage(contextMenu.pageId, pages);
             const allItems = [
-              { action: 'create_child', label: t('tree.create_child'), icon: <Plus size={14} />, hidden: isChild },
-              { action: 'edit', label: t('tree.edit'), icon: <FileText size={14} /> },
-              { action: 'rename', label: t('tree.rename'), icon: <FileText size={14} /> },
-              { action: 'properties', label: t('tree.properties'), icon: <Folder size={14} /> },
-              { action: 'move', label: t('tree.move'), icon: <FileText size={14} /> },
-              { action: 'copy', label: t('tree.copy'), icon: <FileText size={14} /> },
-              { action: 'batch', label: t('tree.batch'), icon: <FileText size={14} />, hidden: isChild },
-              { action: 'delete', label: t('tree.delete'), icon: <FileText size={14} />, danger: true },
+              { action: 'create_child', label: t('tree.create_child'), icon: <HugeiconsIcon icon={FolderAddIcon} size={18} strokeWidth={1.5} />, hidden: isChild },
+              { action: 'edit', label: t('tree.edit'), icon: <HugeiconsIcon icon={Edit01Icon} size={18} strokeWidth={1.5} /> },
+              { action: 'rename', label: t('tree.rename'), icon: <HugeiconsIcon icon={PencilEdit01Icon} size={18} strokeWidth={1.5} /> },
+              { action: 'properties', label: t('tree.properties'), icon: <HugeiconsIcon icon={InformationCircleIcon} size={18} strokeWidth={1.5} /> },
+              { action: 'move', label: t('tree.move'), icon: <HugeiconsIcon icon={Move01Icon} size={18} strokeWidth={1.5} /> },
+              { action: 'copy', label: t('tree.copy'), icon: <HugeiconsIcon icon={Copy01Icon} size={18} strokeWidth={1.5} /> },
+              { action: 'batch', label: t('tree.batch'), icon: <HugeiconsIcon icon={DashboardSquare01Icon} size={18} strokeWidth={1.5} />, hidden: isChild },
+              { action: 'delete', label: t('tree.delete'), icon: <HugeiconsIcon icon={Delete02Icon} size={18} strokeWidth={1.5} />, danger: true },
             ];
             return allItems.filter(item => !item.hidden).map((item) => (
             <button

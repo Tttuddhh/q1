@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { Tag, Plus, X, Calendar, RefreshCw } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { Tag01Icon, Add01Icon, Cancel01Icon, Calendar01Icon, Clock03Icon } from '@hugeicons/core-free-icons';
 import type { Page } from '../types';
 import { RichTextEditor } from './RichTextEditor';
 import { useTranslation } from '../i18n';
@@ -189,11 +190,11 @@ export function MainContent({
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <Calendar size={14} />
+            <HugeiconsIcon icon={Calendar01Icon} size={18} strokeWidth={1.5} />
             {t('page.created_at')} {formatDate(page.createdAt)}
           </span>
           <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <RefreshCw size={14} />
+            <HugeiconsIcon icon={Clock03Icon} size={18} strokeWidth={1.5} />
             {t('page.updated_at')} {formatDate(page.updatedAt)}
           </span>
         </div>
@@ -226,7 +227,7 @@ export function MainContent({
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
-              <Tag size={12} />
+              <HugeiconsIcon icon={Tag01Icon} size={12} strokeWidth={1.5} />
               {tag}
               <button
                 onClick={() => handleRemoveTag(tag)}
@@ -250,7 +251,7 @@ export function MainContent({
                   e.currentTarget.style.transform = 'scale(1)';
                 }}
               >
-                <X size={12} />
+                <HugeiconsIcon icon={Cancel01Icon} size={12} strokeWidth={1.5} />
               </button>
             </span>
           ))}
@@ -306,7 +307,7 @@ export function MainContent({
                 e.currentTarget.style.background = 'transparent';
               }}
             >
-              <Plus size={12} />
+              <HugeiconsIcon icon={Add01Icon} size={12} strokeWidth={1.5} />
               {t('tag.add')}
             </button>
           )}

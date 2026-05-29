@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
-import { PanelLeft, Home, ChevronRight, Search, Download, Share2, Settings, User, LogOut } from 'lucide-react';
+import { HugeiconsIcon } from '@hugeicons/react';
+import { SidebarLeftIcon, Home01Icon, ArrowRight01Icon, Search01Icon, Download01Icon, Share08Icon, Settings01Icon, UserIcon, Logout01Icon } from '@hugeicons/core-free-icons';
 import type { Page } from '../types';
 import { useTranslation } from '../i18n';
 
@@ -73,7 +74,7 @@ export function Header({
           }}
           className="text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
         >
-          <PanelLeft size={20} />
+          <HugeiconsIcon icon={SidebarLeftIcon} size={20} strokeWidth={1.5} />
         </button>
 
         {/* Breadcrumb */}
@@ -93,10 +94,10 @@ export function Header({
             }}
             className="text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
           >
-            <Home size={16} />
+            <HugeiconsIcon icon={Home01Icon} size={20} strokeWidth={1.5} />
           </button>
 
-          <ChevronRight size={16} className="text-gray-300 dark:text-gray-600" />
+          <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className="text-gray-300 dark:text-gray-600" />
 
           {breadcrumbPath.length > 0 ? (
             breadcrumbPath.map((page, index) => {
@@ -123,7 +124,7 @@ export function Header({
                     <span>{page.emoji}</span>
                     <span>{page.isEdited === false ? t('page.untitled') : page.title}</span>
                   </button>
-                  {!isLast && <ChevronRight size={16} className="text-gray-300 dark:text-gray-600" />}
+                  {!isLast && <HugeiconsIcon icon={ArrowRight01Icon} size={16} strokeWidth={1.5} className="text-gray-300 dark:text-gray-600" />}
                 </div>
               );
             })
@@ -170,7 +171,7 @@ export function Header({
           }}
           className="text-gray-500 hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800"
         >
-          <Search size={14} />
+          <HugeiconsIcon icon={Search01Icon} size={14} strokeWidth={1.5} />
           <span>{t('header.search')}</span>
           <kbd
             style={{
@@ -202,7 +203,7 @@ export function Header({
           }}
           className="text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
         >
-          <Download size={18} />
+          <HugeiconsIcon icon={Download01Icon} size={18} strokeWidth={1.5} />
         </button>
 
         {/* Share */}
@@ -220,7 +221,7 @@ export function Header({
           }}
           className="text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
         >
-          <Share2 size={18} />
+          <HugeiconsIcon icon={Share08Icon} size={18} strokeWidth={1.5} />
         </button>
 
         {/* Settings */}
@@ -239,7 +240,7 @@ export function Header({
           }}
           className="text-gray-500 hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
         >
-          <Settings size={18} />
+          <HugeiconsIcon icon={Settings01Icon} size={18} strokeWidth={1.5} />
         </button>
 
         {/* Avatar with dropdown */}
@@ -313,7 +314,7 @@ export function Header({
                 }}
                 className="hover:bg-gray-100/50 dark:hover:bg-gray-700/50"
               >
-                <User size={14} className="text-primary" />
+                <HugeiconsIcon icon={UserIcon} size={14} strokeWidth={1.5} className="text-primary" />
                 <span className="text-primary-dark">{t('header.profile')}</span>
               </button>
               <button
@@ -337,7 +338,7 @@ export function Header({
                 }}
                 className="hover:bg-gray-100/50 dark:hover:bg-gray-700/50"
               >
-                <LogOut size={14} className="text-primary" />
+                <HugeiconsIcon icon={Logout01Icon} size={14} strokeWidth={1.5} className="text-primary" />
                 <span className="text-primary-dark">{t('header.logout')}</span>
               </button>
             </div>
