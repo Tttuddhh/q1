@@ -1279,6 +1279,21 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         }}
       >
         <ToolbarButton
+          onClick={() => editor.chain().focus().undo().run()}
+          title={t('editor.undo') || '撤销'}
+        >
+          <HugeiconsIcon icon={UndoIcon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().redo().run()}
+          title={t('editor.redo') || '重做'}
+        >
+          <HugeiconsIcon icon={RedoIcon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+
+        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
+
+        <ToolbarButton
           active={activeFormats.has('bold')}
           onClick={() => editor.chain().focus().toggleBold().run()}
           title={t('editor.bold')}
@@ -1402,6 +1417,24 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 
+        <div ref={emojiButtonRef} style={{ position: 'relative' }}>
+          <ToolbarButton
+            active={showEmojiPicker}
+            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
+            title={t('editor.emoji') || '表情'}
+          >
+            <HugeiconsIcon icon={SmileIcon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+          {showEmojiPicker && (
+            <EmojiPicker
+              onSelect={insertEmoji}
+              onClose={() => setShowEmojiPicker(false)}
+            />
+          )}
+        </div>
+
+        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
+
         <ToolbarButton
           onClick={() => imageInputRef.current?.click()}
           title={t('editor.image')}
@@ -1463,24 +1496,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           </ToolbarButton>
           {showTablePicker && (
             <TablePicker onInsert={insertTable} onClose={() => setShowTablePicker(false)} />
-          )}
-        </div>
-
-        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
-
-        <div ref={emojiButtonRef} style={{ position: 'relative' }}>
-          <ToolbarButton
-            active={showEmojiPicker}
-            onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-            title={t('editor.emoji') || '表情'}
-          >
-            <HugeiconsIcon icon={SmileIcon} size={20} strokeWidth={2} />
-          </ToolbarButton>
-          {showEmojiPicker && (
-            <EmojiPicker
-              onSelect={insertEmoji}
-              onClose={() => setShowEmojiPicker(false)}
-            />
           )}
         </div>
 

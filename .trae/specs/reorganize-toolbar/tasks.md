@@ -1,6 +1,6 @@
 # 工具栏重组与表格悬浮菜单 - The Implementation Plan
 
-## [ ] Task 1: 添加撤销/重做按钮并导入图标
+## [x] Task 1: 添加撤销/重做按钮并导入图标
 - **Priority**: P0
 - **Depends On**: None
 - **Description**: 
@@ -10,7 +10,7 @@
   - 重做按钮调用 editor.chain().focus().redo().run()
 - **Acceptance Criteria Addressed**: [AC-1]
 
-## [ ] Task 2: 重新分组工具栏按钮
+## [x] Task 2: 重新分组工具栏按钮
 - **Priority**: P0
 - **Depends On**: Task 1
 - **Description**: 
@@ -21,7 +21,7 @@
   - 确保图片、视频、文件在一个区域，用分隔线与表格分开
 - **Acceptance Criteria Addressed**: [AC-2]
 
-## [ ] Task 3: 实现表格悬浮操作菜单
+## [x] Task 3: 实现表格悬浮操作菜单
 - **Priority**: P0
 - **Depends On**: Task 2
 - **Description**: 
@@ -32,7 +32,7 @@
   - 移除工具栏中常驻的表格操作按钮
 - **Acceptance Criteria Addressed**: [AC-3, AC-4]
 
-## [ ] Task 4: 构建和 lint 验证
+## [x] Task 4: 构建和 lint 验证
 - **Priority**: P1
 - **Depends On**: Task 1, Task 2, Task 3
 - **Description**: 
