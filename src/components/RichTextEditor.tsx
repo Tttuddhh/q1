@@ -49,7 +49,7 @@ interface RichTextEditorProps {
   fontSize?: string;
 }
 
-const PRIMARY = 'var(--color-primary)';
+
 
 const fontSizeMap: Record<string, string> = {
   small: '14px',
@@ -974,7 +974,9 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
 
   useEffect(() => {
     if (editor) {
-      setActiveFormats(getActiveFormats(editor));
+      requestAnimationFrame(() => {
+        setActiveFormats(getActiveFormats(editor));
+      });
     }
   }, [editor]);
 

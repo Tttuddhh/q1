@@ -1,6 +1,6 @@
 # 编辑器媒体与表格功能增强 - 任务列表
 
-## [ ] Task 1: 安装 Tiptap 表格扩展
+## [x] Task 1: 安装 Tiptap 表格扩展
 - **Priority**: P0
 - **Depends On**: None
 - **Description**:
@@ -12,7 +12,7 @@
   - `programmatic` TR-1.1: npm install 成功无错误
 - **Notes**: gapcursor 扩展是 Tiptap 官方提供的，用于在 block 节点前后放置光标
 
-## [ ] Task 2: 创建自定义图片节点扩展（支持前后光标）
+## [x] Task 2: 创建自定义图片节点扩展（支持前后光标）
 - **Priority**: P0
 - **Depends On**: Task 1
 - **Description**:
@@ -28,7 +28,7 @@
   - `human-judgement` TR-2.3: 按 Backspace/Delete 可删除图片
 - **Notes**: 需要配置图片节点的 selectable 和 draggable 属性
 
-## [ ] Task 3: 创建自定义视频节点扩展（支持前后光标）
+## [x] Task 3: 创建自定义视频节点扩展（支持前后光标）
 - **Priority**: P0
 - **Depends On**: Task 1
 - **Description**:
@@ -44,7 +44,7 @@
   - `human-judgement` TR-3.3: 视频可删除和换行
 - **Notes**: 视频节点渲染为 iframe，需要处理不同平台的嵌入链接
 
-## [ ] Task 4: 创建文件节点扩展
+## [x] Task 4: 创建文件节点扩展
 - **Priority**: P1
 - **Depends On**: None
 - **Description**:
@@ -59,7 +59,7 @@
   - `human-judgement` TR-4.3: 点击文件节点可下载
 - **Notes**: 文件转为 base64 存储，限制 10MB
 
-## [ ] Task 5: 配置表格扩展
+## [x] Task 5: 配置表格扩展
 - **Priority**: P1
 - **Depends On**: Task 1
 - **Description**:
@@ -72,7 +72,7 @@
   - `human-judgement` TR-5.2: 表格可输入内容
 - **Notes**: 表格基础功能，暂不支持合并单元格
 
-## [ ] Task 6: 在工具栏添加四个功能图标按钮
+## [x] Task 6: 在工具栏添加四个功能图标按钮
 - **Priority**: P0
 - **Depends On**: Task 2, Task 3, Task 4, Task 5
 - **Description**:
@@ -89,7 +89,7 @@
   - `human-judgement` TR-6.2: 点击图标触发对应功能
 - **Notes**: 图标需要与现有工具栏风格一致
 
-## [ ] Task 7: 添加国际化翻译
+## [x] Task 7: 添加国际化翻译
 - **Priority**: P1
 - **Depends On**: Task 6
 - **Description**:
@@ -101,7 +101,7 @@
   - `programmatic` TR-7.1: 所有新增翻译键在四种语言中都有定义
 - **Notes**: 翻译键包括按钮标题、弹窗提示等
 
-## [ ] Task 8: 验证和测试
+## [x] Task 8: 验证和测试
 - **Priority**: P1
 - **Depends On**: Task 2, Task 3, Task 4, Task 5, Task 6, Task 7
 - **Description**:
