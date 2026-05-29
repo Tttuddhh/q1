@@ -8,6 +8,10 @@ import TextAlign from '@tiptap/extension-text-align';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
+import { Table } from '@tiptap/extension-table';
+import { TableRow } from '@tiptap/extension-table-row';
+import { TableCell } from '@tiptap/extension-table-cell';
+import { TableHeader } from '@tiptap/extension-table-header';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   TextBoldIcon,
@@ -30,9 +34,14 @@ import {
   TextAlignRightIcon,
   SmileIcon,
   UploadIcon,
+  ImageIcon,
+  VideoIcon,
+  File01Icon,
+  TableIcon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
+import { Video, FileNode } from './editor-extensions';
 
 interface RichTextEditorProps {
   content: string;
@@ -53,6 +62,8 @@ const RECENT_EMOJIS_KEY = 'kb-recent-emojis';
 const FAVORITE_EMOJIS_KEY = 'kb-favorite-emojis';
 const MAX_RECENT_EMOJIS = 30;
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
+const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const MAX_UPLOAD_FILE_SIZE = 10 * 1024 * 1024;
 
 type EmojiTab = 'default' | 'recent' | 'favorites' | 'kaomoji';
 
@@ -852,13 +863,85 @@ function EmojiButton({ emoji, onSelect }: { emoji: string; onSelect: (emoji: str
   );
 }
 
+function TablePicker({
+  onInsert,
+  onClose,
+}: {
+  onInsert: (rows: number, cols: number) => void;
+  onClose: () => void;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState<{ row: number; col: number } | null>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+  const size = 5;
+
+  return (
+    <div
+      ref={panelRef}
+      style={{
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        zIndex: 1000,
+        background: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 8,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        padding: 12,
+      }}
+    >
+      <div style={{ display: 'grid', gridTemplateColumns: `repeat(${size}, 1fr)`, gap: 4 }}>
+        {Array.from({ length: size }, (_, row) =>
+          Array.from({ length: size }, (_, col) => {
+            const isActive = hovered ? row <= hovered.row && col <= hovered.col : false;
+            return (
+              <button
+                key={`${row}-${col}`}
+                type="button"
+                onMouseEnter={() => setHovered({ row, col })}
+                onClick={() => onInsert(row + 1, col + 1)}
+                style={{
+                  width: 24,
+                  height: 24,
+                  borderRadius: 4,
+                  border: '1px solid #e5e7eb',
+                  background: isActive ? 'var(--theme-primary, #FF743D)' : '#f9fafb',
+                  cursor: 'pointer',
+                  transition: 'background 0.1s ease',
+                }}
+              />
+            );
+          })
+        )}
+      </div>
+      <div style={{ marginTop: 8, fontSize: 12, color: '#6b7280', textAlign: 'center' }}>
+        {hovered ? `${hovered.col + 1} × ${hovered.row + 1}` : '选择表格大小'}
+      </div>
+    </div>
+  );
+}
+
 export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichTextEditorProps) {
   const { t, language } = useTranslation();
   const [textColor, setTextColor] = useState('#1a1a1a');
   const [highlightColor, setHighlightColor] = useState('#fef08a');
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showTablePicker, setShowTablePicker] = useState(false);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
+  const tableButtonRef = useRef<HTMLDivElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   const editor = useEditor({
@@ -871,6 +954,12 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Link.configure({ openOnClick: false }),
       Image,
+      Video,
+      FileNode,
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableHeader,
+      TableCell,
       Placeholder.configure({ placeholder: t('editor.placeholder') }),
     ],
     content,
@@ -911,6 +1000,63 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
     }
     setShowEmojiPicker(false);
   }, [editor, addRecentEmoji]);
+
+  const handleImageUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+    if (file.size > MAX_IMAGE_SIZE) {
+      alert(t('editor.image_size_limit'));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = event => {
+      const base64 = event.target?.result as string;
+      if (base64) {
+        editor.chain().focus().setImage({ src: base64 }).run();
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }, [editor, t]);
+
+  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+    if (file.size > MAX_UPLOAD_FILE_SIZE) {
+      alert(t('editor.file_size_limit'));
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = event => {
+      const base64 = event.target?.result as string;
+      if (base64) {
+        editor.chain().focus().insertContent({
+          type: 'fileNode',
+          attrs: {
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            data: base64,
+          },
+        }).run();
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }, [editor, t]);
+
+  const insertVideo = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt(t('editor.video_prompt'));
+    if (!url) return;
+    editor.chain().focus().insertContent({ type: 'video', attrs: { src: url } }).run();
+  }, [editor, t]);
+
+  const insertTable = useCallback((rows: number, cols: number) => {
+    if (!editor) return;
+    editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
+    setShowTablePicker(false);
+  }, [editor]);
 
   if (!editor) {
     return null;
@@ -1051,6 +1197,53 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         >
           <HugeiconsIcon icon={Link01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
+
+        <ToolbarButton
+          onClick={() => imageInputRef.current?.click()}
+          title={t('editor.image')}
+        >
+          <HugeiconsIcon icon={ImageIcon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <input
+          ref={imageInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageUpload}
+          style={{ display: 'none' }}
+        />
+
+        <ToolbarButton
+          onClick={insertVideo}
+          title={t('editor.video')}
+        >
+          <HugeiconsIcon icon={VideoIcon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+
+        <ToolbarButton
+          onClick={() => fileInputRef.current?.click()}
+          title={t('editor.file')}
+        >
+          <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <input
+          ref={fileInputRef}
+          type="file"
+          onChange={handleFileUpload}
+          style={{ display: 'none' }}
+        />
+
+        <div ref={tableButtonRef} style={{ position: 'relative' }}>
+          <ToolbarButton
+            active={showTablePicker}
+            onClick={() => setShowTablePicker(!showTablePicker)}
+            title={t('editor.table')}
+          >
+            <HugeiconsIcon icon={TableIcon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+          {showTablePicker && (
+            <TablePicker onInsert={insertTable} onClose={() => setShowTablePicker(false)} />
+          )}
+        </div>
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 

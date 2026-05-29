@@ -1,0 +1,146 @@
+import { Node, mergeAttributes } from '@tiptap/core';
+
+export const Video = Node.create({
+  name: 'video',
+  group: 'block',
+  selectable: true,
+  draggable: true,
+  atom: true,
+  addAttributes() {
+    return {
+      src: { default: null },
+      width: { default: '100%' },
+      height: { default: '400' },
+    };
+  },
+  parseHTML() {
+    return [{ tag: 'div[data-video]' }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['div', mergeAttributes({ 'data-video': '' }, HTMLAttributes), 0];
+  },
+  addNodeView() {
+    return ({ node }) => {
+      const dom = document.createElement('div');
+      dom.setAttribute('data-video', '');
+      dom.style.position = 'relative';
+      dom.style.paddingBottom = '56.25%';
+      dom.style.height = '0';
+      dom.style.overflow = 'hidden';
+      dom.style.maxWidth = '100%';
+      dom.style.background = '#f3f4f6';
+      dom.style.borderRadius = '8px';
+      dom.style.margin = '8px 0';
+
+      const iframe = document.createElement('iframe');
+      iframe.src = node.attrs.src as string;
+      iframe.style.position = 'absolute';
+      iframe.style.top = '0';
+      iframe.style.left = '0';
+      iframe.style.width = '100%';
+      iframe.style.height = '100%';
+      iframe.style.border = 'none';
+      iframe.style.borderRadius = '8px';
+      iframe.allowFullscreen = true;
+
+      dom.appendChild(iframe);
+      return { dom };
+    };
+  },
+});
+
+export const FileNode = Node.create({
+  name: 'fileNode',
+  group: 'block',
+  selectable: true,
+  draggable: true,
+  atom: true,
+  addAttributes() {
+    return {
+      name: { default: '' },
+      size: { default: 0 },
+      type: { default: '' },
+      data: { default: '' },
+    };
+  },
+  parseHTML() {
+    return [{ tag: 'div[data-file-node]' }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['div', mergeAttributes({ 'data-file-node': '' }, HTMLAttributes), 0];
+  },
+  addNodeView() {
+    return ({ node }) => {
+      const dom = document.createElement('div');
+      dom.setAttribute('data-file-node', '');
+      dom.style.display = 'flex';
+      dom.style.alignItems = 'center';
+      dom.style.gap = '12px';
+      dom.style.padding = '12px 16px';
+      dom.style.background = '#f9fafb';
+      dom.style.border = '1px solid #e5e7eb';
+      dom.style.borderRadius = '8px';
+      dom.style.cursor = 'pointer';
+      dom.style.margin = '8px 0';
+      dom.style.transition = 'background 0.15s ease';
+
+      const name = node.attrs.name as string;
+      const size = node.attrs.size as number;
+      const data = node.attrs.data as string;
+
+      const icon = document.createElement('div');
+      icon.innerHTML = '📎';
+      icon.style.fontSize = '24px';
+      icon.style.flexShrink = '0';
+
+      const info = document.createElement('div');
+      info.style.flex = '1';
+      info.style.minWidth = '0';
+
+      const nameEl = document.createElement('div');
+      nameEl.textContent = name;
+      nameEl.style.fontSize = '14px';
+      nameEl.style.fontWeight = '500';
+      nameEl.style.color = '#374151';
+      nameEl.style.overflow = 'hidden';
+      nameEl.style.textOverflow = 'ellipsis';
+      nameEl.style.whiteSpace = 'nowrap';
+
+      const sizeEl = document.createElement('div');
+      sizeEl.textContent = formatFileSize(size);
+      sizeEl.style.fontSize = '12px';
+      sizeEl.style.color = '#9ca3af';
+      sizeEl.style.marginTop = '2px';
+
+      info.appendChild(nameEl);
+      info.appendChild(sizeEl);
+
+      dom.appendChild(icon);
+      dom.appendChild(info);
+
+      dom.addEventListener('click', () => {
+        const link = document.createElement('a');
+        link.href = data;
+        link.download = name;
+        link.click();
+      });
+
+      dom.addEventListener('mouseenter', () => {
+        dom.style.background = '#f3f4f6';
+      });
+      dom.addEventListener('mouseleave', () => {
+        dom.style.background = '#f9fafb';
+      });
+
+      return { dom };
+    };
+  },
+});
+
+function formatFileSize(bytes: number): string {
+  if (bytes === 0) return '0 B';
+  const k = 1024;
+  const sizes = ['B', 'KB', 'MB', 'GB'];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+}
