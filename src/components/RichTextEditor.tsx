@@ -1265,7 +1265,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const editorFontSize = fontSizeMap[fontSize] || fontSizeMap.medium;
 
   return (
-    <div style={{ position: 'relative', margin: '0 -48px' }}>
+    <div style={{ position: 'relative', margin: '-40px -48px 0', paddingTop: 40 }}>
       {/* Sticky toolbar */}
       <div
         style={{
@@ -1283,16 +1283,16 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         }}
       >
         <ToolbarButton
-          onClick={() => editor.chain().focus().undo().run()}
-          title={t('editor.undo') || '撤销'}
-        >
-          <HugeiconsIcon icon={UndoIcon} size={20} strokeWidth={2} />
-        </ToolbarButton>
-        <ToolbarButton
           onClick={() => editor.chain().focus().redo().run()}
           title={t('editor.redo') || '重做'}
         >
           <HugeiconsIcon icon={RedoIcon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={() => editor.chain().focus().undo().run()}
+          title={t('editor.undo') || '撤销'}
+        >
+          <HugeiconsIcon icon={UndoIcon} size={20} strokeWidth={2} />
         </ToolbarButton>
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
