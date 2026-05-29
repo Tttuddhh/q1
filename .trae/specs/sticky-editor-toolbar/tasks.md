@@ -29,8 +29,7 @@
 - **Depends On**: Task 3
 - **Description**: 
   - 分析当前工具栏与顶部有间隙的原因：MainContent 的 padding-top: 40px 导致 sticky 元素在到达父容器顶部时停止
-  - 解决方案：调整 MainContent 的 padding，将顶部 padding 从容器移到内容区域
-  - 或者将 RichTextEditor 的 margin-top 设为 -40px 抵消顶部 padding
+  - 解决方案：将 RichTextEditor 根容器的 margin-top 设为 -40px 抵消顶部 padding，同时给编辑器内容区添加 padding-top: 40px 保持内容位置
   - 确保工具栏 sticky 固定时贴合视口顶部（top: 0）
 - **Acceptance Criteria Addressed**: [AC-1]
 
