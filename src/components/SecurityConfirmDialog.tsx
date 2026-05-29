@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Cancel01Icon, SecurityWarningIcon, Download04Icon } from '@hugeicons/core-free-icons';
 import { useTranslation } from '../i18n';

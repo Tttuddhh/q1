@@ -34,12 +34,14 @@ export const Video = Node.create({
       dom.style.maxWidth = '100%';
       dom.style.background = '#f3f4f6';
       dom.style.borderRadius = '8px';
-      dom.style.margin = '8px 0';
+      dom.style.margin = '1em 0';
 
       if (isExternal) {
         dom.style.paddingBottom = '56.25%';
         dom.style.height = '0';
         dom.style.overflow = 'hidden';
+        dom.style.maxHeight = '320px';
+        dom.style.paddingBottom = 'min(56.25%, 320px)';
 
         const iframe = document.createElement('iframe');
         iframe.src = src;
@@ -62,6 +64,7 @@ export const Video = Node.create({
         video.controls = true;
         video.style.width = '100%';
         video.style.height = 'auto';
+        video.style.maxHeight = '320px';
         video.style.borderRadius = '8px';
         video.style.display = 'block';
         video.setAttribute('data-gapcursor', '');
@@ -101,12 +104,12 @@ export const FileNode = Node.create({
       dom.style.display = 'flex';
       dom.style.alignItems = 'center';
       dom.style.gap = '12px';
-      dom.style.padding = '12px 16px';
+      dom.style.padding = '8px 12px';
       dom.style.background = '#f9fafb';
       dom.style.border = '1px solid #e5e7eb';
       dom.style.borderRadius = '8px';
       dom.style.cursor = 'pointer';
-      dom.style.margin = '8px 0';
+      dom.style.margin = '1em 0';
       dom.style.transition = 'background 0.15s ease';
 
       const name = node.attrs.name as string;
@@ -115,7 +118,7 @@ export const FileNode = Node.create({
 
       const icon = document.createElement('div');
       icon.innerHTML = '📎';
-      icon.style.fontSize = '24px';
+      icon.style.fontSize = '20px';
       icon.style.flexShrink = '0';
 
       const info = document.createElement('div');

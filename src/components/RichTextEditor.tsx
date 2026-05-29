@@ -1042,7 +1042,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const tableButtonRef = useRef<HTMLDivElement>(null);
   const videoButtonRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const videoInputRef = useRef<HTMLInputElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
@@ -1058,10 +1057,21 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       Image,
       Video,
       FileNode,
-      Table.configure({ resizable: true }),
+      Table.configure({ 
+        resizable: true,
+        allowTableNodeSelection: true,
+      }),
       TableRow,
-      TableHeader,
-      TableCell,
+      TableHeader.configure({
+        HTMLAttributes: {
+          class: 'relative',
+        },
+      }),
+      TableCell.configure({
+        HTMLAttributes: {
+          class: 'relative',
+        },
+      }),
       Placeholder.configure({ placeholder: t('editor.placeholder') }),
     ],
     content,
@@ -1123,7 +1133,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
     e.target.value = '';
   }, [editor, t]);
 
-  const handleFileConfirm = useCallback((files: File[], links: any[]) => {
+  const handleFileConfirm = useCallback((files: File[], links: { url: string; displayText?: string }[]) => {
     if (!editor) return;
 
     // Process local files
@@ -1522,10 +1532,19 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       <style>{`
         .ProseMirror img {
           max-width: 100%;
+          max-height: 400px;
           height: auto;
+          object-fit: contain;
           border-radius: 8px;
           box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-          margin: 0.5em 0;
+          margin: 1em 0;
+        }
+        .ProseMirror a {
+          color: #3b82f6;
+          text-decoration: underline;
+        }
+        .ProseMirror a:hover {
+          color: #1d4ed8;
         }
         .ProseMirror table {
           border-collapse: collapse;
@@ -1536,9 +1555,14 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         .ProseMirror table td,
         .ProseMirror table th {
           border: 1px solid #d1d5db;
-          padding: 8px 12px;
+          padding: 4px 8px;
           vertical-align: top;
           min-width: 80px;
+          position: relative;
+        }
+        .ProseMirror table td.selectedCell,
+        .ProseMirror table th.selectedCell {
+          position: relative;
         }
         .ProseMirror table th {
           background-color: #f3f4f6;
@@ -1550,7 +1574,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           margin: 0;
         }
         .ProseMirror table .selectedCell:after {
-          background: rgba(200, 200, 255, 0.4);
+          background: rgba(59, 130, 246, 0.2);
           content: "";
           left: 0;
           right: 0;
@@ -1559,15 +1583,10 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           pointer-events: none;
           position: absolute;
           z-index: 2;
+          border: 2px solid #3b82f6;
         }
         .ProseMirror table .column-resize-handle {
-          background-color: #adf;
-          bottom: -2px;
-          pointer-events: none;
-          position: absolute;
-          right: -2px;
-          top: 0;
-          width: 4px;
+          display: none;
         }
         .ProseMirror.resize-cursor {
           cursor: col-resize;

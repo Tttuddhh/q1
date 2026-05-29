@@ -5,7 +5,6 @@ import {
   File01Icon, 
   Link01Icon, 
   Delete01Icon,
-  Image01Icon,
   Upload01Icon
 } from '@hugeicons/core-free-icons';
 import { useTranslation } from '../i18n';
