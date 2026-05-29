@@ -142,8 +142,6 @@ export function MainContent({
       }}
       className="main-content-scroll animate-fade-in"
     >
-      {/* Sticky toolbar anchor - ensures sticky positioning works within scroll container */}
-      <div style={{ overflow: 'visible' }}>
       {/* Page Header */}
       <div style={{ marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
@@ -327,7 +325,6 @@ export function MainContent({
           dangerouslySetInnerHTML={{ __html: page.isEdited === false ? t('page.default_content') : page.content }}
         />
       )}
-      </div>
     </div>
   );
 }

@@ -1265,7 +1265,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const editorFontSize = fontSizeMap[fontSize] || fontSizeMap.medium;
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative', margin: '0 -48px' }}>
       {/* Sticky toolbar */}
       <div
         style={{
@@ -1276,7 +1276,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           alignItems: 'center',
           gap: 2,
           flexWrap: 'wrap',
-          padding: '8px 0',
+          padding: '8px 48px',
           marginBottom: 8,
           borderBottom: '1px solid #e5e7eb',
           background: 'var(--color-bg, #ffffff)',
@@ -1529,7 +1529,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       </div>
 
       {/* Editor content */}
-      <div ref={editorContentRef} style={{ position: 'relative' }}>
+      <div ref={editorContentRef} style={{ position: 'relative', padding: '0 48px' }}>
         <EditorContent
           editor={editor}
           style={{
