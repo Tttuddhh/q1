@@ -1,5 +1,9 @@
 import { Node, mergeAttributes } from '@tiptap/core';
 
+function isExternalVideoUrl(src: string): boolean {
+  return src.startsWith('http://') || src.startsWith('https://');
+}
+
 export const Video = Node.create({
   name: 'video',
   group: 'block',
@@ -21,29 +25,50 @@ export const Video = Node.create({
   },
   addNodeView() {
     return ({ node }) => {
+      const src = node.attrs.src as string;
+      const isExternal = isExternalVideoUrl(src);
+
       const dom = document.createElement('div');
       dom.setAttribute('data-video', '');
       dom.style.position = 'relative';
-      dom.style.paddingBottom = '56.25%';
-      dom.style.height = '0';
-      dom.style.overflow = 'hidden';
       dom.style.maxWidth = '100%';
       dom.style.background = '#f3f4f6';
       dom.style.borderRadius = '8px';
       dom.style.margin = '8px 0';
 
-      const iframe = document.createElement('iframe');
-      iframe.src = node.attrs.src as string;
-      iframe.style.position = 'absolute';
-      iframe.style.top = '0';
-      iframe.style.left = '0';
-      iframe.style.width = '100%';
-      iframe.style.height = '100%';
-      iframe.style.border = 'none';
-      iframe.style.borderRadius = '8px';
-      iframe.allowFullscreen = true;
+      if (isExternal) {
+        dom.style.paddingBottom = '56.25%';
+        dom.style.height = '0';
+        dom.style.overflow = 'hidden';
 
-      dom.appendChild(iframe);
+        const iframe = document.createElement('iframe');
+        iframe.src = src;
+        iframe.style.position = 'absolute';
+        iframe.style.top = '0';
+        iframe.style.left = '0';
+        iframe.style.width = '100%';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
+        iframe.style.borderRadius = '8px';
+        iframe.allowFullscreen = true;
+
+        dom.appendChild(iframe);
+      } else {
+        dom.style.height = 'auto';
+        dom.style.overflow = 'visible';
+
+        const video = document.createElement('video');
+        video.src = src;
+        video.controls = true;
+        video.style.width = '100%';
+        video.style.height = 'auto';
+        video.style.borderRadius = '8px';
+        video.style.display = 'block';
+        video.setAttribute('data-gapcursor', '');
+
+        dom.appendChild(video);
+      }
+
       return { dom };
     };
   },

@@ -38,6 +38,8 @@ import {
   VideoIcon,
   File01Icon,
   TableIcon,
+  GitMergeIcon,
+  SplitIcon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
@@ -64,6 +66,7 @@ const MAX_RECENT_EMOJIS = 30;
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
 const MAX_UPLOAD_FILE_SIZE = 10 * 1024 * 1024;
+const MAX_VIDEO_SIZE = 50 * 1024 * 1024;
 
 type EmojiTab = 'default' | 'recent' | 'favorites' | 'kaomoji';
 
@@ -931,6 +934,94 @@ function TablePicker({
   );
 }
 
+function VideoPicker({
+  onLocalVideo,
+  onVideoLink,
+  onClose,
+}: {
+  onLocalVideo: () => void;
+  onVideoLink: () => void;
+  onClose: () => void;
+}) {
+  const { t } = useTranslation();
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+  return (
+    <div
+      ref={panelRef}
+      style={{
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        zIndex: 1000,
+        background: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 8,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        padding: '6px 0',
+        minWidth: 140,
+      }}
+    >
+      <button
+        type="button"
+        onClick={onLocalVideo}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          width: '100%',
+          padding: '8px 12px',
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
+          fontSize: 13,
+          color: '#374151',
+          textAlign: 'left',
+          transition: 'background 0.15s ease',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#f3f4f6'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+      >
+        <HugeiconsIcon icon={UploadIcon} size={16} strokeWidth={2} />
+        <span>{t('editor.local_video')}</span>
+      </button>
+      <button
+        type="button"
+        onClick={onVideoLink}
+        style={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          width: '100%',
+          padding: '8px 12px',
+          border: 'none',
+          background: 'transparent',
+          cursor: 'pointer',
+          fontSize: 13,
+          color: '#374151',
+          textAlign: 'left',
+          transition: 'background 0.15s ease',
+        }}
+        onMouseEnter={e => { e.currentTarget.style.background = '#f3f4f6'; }}
+        onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}
+      >
+        <HugeiconsIcon icon={Link01Icon} size={16} strokeWidth={2} />
+        <span>{t('editor.video_link')}</span>
+      </button>
+    </div>
+  );
+}
+
 export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichTextEditorProps) {
   const { t, language } = useTranslation();
   const [textColor, setTextColor] = useState('#1a1a1a');
@@ -938,10 +1029,13 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showTablePicker, setShowTablePicker] = useState(false);
+  const [showVideoPicker, setShowVideoPicker] = useState(false);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const tableButtonRef = useRef<HTMLDivElement>(null);
+  const videoButtonRef = useRef<HTMLDivElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoInputRef = useRef<HTMLInputElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   const editor = useEditor({
@@ -1022,36 +1116,72 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   }, [editor, t]);
 
   const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || !editor) return;
+
+    const fileArray = Array.from(files);
+    if (fileArray.length > 5) {
+      alert(t('editor.file_max_count'));
+    }
+
+    const filesToProcess = fileArray.slice(0, 5);
+
+    Promise.all(
+      filesToProcess.map(file => {
+        if (file.size > MAX_UPLOAD_FILE_SIZE) {
+          alert(t('editor.file_size_limit'));
+          return Promise.resolve(null);
+        }
+        return new Promise<{ name: string; size: number; type: string; data: string } | null>(resolve => {
+          const reader = new FileReader();
+          reader.onload = event => {
+            const base64 = event.target?.result as string;
+            if (base64) {
+              resolve({ name: file.name, size: file.size, type: file.type, data: base64 });
+            } else {
+              resolve(null);
+            }
+          };
+          reader.readAsDataURL(file);
+        });
+      })
+    ).then(results => {
+      const validResults = results.filter(Boolean) as { name: string; size: number; type: string; data: string }[];
+      if (validResults.length > 0) {
+        const content = validResults.map(attrs => ({
+          type: 'fileNode',
+          attrs,
+        }));
+        editor.chain().focus().insertContent(content).run();
+      }
+    });
+
+    e.target.value = '';
+  }, [editor, t]);
+
+  const insertVideoLink = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt(t('editor.video_prompt'));
+    if (!url) return;
+    editor.chain().focus().insertContent({ type: 'video', attrs: { src: url } }).run();
+  }, [editor, t]);
+
+  const handleVideoUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file || !editor) return;
-    if (file.size > MAX_UPLOAD_FILE_SIZE) {
-      alert(t('editor.file_size_limit'));
+    if (file.size > MAX_VIDEO_SIZE) {
+      alert(t('editor.video_size_limit'));
       return;
     }
     const reader = new FileReader();
     reader.onload = event => {
       const base64 = event.target?.result as string;
       if (base64) {
-        editor.chain().focus().insertContent({
-          type: 'fileNode',
-          attrs: {
-            name: file.name,
-            size: file.size,
-            type: file.type,
-            data: base64,
-          },
-        }).run();
+        editor.chain().focus().insertContent({ type: 'video', attrs: { src: base64 } }).run();
       }
     };
     reader.readAsDataURL(file);
     e.target.value = '';
-  }, [editor, t]);
-
-  const insertVideo = useCallback(() => {
-    if (!editor) return;
-    const url = window.prompt(t('editor.video_prompt'));
-    if (!url) return;
-    editor.chain().focus().insertContent({ type: 'video', attrs: { src: url } }).run();
   }, [editor, t]);
 
   const insertTable = useCallback((rows: number, cols: number) => {
@@ -1192,6 +1322,8 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           title={t('editor.highlight')}
         />
 
+        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
+
         <ToolbarButton
           active={activeFormats.has('link')}
           onClick={setLink}
@@ -1199,6 +1331,8 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         >
           <HugeiconsIcon icon={Link01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
+
+        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 
         <ToolbarButton
           onClick={() => imageInputRef.current?.click()}
@@ -1214,12 +1348,35 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           style={{ display: 'none' }}
         />
 
-        <ToolbarButton
-          onClick={insertVideo}
-          title={t('editor.video')}
-        >
-          <HugeiconsIcon icon={VideoIcon} size={20} strokeWidth={2} />
-        </ToolbarButton>
+        <div ref={videoButtonRef} style={{ position: 'relative' }}>
+          <ToolbarButton
+            active={showVideoPicker}
+            onClick={() => setShowVideoPicker(!showVideoPicker)}
+            title={t('editor.video')}
+          >
+            <HugeiconsIcon icon={VideoIcon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+          {showVideoPicker && (
+            <VideoPicker
+              onLocalVideo={() => {
+                videoInputRef.current?.click();
+                setShowVideoPicker(false);
+              }}
+              onVideoLink={() => {
+                insertVideoLink();
+                setShowVideoPicker(false);
+              }}
+              onClose={() => setShowVideoPicker(false)}
+            />
+          )}
+        </div>
+        <input
+          ref={videoInputRef}
+          type="file"
+          accept="video/*"
+          onChange={handleVideoUpload}
+          style={{ display: 'none' }}
+        />
 
         <ToolbarButton
           onClick={() => fileInputRef.current?.click()}
@@ -1230,6 +1387,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         <input
           ref={fileInputRef}
           type="file"
+          multiple
           onChange={handleFileUpload}
           style={{ display: 'none' }}
         />
@@ -1246,6 +1404,23 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
             <TablePicker onInsert={insertTable} onClose={() => setShowTablePicker(false)} />
           )}
         </div>
+
+        {editor.isActive('table') && (
+          <>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().mergeCells().run()}
+              title={t('editor.merge_cells')}
+            >
+              <HugeiconsIcon icon={GitMergeIcon} size={20} strokeWidth={2} />
+            </ToolbarButton>
+            <ToolbarButton
+              onClick={() => editor.chain().focus().splitCell().run()}
+              title={t('editor.split_cell')}
+            >
+              <HugeiconsIcon icon={SplitIcon} size={20} strokeWidth={2} />
+            </ToolbarButton>
+          </>
+        )}
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 
@@ -1301,6 +1476,53 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           fontSize: editorFontSize,
         }}
       />
+      <style>{`
+        .ProseMirror table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 1em 0;
+          table-layout: fixed;
+        }
+        .ProseMirror table td,
+        .ProseMirror table th {
+          border: 1px solid #d1d5db;
+          padding: 8px 12px;
+          vertical-align: top;
+          min-width: 80px;
+        }
+        .ProseMirror table th {
+          background-color: #f3f4f6;
+          font-weight: 600;
+          text-align: left;
+        }
+        .ProseMirror table td p,
+        .ProseMirror table th p {
+          margin: 0;
+        }
+        .ProseMirror table .selectedCell:after {
+          background: rgba(200, 200, 255, 0.4);
+          content: "";
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          pointer-events: none;
+          position: absolute;
+          z-index: 2;
+        }
+        .ProseMirror table .column-resize-handle {
+          background-color: #adf;
+          bottom: -2px;
+          pointer-events: none;
+          position: absolute;
+          right: -2px;
+          top: 0;
+          width: 4px;
+        }
+        .ProseMirror.resize-cursor {
+          cursor: col-resize;
+        }
+      `}</style>
     </div>
   );
 }
