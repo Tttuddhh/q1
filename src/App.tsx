@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Header } from './components/Header';
 import { FuncSidebar } from './components/FuncSidebar';
 import { PageTree } from './components/PageTree';
@@ -7,6 +7,7 @@ import { EmptyState } from './components/EmptyState';
 import { SearchModal } from './components/SearchModal';
 import { DownloadModal } from './components/DownloadModal';
 import { SettingsPage } from './components/SettingsPage';
+import { SecurityConfirmDialog } from './components/SecurityConfirmDialog';
 import { useAppState } from './hooks/useAppState';
 import { useSettings } from './hooks/useSettings';
 import { useTranslation } from './i18n';
@@ -20,6 +21,10 @@ function App() {
   // Lifted edit state for auto-save on navigation
   const [editContent, setEditContent] = useState('');
   const [editTags, setEditTags] = useState<string[]>([]);
+  
+  // Security confirm dialog state
+  const [securityConfirmOpen, setSecurityConfirmOpen] = useState(false);
+  const [pendingDownload, setPendingDownload] = useState<{ url: string; filename: string } | null>(null);
 
   const isEditing = state.editingPageId === state.currentPageId;
 
@@ -78,6 +83,37 @@ function App() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [state.openSearch]);
+  
+  // Handle file download with security confirmation
+  const handleConfirmDownload = useCallback(() => {
+    if (pendingDownload) {
+      const link = document.createElement('a');
+      link.href = pendingDownload.url;
+      link.download = pendingDownload.filename;
+      link.click();
+    }
+    setSecurityConfirmOpen(false);
+    setPendingDownload(null);
+  }, [pendingDownload]);
+  
+  const handleCancelDownload = useCallback(() => {
+    setSecurityConfirmOpen(false);
+    setPendingDownload(null);
+  }, []);
+  
+  // Listen for custom file download events from FileNode
+  useEffect(() => {
+    const handleFileDownloadRequest = (e: CustomEvent<{ url: string; filename: string }>) => {
+      setPendingDownload(e.detail);
+      setSecurityConfirmOpen(true);
+    };
+    
+    window.addEventListener('file-download-request', handleFileDownloadRequest as EventListener);
+    
+    return () => {
+      window.removeEventListener('file-download-request', handleFileDownloadRequest as EventListener);
+    };
+  }, []);
 
   return (
     <div
@@ -181,6 +217,12 @@ function App() {
       <DownloadModal
         isOpen={state.downloadOpen}
         onClose={state.closeDownload}
+      />
+      
+      <SecurityConfirmDialog
+        isOpen={securityConfirmOpen}
+        onConfirm={handleConfirmDownload}
+        onClose={handleCancelDownload}
       />
     </div>
   );

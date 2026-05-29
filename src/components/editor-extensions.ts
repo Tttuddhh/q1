@@ -144,10 +144,14 @@ export const FileNode = Node.create({
       dom.appendChild(info);
 
       dom.addEventListener('click', () => {
-        const link = document.createElement('a');
-        link.href = data;
-        link.download = name;
-        link.click();
+        // Trigger custom event to open security confirm dialog
+        const event = new CustomEvent('file-download-request', {
+          detail: {
+            url: data,
+            filename: name
+          }
+        });
+        window.dispatchEvent(event);
       });
 
       dom.addEventListener('mouseenter', () => {

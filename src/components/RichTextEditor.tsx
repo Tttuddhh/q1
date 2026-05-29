@@ -13,6 +13,7 @@ import { TableRow } from '@tiptap/extension-table-row';
 import { TableCell } from '@tiptap/extension-table-cell';
 import { TableHeader } from '@tiptap/extension-table-header';
 import { HugeiconsIcon } from '@hugeicons/react';
+import { FileUploadDialog } from './FileUploadDialog';
 import {
   TextBoldIcon,
   TextItalicIcon,
@@ -1036,6 +1037,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showTablePicker, setShowTablePicker] = useState(false);
   const [showVideoPicker, setShowVideoPicker] = useState(false);
+  const [showFileDialog, setShowFileDialog] = useState(false);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const tableButtonRef = useRef<HTMLDivElement>(null);
   const videoButtonRef = useRef<HTMLDivElement>(null);
@@ -1121,48 +1123,54 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
     e.target.value = '';
   }, [editor, t]);
 
-  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const files = e.target.files;
-    if (!files || !editor) return;
+  const handleFileConfirm = useCallback((files: File[], links: any[]) => {
+    if (!editor) return;
 
-    const fileArray = Array.from(files);
-    if (fileArray.length > 5) {
-      alert(t('editor.file_max_count'));
+    // Process local files
+    if (files.length > 0) {
+      Promise.all(
+        files.map(file => {
+          if (file.size > MAX_UPLOAD_FILE_SIZE) {
+            alert(t('editor.file_size_limit'));
+            return Promise.resolve(null);
+          }
+          return new Promise<{ name: string; size: number; type: string; data: string } | null>(resolve => {
+            const reader = new FileReader();
+            reader.onload = event => {
+              const base64 = event.target?.result as string;
+              if (base64) {
+                resolve({ name: file.name, size: file.size, type: file.type, data: base64 });
+              } else {
+                resolve(null);
+              }
+            };
+            reader.readAsDataURL(file);
+          });
+        })
+      ).then(results => {
+        const validResults = results.filter(Boolean) as { name: string; size: number; type: string; data: string }[];
+        if (validResults.length > 0) {
+          const content = validResults.map(attrs => ({
+            type: 'fileNode',
+            attrs,
+          }));
+          editor.chain().focus().insertContent(content).run();
+        }
+      });
     }
 
-    const filesToProcess = fileArray.slice(0, 5);
-
-    Promise.all(
-      filesToProcess.map(file => {
-        if (file.size > MAX_UPLOAD_FILE_SIZE) {
-          alert(t('editor.file_size_limit'));
-          return Promise.resolve(null);
+    // Process links
+    if (links.length > 0) {
+      links.forEach(link => {
+        if (link.displayText) {
+          // Insert text link
+          editor.chain().focus().insertContent(`<a href="${link.url}">${link.displayText}</a> `).run();
+        } else {
+          // Insert plain link
+          editor.chain().focus().insertContent(`<a href="${link.url}">${link.url}</a> `).run();
         }
-        return new Promise<{ name: string; size: number; type: string; data: string } | null>(resolve => {
-          const reader = new FileReader();
-          reader.onload = event => {
-            const base64 = event.target?.result as string;
-            if (base64) {
-              resolve({ name: file.name, size: file.size, type: file.type, data: base64 });
-            } else {
-              resolve(null);
-            }
-          };
-          reader.readAsDataURL(file);
-        });
-      })
-    ).then(results => {
-      const validResults = results.filter(Boolean) as { name: string; size: number; type: string; data: string }[];
-      if (validResults.length > 0) {
-        const content = validResults.map(attrs => ({
-          type: 'fileNode',
-          attrs,
-        }));
-        editor.chain().focus().insertContent(content).run();
-      }
-    });
-
-    e.target.value = '';
+      });
+    }
   }, [editor, t]);
 
   const insertVideoLink = useCallback(() => {
@@ -1385,18 +1393,11 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         />
 
         <ToolbarButton
-          onClick={() => fileInputRef.current?.click()}
+          onClick={() => setShowFileDialog(true)}
           title={t('editor.file')}
         >
           <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
-        <input
-          ref={fileInputRef}
-          type="file"
-          multiple
-          onChange={handleFileUpload}
-          style={{ display: 'none' }}
-        />
 
         <div ref={tableButtonRef} style={{ position: 'relative' }}>
           <ToolbarButton
@@ -1519,6 +1520,13 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         }}
       />
       <style>{`
+        .ProseMirror img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+          margin: 0.5em 0;
+        }
         .ProseMirror table {
           border-collapse: collapse;
           width: 100%;
@@ -1565,6 +1573,12 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           cursor: col-resize;
         }
       `}</style>
+      
+      <FileUploadDialog
+        isOpen={showFileDialog}
+        onClose={() => setShowFileDialog(false)}
+        onConfirm={handleFileConfirm}
+      />
     </div>
   );
 }
