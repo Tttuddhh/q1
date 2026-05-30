@@ -817,6 +817,25 @@ body {
   box-shadow: none !important;
 }
 
+/* ProseMirror 内部内容样式与预览模式保持一致 */
+.ProseMirror p {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+  line-height: 1.75;
+  color: #374151;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+}
+
+.ProseMirror blockquote {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+}
+
 .ProseMirror-focused {
   outline: none !important;
   border: none !important;
