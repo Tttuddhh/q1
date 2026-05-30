@@ -1529,7 +1529,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       </div>
 
       {/* Editor content */}
-      <div ref={editorContentRef} className="prose" style={{ position: 'relative' }}>
+      <div ref={editorContentRef} style={{ position: 'relative' }}>
         <EditorContent
           editor={editor}
           style={{
