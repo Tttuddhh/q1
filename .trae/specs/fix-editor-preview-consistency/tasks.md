@@ -33,6 +33,16 @@
   - `programmatic` TR-3.1: npm run build 成功无错误
   - `human-judgement` TR-3.2: 编辑模式和预览模式内容样式、布局、信息框都完全一致
 
+## [x] Task 4: 删除重复的 ProseMirror 内容样式
+- **Priority**: P0
+- **Depends On**: Task 1
+- **Description**: 
+  - 参考网站只用 `.prose` 统一控制编辑和预览模式样式，没有单独的 ProseMirror 内容规则
+  - 删除 [index.css](file:///workspace/src/index.css#L871-L965) 所有 ProseMirror 内容样式（h1/h2/h3/p/ul/ol/li/blockquote/code/pre）
+  - 仅保留编辑器专用样式（outline移除、placeholder、格式化标记、对齐等）
+- **Acceptance Criteria Addressed**: [AC-1, AC-2, AC-3]
+
 # Task Dependencies
 - Task 2 依赖 Task 1
 - Task 3 依赖 Task 1, Task 2
+- Task 4 依赖 Task 1
