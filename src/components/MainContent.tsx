@@ -135,7 +135,7 @@ export function MainContent({
       style={{
         flex: 1,
         overflow: 'auto',
-        padding: '40px 48px',
+        padding: '0 48px',
         maxWidth: 900,
         margin: '0 auto',
         width: '100%',
@@ -143,7 +143,7 @@ export function MainContent({
       className="main-content-scroll animate-fade-in"
     >
       {/* Page Header */}
-      <div style={{ marginBottom: 32 }}>
+      <div style={{ paddingTop: 40, marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           {/* Emoji */}
           <button
@@ -322,6 +322,7 @@ export function MainContent({
       ) : (
         <div
           className="prose animate-fade-in"
+          style={{ paddingTop: 40 }}
           dangerouslySetInnerHTML={{ __html: page.isEdited === false ? t('page.default_content') : page.content }}
         />
       )}
