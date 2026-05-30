@@ -857,14 +857,14 @@ body {
 }
 
 .ProseMirror h4 {
-  margin-top: 1em !important;
-  margin-bottom: 0.5em !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .ProseMirror h5,
 .ProseMirror h6 {
-  margin-top: 0.75em !important;
-  margin-bottom: 0.5em !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
 }
 
 .ProseMirror pre {
