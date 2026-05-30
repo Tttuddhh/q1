@@ -240,7 +240,7 @@ body {
 
 .prose p {
   margin-top: 0;
-  margin-bottom: 0.75em;
+  margin-bottom: 0;
   line-height: 1.75;
   color: #374151;
 }
@@ -820,7 +820,7 @@ body {
 /* ProseMirror 内部内容样式与预览模式保持一致 - 使用 !important 强制覆盖 */
 .ProseMirror p {
   margin-top: 0 !important;
-  margin-bottom: 0.75em !important;
+  margin-bottom: 0 !important;
   line-height: 1.75 !important;
   color: #374151 !important;
 }
