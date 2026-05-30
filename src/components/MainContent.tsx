@@ -322,7 +322,6 @@ export function MainContent({
       ) : (
         <div
           className="prose animate-fade-in"
-          style={{ paddingTop: 40 }}
           dangerouslySetInnerHTML={{ __html: page.isEdited === false ? t('page.default_content') : page.content }}
         />
       )}
