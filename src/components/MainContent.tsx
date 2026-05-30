@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Tag01Icon, Add01Icon, Cancel01Icon, Calendar01Icon, Clock03Icon, Edit01Icon } from '@hugeicons/core-free-icons';
+import { Tag01Icon, Add01Icon, Cancel01Icon, Calendar01Icon, Clock03Icon } from '@hugeicons/core-free-icons';
 import type { Page } from '../types';
 import { RichTextEditor } from './RichTextEditor';
 import { useTranslation } from '../i18n';
@@ -10,7 +10,6 @@ interface MainContentProps {
   onCreatePage?: () => void;
   onUpdatePage?: (pageId: string, updates: Partial<Page>) => void;
   isEditing?: boolean;
-  onStartEditing?: () => void;
   onStopEditing?: () => void;
   editContent?: string;
   onEditContentChange?: (content: string) => void;
@@ -26,7 +25,6 @@ export function MainContent({
   onCreatePage,
   onUpdatePage,
   isEditing = false,
-  onStartEditing,
   onStopEditing,
   editContent: controlledEditContent,
   onEditContentChange,
@@ -147,96 +145,24 @@ export function MainContent({
       {/* Page Header */}
       <div style={{ paddingTop: 40, marginBottom: 32 }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-          <div style={{ display: 'flex', flexDirection: 'column' }}>
-            {/* Emoji */}
-            <button
-              style={{
-                fontSize: '3rem',
-                lineHeight: 1,
-                padding: '8px 12px',
-                borderRadius: 12,
-                background: 'transparent',
-                border: 'none',
-                cursor: 'pointer',
-                marginBottom: 16,
-                display: 'block',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.background = '#f3f4f6')}
-              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-            >
-              {page.emoji}
-            </button>
-          </div>
-          {/* Edit/Action Buttons */}
-          {!isEditing ? (
-            <button
-              onClick={onStartEditing}
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 6,
-                padding: '8px 16px',
-                borderRadius: 8,
-                background: 'var(--theme-primary, #FF743D)',
-                color: '#fff',
-                border: 'none',
-                cursor: 'pointer',
-                fontSize: 14,
-                fontWeight: 500,
-                transition: 'opacity 0.15s ease',
-              }}
-              onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
-              onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-            >
-              <HugeiconsIcon icon={Edit01Icon} size={16} strokeWidth={2} />
-              编辑
-            </button>
-          ) : (
-            <div style={{ display: 'flex', gap: 8 }}>
-              <button
-                onClick={handleSave}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  padding: '8px 16px',
-                  borderRadius: 8,
-                  background: '#10b981',
-                  color: '#fff',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: 14,
-                  fontWeight: 500,
-                  transition: 'opacity 0.15s ease',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-              >
-                保存
-              </button>
-              <button
-                onClick={onStopEditing}
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  padding: '8px 16px',
-                  borderRadius: 8,
-                  background: '#ef4444',
-                  color: '#fff',
-                  border: 'none',
-                  cursor: 'pointer',
-                  fontSize: 14,
-                  fontWeight: 500,
-                  transition: 'opacity 0.15s ease',
-                }}
-                onMouseEnter={e => (e.currentTarget.style.opacity = '0.9')}
-                onMouseLeave={e => (e.currentTarget.style.opacity = '1')}
-              >
-                取消
-              </button>
-            </div>
-          )}
+          {/* Emoji */}
+          <button
+            style={{
+              fontSize: '3rem',
+              lineHeight: 1,
+              padding: '8px 12px',
+              borderRadius: 12,
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              marginBottom: 16,
+              display: 'block',
+            }}
+            onMouseEnter={e => (e.currentTarget.style.background = '#f3f4f6')}
+            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+          >
+            {page.emoji}
+          </button>
         </div>
 
         {/* Title */}

@@ -193,7 +193,6 @@ function App() {
               onCreatePage={state.createPage}
               onUpdatePage={state.updatePage}
               isEditing={isEditing}
-              onStartEditing={() => state.currentPageId && state.startEditing(state.currentPageId)}
               onStopEditing={state.stopEditing}
               editContent={editContent}
               onEditContentChange={setEditContent}
