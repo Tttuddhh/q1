@@ -52,7 +52,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
-import { Video, FileNode } from './editor-extensions';
+import { Video, FileNode, DivNode } from './editor-extensions';
 
 interface RichTextEditorProps {
   content: string;
@@ -1062,6 +1062,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       Image,
       Video,
       FileNode,
+      DivNode,
       Table.configure({ 
         resizable: true,
         allowTableNodeSelection: true,

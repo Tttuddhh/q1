@@ -169,6 +169,26 @@ export const FileNode = Node.create({
   },
 });
 
+export const DivNode = Node.create({
+  name: 'divNode',
+  group: 'block',
+  content: 'block+',
+  defining: true,
+  addAttributes() {
+    return {
+      class: { default: null },
+    };
+  },
+  parseHTML() {
+    return [
+      { tag: 'div[class]' },
+    ];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['div', mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
 function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 B';
   const k = 1024;
