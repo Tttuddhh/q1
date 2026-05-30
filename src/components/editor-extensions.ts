@@ -1,4 +1,4 @@
-import { Node, mergeAttributes } from '@tiptap/core';
+import { Node, mergeAttributes, Extension } from '@tiptap/core';
 
 function isExternalVideoUrl(src: string): boolean {
   return src.startsWith('http://') || src.startsWith('https://');
@@ -186,6 +186,50 @@ export const DivNode = Node.create({
   },
   renderHTML({ HTMLAttributes }) {
     return ['div', mergeAttributes(HTMLAttributes), 0];
+  },
+});
+
+export const NewParagraphExtension = Extension.create({
+  name: 'newParagraph',
+  addKeyboardShortcuts() {
+    return {
+      Enter: ({ editor }) => {
+        const { state } = editor;
+        const { selection } = state;
+        const { $from } = selection;
+        
+        // 获取当前段落
+        const currentNode = $from.node($from.depth);
+        
+        // 检查当前段落是否已经有 new-paragraph 类或者是新创建的
+        const hasNewParagraphClass = currentNode.attrs.class?.includes('new-paragraph');
+        
+        // 执行默认的 Enter 行为
+        const result = editor.commands.first([
+          () => editor.commands.splitListItem('listItem'),
+          () => editor.commands.createParagraphNear(),
+          () => editor.commands.liftEmptyBlock(),
+          () => editor.commands.splitBlock(),
+        ]);
+        
+        // 如果成功创建了新段落，给新段落添加 new-paragraph 类
+        if (result) {
+          setTimeout(() => {
+            const newSelection = editor.state.selection;
+            const new$from = newSelection.$from;
+            const newNode = new$from.node(new$from.depth);
+            
+            if (newNode && newNode.type.name === 'paragraph') {
+              editor.chain().focus().updateAttributes('paragraph', { 
+                class: 'new-paragraph' 
+              }).run();
+            }
+          }, 0);
+        }
+        
+        return true;
+      },
+    };
   },
 });
 

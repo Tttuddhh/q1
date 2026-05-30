@@ -825,6 +825,11 @@ body {
   color: #374151 !important;
 }
 
+/* New paragraphs created by Enter key - no margin-bottom, only line-height spacing */
+.ProseMirror p.new-paragraph {
+  margin-bottom: 0 !important;
+}
+
 .ProseMirror ul,
 .ProseMirror ol {
   margin-top: 0 !important;
