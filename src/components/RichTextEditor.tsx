@@ -1265,14 +1265,12 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const editorFontSize = fontSizeMap[fontSize] || fontSizeMap.medium;
 
   return (
-    <div style={{ position: 'relative' }}>
-      {/* Fixed toolbar */}
+    <div style={{ margin: '-40px -48px 0', paddingTop: 40 }}>
+      {/* Sticky toolbar */}
       <div
         style={{
-          position: 'fixed',
-          top: 56,
-          left: 0,
-          right: 0,
+          position: 'sticky',
+          top: 0,
           zIndex: 50,
           display: 'flex',
           alignItems: 'center',
@@ -1531,7 +1529,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       </div>
 
       {/* Editor content */}
-      <div ref={editorContentRef} style={{ position: 'relative', padding: '60px 48px 0' }}>
+      <div ref={editorContentRef} style={{ position: 'relative', padding: '0 48px' }}>
         <EditorContent
           editor={editor}
           style={{
