@@ -189,34 +189,6 @@ export const DivNode = Node.create({
   },
 });
 
-export const NewParagraphExtension = Extension.create({
-  name: 'newParagraph',
-  addKeyboardShortcuts() {
-    return {
-      Enter: ({ editor }) => {
-        const { state } = editor;
-        const { selection } = state;
-        const { $from } = selection;
-        
-        // 获取当前段落
-        const currentNode = $from.node($from.depth);
-        
-        // 检查当前段落是否已经有 new-paragraph 类
-        const hasNewParagraphClass = currentNode.attrs.class?.includes('new-paragraph');
-        
-        // 使用链式命令：先执行 splitBlock，然后更新新段落的属性
-        // 这样可以确保在同一个事务中完成，避免事务不同步的问题
-        const result = editor.chain()
-          .splitBlock()
-          .updateAttributes('paragraph', { class: 'new-paragraph' })
-          .run();
-        
-        return result;
-      },
-    };
-  },
-});
-
 function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 B';
   const k = 1024;
