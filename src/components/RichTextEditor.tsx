@@ -1286,13 +1286,13 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           onClick={() => editor.chain().focus().redo().run()}
           title={t('editor.redo') || '重做'}
         >
-          <HugeiconsIcon icon={RedoIcon} size={20} strokeWidth={2} />
+          <HugeiconsIcon icon={ArrowRight01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
         <ToolbarButton
           onClick={() => editor.chain().focus().undo().run()}
           title={t('editor.undo') || '撤销'}
         >
-          <HugeiconsIcon icon={UndoIcon} size={20} strokeWidth={2} />
+          <HugeiconsIcon icon={ArrowLeft01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
