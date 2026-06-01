@@ -194,7 +194,7 @@ export const NewParagraphExtension = Extension.create({
   addKeyboardShortcuts() {
     return {
       Enter: ({ editor }) => {
-        const { state } = editor;
+        const { state, view } = editor;
         const { selection } = state;
         const { $from } = selection;
         
@@ -203,26 +203,25 @@ export const NewParagraphExtension = Extension.create({
           return false;
         }
         
-        // 执行默认的 Enter 行为
-        const success = editor.commands.splitBlock();
+        // 在单个事务中完成 splitBlock 和属性更新，避免事务冲突
+        const tr = state.tr.split($from.pos);
         
-        if (success) {
-          // 在 splitBlock 之后，给新段落添加 new-paragraph 类
-          // 使用 requestAnimationFrame 确保在下一帧执行，避免事务冲突
-          requestAnimationFrame(() => {
-            const newSelection = editor.state.selection;
-            const newFrom = newSelection.$from;
-            const node = newFrom.node(newFrom.depth);
-            
-            if (node && node.type.name === 'paragraph') {
-              editor.chain().focus().updateAttributes('paragraph', {
-                class: 'new-paragraph'
-              }).run();
-            }
-          });
+        if (tr.docChanged) {
+          // split 后光标在新段落开头，找到新段落的位置
+          const newPos = tr.selection.from;
+          const new$from = tr.doc.resolve(newPos);
+          const node = new$from.node(new$from.depth);
+          
+          if (node && node.type.name === 'paragraph') {
+            tr.setNodeMarkup(new$from.before(new$from.depth), undefined, {
+              class: 'new-paragraph'
+            });
+          }
+          
+          view.dispatch(tr);
         }
         
-        return success;
+        return true;
       }
     };
   }
