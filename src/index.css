@@ -817,12 +817,17 @@ body {
   box-shadow: none !important;
 }
 
-/* ProseMirror 内部内容样式 - 段落之间没有额外 margin，只靠 line-height 产生间隔，和同一段落内文字换行一致 */
+/* ProseMirror 内部内容样式与预览模式保持一致 */
 .ProseMirror p {
   margin-top: 0 !important;
-  margin-bottom: 0 !important;
+  margin-bottom: 0.75em !important;
   line-height: 1.75 !important;
   color: #374151 !important;
+}
+
+/* 新输入的段落 - 没有额外 margin-bottom，只靠 line-height 产生间隔 */
+.ProseMirror p.new-paragraph {
+  margin-bottom: 0 !important;
 }
 
 .ProseMirror ul,

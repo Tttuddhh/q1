@@ -189,6 +189,45 @@ export const DivNode = Node.create({
   },
 });
 
+export const NewParagraphExtension = Extension.create({
+  name: 'newParagraph',
+  addKeyboardShortcuts() {
+    return {
+      Enter: ({ editor }) => {
+        const { state } = editor;
+        const { selection } = state;
+        const { $from } = selection;
+        
+        // 检查是否在列表项中，如果是，让默认行为处理
+        if ($from.parent.type.name === 'listItem') {
+          return false;
+        }
+        
+        // 执行默认的 Enter 行为
+        const success = editor.commands.splitBlock();
+        
+        if (success) {
+          // 在 splitBlock 之后，给新段落添加 new-paragraph 类
+          // 使用 requestAnimationFrame 确保在下一帧执行，避免事务冲突
+          requestAnimationFrame(() => {
+            const newSelection = editor.state.selection;
+            const newFrom = newSelection.$from;
+            const node = newFrom.node(newFrom.depth);
+            
+            if (node && node.type.name === 'paragraph') {
+              editor.chain().focus().updateAttributes('paragraph', {
+                class: 'new-paragraph'
+              }).run();
+            }
+          });
+        }
+        
+        return success;
+      }
+    };
+  }
+});
+
 function formatFileSize(bytes: number): string {
   if (bytes === 0) return '0 B';
   const k = 1024;
