@@ -1,4 +1,5 @@
 import { Node, mergeAttributes, Extension } from '@tiptap/core';
+import { Plugin, PluginKey } from 'prosemirror-state';
 
 function isExternalVideoUrl(src: string): boolean {
   return src.startsWith('http://') || src.startsWith('https://');
@@ -191,39 +192,35 @@ export const DivNode = Node.create({
 
 export const NewParagraphExtension = Extension.create({
   name: 'newParagraph',
-  addKeyboardShortcuts() {
-    return {
-      Enter: ({ editor }) => {
-        const { state, view } = editor;
-        const { selection } = state;
-        const { $from } = selection;
-        
-        // 检查是否在列表项中，如果是，让默认行为处理
-        if ($from.parent.type.name === 'listItem') {
-          return false;
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey('newParagraph'),
+        appendTransaction: (transactions, oldState, newState) => {
+          const { tr } = newState;
+          let modified = false;
+
+          if (!tr.docChanged) return null;
+
+          newState.doc.descendants((node, pos) => {
+            if (node.type.name !== 'paragraph') return;
+            if (node.attrs.class?.includes('new-paragraph')) return;
+
+            const oldNode = oldState.doc.nodeAt(pos);
+
+            if (!oldNode || oldNode.type.name !== 'paragraph') {
+              tr.setNodeMarkup(pos, undefined, {
+                ...node.attrs,
+                class: 'new-paragraph'
+              });
+              modified = true;
+            }
+          });
+
+          return modified ? tr : null;
         }
-        
-        // 在单个事务中完成 splitBlock 和属性更新，避免事务冲突
-        const tr = state.tr.split($from.pos);
-        
-        if (tr.docChanged) {
-          // split 后光标在新段落开头，找到新段落的位置
-          const newPos = tr.selection.from;
-          const new$from = tr.doc.resolve(newPos);
-          const node = new$from.node(new$from.depth);
-          
-          if (node && node.type.name === 'paragraph') {
-            tr.setNodeMarkup(new$from.before(new$from.depth), undefined, {
-              class: 'new-paragraph'
-            });
-          }
-          
-          view.dispatch(tr);
-        }
-        
-        return true;
-      }
-    };
+      })
+    ];
   }
 });
 
