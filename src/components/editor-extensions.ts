@@ -208,8 +208,8 @@ export const NewParagraphExtension = Extension.create({
         
         if (success) {
           // 在 splitBlock 之后，给新段落添加 new-paragraph 类
-          // 使用 requestAnimationFrame 确保在下一帧执行，避免事务冲突
-          requestAnimationFrame(() => {
+          // 使用 setTimeout 确保在下一个事件循环执行，避免事务冲突
+          setTimeout(() => {
             const newSelection = editor.state.selection;
             const newFrom = newSelection.$from;
             const node = newFrom.node(newFrom.depth);
@@ -219,7 +219,7 @@ export const NewParagraphExtension = Extension.create({
                 class: 'new-paragraph'
               }).run();
             }
-          });
+          }, 10);
         }
         
         return success;
