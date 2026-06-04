@@ -1,0 +1,17 @@
+# Tasks
+- [ ] Task 1: 修复选择字体后按钮文字未更新问题
+  - [ ] SubTask 1.1: 分析 RichTextEditor 中 fontFamily prop 的传递和更新逻辑
+  - [ ] SubTask 1.2: 确保选择字体后按钮上的文字立即更新为所选字体名
+  - [ ] SubTask 1.3: 验证 MainContent 中 fontFamily 的传递和保存
+- [ ] Task 2: 优化下拉对话框渲染性能
+  - [ ] SubTask 2.1: 分析 FontPicker 组件渲染瓶颈
+  - [ ] SubTask 2.2: 使用 useMemo 缓存字体分组计算
+  - [ ] SubTask 2.3: 减少不必要的重渲染
+- [ ] Task 3: 扩充中文字体到 30 个以上
+  - [ ] SubTask 3.1: 整理 30+ 个免费可商用中文字体列表
+  - [ ] SubTask 3.2: 更新 fonts.ts 添加中文字体
+  - [ ] SubTask 3.3: 更新 index.html 中的 Google Fonts 链接
+  - [ ] SubTask 3.4: 确保总字体数超过 100 个
+- [ ] Task 4: 构建并验证
+  - [ ] SubTask 4.1: 运行 npm run build 确保无错误
+  - [ ] SubTask 4.2: 验证字体选择、按钮更新、下拉流畅度

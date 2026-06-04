@@ -33,15 +33,16 @@ import {
   UploadIcon,
   ArrowRight01Icon,
 } from '@hugeicons/core-free-icons';
-import { useCallback, useState, useEffect, useRef } from 'react';
+import { useCallback, useState, useEffect, useRef, useMemo, memo } from 'react';
 import { useTranslation } from '../i18n';
-import { fonts } from '../data/fonts';
+import { fonts, type FontItem } from '../data/fonts';
 
 interface RichTextEditorProps {
   content: string;
   onChange: (html: string) => void;
   fontSize?: string;
   fontFamily?: string;
+  onFontFamilyChange?: (family: string) => void;
 }
 
 const PRIMARY = 'var(--color-primary)';
@@ -856,6 +857,53 @@ function EmojiButton({ emoji, onSelect }: { emoji: string; onSelect: (emoji: str
   );
 }
 
+const FontItemButton = memo(function FontItemButton({
+  font,
+  isActive,
+  onSelect,
+}: {
+  font: FontItem;
+  isActive: boolean;
+  onSelect: (family: string) => void;
+}) {
+  const handleClick = useCallback(() => {
+    onSelect(font.family);
+  }, [font.family, onSelect]);
+
+  return (
+    <button
+      type="button"
+      onClick={handleClick}
+      style={{
+        display: 'block',
+        width: '100%',
+        textAlign: 'left',
+        padding: '8px 12px',
+        border: 'none',
+        background: isActive ? 'var(--color-active-bg, #f3f4f6)' : 'transparent',
+        cursor: 'pointer',
+        fontFamily: font.family,
+        fontSize: 15,
+        color: '#1a1a1a',
+        transition: 'background 0.15s ease',
+        whiteSpace: 'nowrap',
+        overflow: 'hidden',
+        textOverflow: 'ellipsis',
+      }}
+      onMouseEnter={e => {
+        e.currentTarget.style.background = '#f3f4f6';
+      }}
+      onMouseLeave={e => {
+        if (!isActive) {
+          e.currentTarget.style.background = 'transparent';
+        }
+      }}
+    >
+      {font.name}
+    </button>
+  );
+});
+
 function FontPicker({
   currentFont,
   onSelect,
@@ -877,13 +925,20 @@ function FontPicker({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [onClose]);
 
-  const grouped = fonts.reduce<Record<string, typeof fonts>>((acc, font) => {
-    if (!acc[font.category]) acc[font.category] = [];
-    acc[font.category].push(font);
-    return acc;
-  }, {});
+  const grouped = useMemo(() => {
+    return fonts.reduce<Record<string, typeof fonts>>((acc, font) => {
+      if (!acc[font.category]) acc[font.category] = [];
+      acc[font.category].push(font);
+      return acc;
+    }, {});
+  }, []);
 
-  const categories = Object.keys(grouped);
+  const categories = useMemo(() => Object.keys(grouped), [grouped]);
+
+  const handleSelect = useCallback((family: string) => {
+    onSelect(family);
+    onClose();
+  }, [onSelect, onClose]);
 
   return (
     <div
@@ -902,6 +957,8 @@ function FontPicker({
         overflowY: 'auto',
         scrollbarWidth: 'thin',
         msOverflowStyle: 'auto',
+        transform: 'translateZ(0)',
+        willChange: 'transform',
       }}
     >
       {categories.map(category => (
@@ -923,40 +980,12 @@ function FontPicker({
           </div>
           <div style={{ padding: '4px 0' }}>
             {grouped[category].map(font => (
-              <button
-                key={font.name}
-                type="button"
-                onClick={() => {
-                  onSelect(font.family);
-                  onClose();
-                }}
-                style={{
-                  display: 'block',
-                  width: '100%',
-                  textAlign: 'left',
-                  padding: '8px 12px',
-                  border: 'none',
-                  background: currentFont === font.family ? 'var(--color-active-bg, #f3f4f6)' : 'transparent',
-                  cursor: 'pointer',
-                  fontFamily: font.family,
-                  fontSize: 15,
-                  color: '#1a1a1a',
-                  transition: 'background 0.15s ease',
-                  whiteSpace: 'nowrap',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = '#f3f4f6';
-                }}
-                onMouseLeave={e => {
-                  if (currentFont !== font.family) {
-                    e.currentTarget.style.background = 'transparent';
-                  }
-                }}
-              >
-                {font.name}
-              </button>
+              <FontItemButton
+                key={`${category}-${font.name}`}
+                font={font}
+                isActive={currentFont === font.family}
+                onSelect={handleSelect}
+              />
             ))}
           </div>
         </div>
@@ -965,16 +994,21 @@ function FontPicker({
   );
 }
 
-export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFamily = 'inherit' }: RichTextEditorProps) {
+export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFamily = 'inherit', onFontFamilyChange }: RichTextEditorProps) {
   const { t, language } = useTranslation();
   const [textColor, setTextColor] = useState('#1a1a1a');
   const [highlightColor, setHighlightColor] = useState('#fef08a');
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showFontPicker, setShowFontPicker] = useState(false);
+  const [displayFontFamily, setDisplayFontFamily] = useState(fontFamily);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const fontButtonRef = useRef<HTMLDivElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
+
+  useEffect(() => {
+    setDisplayFontFamily(fontFamily);
+  }, [fontFamily]);
 
   const editor = useEditor({
     extensions: [
@@ -1089,7 +1123,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           >
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, overflow: 'hidden' }}>
               <span style={{ fontSize: 15, fontWeight: 700, flexShrink: 0 }}>T</span>
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{fontFamily === 'inherit' ? '系统默认' : (fonts.find(f => f.family === fontFamily)?.name || '系统默认')}</span>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{displayFontFamily === 'inherit' ? '系统默认' : (fonts.find(f => f.family === displayFontFamily)?.name || '系统默认')}</span>
             </span>
             <HugeiconsIcon
               icon={ArrowRight01Icon}
@@ -1105,9 +1139,11 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           </button>
           {showFontPicker && (
             <FontPicker
-              currentFont={fontFamily}
+              currentFont={displayFontFamily}
               onSelect={family => {
                 editor.chain().focus().setFontFamily(family).run();
+                setDisplayFontFamily(family);
+                onFontFamilyChange?.(family);
               }}
               onClose={() => setShowFontPicker(false)}
             />

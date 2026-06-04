@@ -15,6 +15,8 @@ interface MainContentProps {
   onEditContentChange?: (content: string) => void;
   editTags?: string[];
   onEditTagsChange?: (tags: string[]) => void;
+  editFontFamily?: string;
+  onEditFontFamilyChange?: (fontFamily: string) => void;
   dateFormat?: string;
   timezone?: string;
   editorFontSize?: string;
@@ -30,6 +32,8 @@ export function MainContent({
   onEditContentChange,
   editTags: controlledEditTags,
   onEditTagsChange,
+  editFontFamily: controlledEditFontFamily,
+  onEditFontFamilyChange,
   dateFormat = 'YYYY-MM-DD',
   timezone,
   editorFontSize = 'medium',
@@ -41,6 +45,7 @@ export function MainContent({
   const [showTagInput, setShowTagInput] = useState(false);
   const [newTag, setNewTag] = useState('');
   const [localEditContent, setLocalEditContent] = useState(page?.content || '');
+  const [localEditFontFamily, setLocalEditFontFamily] = useState<string>(page?.fontFamily || 'inherit');
   const [removingTag, setRemovingTag] = useState<string | null>(null);
   const [justAddedTag, setJustAddedTag] = useState<string | null>(null);
 
@@ -80,14 +85,17 @@ export function MainContent({
 
   const tags = isControlled ? controlledEditTags! : localTags;
   const editContent = isControlled ? controlledEditContent! : localEditContent;
+  const editFontFamily = isControlled ? controlledEditFontFamily! : localEditFontFamily;
 
   const setTags = isControlled ? onEditTagsChange! : setLocalTags;
   const setEditContent = isControlled ? onEditContentChange! : setLocalEditContent;
+  const setEditFontFamily = isControlled ? onEditFontFamilyChange! : setLocalEditFontFamily;
 
-  // Sync tags and content when page changes
+  // Sync tags, content and fontFamily when page changes
   useEffect(() => {
     setTags(page?.tags || []);
     setEditContent(page?.content || '');
+    setEditFontFamily(page?.fontFamily || 'inherit');
   }, [page?.id]);
 
   if (!page) {
@@ -126,7 +134,7 @@ export function MainContent({
   }, [tags, setTags]);
 
   const handleSave = () => {
-    onUpdatePage?.(page.id, { content: editContent, tags });
+    onUpdatePage?.(page.id, { content: editContent, tags, fontFamily: editFontFamily });
     onStopEditing?.();
   };
 
@@ -318,7 +326,7 @@ export function MainContent({
       {isEditing ? (
         <div style={{ padding: '0 48px 40px' }}>
           <div className="animate-slide-in-right">
-            <RichTextEditor content={editContent} onChange={setEditContent} fontSize={editorFontSize} fontFamily={page.fontFamily || 'inherit'} />
+            <RichTextEditor content={editContent} onChange={setEditContent} fontSize={editorFontSize} fontFamily={editFontFamily} onFontFamilyChange={setEditFontFamily} />
           </div>
         </div>
       ) : (
