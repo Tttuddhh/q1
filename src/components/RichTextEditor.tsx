@@ -1123,7 +1123,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           >
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, overflow: 'hidden' }}>
               <span style={{ fontSize: 15, fontWeight: 700, flexShrink: 0 }}>T</span>
-              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{displayFontFamily === 'inherit' ? '系统默认' : (fonts.find(f => f.family === displayFontFamily)?.name || '系统默认')}</span>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', fontFamily: displayFontFamily === 'inherit' ? undefined : displayFontFamily }}>{displayFontFamily === 'inherit' ? '系统默认' : (fonts.find(f => f.family === displayFontFamily)?.name || '系统默认')}</span>
             </span>
             <HugeiconsIcon
               icon={ArrowRight01Icon}
