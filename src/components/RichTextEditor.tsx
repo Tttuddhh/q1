@@ -1059,19 +1059,19 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              justifyContent: 'center',
-              width: 40,
+              gap: 4,
               height: 32,
               borderRadius: 6,
-              border: showFontPicker ? '1px solid var(--color-primary)' : '1px solid transparent',
-              background: showFontPicker ? 'var(--color-primary)' : 'transparent',
-              color: showFontPicker ? '#ffffff' : '#6b7280',
+              border: showFontPicker ? '1px solid var(--color-primary)' : '1px solid #e5e7eb',
+              background: showFontPicker ? 'var(--color-primary)' : '#ffffff',
+              color: showFontPicker ? '#ffffff' : '#1a1a1a',
               cursor: 'pointer',
               transition: 'background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease',
               flexShrink: 0,
-              fontSize: 14,
-              fontWeight: 600,
-              fontFamily: fontFamily === 'inherit' ? undefined : fontFamily,
+              fontSize: 13,
+              fontWeight: 500,
+              padding: '0 8px',
+              whiteSpace: 'nowrap',
             }}
             onMouseEnter={e => {
               if (!showFontPicker) {
@@ -1080,11 +1080,13 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
             }}
             onMouseLeave={e => {
               if (!showFontPicker) {
-                e.currentTarget.style.background = 'transparent';
+                e.currentTarget.style.background = '#ffffff';
               }
             }}
           >
-            Aa
+            <span style={{ fontSize: 15, fontWeight: 700 }}>T</span>
+            <span>{fontFamily === 'inherit' ? '系统默认' : (fonts.find(f => f.family === fontFamily)?.name || '系统默认')}</span>
+            <span style={{ fontSize: 10, opacity: 0.7 }}>▽</span>
           </button>
           {showFontPicker && (
             <FontPicker
