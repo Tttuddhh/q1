@@ -1,12 +1,11 @@
 # Tasks
 - [ ] Task 1: 修改字体选择按钮样式
-  - [ ] SubTask 1.1: 将按钮从 "Aa" 改为 "T 系统默认 ▽" 的文本下拉框样式
-  - [ ] SubTask 1.2: 按钮宽度自适应内容，padding 适当调整
-  - [ ] SubTask 1.3: 选择字体后按钮显示所选字体名称
-- [ ] Task 2: 更新字体名称显示逻辑
-  - [ ] SubTask 2.1: 根据当前 fontFamily 值查找对应的字体名称
-  - [ ] SubTask 2.2: 默认状态显示 "系统默认"
-  - [ ] SubTask 2.3: 未匹配到字体时显示 "系统默认"
+  - [ ] SubTask 1.1: 按钮宽度设为 200px，与下拉对话框一致
+  - [ ] SubTask 1.2: 按钮内文字左对齐，T 图标 + 字体名 + 箭头
+  - [ ] SubTask 1.3: 箭头使用 ArrowRight01Icon，展开时旋转 90 度
+- [ ] Task 2: 缩小下拉对话框宽度
+  - [ ] SubTask 2.1: 将 FontPicker 面板宽度从 280px 改为 200px
+  - [ ] SubTask 2.2: 确保面板内容不被截断
 - [ ] Task 3: 构建并验证
   - [ ] SubTask 3.1: 运行 npm run build 确保无错误
-  - [ ] SubTask 3.2: 验证按钮样式和下拉交互
+  - [ ] SubTask 3.2: 验证按钮宽度和箭头样式

@@ -31,6 +31,7 @@ import {
   TextAlignRightIcon,
   SmileIcon,
   UploadIcon,
+  ArrowRight01Icon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
@@ -896,7 +897,7 @@ function FontPicker({
         border: '1px solid #e5e7eb',
         borderRadius: 8,
         boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-        width: 280,
+        width: 200,
         maxHeight: 420,
         overflowY: 'auto',
         scrollbarWidth: 'thin',
@@ -1059,7 +1060,9 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              gap: 4,
+              justifyContent: 'space-between',
+              gap: 6,
+              width: 200,
               height: 32,
               borderRadius: 6,
               border: showFontPicker ? '1px solid var(--color-primary)' : '1px solid #e5e7eb',
@@ -1070,7 +1073,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
               flexShrink: 0,
               fontSize: 13,
               fontWeight: 500,
-              padding: '0 8px',
+              padding: '0 10px',
               whiteSpace: 'nowrap',
             }}
             onMouseEnter={e => {
@@ -1084,9 +1087,21 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
               }
             }}
           >
-            <span style={{ fontSize: 15, fontWeight: 700 }}>T</span>
-            <span>{fontFamily === 'inherit' ? '系统默认' : (fonts.find(f => f.family === fontFamily)?.name || '系统默认')}</span>
-            <span style={{ fontSize: 10, opacity: 0.7 }}>▽</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, overflow: 'hidden' }}>
+              <span style={{ fontSize: 15, fontWeight: 700, flexShrink: 0 }}>T</span>
+              <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{fontFamily === 'inherit' ? '系统默认' : (fonts.find(f => f.family === fontFamily)?.name || '系统默认')}</span>
+            </span>
+            <HugeiconsIcon
+              icon={ArrowRight01Icon}
+              size={12}
+              strokeWidth={2}
+              style={{
+                transform: showFontPicker ? 'rotate(90deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s ease',
+                flexShrink: 0,
+                opacity: 0.7,
+              }}
+            />
           </button>
           {showFontPicker && (
             <FontPicker
