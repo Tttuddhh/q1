@@ -1,0 +1,16 @@
+# Tasks
+- [ ] Task 1: 在 index.css 中引入 Google Fonts 字体
+  - [ ] SubTask 1.1: 整理超过 100 个免费可商用字体列表（中文 30+，英文 70+）
+  - [ ] SubTask 1.2: 在 index.css 顶部添加 Google Fonts @import 链接
+  - [ ] SubTask 1.3: 定义字体名称到 font-family 的映射
+- [ ] Task 2: 创建字体选择器下拉组件
+  - [ ] SubTask 2.1: 在 RichTextEditor 工具栏中（撤销图标后面）添加字体选择按钮
+  - [ ] SubTask 2.2: 实现下拉面板组件，支持分类展示和上下滑动
+  - [ ] SubTask 2.3: 点击字体后应用到编辑器并关闭面板
+- [ ] Task 3: 字体持久化
+  - [ ] SubTask 3.1: 在 Page 数据模型中增加 fontFamily 字段
+  - [ ] SubTask 3.2: 在编辑模式下保存时持久化字体选择
+  - [ ] SubTask 3.3: 预览模式下读取并应用保存的字体
+- [ ] Task 4: 构建并验证
+  - [ ] SubTask 4.1: 运行 npm run build 确保无错误
+  - [ ] SubTask 4.2: 验证字体选择器 UI 和字体应用效果
