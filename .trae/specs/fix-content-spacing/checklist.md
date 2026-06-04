@@ -1,0 +1,10 @@
+- [x] .prose p 和 .ProseMirror p 的 margin-bottom 一致
+- [x] 段落之间的换行间隔在编辑和预览模式下相同
+- [x] 标题（H1/H2/H3）的 margin-top 大于段落间距，形成视觉区分
+- [x] 标题（H1/H2/H3）的 margin-bottom 适当，与下方内容有区分
+- [x] 第一个标题的 margin-top 不会导致顶部过多空白
+- [x] 列表（ul/ol）的 margin-top 和 margin-bottom 与段落一致
+- [x] 列表项（li）的 margin-bottom 一致
+- [x] 引用块（blockquote）的 margin-top 和 margin-bottom 与段落一致
+- [x] 代码块（pre）的 margin-top 和 margin-bottom 与段落一致
+- [x] 构建成功，无类型错误
