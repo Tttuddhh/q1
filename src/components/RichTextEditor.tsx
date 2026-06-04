@@ -2,6 +2,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Color from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
+import FontFamily from '@tiptap/extension-font-family';
 import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
@@ -33,11 +34,13 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
+import { fonts } from '../data/fonts';
 
 interface RichTextEditorProps {
   content: string;
   onChange: (html: string) => void;
   fontSize?: string;
+  fontFamily?: string;
 }
 
 const PRIMARY = 'var(--color-primary)';
@@ -852,19 +855,131 @@ function EmojiButton({ emoji, onSelect }: { emoji: string; onSelect: (emoji: str
   );
 }
 
-export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichTextEditorProps) {
+function FontPicker({
+  currentFont,
+  onSelect,
+  onClose,
+}: {
+  currentFont: string;
+  onSelect: (family: string) => void;
+  onClose: () => void;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+  const grouped = fonts.reduce<Record<string, typeof fonts>>((acc, font) => {
+    if (!acc[font.category]) acc[font.category] = [];
+    acc[font.category].push(font);
+    return acc;
+  }, {});
+
+  const categories = Object.keys(grouped);
+
+  return (
+    <div
+      ref={panelRef}
+      style={{
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        zIndex: 1000,
+        background: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 8,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        width: 280,
+        maxHeight: 420,
+        overflowY: 'auto',
+        scrollbarWidth: 'thin',
+        msOverflowStyle: 'auto',
+      }}
+    >
+      {categories.map(category => (
+        <div key={category}>
+          <div
+            style={{
+              position: 'sticky',
+              top: 0,
+              background: '#f9fafb',
+              padding: '6px 12px',
+              fontSize: 12,
+              fontWeight: 600,
+              color: '#6b7280',
+              borderBottom: '1px solid #e5e7eb',
+              zIndex: 1,
+            }}
+          >
+            {category}
+          </div>
+          <div style={{ padding: '4px 0' }}>
+            {grouped[category].map(font => (
+              <button
+                key={font.name}
+                type="button"
+                onClick={() => {
+                  onSelect(font.family);
+                  onClose();
+                }}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  textAlign: 'left',
+                  padding: '8px 12px',
+                  border: 'none',
+                  background: currentFont === font.family ? 'var(--color-active-bg, #f3f4f6)' : 'transparent',
+                  cursor: 'pointer',
+                  fontFamily: font.family,
+                  fontSize: 15,
+                  color: '#1a1a1a',
+                  transition: 'background 0.15s ease',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = '#f3f4f6';
+                }}
+                onMouseLeave={e => {
+                  if (currentFont !== font.family) {
+                    e.currentTarget.style.background = 'transparent';
+                  }
+                }}
+              >
+                {font.name}
+              </button>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFamily = 'inherit' }: RichTextEditorProps) {
   const { t, language } = useTranslation();
   const [textColor, setTextColor] = useState('#1a1a1a');
   const [highlightColor, setHighlightColor] = useState('#fef08a');
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showFontPicker, setShowFontPicker] = useState(false);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
+  const fontButtonRef = useRef<HTMLDivElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   const editor = useEditor({
     extensions: [
       StarterKit,
       TextStyle,
+      FontFamily,
       Color,
       Highlight.configure({ multicolor: true }),
       Underline,
@@ -936,6 +1051,54 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           zIndex: 10,
         }}
       >
+        <div ref={fontButtonRef} style={{ position: 'relative' }}>
+          <button
+            type="button"
+            title="字体"
+            onClick={() => setShowFontPicker(!showFontPicker)}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: 40,
+              height: 32,
+              borderRadius: 6,
+              border: showFontPicker ? '1px solid var(--color-primary)' : '1px solid transparent',
+              background: showFontPicker ? 'var(--color-primary)' : 'transparent',
+              color: showFontPicker ? '#ffffff' : '#6b7280',
+              cursor: 'pointer',
+              transition: 'background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease',
+              flexShrink: 0,
+              fontSize: 14,
+              fontWeight: 600,
+              fontFamily: fontFamily === 'inherit' ? undefined : fontFamily,
+            }}
+            onMouseEnter={e => {
+              if (!showFontPicker) {
+                e.currentTarget.style.background = '#f3f4f6';
+              }
+            }}
+            onMouseLeave={e => {
+              if (!showFontPicker) {
+                e.currentTarget.style.background = 'transparent';
+              }
+            }}
+          >
+            Aa
+          </button>
+          {showFontPicker && (
+            <FontPicker
+              currentFont={fontFamily}
+              onSelect={family => {
+                editor.chain().focus().setFontFamily(family).run();
+              }}
+              onClose={() => setShowFontPicker(false)}
+            />
+          )}
+        </div>
+
+        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
+
         <ToolbarButton
           active={activeFormats.has('bold')}
           onClick={() => editor.chain().focus().toggleBold().run()}

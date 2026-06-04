@@ -318,12 +318,13 @@ export function MainContent({
       {isEditing ? (
         <div style={{ padding: '0 48px 40px' }}>
           <div className="animate-slide-in-right">
-            <RichTextEditor content={editContent} onChange={setEditContent} fontSize={editorFontSize} />
+            <RichTextEditor content={editContent} onChange={setEditContent} fontSize={editorFontSize} fontFamily={page.fontFamily || 'inherit'} />
           </div>
         </div>
       ) : (
         <div
           className="prose animate-fade-in"
+          style={{ fontFamily: page.fontFamily || 'inherit' }}
           dangerouslySetInnerHTML={{ __html: page.isEdited === false ? t('page.default_content') : page.content }}
         />
       )}
