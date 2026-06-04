@@ -820,21 +820,14 @@ body {
 /* ProseMirror 内部内容样式与预览模式保持一致 */
 .ProseMirror p {
   margin-top: 0 !important;
-  margin-bottom: 0.75em !important;
+  margin-bottom: 0 !important;
   line-height: 1.75 !important;
   color: #374151 !important;
 }
 
-/* 新输入的段落 - 没有 margin-bottom，只靠 line-height 产生间隔
-   已存在的段落会被插件标记为 .existing-paragraph，新段落没有这个 class */
-.ProseMirror p:not(.existing-paragraph) {
-  margin-bottom: 0 !important;
-}
-
-/* 修复：两个新段落之间的间距也需要保持一致（都靠 line-height） */
-.ProseMirror p:not(.existing-paragraph) + p:not(.existing-paragraph) {
-  margin-top: 0 !important;
-  margin-bottom: 0 !important;
+/* 只有初始已存在的段落才保留原来的 margin-bottom */
+.ProseMirror p.keep-original-margin {
+  margin-bottom: 0.75em !important;
 }
 
 .ProseMirror ul,

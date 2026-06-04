@@ -52,7 +52,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
-import { Video, FileNode, DivNode, ParagraphWithClass, NewParagraphExtension } from './editor-extensions';
+import { Video, FileNode, DivNode } from './editor-extensions';
 
 interface RichTextEditorProps {
   content: string;
@@ -1052,11 +1052,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        paragraph: false,
-      }),
-      ParagraphWithClass,
-      NewParagraphExtension,
+      StarterKit,
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
@@ -1099,12 +1095,31 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       requestAnimationFrame(() => {
         setActiveFormats(getActiveFormats(editor));
       });
+
+      // 给所有初始已存在的段落添加 keep-original-margin 类
+      // 用多个 requestAnimationFrame 确保 DOM 完全渲染
+      const addClassToExistingParagraphs = () => {
+        const editorDOM = editor.view.dom;
+        if (!editorDOM) return;
+
+        const paragraphs = editorDOM.querySelectorAll('.ProseMirror p');
+        paragraphs.forEach((p) => {
+          if (!p.classList.contains('keep-original-margin')) {
+            p.classList.add('keep-original-margin');
+          }
+        });
+      };
+
+      // 等待几次渲染周期确保内容完全加载
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            addClassToExistingParagraphs();
+          });
+        });
+      });
     }
   }, [editor]);
-
-  // 自动给文档末尾的段落添加 new-paragraph 类
-  // 通过 ProseMirror 插件的 appendTransaction 实现（NewParagraphExtension）
-  // 这里不再需要手动监听 transaction 事件
 
   useEffect(() => {
     if (!editor) return;
