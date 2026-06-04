@@ -1,11 +1,29 @@
 @import "tailwindcss";
 
-/* ProseMirror 内部内容样式与预览模式保持一致 */
+/* 预览模式 prose 段落样式 */
+.prose p {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+  line-height: 1.75;
+  color: #374151;
+}
+
+.prose ul,
+.prose ol {
+  margin-top: 0;
+  margin-bottom: 0.75em;
+}
+
+/* ProseMirror 编辑器内部内容样式 */
 .ProseMirror p {
   margin-top: 0 !important;
-  margin-bottom: 0.75em !important;
+  margin-bottom: 0 !important;
   line-height: 1.75 !important;
   color: #374151 !important;
+}
+
+.ProseMirror p.existing-paragraph {
+  margin-bottom: 0.75em !important;
 }
 
 .ProseMirror ul,

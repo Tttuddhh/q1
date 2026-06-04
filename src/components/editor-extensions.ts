@@ -1,8 +1,80 @@
 import { Node, mergeAttributes, Extension } from '@tiptap/core';
+import Paragraph from '@tiptap/extension-paragraph';
+import { Plugin, PluginKey } from 'prosemirror-state';
 
 function isExternalVideoUrl(src: string): boolean {
   return src.startsWith('http://') || src.startsWith('https://');
 }
+
+// 扩展 Paragraph 节点，支持 class 属性
+export const ParagraphWithClass = Paragraph.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      class: {
+        default: null,
+        parseHTML: element => element.getAttribute('class'),
+        renderHTML: attributes => {
+          if (!attributes.class) {
+            return {};
+          }
+          return { class: attributes.class };
+        },
+      },
+    };
+  },
+});
+
+// ProseMirror 插件：自动给已有段落添加 existing-paragraph class
+const newParagraphPluginKey = new PluginKey('newParagraphPlugin');
+
+export const NewParagraphExtension = Extension.create({
+  name: 'newParagraphExtension',
+
+  addProseMirrorPlugins() {
+    let isInitialized = false;
+
+    return [
+      new Plugin({
+        key: newParagraphPluginKey,
+        appendTransaction: (transactions, oldState, newState) => {
+          // 只在初始化时执行一次，给所有已有段落添加 existing-paragraph class
+          if (isInitialized) {
+            return null;
+          }
+
+          const docChanged = transactions.some(tr => tr.docChanged);
+          if (!docChanged && oldState.doc.eq(newState.doc)) {
+            return null;
+          }
+
+          isInitialized = true;
+
+          let tr = newState.tr;
+          let modified = false;
+
+          newState.doc.descendants((node, pos) => {
+            if (node.type.name === 'paragraph') {
+              const currentClass = node.attrs.class || '';
+              if (!currentClass.includes('existing-paragraph')) {
+                const newClass = currentClass
+                  ? `${currentClass} existing-paragraph`
+                  : 'existing-paragraph';
+                tr = tr.setNodeMarkup(pos, undefined, {
+                  ...node.attrs,
+                  class: newClass,
+                });
+                modified = true;
+              }
+            }
+          });
+
+          return modified ? tr : null;
+        },
+      }),
+    ];
+  },
+});
 
 export const Video = Node.create({
   name: 'video',
