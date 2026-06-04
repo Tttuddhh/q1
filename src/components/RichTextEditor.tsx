@@ -920,7 +920,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Fixed toolbar */}
+      {/* Sticky toolbar */}
       <div
         style={{
           display: 'flex',
@@ -930,6 +930,10 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           padding: '8px 0',
           marginBottom: 8,
           borderBottom: '1px solid #e5e7eb',
+          position: 'sticky',
+          top: 0,
+          background: '#ffffff',
+          zIndex: 10,
         }}
       >
         <ToolbarButton
