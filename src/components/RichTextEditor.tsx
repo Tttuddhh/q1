@@ -1095,29 +1095,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       requestAnimationFrame(() => {
         setActiveFormats(getActiveFormats(editor));
       });
-
-      // 给所有初始已存在的段落添加 keep-original-margin 类
-      // 用多个 requestAnimationFrame 确保 DOM 完全渲染
-      const addClassToExistingParagraphs = () => {
-        const editorDOM = editor.view.dom;
-        if (!editorDOM) return;
-
-        const paragraphs = editorDOM.querySelectorAll('.ProseMirror p');
-        paragraphs.forEach((p) => {
-          if (!p.classList.contains('keep-original-margin')) {
-            p.classList.add('keep-original-margin');
-          }
-        });
-      };
-
-      // 等待几次渲染周期确保内容完全加载
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            addClassToExistingParagraphs();
-          });
-        });
-      });
     }
   }, [editor]);
 
