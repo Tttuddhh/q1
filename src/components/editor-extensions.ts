@@ -1,5 +1,6 @@
 import { Node, mergeAttributes, Extension } from '@tiptap/core';
-import { Plugin, PluginKey } from 'prosemirror-state';
+import { Plugin, PluginKey } from '@tiptap/pm/state';
+import Paragraph from '@tiptap/extension-paragraph';
 
 function isExternalVideoUrl(src: string): boolean {
   return src.startsWith('http://') || src.startsWith('https://');
@@ -190,38 +191,72 @@ export const DivNode = Node.create({
   },
 });
 
+/**
+ * 扩展默认的 Paragraph 节点，添加 class 属性支持
+ * 这是修复新输入段落间距问题的关键：必须让 ProseMirror 知道 class 属性的存在
+ */
+export const ParagraphWithClass = Paragraph.extend({
+  addAttributes() {
+    return {
+      class: {
+        default: null,
+        parseHTML: (element: HTMLElement) => element.getAttribute('class'),
+        renderHTML: (attributes: { class?: string | null }) => {
+          if (!attributes.class) return {};
+          return { class: attributes.class };
+        },
+      },
+    };
+  },
+});
+
+/**
+ * ProseMirror 插件：自动给文档中所有**已存在**的段落添加 'existing-paragraph' class
+ * - 只在编辑器初始内容加载时执行一次（使用闭包变量标记）
+ * - 之后用户新增的段落不会有这个 class
+ * - CSS 通过 :not(.existing-paragraph) 来区分新段落，给予不同的 margin-bottom
+ * 使用标准的 appendTransaction 机制，避免在 transaction 监听器中执行链式命令的冲突
+ */
 export const NewParagraphExtension = Extension.create({
   name: 'newParagraph',
+
   addProseMirrorPlugins() {
+    // 闭包变量：标记是否已经处理过初始内容
+    // 每次编辑器创建时都会重置，所以重新创建编辑器时会重新标记
+    let isInitialized = false;
+
     return [
       new Plugin({
         key: new PluginKey('newParagraph'),
-        appendTransaction: (transactions, oldState, newState) => {
-          const { tr } = newState;
+        appendTransaction: (transactions, _oldState, newState) => {
+          // 只在初始加载时执行一次
+          if (isInitialized) return null;
+
+          const docChanged = transactions.some((tr) => tr.docChanged);
+          if (!docChanged) return null;
+
+          // 标记为已初始化，后续不再处理
+          isInitialized = true;
+
+          // 给所有已存在的段落添加 existing-paragraph class
+          const tr = newState.tr;
           let modified = false;
 
-          if (!tr.docChanged) return null;
-
           newState.doc.descendants((node, pos) => {
-            if (node.type.name !== 'paragraph') return;
-            if (node.attrs.class?.includes('new-paragraph')) return;
-
-            const oldNode = oldState.doc.nodeAt(pos);
-
-            if (!oldNode || oldNode.type.name !== 'paragraph') {
+            if (node.type.name === 'paragraph' && node.attrs.class !== 'existing-paragraph') {
               tr.setNodeMarkup(pos, undefined, {
                 ...node.attrs,
-                class: 'new-paragraph'
+                class: 'existing-paragraph',
               });
               modified = true;
             }
           });
 
           return modified ? tr : null;
-        }
-      })
+        },
+      }),
     ];
-  }
+  },
 });
 
 function formatFileSize(bytes: number): string {

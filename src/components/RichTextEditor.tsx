@@ -52,7 +52,7 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
-import { Video, FileNode, DivNode, NewParagraphExtension } from './editor-extensions';
+import { Video, FileNode, DivNode, ParagraphWithClass, NewParagraphExtension } from './editor-extensions';
 
 interface RichTextEditorProps {
   content: string;
@@ -1052,7 +1052,11 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
 
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        paragraph: false,
+      }),
+      ParagraphWithClass,
+      NewParagraphExtension,
       TextStyle,
       Color,
       Highlight.configure({ multicolor: true }),
@@ -1063,7 +1067,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       Video,
       FileNode,
       DivNode,
-      NewParagraphExtension,
       Table.configure({ 
         resizable: true,
         allowTableNodeSelection: true,
@@ -1098,6 +1101,10 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       });
     }
   }, [editor]);
+
+  // 自动给文档末尾的段落添加 new-paragraph 类
+  // 通过 ProseMirror 插件的 appendTransaction 实现（NewParagraphExtension）
+  // 这里不再需要手动监听 transaction 事件
 
   useEffect(() => {
     if (!editor) return;

@@ -825,8 +825,9 @@ body {
   color: #374151 !important;
 }
 
-/* 新输入的段落 - 没有额外 margin-bottom，只靠 line-height 产生间隔 */
-.ProseMirror p.new-paragraph {
+/* 新输入的段落 - 没有 margin-bottom，只靠 line-height 产生间隔
+   已存在的段落会被插件标记为 .existing-paragraph，新段落没有这个 class */
+.ProseMirror p:not(.existing-paragraph) {
   margin-bottom: 0 !important;
 }
 
