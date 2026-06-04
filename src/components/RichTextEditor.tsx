@@ -1102,7 +1102,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         const editorDOM = editor.view.dom;
         if (!editorDOM) return;
 
-        const paragraphs = editorDOM.querySelectorAll('.ProseMirror p');
+        const paragraphs = editorDOM.querySelectorAll('p');
         paragraphs.forEach((p) => {
           if (!p.classList.contains('keep-original-margin')) {
             p.classList.add('keep-original-margin');
