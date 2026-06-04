@@ -6,34 +6,40 @@
 - **Target Users**: 使用富文本编辑器的所有用户
 
 ## Goals
-- 新输入段落的 `margin-bottom` 为 0
+- 新输入段落（最后创建的段落）的 `margin-bottom` 为 0
 - 已存在段落的 `margin-bottom` 保持 `0.75em` 不变
 - 不修改预览模式的样式
 - 不增加任何编辑按钮或 UI 元素
 
 ## Non-Goals (Out of Scope)
+- 不修改 `.ProseMirror p` 的默认 `margin-bottom`
 - 不修改其他元素（标题、列表、引用等）的样式
 - 不重新设计工具栏
 - 不添加任何新功能
 
 ## Background & Context
-- 当前原有内容的段落有 `margin-bottom: 0.75em`（=12px），用于在段落之间提供视觉间隔
-- 用户期望：新输入的段落间距 = 段内文字自动换行的行高（line-height: 1.75 * 16px = 28px）
+- 当前 `.ProseMirror p` 设置了 `margin-bottom: 0.75em`（=12px），用于在段落之间提供视觉间隔
+- 按下回车创建新段落时，新段落也会应用 `margin-bottom: 0.75em`，导致视觉上"间隔很大"
+- 用户期望：新段落的视觉间距 = 段内文字自动换行的行高（line-height: 1.75 * 16px = 28px）
 - **关键约束**：已存在的段落间距必须保持不变（用户多次强调）
 
 ## Root Cause
-- 之前的方案失败的原因：
-  1. 尝试使用 ProseMirror 插件的 `appendTransaction` 机制
-  2. StarterKit 的 Paragraph 节点没有定义 `class` attribute
-  3. 在 ProseMirror 节点 schema 中添加属性复杂度高
+- 之前的方案（`transaction` 事件监听 + `setNodeSelection` + `updateAttributes`）失败的原因：
+  1. Tiptap StarterKit 的 Paragraph 节点没有定义 `class` attribute
+  2. `node.attrs.class` 虽然可以通过 `setNodeMarkup` 设置，但 ProseMirror 节点 schema 没有声明 `class` 属性，可能导致设置无效或被丢弃
+  3. 链式命令在 `transaction` 监听器中执行时，可能与 ProseMirror 的内部状态机冲突
 
 ## Functional Requirements
-- **FR-1**: CSS 规则调整
-  - 默认情况下，所有编辑器段落都没有 margin-bottom
-  - 仅对初始加载时已有的段落，通过添加 CSS 类 `keep-original-margin` 来保留原来的 `margin-bottom: 0.75em`
-- **FR-2**: 使用 DOM 操作标记初始段落
-  - 在 RichTextEditor 初始化后，给所有已存在的段落添加 `keep-original-margin` CSS 类
-  - 新输入的段落将不会有这个类
+- **FR-1**: 扩展 Paragraph 节点，添加 `class` attribute 支持
+  - 通过 `Paragraph.extend({ addAttributes() {...} })` 扩展
+  - 确保 `class` 属性可以被正确设置和渲染为 HTML `class` 属性
+- **FR-2**: 使用 ProseMirror 插件（`appendTransaction`）自动给最后一段添加 `new-paragraph` class
+  - 在每次文档变化后，检查最后一个段落
+  - 如果该段落没有 `new-paragraph` class，则添加
+  - **不要**修改已有段落的 class
+- **FR-3**: CSS 规则保持现有
+  - `.ProseMirror p { margin-bottom: 0.75em !important; }` 不变
+  - `.ProseMirror p.new-paragraph { margin-bottom: 0 !important; }` 不变
 
 ## Non-Functional Requirements
 - **NFR-1**: 不影响编辑器其他功能
@@ -41,6 +47,7 @@
 - **NFR-3**: 不引入新的依赖
 
 ## Constraints
+- **Technical**: 必须使用 Tiptap/ProseMirror 的标准机制（`appendTransaction`）
 - **Business**: 已有的样式、UI、功能全部保持不变
 
 ## Acceptance Criteria
@@ -48,15 +55,15 @@
 ### AC-1: 新段落无 margin-bottom
 - **Given**: 编辑器中有多个已有段落
 - **When**: 用户在最后一个段落末尾按回车，创建新段落
-- **Then**: 新创建的最后一个段落的 `class` **不** 包含 `keep-original-margin`
+- **Then**: 新创建的最后一个段落的 `class` 包含 `new-paragraph`
 - **And**: 该段落的 `margin-bottom` 为 0
-- **Verification**: `human-judgment` + DOM 检查
+- **Verification**: `human-judgment` + DOM 检查（`p.new-paragraph`）
 
 ### AC-2: 已有段落间距不变
 - **Given**: 编辑器加载了已有的内容（多个段落）
 - **When**: 用户开始编辑
 - **Then**: 已有段落的 `margin-bottom` 仍为 `0.75em`
-- **And**: 已有段落的 `class` 包含 `keep-original-margin`
+- **And**: 已有段落的 `class` 不包含 `new-paragraph`（除非它就是最后一段）
 - **Verification**: `human-judgment` + DOM 检查
 
 ### AC-3: 输入新内容后间距自然
