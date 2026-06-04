@@ -1085,26 +1085,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
       setActiveFormats(getActiveFormats(editor));
-      
-      // 检测新创建的段落并添加 new-paragraph 类
-      const { state } = editor;
-      const { selection } = state;
-      const { $from } = selection;
-      
-      // 检查当前光标所在段落是否已有 new-paragraph 类
-      const currentNode = $from.node($from.depth);
-      if (currentNode && currentNode.type.name === 'paragraph') {
-        const hasClass = currentNode.attrs.class?.includes('new-paragraph');
-        if (!hasClass) {
-          // 检查这个段落是否是空的（刚创建的）
-          const isEmpty = currentNode.content.size === 0;
-          if (isEmpty) {
-            editor.chain().focus().updateAttributes('paragraph', {
-              class: 'new-paragraph'
-            }).run();
-          }
-        }
-      }
     },
     onSelectionUpdate: ({ editor }) => {
       setActiveFormats(getActiveFormats(editor));
