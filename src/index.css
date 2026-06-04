@@ -831,6 +831,12 @@ body {
   margin-bottom: 0 !important;
 }
 
+/* 修复：两个新段落之间的间距也需要保持一致（都靠 line-height） */
+.ProseMirror p:not(.existing-paragraph) + p:not(.existing-paragraph) {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
 .ProseMirror ul,
 .ProseMirror ol {
   margin-top: 0 !important;
