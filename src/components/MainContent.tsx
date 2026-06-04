@@ -135,7 +135,7 @@ export function MainContent({
       style={{
         flex: 1,
         overflow: 'auto',
-        padding: '40px 48px',
+        padding: isEditing ? 0 : '40px 48px',
         maxWidth: 900,
         margin: '0 auto',
         width: '100%',
@@ -143,7 +143,7 @@ export function MainContent({
       className="main-content-scroll animate-fade-in"
     >
       {/* Page Header */}
-      <div style={{ marginBottom: 32 }}>
+      <div style={{ marginBottom: isEditing ? 0 : 32, padding: isEditing ? '40px 48px 32px' : undefined }}>
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
           {/* Emoji */}
           <button
@@ -316,8 +316,10 @@ export function MainContent({
 
       {/* Content */}
       {isEditing ? (
-        <div className="animate-slide-in-right">
-          <RichTextEditor content={editContent} onChange={setEditContent} fontSize={editorFontSize} />
+        <div style={{ padding: '0 48px 40px' }}>
+          <div className="animate-slide-in-right">
+            <RichTextEditor content={editContent} onChange={setEditContent} fontSize={editorFontSize} />
+          </div>
         </div>
       ) : (
         <div
