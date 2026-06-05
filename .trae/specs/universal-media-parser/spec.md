@@ -20,7 +20,7 @@
 ## ADDED Requirements
 
 ### Requirement: 多文件上传列表（最多5个）
-The system SHALL 支持图片/视频本地上传最多5个文件，全部放入列表中显示。
+The system SHALL 支持图片/视频/文件本地上传最多5个文件，全部放入列表中显示。
 
 #### Scenario: 多文件上传
 - **WHEN** 用户在本地上传选项卡中选择文件

@@ -1,8 +1,9 @@
 # Tasks
-- [ ] Task 1: 图片/视频本地上传支持最多5个文件
+- [ ] Task 1: 图片/视频/文件本地上传支持最多5个文件
   - [ ] SubTask 1.1: 修改 ImageInsertDialog 本地上传选项卡，支持最多5个图片文件，全部放入列表
   - [ ] SubTask 1.2: 修改 VideoInsertDialog 本地上传选项卡，支持最多5个视频文件，全部放入列表
-  - [ ] SubTask 1.3: 文件列表显示文件名、大小、删除按钮
+  - [ ] SubTask 1.3: 修改 FileInsertDialog 本地上传选项卡，支持最多5个文件，全部放入列表
+  - [ ] SubTask 1.4: 文件列表显示文件名、大小、删除按钮
 - [ ] Task 2: 视频本地上传直接显示播放器
   - [ ] SubTask 2.1: 本地视频上传后，使用 HTML5 video 标签直接插入内容区
   - [ ] SubTask 2.2: 视频播放器添加 controlsList 支持下载
