@@ -1,4 +1,4 @@
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, type Editor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Color from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
@@ -40,6 +40,21 @@ import {
   Video01Icon,
   File01Icon,
   TableIcon,
+  Cancel01Icon,
+  JoinRoundIcon,
+  ScissorIcon,
+  ArrowLeft01Icon,
+  ArrowUp01Icon,
+  ArrowDown01Icon,
+  Delete01Icon,
+  Remove01Icon,
+  LayoutGridIcon,
+  DeleteColumnIcon,
+  DeleteRowIcon,
+  InsertColumnLeftIcon,
+  InsertColumnRightIcon,
+  InsertRowUpIcon,
+  InsertRowDownIcon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef, useMemo, memo } from 'react';
 import { useTranslation } from '../i18n';
@@ -66,8 +81,27 @@ const RECENT_EMOJIS_KEY = 'kb-recent-emojis';
 const FAVORITE_EMOJIS_KEY = 'kb-favorite-emojis';
 const MAX_RECENT_EMOJIS = 30;
 const MAX_FILE_SIZE = 2 * 1024 * 1024;
+const MAX_UPLOAD_FILES = 5;
 
 type EmojiTab = 'default' | 'recent' | 'favorites' | 'kaomoji';
+
+type DialogType = 'image' | 'video' | 'file' | null;
+
+interface UploadFileItem {
+  id: string;
+  file: File;
+  preview?: string;
+}
+
+function generateId() {
+  return Math.random().toString(36).slice(2, 9);
+}
+
+function formatFileSize(bytes: number): string {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
 
 function ToolbarButton({
   active,
@@ -1002,6 +1036,381 @@ function FontPicker({
   );
 }
 
+function parseAndInsertLink(url: string, editor: Editor) {
+  const trimmed = url.trim();
+  if (!trimmed) return;
+
+  const lower = trimmed.toLowerCase();
+
+  // Image
+  if (/\.(jpg|jpeg|png|gif|webp|svg|bmp)(\?.*)?$/.test(lower)) {
+    editor.chain().focus().insertContent(`<img src="${trimmed}" style="max-width: 100%; height: auto;" />`).run();
+    return;
+  }
+
+  // Video direct link
+  if (/\.(mp4|webm|ogg|mov|avi|mkv)(\?.*)?$/.test(lower)) {
+    editor.chain().focus().insertContent(`<video src="${trimmed}" controls width="100%" style="max-width: 100%; border-radius: 8px;"></video>`).run();
+    return;
+  }
+
+  // Bilibili
+  const bilibiliMatch = trimmed.match(/bilibili\.com\/video\/(BV[\w]+)/i);
+  if (bilibiliMatch) {
+    editor.chain().focus().insertContent(`<iframe src="https://player.bilibili.com/player.html?bvid=${bilibiliMatch[1]}&page=1&high_quality=1" width="100%" height="400" frameborder="0" allowfullscreen></iframe>`).run();
+    return;
+  }
+
+  // YouTube
+  const youtubeMatch = trimmed.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/i);
+  if (youtubeMatch) {
+    editor.chain().focus().insertContent(`<iframe src="https://www.youtube.com/embed/${youtubeMatch[1]}" width="100%" height="400" frameborder="0" allowfullscreen></iframe>`).run();
+    return;
+  }
+
+  // Douyin - insert as link
+  if (/douyin\.com|iesdouyin\.com/i.test(trimmed)) {
+    editor.chain().focus().insertContent(`<a href="${trimmed}" target="_blank">${trimmed}</a>`).run();
+    return;
+  }
+
+  // File link card
+  editor.chain().focus().insertContent(`<div class="file-card"><a href="${trimmed}" target="_blank">📎 下载文件</a></div>`).run();
+}
+
+function InsertDialog({
+  type,
+  onClose,
+  editor,
+}: {
+  type: DialogType;
+  onClose: () => void;
+  editor: Editor;
+}) {
+  const [tab, setTab] = useState<'local' | 'url'>('local');
+  const [url, setUrl] = useState('');
+  const [files, setFiles] = useState<UploadFileItem[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+  const handleAddFiles = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const selected = Array.from(e.target.files || []);
+    if (!selected.length) return;
+
+    setFiles(prev => {
+      const remaining = MAX_UPLOAD_FILES - prev.length;
+      if (remaining <= 0) {
+        alert('最多上传5个文件');
+        return prev;
+      }
+      const toAdd = selected.slice(0, remaining);
+      if (selected.length > remaining) {
+        alert('最多上传5个文件');
+      }
+      const newItems: UploadFileItem[] = toAdd.map(file => {
+        const item: UploadFileItem = { id: generateId(), file };
+        if (type === 'image' && file.type.startsWith('image/')) {
+          item.preview = URL.createObjectURL(file);
+        }
+        return item;
+      });
+      return [...prev, ...newItems];
+    });
+    e.target.value = '';
+  }, [type]);
+
+  const handleRemoveFile = useCallback((id: string) => {
+    setFiles(prev => {
+      const item = prev.find(f => f.id === id);
+      if (item?.preview) URL.revokeObjectURL(item.preview);
+      return prev.filter(f => f.id !== id);
+    });
+  }, []);
+
+  const handleConfirm = useCallback(() => {
+    if (tab === 'url') {
+      if (url.trim()) {
+        parseAndInsertLink(url.trim(), editor);
+      }
+      onClose();
+      return;
+    }
+
+    if (type === 'image') {
+      files.forEach(item => {
+        const reader = new FileReader();
+        reader.onload = event => {
+          const base64 = event.target?.result as string;
+          if (base64) {
+            editor.chain().focus().setImage({ src: base64 }).run();
+          }
+        };
+        reader.readAsDataURL(item.file);
+      });
+    } else if (type === 'video') {
+      files.forEach(item => {
+        const blobUrl = URL.createObjectURL(item.file);
+        editor.chain().focus().insertContent(`<video src="${blobUrl}" controls width="100%" style="max-width: 100%; border-radius: 8px;"></video>`).run();
+      });
+    } else if (type === 'file') {
+      files.forEach(item => {
+        const reader = new FileReader();
+        reader.onload = event => {
+          const base64 = event.target?.result as string;
+          if (base64) {
+            editor.chain().focus().insertContent(`<div class="file-card"><a href="${base64}" target="_blank">📎 ${item.file.name}</a></div>`).run();
+          }
+        };
+        reader.readAsDataURL(item.file);
+      });
+    }
+
+    // Cleanup previews
+    files.forEach(item => {
+      if (item.preview) URL.revokeObjectURL(item.preview);
+    });
+    onClose();
+  }, [tab, url, files, type, editor, onClose]);
+
+  const title = type === 'image' ? '插入图片' : type === 'video' ? '插入视频' : '插入文件';
+  const accept = type === 'image' ? 'image/*' : type === 'video' ? 'video/*' : '*';
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,0.5)',
+        backdropFilter: 'blur(4px)',
+        zIndex: 2000,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <div
+        ref={dialogRef}
+        style={{
+          background: '#ffffff',
+          borderRadius: 12,
+          width: 480,
+          maxWidth: '90vw',
+          maxHeight: '80vh',
+          display: 'flex',
+          flexDirection: 'column',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
+        }}
+      >
+        <div style={{ padding: '16px 20px', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a' }}>{title}</span>
+          <button
+            type="button"
+            onClick={onClose}
+            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', padding: 4, borderRadius: 4 }}
+          >
+            <HugeiconsIcon icon={Cancel01Icon} size={20} strokeWidth={2} />
+          </button>
+        </div>
+
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid #e5e7eb', display: 'flex', gap: 8 }}>
+          <button
+            type="button"
+            onClick={() => setTab('local')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: 6,
+              border: 'none',
+              background: tab === 'local' ? 'var(--color-primary)' : 'transparent',
+              color: tab === 'local' ? '#ffffff' : '#6b7280',
+              cursor: 'pointer',
+              fontSize: 13,
+              fontWeight: 500,
+            }}
+          >
+            本地上传
+          </button>
+          <button
+            type="button"
+            onClick={() => setTab('url')}
+            style={{
+              padding: '6px 12px',
+              borderRadius: 6,
+              border: 'none',
+              background: tab === 'url' ? 'var(--color-primary)' : 'transparent',
+              color: tab === 'url' ? '#ffffff' : '#6b7280',
+              cursor: 'pointer',
+              fontSize: 13,
+              fontWeight: 500,
+            }}
+          >
+            链接
+          </button>
+        </div>
+
+        <div style={{ padding: '16px 20px', flex: 1, overflowY: 'auto' }}>
+          {tab === 'local' ? (
+            <div>
+              <button
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+                style={{
+                  width: '100%',
+                  padding: '10px 12px',
+                  marginBottom: 12,
+                  borderRadius: 8,
+                  border: '1px dashed #d1d5db',
+                  background: '#f9fafb',
+                  color: '#6b7280',
+                  cursor: 'pointer',
+                  fontSize: 13,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 6,
+                }}
+              >
+                <HugeiconsIcon icon={UploadIcon} size={16} strokeWidth={2} />
+                选择文件
+              </button>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept={accept}
+                multiple
+                onChange={handleAddFiles}
+                style={{ display: 'none' }}
+              />
+
+              {files.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '32px 0', color: '#9ca3af', fontSize: 14 }}>
+                  列表为空，请选择文件
+                </div>
+              ) : (
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {files.map(item => (
+                    <div
+                      key={item.id}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        padding: '8px 10px',
+                        borderRadius: 8,
+                        border: '1px solid #e5e7eb',
+                        background: '#f9fafb',
+                      }}
+                    >
+                      {type === 'image' && item.preview ? (
+                        <img src={item.preview} alt={item.file.name} style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4 }} />
+                      ) : null}
+                      {type === 'video' ? (
+                        <div style={{ width: 40, height: 40, borderRadius: 4, background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <HugeiconsIcon icon={Video01Icon} size={20} strokeWidth={2} color="#9ca3af" />
+                        </div>
+                      ) : null}
+                      {type === 'file' ? (
+                        <div style={{ width: 40, height: 40, borderRadius: 4, background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                          <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} color="#9ca3af" />
+                        </div>
+                      ) : null}
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ fontSize: 13, color: '#1a1a1a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.file.name}</div>
+                        <div style={{ fontSize: 11, color: '#9ca3af' }}>{formatFileSize(item.file.size)}</div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => handleRemoveFile(item.id)}
+                        style={{
+                          background: 'none',
+                          border: 'none',
+                          cursor: 'pointer',
+                          color: '#ef4444',
+                          padding: 4,
+                          borderRadius: 4,
+                        }}
+                      >
+                        <HugeiconsIcon icon={Cancel01Icon} size={16} strokeWidth={2} />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div>
+              <label style={{ fontSize: 13, color: '#374151', marginBottom: 6, display: 'block' }}>
+                {type === 'image' ? '图片 URL' : type === 'video' ? '视频 URL' : '文件 URL'}
+              </label>
+              <input
+                type="text"
+                value={url}
+                onChange={e => setUrl(e.target.value)}
+                placeholder="https://..."
+                style={{
+                  width: '100%',
+                  padding: '8px 12px',
+                  borderRadius: 8,
+                  border: '1px solid #e5e7eb',
+                  fontSize: 14,
+                  outline: 'none',
+                  boxSizing: 'border-box',
+                }}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') handleConfirm();
+                }}
+              />
+            </div>
+          )}
+        </div>
+
+        <div style={{ padding: '12px 20px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+          <button
+            type="button"
+            onClick={onClose}
+            style={{
+              padding: '8px 16px',
+              borderRadius: 8,
+              border: '1px solid #e5e7eb',
+              background: '#ffffff',
+              color: '#6b7280',
+              cursor: 'pointer',
+              fontSize: 13,
+            }}
+          >
+            取消
+          </button>
+          <button
+            type="button"
+            onClick={handleConfirm}
+            style={{
+              padding: '8px 16px',
+              borderRadius: 8,
+              border: 'none',
+              background: 'var(--color-primary)',
+              color: '#ffffff',
+              cursor: 'pointer',
+              fontSize: 13,
+              fontWeight: 500,
+            }}
+          >
+            确认
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFamily = 'inherit', onFontFamilyChange }: RichTextEditorProps) {
   const { t, language } = useTranslation();
   const [textColor, setTextColor] = useState('#1a1a1a');
@@ -1010,10 +1419,9 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showFontPicker, setShowFontPicker] = useState(false);
   const [displayFontFamily, setDisplayFontFamily] = useState(fontFamily);
+  const [dialogType, setDialogType] = useState<DialogType>(null);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const fontButtonRef = useRef<HTMLDivElement>(null);
-  const imageInputRef = useRef<HTMLInputElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   useEffect(() => {
@@ -1075,68 +1483,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     }
     setShowEmojiPicker(false);
   }, [editor, addRecentEmoji]);
-
-  const insertImage = useCallback(() => {
-    if (!editor) return;
-    const url = window.prompt('请输入图片 URL：');
-    if (url) {
-      editor.chain().focus().setImage({ src: url }).run();
-    }
-  }, [editor]);
-
-  const handleImageFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !editor) return;
-    const reader = new FileReader();
-    reader.onload = event => {
-      const base64 = event.target?.result as string;
-      if (base64) {
-        editor.chain().focus().setImage({ src: base64 }).run();
-      }
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
-  }, [editor]);
-
-  const insertVideo = useCallback(() => {
-    if (!editor) return;
-    const url = window.prompt('请输入视频 URL（支持 YouTube、Bilibili 和直接链接）：');
-    if (!url) return;
-
-    let embedUrl = url;
-
-    // YouTube
-    const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
-    if (youtubeMatch) {
-      embedUrl = `https://www.youtube.com/embed/${youtubeMatch[1]}`;
-    }
-
-    // Bilibili
-    const bilibiliMatch = url.match(/bilibili\.com\/video\/(BV[\w]+)/);
-    if (bilibiliMatch) {
-      embedUrl = `https://player.bilibili.com/player.html?bvid=${bilibiliMatch[1]}`;
-    }
-
-    editor.chain().focus().insertContent(`<iframe src="${embedUrl}" width="560" height="315" frameborder="0" allowfullscreen></iframe>`).run();
-  }, [editor]);
-
-  const insertFile = useCallback(() => {
-    fileInputRef.current?.click();
-  }, []);
-
-  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file || !editor) return;
-    const reader = new FileReader();
-    reader.onload = event => {
-      const base64 = event.target?.result as string;
-      if (base64) {
-        editor.chain().focus().insertContent(`<a href="${base64}" target="_blank">${file.name}</a>`).run();
-      }
-    };
-    reader.readAsDataURL(file);
-    e.target.value = '';
-  }, [editor]);
 
   const insertTable = useCallback(() => {
     if (!editor) return;
@@ -1384,38 +1730,25 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
 
         <ToolbarButton
           active={false}
-          onClick={insertImage}
+          onClick={() => setDialogType('image')}
           title="插入图片"
         >
           <HugeiconsIcon icon={Image01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
-        <input
-          ref={imageInputRef}
-          type="file"
-          accept="image/*"
-          onChange={handleImageFileChange}
-          style={{ display: 'none' }}
-        />
         <ToolbarButton
           active={false}
-          onClick={insertVideo}
+          onClick={() => setDialogType('video')}
           title="插入视频"
         >
           <HugeiconsIcon icon={Video01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
         <ToolbarButton
           active={false}
-          onClick={insertFile}
+          onClick={() => setDialogType('file')}
           title="插入文件"
         >
           <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
-        <input
-          ref={fileInputRef}
-          type="file"
-          onChange={handleFileChange}
-          style={{ display: 'none' }}
-        />
         <ToolbarButton
           active={false}
           onClick={insertTable}
@@ -1460,6 +1793,14 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           fontSize: editorFontSize,
         }}
       />
+
+      {dialogType && (
+        <InsertDialog
+          type={dialogType}
+          onClose={() => setDialogType(null)}
+          editor={editor}
+        />
+      )}
     </div>
   );
 }

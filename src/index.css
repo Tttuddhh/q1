@@ -878,10 +878,21 @@ body {
   border: 1px solid #e5e7eb;
   padding: 8px 12px;
   text-align: left;
+  pointer-events: auto;
+  user-select: text;
 }
 .ProseMirror table th {
   background: #f9fafb;
   font-weight: 600;
+}
+
+/* Video styles in editor */
+.ProseMirror video {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+  margin: 1rem 0;
 }
 
 /* Ensure text alignment works */
