@@ -867,6 +867,23 @@ body {
   color: attr(style) !important;
 }
 
+/* Table styles in editor */
+.ProseMirror table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1rem 0;
+}
+.ProseMirror table td,
+.ProseMirror table th {
+  border: 1px solid #e5e7eb;
+  padding: 8px 12px;
+  text-align: left;
+}
+.ProseMirror table th {
+  background: #f9fafb;
+  font-weight: 600;
+}
+
 /* Ensure text alignment works */
 .ProseMirror [style*="text-align: left"] {
   text-align: left !important;

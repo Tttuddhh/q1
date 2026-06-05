@@ -8,6 +8,10 @@ import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
+import { Table } from '@tiptap/extension-table';
+import { TableRow } from '@tiptap/extension-table-row';
+import { TableCell } from '@tiptap/extension-table-cell';
+import { TableHeader } from '@tiptap/extension-table-header';
 import Placeholder from '@tiptap/extension-placeholder';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
@@ -32,6 +36,10 @@ import {
   SmileIcon,
   UploadIcon,
   ArrowRight01Icon,
+  Image01Icon,
+  Video01Icon,
+  File01Icon,
+  TableIcon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef, useMemo, memo } from 'react';
 import { useTranslation } from '../i18n';
@@ -1004,6 +1012,8 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
   const [displayFontFamily, setDisplayFontFamily] = useState(fontFamily);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const fontButtonRef = useRef<HTMLDivElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   useEffect(() => {
@@ -1020,7 +1030,11 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
       Underline,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Link.configure({ openOnClick: false }),
-      Image,
+      Image.configure({ inline: true }),
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableCell,
+      TableHeader,
       Placeholder.configure({ placeholder: t('editor.placeholder') }),
     ],
     content,
@@ -1061,6 +1075,82 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     }
     setShowEmojiPicker(false);
   }, [editor, addRecentEmoji]);
+
+  const insertImage = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt('请输入图片 URL：');
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run();
+    }
+  }, [editor]);
+
+  const handleImageFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+    const reader = new FileReader();
+    reader.onload = event => {
+      const base64 = event.target?.result as string;
+      if (base64) {
+        editor.chain().focus().setImage({ src: base64 }).run();
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }, [editor]);
+
+  const insertVideo = useCallback(() => {
+    if (!editor) return;
+    const url = window.prompt('请输入视频 URL（支持 YouTube、Bilibili 和直接链接）：');
+    if (!url) return;
+
+    let embedUrl = url;
+
+    // YouTube
+    const youtubeMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([a-zA-Z0-9_-]{11})/);
+    if (youtubeMatch) {
+      embedUrl = `https://www.youtube.com/embed/${youtubeMatch[1]}`;
+    }
+
+    // Bilibili
+    const bilibiliMatch = url.match(/bilibili\.com\/video\/(BV[\w]+)/);
+    if (bilibiliMatch) {
+      embedUrl = `https://player.bilibili.com/player.html?bvid=${bilibiliMatch[1]}`;
+    }
+
+    editor.chain().focus().insertContent(`<iframe src="${embedUrl}" width="560" height="315" frameborder="0" allowfullscreen></iframe>`).run();
+  }, [editor]);
+
+  const insertFile = useCallback(() => {
+    fileInputRef.current?.click();
+  }, []);
+
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file || !editor) return;
+    const reader = new FileReader();
+    reader.onload = event => {
+      const base64 = event.target?.result as string;
+      if (base64) {
+        editor.chain().focus().insertContent(`<a href="${base64}" target="_blank">${file.name}</a>`).run();
+      }
+    };
+    reader.readAsDataURL(file);
+    e.target.value = '';
+  }, [editor]);
+
+  const insertTable = useCallback(() => {
+    if (!editor) return;
+    const input = window.prompt('请输入表格行列，例如 3x3：', '3x3');
+    if (!input) return;
+    const match = input.match(/^(\d+)\s*x\s*(\d+)$/i);
+    if (!match) {
+      alert('格式不正确，请使用例如 3x3 的格式');
+      return;
+    }
+    const rows = parseInt(match[1], 10);
+    const cols = parseInt(match[2], 10);
+    editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
+  }, [editor]);
 
   if (!editor) {
     return null;
@@ -1289,6 +1379,50 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
             />
           )}
         </div>
+
+        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
+
+        <ToolbarButton
+          active={false}
+          onClick={insertImage}
+          title="插入图片"
+        >
+          <HugeiconsIcon icon={Image01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <input
+          ref={imageInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleImageFileChange}
+          style={{ display: 'none' }}
+        />
+        <ToolbarButton
+          active={false}
+          onClick={insertVideo}
+          title="插入视频"
+        >
+          <HugeiconsIcon icon={Video01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          active={false}
+          onClick={insertFile}
+          title="插入文件"
+        >
+          <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <input
+          ref={fileInputRef}
+          type="file"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+        />
+        <ToolbarButton
+          active={false}
+          onClick={insertTable}
+          title="插入表格"
+        >
+          <HugeiconsIcon icon={TableIcon} size={20} strokeWidth={2} />
+        </ToolbarButton>
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 

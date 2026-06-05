@@ -1,0 +1,35 @@
+# Tasks
+- [ ] Task 1: 安装 TipTap 图片、视频、表格扩展依赖
+  - [ ] SubTask 1.1: 安装 @tiptap/extension-image（已安装，确认版本）
+  - [ ] SubTask 1.2: 安装 @tiptap/extension-table, @tiptap/extension-table-row, @tiptap/extension-table-cell, @tiptap/extension-table-header
+  - [ ] SubTask 1.3: 安装视频扩展（使用 iframe 或自定义节点实现视频嵌入）
+- [ ] Task 2: 在工具栏增加图片、视频、文件、表格图标
+  - [ ] SubTask 2.1: 从 @hugeicons/core-free-icons 导入 Image01Icon、Video01Icon、File01Icon、TableIcon（或等效图标）
+  - [ ] SubTask 2.2: 在工具栏添加四个新按钮，位置在现有工具栏末尾
+  - [ ] SubTask 2.3: 为每个按钮添加点击事件处理
+- [ ] Task 3: 实现图片插入功能
+  - [ ] SubTask 3.1: 创建图片插入对话框组件（支持上传 + URL 输入）
+  - [ ] SubTask 3.2: 使用 TipTap Image 扩展插入图片
+  - [ ] SubTask 3.3: 配置图片节点为 inline 或 block，确保前后可放置光标
+  - [ ] SubTask 3.4: 图片上传转 base64 或生成 blob URL
+- [ ] Task 4: 实现视频插入功能
+  - [ ] SubTask 4.1: 创建视频 URL 输入对话框
+  - [ ] SubTask 4.2: 使用 iframe 节点或自定义 TipTap 节点嵌入视频
+  - [ ] SubTask 4.3: 支持 YouTube、Bilibili 等常见视频平台 URL 解析
+  - [ ] SubTask 4.4: 确保视频前后可放置光标
+- [ ] Task 5: 实现文件插入功能
+  - [ ] SubTask 5.1: 创建文件上传对话框
+  - [ ] SubTask 5.2: 文件上传后生成链接插入到编辑器
+  - [ ] SubTask 5.3: 文件以可点击链接形式展示
+- [ ] Task 6: 实现表格插入功能
+  - [ ] SubTask 6.1: 创建行列选择器对话框
+  - [ ] SubTask 6.2: 使用 TipTap Table 扩展插入表格
+  - [ ] SubTask 6.3: 配置表格基础样式
+- [ ] Task 7: 构建并验证
+  - [ ] SubTask 7.1: 运行 npm run build 确保无错误
+  - [ ] SubTask 7.2: 验证图片、视频、文件、表格功能正常工作
+
+# Task Dependencies
+- Task 2 depends on Task 1
+- Task 3, 4, 5, 6 depend on Task 2
+- Task 7 depends on Task 3, 4, 5, 6
