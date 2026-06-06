@@ -1,0 +1,7 @@
+- [ ] `useTableCellSelection` Hook 已从 `RichTextEditor.tsx` 中完全移除
+- [ ] `RichTextEditor` 组件不再使用 `containerRef`、`mergeSelectedCells`、`hasSelection`
+- [ ] 合并按钮直接调用 `editor.chain().focus().mergeCells().run()`
+- [ ] `index.css` 中表格单元格样式移除了 `pointer-events: auto` 和 `user-select: text`
+- [ ] `index.css` 中添加了 `.ProseMirror .selectedCell` 高亮样式
+- [ ] `npm run build` 编译通过
+- [ ] `npm run lint` 无错误
