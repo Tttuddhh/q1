@@ -1,46 +1,37 @@
-# 表格单元格合并与光标修复 Spec
+# 表格单元格合并与拆分 Spec
 
 ## Why
-用户反馈表格有两个核心问题：
-1. **合并单元格功能没有真正解决** — 拖拽选中了单元格，但点击合并按钮没有正确合并选中的单元格
-2. **光标无法在单元格任意位置输入，且移动到另一个单元格时有很大延迟**
+用户反馈表格合并单元格的效果不符合预期。用户期望的合并效果是：选中多个单元格后，内部边框线消失（视觉上连成一片），但表格整体大小保持不变。同时需要支持拆分已合并的单元格。
 
 ## What Changes
-- **BREAKING**: 移除自定义的表格拖拽选中逻辑（`useTableCellSelection` Hook），改为依赖 ProseMirror 原生的 `tableEditing` 插件处理单元格选中
-- 修复 CSS：移除 `pointer-events: auto` 和 `user-select: text`，这些属性干扰了 ProseMirror 原生光标定位
-- 修复合并按钮：`mergeCells()` 命令需要 ProseMirror 的 `CellSelection` 才能工作，原生插件会自动创建它
-- 添加 `.selectedCell` 样式，让原生选中的单元格有高亮效果
-- 移除自定义 mousedown 事件中对 `e.preventDefault()` 的调用，避免阻止原生光标行为
+- 合并按钮改为基于 `editor.can().mergeCells()` 条件显示，只在可以合并时出现
+- 添加拆分单元格按钮，基于 `editor.can().splitCell()` 条件显示
+- 修复可能导致合并后出现"虚线"的 CSS 样式
+- 确保 ProseMirror 原生 `CellSelection` 正常工作，拖拽选中多个单元格后 `mergeCells()` 能正确执行
 
 ## Impact
 - Affected code: `src/components/RichTextEditor.tsx`, `src/index.css`
-- Affected capabilities: 表格插入、单元格选中、单元格合并、光标定位
+- Affected capabilities: 表格单元格合并、表格单元格拆分
 
 ## ADDED Requirements
-### Requirement: 原生表格单元格选中
-The system SHALL 使用 ProseMirror 原生的 `tableEditing` 插件处理表格单元格拖拽选中，而非自定义实现。
-
-#### Scenario: 拖拽选中单元格
-- **WHEN** 用户在表格单元格上按下鼠标并拖拽到另一个单元格
-- **THEN** ProseMirror 自动创建 `CellSelection`
-- **AND** 选中的单元格显示高亮背景（通过 `.selectedCell` CSS 类）
-
-### Requirement: 合并单元格正常工作
-The system SHALL 在用户通过原生方式选中多个单元格后，点击合并按钮成功合并单元格。
+### Requirement: 合并单元格
+The system SHALL 在用户通过 ProseMirror 原生方式选中多个单元格后，点击合并按钮将选中的单元格合并为一个单元格（使用 colspan/rowspan），内部边框消失，表格总尺寸保持不变。
 
 #### Scenario: 合并选中的单元格
-- **WHEN** 用户拖拽选中多个单元格
+- **WHEN** 用户拖拽选中多个相邻单元格
 - **AND** 点击工具栏上的合并图标
 - **THEN** 选中的单元格合并为一个单元格
+- **AND** 合并后的单元格跨越原先的所有行列
+- **AND** 表格总宽度和总高度不变
 
-### Requirement: 光标定位正常
-The system SHALL 允许用户在表格单元格的任意位置正常输入，光标移动无延迟。
+### Requirement: 拆分单元格
+The system SHALL 允许用户将已合并的单元格拆分为原先的多个单元格。
 
-#### Scenario: 在单元格内输入
-- **WHEN** 用户点击表格单元格
-- **THEN** 光标立即出现在点击位置
-- **AND** 用户可以在单元格任意位置输入文字
+#### Scenario: 拆分已合并的单元格
+- **WHEN** 用户选中一个已合并的单元格
+- **AND** 点击工具栏上的拆分图标
+- **THEN** 该单元格拆分为原先的多个单元格
 
-#### Scenario: 在单元格间移动
-- **WHEN** 用户使用方向键或鼠标移动到另一个单元格
-- **THEN** 光标移动无延迟
+## MODIFIED Requirements
+### Requirement: 合并按钮显示条件
+合并按钮 SHALL 只在当前选中了多个可以合并的单元格时显示，使用 `editor.can().mergeCells()` 判断。
