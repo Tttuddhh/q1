@@ -42,8 +42,8 @@ import {
   File01Icon,
   TableIcon,
   Cancel01Icon,
-  JoinRoundIcon,
-  ScissorIcon,
+  Add01Icon,
+  Remove01Icon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef, useMemo, memo } from 'react';
 import { useTranslation } from '../i18n';
@@ -1605,8 +1605,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
   const [textColor, setTextColor] = useState('#1a1a1a');
   const [highlightColor, setHighlightColor] = useState('#fef08a');
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
-  const [canMergeCells, setCanMergeCells] = useState(false);
-  const [canSplitCell, setCanSplitCell] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showFontPicker, setShowFontPicker] = useState(false);
   const displayFontFamily = fontFamily;
@@ -1643,13 +1641,9 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
       setActiveFormats(getActiveFormats(editor));
-      setCanMergeCells(editor.can().mergeCells());
-      setCanSplitCell(editor.can().splitCell());
     },
     onSelectionUpdate: ({ editor }) => {
       setActiveFormats(getActiveFormats(editor));
-      setCanMergeCells(editor.can().mergeCells());
-      setCanSplitCell(editor.can().splitCell());
     },
   }, [language]);
 
@@ -1976,24 +1970,34 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           )}
         </div>
 
-        {canMergeCells && (
-          <ToolbarButton
-            active={false}
-            onClick={() => editor.chain().focus().mergeCells().run()}
-            title="合并单元格"
-          >
-            <HugeiconsIcon icon={JoinRoundIcon} size={20} strokeWidth={2} />
-          </ToolbarButton>
-        )}
-        {canSplitCell && (
-          <ToolbarButton
-            active={false}
-            onClick={() => editor.chain().focus().splitCell().run()}
-            title="拆分单元格"
-          >
-            <HugeiconsIcon icon={ScissorIcon} size={20} strokeWidth={2} />
-          </ToolbarButton>
-        )}
+        <ToolbarButton
+          active={false}
+          onClick={() => editor.chain().focus().addRowAfter().run()}
+          title="下方添加行"
+        >
+          <HugeiconsIcon icon={Add01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          active={false}
+          onClick={() => editor.chain().focus().deleteRow().run()}
+          title="删除当前行"
+        >
+          <HugeiconsIcon icon={Remove01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          active={false}
+          onClick={() => editor.chain().focus().addColumnAfter().run()}
+          title="右侧添加列"
+        >
+          <HugeiconsIcon icon={Add01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          active={false}
+          onClick={() => editor.chain().focus().deleteColumn().run()}
+          title="删除当前列"
+        >
+          <HugeiconsIcon icon={Remove01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 
