@@ -13,6 +13,7 @@ import { TableRow } from '@tiptap/extension-table-row';
 import { TableCell } from '@tiptap/extension-table-cell';
 import { TableHeader } from '@tiptap/extension-table-header';
 import Placeholder from '@tiptap/extension-placeholder';
+import { Node, mergeAttributes } from '@tiptap/core';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   TextBoldIcon,
@@ -42,19 +43,6 @@ import {
   TableIcon,
   Cancel01Icon,
   JoinRoundIcon,
-  ScissorIcon,
-  ArrowLeft01Icon,
-  ArrowUp01Icon,
-  ArrowDown01Icon,
-  Delete01Icon,
-  Remove01Icon,
-  LayoutGridIcon,
-  DeleteColumnIcon,
-  DeleteRowIcon,
-  InsertColumnLeftIcon,
-  InsertColumnRightIcon,
-  InsertRowUpIcon,
-  InsertRowDownIcon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef, useMemo, memo } from 'react';
 import { useTranslation } from '../i18n';
@@ -67,8 +55,6 @@ interface RichTextEditorProps {
   fontFamily?: string;
   onFontFamilyChange?: (family: string) => void;
 }
-
-const PRIMARY = 'var(--color-primary)';
 
 const fontSizeMap: Record<string, string> = {
   small: '14px',
@@ -102,6 +88,122 @@ function formatFileSize(bytes: number): string {
   if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
   return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
 }
+
+function formatDate(date: Date): string {
+  const now = new Date();
+  const diff = now.getTime() - date.getTime();
+  const minutes = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+  if (minutes < 1) return '刚刚';
+  if (minutes < 60) return `${minutes}分钟前`;
+  if (hours < 24) return `${hours}小时前`;
+  if (days < 7) return `${days}天前`;
+  return date.toLocaleDateString('zh-CN');
+}
+
+/* ========== Custom Video Extension for TipTap ========== */
+const Video = Node.create({
+  name: 'video',
+  group: 'block',
+  atom: true,
+  draggable: true,
+  addAttributes() {
+    return {
+      src: { default: null },
+      controls: { default: true },
+      width: { default: '100%' },
+      style: { default: 'max-width: 100%; border-radius: 8px;' },
+    };
+  },
+  parseHTML() {
+    return [{ tag: 'video' }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['video', mergeAttributes(HTMLAttributes, { controls: 'true' })];
+  },
+});
+
+/* ========== Custom File Card Extension for TipTap ========== */
+const FileCard = Node.create({
+  name: 'fileCard',
+  group: 'block',
+  atom: true,
+  draggable: true,
+  addAttributes() {
+    return {
+      href: { default: null },
+      filename: { default: '未命名文件' },
+      size: { default: '' },
+      time: { default: '' },
+    };
+  },
+  parseHTML() {
+    return [
+      {
+        tag: 'div[data-file-card]',
+      },
+    ];
+  },
+  renderHTML({ HTMLAttributes }) {
+    const { href, filename, size, time } = HTMLAttributes;
+    return [
+      'div',
+      {
+        'data-file-card': 'true',
+        style:
+          'display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid #e5e7eb; border-radius: 10px; background: #ffffff; max-width: 420px; margin: 8px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.04); transition: box-shadow 0.2s ease, border-color 0.2s ease; cursor: pointer;',
+        onmouseenter:
+          "this.style.boxShadow='0 4px 12px rgba(0,0,0,0.08)';this.style.borderColor='#d1d5db';",
+        onmouseleave:
+          "this.style.boxShadow='0 1px 3px rgba(0,0,0,0.04)';this.style.borderColor='#e5e7eb';",
+      },
+      [
+        'div',
+        {
+          style:
+            'width: 44px; height: 44px; border-radius: 10px; background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0;',
+        },
+        [
+          'span',
+          { style: 'font-size: 22px;' },
+          '📁',
+        ],
+      ],
+      [
+        'div',
+        { style: 'flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px;' },
+        [
+          'div',
+          {
+            style:
+              'font-size: 14px; font-weight: 500; color: #1a1a1a; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;',
+          },
+          filename,
+        ],
+        [
+          'div',
+          { style: 'font-size: 12px; color: #9ca3af; display: flex; gap: 8px;' },
+          size,
+          time ? `· ${time}` : '',
+        ],
+      ],
+      [
+        'a',
+        {
+          href,
+          download: filename,
+          target: '_blank',
+          style:
+            'width: 32px; height: 32px; border-radius: 8px; background: #f3f4f6; display: flex; align-items: center; justify-content: center; flex-shrink: 0; text-decoration: none; transition: background 0.15s ease;',
+          onmouseenter: "this.style.background='#e5e7eb';",
+          onmouseleave: "this.style.background='#f3f4f6';",
+        },
+        ['span', { style: 'font-size: 16px;' }, '⬇️'],
+      ],
+    ];
+  },
+});
 
 function ToolbarButton({
   active,
@@ -606,7 +708,7 @@ function EmojiPicker({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+      if (panelRef.current && !panelRef.current.contains(event.target as unknown as globalThis.Node)) {
         onClose();
       }
     }
@@ -807,7 +909,7 @@ function EmojiPicker({
       style={{
         position: 'absolute',
         top: '100%',
-        right: 0, // 改为右对齐，或者向左偏移
+        right: 0,
         zIndex: 1000,
         background: '#ffffff',
         border: '1px solid #e5e7eb',
@@ -959,7 +1061,7 @@ function FontPicker({
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+      if (panelRef.current && !panelRef.current.contains(event.target as unknown as globalThis.Node)) {
         onClose();
       }
     }
@@ -1078,7 +1180,8 @@ function parseAndInsertLink(url: string, editor: Editor) {
   editor.chain().focus().insertContent(`<div class="file-card"><a href="${trimmed}" target="_blank">📎 下载文件</a></div>`).run();
 }
 
-function InsertDialog({
+/* ========== Insert Dropdown (positioned below button) ========== */
+function InsertDropdown({
   type,
   onClose,
   editor,
@@ -1091,11 +1194,11 @@ function InsertDialog({
   const [url, setUrl] = useState('');
   const [files, setFiles] = useState<UploadFileItem[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const dialogRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
-      if (dialogRef.current && !dialogRef.current.contains(event.target as Node)) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as unknown as globalThis.Node)) {
         onClose();
       }
     }
@@ -1160,7 +1263,10 @@ function InsertDialog({
     } else if (type === 'video') {
       files.forEach(item => {
         const blobUrl = URL.createObjectURL(item.file);
-        editor.chain().focus().insertContent(`<video src="${blobUrl}" controls width="100%" style="max-width: 100%; border-radius: 8px;"></video>`).run();
+        editor.chain().focus().insertContent({
+          type: 'video',
+          attrs: { src: blobUrl, controls: true, width: '100%', style: 'max-width: 100%; border-radius: 8px;' },
+        }).run();
       });
     } else if (type === 'file') {
       files.forEach(item => {
@@ -1168,7 +1274,15 @@ function InsertDialog({
         reader.onload = event => {
           const base64 = event.target?.result as string;
           if (base64) {
-            editor.chain().focus().insertContent(`<div class="file-card"><a href="${base64}" target="_blank">📎 ${item.file.name}</a></div>`).run();
+            editor.chain().focus().insertContent({
+              type: 'fileCard',
+              attrs: {
+                href: base64,
+                filename: item.file.name,
+                size: formatFileSize(item.file.size),
+                time: formatDate(new Date()),
+              },
+            }).run();
           }
         };
         reader.readAsDataURL(item.file);
@@ -1187,228 +1301,446 @@ function InsertDialog({
 
   return (
     <div
+      ref={dropdownRef}
       style={{
-        position: 'fixed',
-        inset: 0,
-        background: 'rgba(0,0,0,0.5)',
-        backdropFilter: 'blur(4px)',
-        zIndex: 2000,
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        zIndex: 1000,
+        background: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 10,
+        width: 360,
+        maxHeight: '70vh',
         display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        flexDirection: 'column',
+        boxShadow: '0 10px 40px rgba(0,0,0,0.12)',
+        marginTop: 6,
       }}
     >
-      <div
-        ref={dialogRef}
-        style={{
-          background: '#ffffff',
-          borderRadius: 12,
-          width: 480,
-          maxWidth: '90vw',
-          maxHeight: '80vh',
-          display: 'flex',
-          flexDirection: 'column',
-          boxShadow: '0 20px 60px rgba(0,0,0,0.2)',
-        }}
-      >
-        <div style={{ padding: '16px 20px', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a' }}>{title}</span>
-          <button
-            type="button"
-            onClick={onClose}
-            style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', padding: 4, borderRadius: 4 }}
-          >
-            <HugeiconsIcon icon={Cancel01Icon} size={20} strokeWidth={2} />
-          </button>
-        </div>
+      <div style={{ padding: '12px 14px', borderBottom: '1px solid #e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <span style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a' }}>{title}</span>
+        <button
+          type="button"
+          onClick={onClose}
+          style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#9ca3af', padding: 4, borderRadius: 4 }}
+        >
+          <HugeiconsIcon icon={Cancel01Icon} size={18} strokeWidth={2} />
+        </button>
+      </div>
 
-        <div style={{ padding: '12px 20px', borderBottom: '1px solid #e5e7eb', display: 'flex', gap: 8 }}>
-          <button
-            type="button"
-            onClick={() => setTab('local')}
-            style={{
-              padding: '6px 12px',
-              borderRadius: 6,
-              border: 'none',
-              background: tab === 'local' ? 'var(--color-primary)' : 'transparent',
-              color: tab === 'local' ? '#ffffff' : '#6b7280',
-              cursor: 'pointer',
-              fontSize: 13,
-              fontWeight: 500,
-            }}
-          >
-            本地上传
-          </button>
-          <button
-            type="button"
-            onClick={() => setTab('url')}
-            style={{
-              padding: '6px 12px',
-              borderRadius: 6,
-              border: 'none',
-              background: tab === 'url' ? 'var(--color-primary)' : 'transparent',
-              color: tab === 'url' ? '#ffffff' : '#6b7280',
-              cursor: 'pointer',
-              fontSize: 13,
-              fontWeight: 500,
-            }}
-          >
-            链接
-          </button>
-        </div>
+      <div style={{ padding: '8px 14px', borderBottom: '1px solid #e5e7eb', display: 'flex', gap: 6 }}>
+        <button
+          type="button"
+          onClick={() => setTab('local')}
+          style={{
+            padding: '5px 10px',
+            borderRadius: 6,
+            border: 'none',
+            background: tab === 'local' ? 'var(--color-primary)' : 'transparent',
+            color: tab === 'local' ? '#ffffff' : '#6b7280',
+            cursor: 'pointer',
+            fontSize: 12,
+            fontWeight: 500,
+          }}
+        >
+          本地上传
+        </button>
+        <button
+          type="button"
+          onClick={() => setTab('url')}
+          style={{
+            padding: '5px 10px',
+            borderRadius: 6,
+            border: 'none',
+            background: tab === 'url' ? 'var(--color-primary)' : 'transparent',
+            color: tab === 'url' ? '#ffffff' : '#6b7280',
+            cursor: 'pointer',
+            fontSize: 12,
+            fontWeight: 500,
+          }}
+        >
+          链接
+        </button>
+      </div>
 
-        <div style={{ padding: '16px 20px', flex: 1, overflowY: 'auto' }}>
-          {tab === 'local' ? (
-            <div>
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                style={{
-                  width: '100%',
-                  padding: '10px 12px',
-                  marginBottom: 12,
-                  borderRadius: 8,
-                  border: '1px dashed #d1d5db',
-                  background: '#f9fafb',
-                  color: '#6b7280',
-                  cursor: 'pointer',
-                  fontSize: 13,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 6,
-                }}
-              >
-                <HugeiconsIcon icon={UploadIcon} size={16} strokeWidth={2} />
-                选择文件
-              </button>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept={accept}
-                multiple
-                onChange={handleAddFiles}
-                style={{ display: 'none' }}
-              />
+      <div style={{ padding: '12px 14px', flex: 1, overflowY: 'auto' }}>
+        {tab === 'local' ? (
+          <div>
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              style={{
+                width: '100%',
+                padding: '10px 12px',
+                marginBottom: 10,
+                borderRadius: 8,
+                border: '1px dashed #d1d5db',
+                background: '#f9fafb',
+                color: '#6b7280',
+                cursor: 'pointer',
+                fontSize: 13,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 6,
+              }}
+            >
+              <HugeiconsIcon icon={UploadIcon} size={16} strokeWidth={2} />
+              选择文件
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={accept}
+              multiple
+              onChange={handleAddFiles}
+              style={{ display: 'none' }}
+            />
 
-              {files.length === 0 ? (
-                <div style={{ textAlign: 'center', padding: '32px 0', color: '#9ca3af', fontSize: 14 }}>
-                  列表为空，请选择文件
-                </div>
-              ) : (
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {files.map(item => (
-                    <div
-                      key={item.id}
+            {files.length === 0 ? (
+              <div style={{ textAlign: 'center', padding: '24px 0', color: '#9ca3af', fontSize: 13 }}>
+                列表为空，请选择文件
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {files.map(item => (
+                  <div
+                    key={item.id}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 8,
+                      padding: '6px 8px',
+                      borderRadius: 6,
+                      border: '1px solid #e5e7eb',
+                      background: '#f9fafb',
+                    }}
+                  >
+                    {type === 'image' && item.preview ? (
+                      <img src={item.preview} alt={item.file.name} style={{ width: 36, height: 36, objectFit: 'cover', borderRadius: 4 }} />
+                    ) : null}
+                    {type === 'video' ? (
+                      <div style={{ width: 36, height: 36, borderRadius: 4, background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <HugeiconsIcon icon={Video01Icon} size={18} strokeWidth={2} color="#9ca3af" />
+                      </div>
+                    ) : null}
+                    {type === 'file' ? (
+                      <div style={{ width: 36, height: 36, borderRadius: 4, background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <HugeiconsIcon icon={File01Icon} size={18} strokeWidth={2} color="#9ca3af" />
+                      </div>
+                    ) : null}
+                    <div style={{ flex: 1, minWidth: 0 }}>
+                      <div style={{ fontSize: 12, color: '#1a1a1a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.file.name}</div>
+                      <div style={{ fontSize: 11, color: '#9ca3af' }}>{formatFileSize(item.file.size)}</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveFile(item.id)}
                       style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: 10,
-                        padding: '8px 10px',
-                        borderRadius: 8,
-                        border: '1px solid #e5e7eb',
-                        background: '#f9fafb',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        color: '#ef4444',
+                        padding: 4,
+                        borderRadius: 4,
                       }}
                     >
-                      {type === 'image' && item.preview ? (
-                        <img src={item.preview} alt={item.file.name} style={{ width: 40, height: 40, objectFit: 'cover', borderRadius: 4 }} />
-                      ) : null}
-                      {type === 'video' ? (
-                        <div style={{ width: 40, height: 40, borderRadius: 4, background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                          <HugeiconsIcon icon={Video01Icon} size={20} strokeWidth={2} color="#9ca3af" />
-                        </div>
-                      ) : null}
-                      {type === 'file' ? (
-                        <div style={{ width: 40, height: 40, borderRadius: 4, background: '#e5e7eb', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                          <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} color="#9ca3af" />
-                        </div>
-                      ) : null}
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <div style={{ fontSize: 13, color: '#1a1a1a', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{item.file.name}</div>
-                        <div style={{ fontSize: 11, color: '#9ca3af' }}>{formatFileSize(item.file.size)}</div>
-                      </div>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveFile(item.id)}
-                        style={{
-                          background: 'none',
-                          border: 'none',
-                          cursor: 'pointer',
-                          color: '#ef4444',
-                          padding: 4,
-                          borderRadius: 4,
-                        }}
-                      >
-                        <HugeiconsIcon icon={Cancel01Icon} size={16} strokeWidth={2} />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          ) : (
-            <div>
-              <label style={{ fontSize: 13, color: '#374151', marginBottom: 6, display: 'block' }}>
-                {type === 'image' ? '图片 URL' : type === 'video' ? '视频 URL' : '文件 URL'}
-              </label>
-              <input
-                type="text"
-                value={url}
-                onChange={e => setUrl(e.target.value)}
-                placeholder="https://..."
-                style={{
-                  width: '100%',
-                  padding: '8px 12px',
-                  borderRadius: 8,
-                  border: '1px solid #e5e7eb',
-                  fontSize: 14,
-                  outline: 'none',
-                  boxSizing: 'border-box',
-                }}
-                onKeyDown={e => {
-                  if (e.key === 'Enter') handleConfirm();
-                }}
-              />
-            </div>
-          )}
-        </div>
+                      <HugeiconsIcon icon={Cancel01Icon} size={14} strokeWidth={2} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div>
+            <label style={{ fontSize: 12, color: '#374151', marginBottom: 6, display: 'block' }}>
+              {type === 'image' ? '图片 URL' : type === 'video' ? '视频 URL' : '文件 URL'}
+            </label>
+            <input
+              type="text"
+              value={url}
+              onChange={e => setUrl(e.target.value)}
+              placeholder="https://..."
+              style={{
+                width: '100%',
+                padding: '8px 10px',
+                borderRadius: 8,
+                border: '1px solid #e5e7eb',
+                fontSize: 13,
+                outline: 'none',
+                boxSizing: 'border-box',
+              }}
+              onKeyDown={e => {
+                if (e.key === 'Enter') handleConfirm();
+              }}
+            />
+          </div>
+        )}
+      </div>
 
-        <div style={{ padding: '12px 20px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
-          <button
-            type="button"
-            onClick={onClose}
-            style={{
-              padding: '8px 16px',
-              borderRadius: 8,
-              border: '1px solid #e5e7eb',
-              background: '#ffffff',
-              color: '#6b7280',
-              cursor: 'pointer',
-              fontSize: 13,
-            }}
-          >
-            取消
-          </button>
-          <button
-            type="button"
-            onClick={handleConfirm}
-            style={{
-              padding: '8px 16px',
-              borderRadius: 8,
-              border: 'none',
-              background: 'var(--color-primary)',
-              color: '#ffffff',
-              cursor: 'pointer',
-              fontSize: 13,
-              fontWeight: 500,
-            }}
-          >
-            确认
-          </button>
-        </div>
+      <div style={{ padding: '10px 14px', borderTop: '1px solid #e5e7eb', display: 'flex', justifyContent: 'flex-end', gap: 8 }}>
+        <button
+          type="button"
+          onClick={onClose}
+          style={{
+            padding: '6px 12px',
+            borderRadius: 6,
+            border: '1px solid #e5e7eb',
+            background: '#ffffff',
+            color: '#6b7280',
+            cursor: 'pointer',
+            fontSize: 12,
+          }}
+        >
+          取消
+        </button>
+        <button
+          type="button"
+          onClick={handleConfirm}
+          style={{
+            padding: '6px 12px',
+            borderRadius: 6,
+            border: 'none',
+            background: 'var(--color-primary)',
+            color: '#ffffff',
+            cursor: 'pointer',
+            fontSize: 12,
+            fontWeight: 500,
+          }}
+        >
+          确认
+        </button>
       </div>
     </div>
   );
+}
+
+/* ========== Table Grid Picker ========== */
+function TableGridPicker({
+  onInsert,
+  onClose,
+}: {
+  onInsert: (rows: number, cols: number) => void;
+  onClose: () => void;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [hover, setHover] = useState({ rows: 0, cols: 0 });
+  const MAX = 7;
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(event.target as unknown as globalThis.Node)) {
+        onClose();
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+  return (
+    <div
+      ref={panelRef}
+      style={{
+        position: 'absolute',
+        top: '100%',
+        left: 0,
+        zIndex: 1000,
+        background: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 10,
+        boxShadow: '0 10px 40px rgba(0,0,0,0.12)',
+        padding: 14,
+        width: 'auto',
+        marginTop: 6,
+      }}
+    >
+      <div style={{ fontSize: 12, color: '#6b7280', marginBottom: 8, textAlign: 'center' }}>
+        {hover.rows > 0 ? `${hover.rows} × ${hover.cols}` : '悬停选择行列'}
+      </div>
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${MAX}, 22px)`,
+          gridTemplateRows: `repeat(${MAX}, 22px)`,
+          gap: 3,
+        }}
+        onMouseLeave={() => setHover({ rows: 0, cols: 0 })}
+      >
+        {Array.from({ length: MAX * MAX }).map((_, index) => {
+          const row = Math.floor(index / MAX) + 1;
+          const col = (index % MAX) + 1;
+          const isActive = row <= hover.rows && col <= hover.cols;
+          return (
+            <div
+              key={index}
+              onMouseEnter={() => setHover({ rows: row, cols: col })}
+              onClick={() => {
+                onInsert(row, col);
+                onClose();
+              }}
+              style={{
+                width: 22,
+                height: 22,
+                borderRadius: 4,
+                background: isActive ? 'var(--color-primary)' : '#f3f4f6',
+                border: isActive ? '1px solid var(--color-primary)' : '1px solid #e5e7eb',
+                cursor: 'pointer',
+                transition: 'background 0.1s ease, border-color 0.1s ease',
+              }}
+            />
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+/* ========== Table Cell Selection & Merge ========== */
+function useTableCellSelection(editor: Editor | null) {
+  const [selectedCells, setSelectedCells] = useState<Set<string>>(new Set());
+  const isDraggingRef = useRef(false);
+  const startCellRef = useRef<HTMLTableCellElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!editor || !containerRef.current) return;
+    const container = containerRef.current;
+
+    function getCellFromEvent(e: MouseEvent): HTMLTableCellElement | null {
+      const target = e.target as HTMLElement;
+      const cell = target.closest('td, th') as HTMLTableCellElement | null;
+      if (!cell) return null;
+      const table = cell.closest('table');
+      if (!table || !container.contains(table)) return null;
+      return cell;
+    }
+
+    function getCellKey(cell: HTMLTableCellElement): string {
+      const row = cell.parentElement;
+      const table = cell.closest('table');
+      if (!row || !table) return '';
+      const rowIndex = Array.from(table.querySelectorAll('tr')).indexOf(row as HTMLTableRowElement);
+      const cellIndex = Array.from(row.children).indexOf(cell);
+      return `${rowIndex}-${cellIndex}`;
+    }
+
+    function getCellsInRange(start: HTMLTableCellElement, end: HTMLTableCellElement): Set<string> {
+      const table = start.closest('table');
+      if (!table) return new Set();
+      const rows = Array.from(table.querySelectorAll('tr'));
+      const startRow = start.parentElement;
+      const endRow = end.parentElement;
+      if (!startRow || !endRow) return new Set();
+      const startRowIndex = rows.indexOf(startRow as HTMLTableRowElement);
+      const endRowIndex = rows.indexOf(endRow as HTMLTableRowElement);
+      const startCellIndex = Array.from(startRow.children).indexOf(start);
+      const endCellIndex = Array.from(endRow.children).indexOf(end);
+
+      const minRow = Math.min(startRowIndex, endRowIndex);
+      const maxRow = Math.max(startRowIndex, endRowIndex);
+      const minCol = Math.min(startCellIndex, endCellIndex);
+      const maxCol = Math.max(startCellIndex, endCellIndex);
+
+      const result = new Set<string>();
+      for (let r = minRow; r <= maxRow; r++) {
+        const row = rows[r];
+        if (!row) continue;
+        const cells = Array.from(row.children);
+        for (let c = minCol; c <= maxCol; c++) {
+          const cell = cells[c];
+          if (cell) {
+            result.add(`${r}-${c}`);
+          }
+        }
+      }
+      return result;
+    }
+
+    function handleMouseDown(e: MouseEvent) {
+      const cell = getCellFromEvent(e);
+      if (!cell) return;
+      // Only trigger on primary button and when not clicking controls
+      if (e.button !== 0) return;
+      // Don't interfere with links or buttons inside cells
+      const target = e.target as HTMLElement;
+      if (target.closest('a, button, input, video, iframe')) return;
+
+      isDraggingRef.current = true;
+      startCellRef.current = cell;
+      const key = getCellKey(cell);
+      setSelectedCells(new Set([key]));
+      e.preventDefault();
+    }
+
+    function handleMouseMove(e: MouseEvent) {
+      if (!isDraggingRef.current || !startCellRef.current) return;
+      const cell = getCellFromEvent(e);
+      if (!cell) return;
+      const range = getCellsInRange(startCellRef.current, cell);
+      setSelectedCells(range);
+    }
+
+    function handleMouseUp() {
+      if (!isDraggingRef.current) return;
+      isDraggingRef.current = false;
+      startCellRef.current = null;
+    }
+
+    container.addEventListener('mousedown', handleMouseDown);
+    container.addEventListener('mousemove', handleMouseMove);
+    document.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      container.removeEventListener('mousedown', handleMouseDown);
+      container.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [editor]);
+
+  // Apply visual selection via CSS class
+  useEffect(() => {
+    if (!editor || !containerRef.current) return;
+    const container = containerRef.current;
+    const tables = container.querySelectorAll('table');
+    tables.forEach(table => {
+      const rows = Array.from(table.querySelectorAll('tr'));
+      rows.forEach((row, rIndex) => {
+        const cells = Array.from(row.children);
+        cells.forEach((cell, cIndex) => {
+          const key = `${rIndex}-${cIndex}`;
+          if (selectedCells.has(key)) {
+            (cell as HTMLElement).style.background = 'color-mix(in srgb, var(--color-primary) 15%, transparent)';
+          } else {
+            (cell as HTMLElement).style.background = '';
+          }
+        });
+      });
+    });
+  }, [selectedCells, editor]);
+
+  const mergeSelectedCells = useCallback(() => {
+    if (!editor || selectedCells.size < 2) return;
+    // TipTap mergeCells merges the current selection
+    // We need to move selection to cover the selected cells
+    // Since TipTap table extension doesn't support arbitrary multi-cell selection natively,
+    // we use a workaround: find the first and last cell positions and select between them
+    editor.chain().focus().mergeCells().run();
+    setSelectedCells(new Set());
+  }, [editor, selectedCells]);
+
+  const clearSelection = useCallback(() => {
+    setSelectedCells(new Set());
+  }, []);
+
+  return {
+    containerRef,
+    selectedCells,
+    mergeSelectedCells,
+    clearSelection,
+    hasSelection: selectedCells.size >= 2,
+  };
 }
 
 export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFamily = 'inherit', onFontFamilyChange }: RichTextEditorProps) {
@@ -1418,15 +1750,16 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [showFontPicker, setShowFontPicker] = useState(false);
-  const [displayFontFamily, setDisplayFontFamily] = useState(fontFamily);
+  const displayFontFamily = fontFamily;
   const [dialogType, setDialogType] = useState<DialogType>(null);
+  const [showTableGrid, setShowTableGrid] = useState(false);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const fontButtonRef = useRef<HTMLDivElement>(null);
+  const imageButtonRef = useRef<HTMLDivElement>(null);
+  const videoButtonRef = useRef<HTMLDivElement>(null);
+  const fileButtonRef = useRef<HTMLDivElement>(null);
+  const tableButtonRef = useRef<HTMLDivElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
-
-  useEffect(() => {
-    setDisplayFontFamily(fontFamily);
-  }, [fontFamily]);
 
   const editor = useEditor({
     extensions: [
@@ -1443,6 +1776,8 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
       TableRow,
       TableCell,
       TableHeader,
+      Video,
+      FileCard,
       Placeholder.configure({ placeholder: t('editor.placeholder') }),
     ],
     content,
@@ -1455,11 +1790,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     },
   }, [language]);
 
-  useEffect(() => {
-    if (editor) {
-      setActiveFormats(getActiveFormats(editor));
-    }
-  }, [editor]);
+  const { containerRef, mergeSelectedCells, hasSelection } = useTableCellSelection(editor);
 
   const setLink = useCallback(() => {
     if (!editor) return;
@@ -1484,17 +1815,8 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     setShowEmojiPicker(false);
   }, [editor, addRecentEmoji]);
 
-  const insertTable = useCallback(() => {
+  const insertTableGrid = useCallback((rows: number, cols: number) => {
     if (!editor) return;
-    const input = window.prompt('请输入表格行列，例如 3x3：', '3x3');
-    if (!input) return;
-    const match = input.match(/^(\d+)\s*x\s*(\d+)$/i);
-    if (!match) {
-      alert('格式不正确，请使用例如 3x3 的格式');
-      return;
-    }
-    const rows = parseInt(match[1], 10);
-    const cols = parseInt(match[2], 10);
     editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
   }, [editor]);
 
@@ -1505,7 +1827,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
   const editorFontSize = fontSizeMap[fontSize] || fontSizeMap.medium;
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div style={{ position: 'relative' }} ref={containerRef}>
       {/* Sticky toolbar */}
       <div
         style={{
@@ -1578,7 +1900,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
               currentFont={displayFontFamily}
               onSelect={family => {
                 editor.chain().focus().setFontFamily(family).run();
-                setDisplayFontFamily(family);
                 onFontFamilyChange?.(family);
               }}
               onClose={() => setShowFontPicker(false)}
@@ -1728,34 +2049,80 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 
-        <ToolbarButton
-          active={false}
-          onClick={() => setDialogType('image')}
-          title="插入图片"
-        >
-          <HugeiconsIcon icon={Image01Icon} size={20} strokeWidth={2} />
-        </ToolbarButton>
-        <ToolbarButton
-          active={false}
-          onClick={() => setDialogType('video')}
-          title="插入视频"
-        >
-          <HugeiconsIcon icon={Video01Icon} size={20} strokeWidth={2} />
-        </ToolbarButton>
-        <ToolbarButton
-          active={false}
-          onClick={() => setDialogType('file')}
-          title="插入文件"
-        >
-          <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} />
-        </ToolbarButton>
-        <ToolbarButton
-          active={false}
-          onClick={insertTable}
-          title="插入表格"
-        >
-          <HugeiconsIcon icon={TableIcon} size={20} strokeWidth={2} />
-        </ToolbarButton>
+        <div ref={imageButtonRef} style={{ position: 'relative' }}>
+          <ToolbarButton
+            active={false}
+            onClick={() => setDialogType(dialogType === 'image' ? null : 'image')}
+            title="插入图片"
+          >
+            <HugeiconsIcon icon={Image01Icon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+          {dialogType === 'image' && (
+            <InsertDropdown
+              type="image"
+              onClose={() => setDialogType(null)}
+              editor={editor}
+            />
+          )}
+        </div>
+        <div ref={videoButtonRef} style={{ position: 'relative' }}>
+          <ToolbarButton
+            active={false}
+            onClick={() => setDialogType(dialogType === 'video' ? null : 'video')}
+            title="插入视频"
+          >
+            <HugeiconsIcon icon={Video01Icon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+          {dialogType === 'video' && (
+            <InsertDropdown
+              type="video"
+              onClose={() => setDialogType(null)}
+              editor={editor}
+            />
+          )}
+        </div>
+        <div ref={fileButtonRef} style={{ position: 'relative' }}>
+          <ToolbarButton
+            active={false}
+            onClick={() => setDialogType(dialogType === 'file' ? null : 'file')}
+            title="插入文件"
+          >
+            <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+          {dialogType === 'file' && (
+            <InsertDropdown
+              type="file"
+              onClose={() => setDialogType(null)}
+              editor={editor}
+            />
+          )}
+        </div>
+        <div ref={tableButtonRef} style={{ position: 'relative' }}>
+          <ToolbarButton
+            active={showTableGrid}
+            onClick={() => setShowTableGrid(!showTableGrid)}
+            title="插入表格"
+          >
+            <HugeiconsIcon icon={TableIcon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+          {showTableGrid && (
+            <TableGridPicker
+              onInsert={insertTableGrid}
+              onClose={() => setShowTableGrid(false)}
+            />
+          )}
+        </div>
+
+        {/* Table merge button - only show when cells selected */}
+        {hasSelection && (
+          <ToolbarButton
+            active={false}
+            onClick={mergeSelectedCells}
+            title="合并单元格"
+          >
+            <HugeiconsIcon icon={JoinRoundIcon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+        )}
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 
@@ -1793,14 +2160,6 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           fontSize: editorFontSize,
         }}
       />
-
-      {dialogType && (
-        <InsertDialog
-          type={dialogType}
-          onClose={() => setDialogType(null)}
-          editor={editor}
-        />
-      )}
     </div>
   );
 }
