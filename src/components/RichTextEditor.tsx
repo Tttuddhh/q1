@@ -1629,7 +1629,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Link.configure({ openOnClick: false }),
       Image.configure({ inline: true }),
-      Table.configure({ resizable: true }),
+      Table.configure({ resizable: false }),
       TableRow,
       TableCell,
       TableHeader,
