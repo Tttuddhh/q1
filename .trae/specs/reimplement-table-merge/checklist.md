@@ -1,0 +1,11 @@
+- [x] canMergeCells 状态正确设置
+- [x] canSplitCell 状态正确设置
+- [x] onSelectionUpdate 中正确检测合并/拆分能力
+- [x] onUpdate 中正确检测合并/拆分能力
+- [x] 合并按钮只在 canMergeCells 为 true 时显示
+- [x] 拆分按钮只在 canSplitCell 为 true 时显示
+- [x] 合并按钮正确调用 mergeCells
+- [x] 拆分按钮正确调用 splitCell
+- [x] selectedCell 样式提供视觉反馈
+- [x] npm run build 通过
+- [x] npm run lint 无新错误

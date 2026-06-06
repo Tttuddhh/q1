@@ -880,10 +880,19 @@ body {
   text-align: left;
   min-width: 1em;
   vertical-align: top;
+  position: relative;
 }
 .ProseMirror table th {
   background: #f9fafb;
   font-weight: 600;
+}
+.ProseMirror .selectedCell:after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent);
+  pointer-events: none;
+  z-index: 1;
 }
 
 /* Video styles in editor */
