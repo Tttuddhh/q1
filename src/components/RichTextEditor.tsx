@@ -1597,151 +1597,7 @@ function TableGridPicker({
   );
 }
 
-/* ========== Table Cell Selection & Merge ========== */
-function useTableCellSelection(editor: Editor | null) {
-  const [selectedCells, setSelectedCells] = useState<Set<string>>(new Set());
-  const isDraggingRef = useRef(false);
-  const startCellRef = useRef<HTMLTableCellElement | null>(null);
-  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    if (!editor || !containerRef.current) return;
-    const container = containerRef.current;
-
-    function getCellFromEvent(e: MouseEvent): HTMLTableCellElement | null {
-      const target = e.target as HTMLElement;
-      const cell = target.closest('td, th') as HTMLTableCellElement | null;
-      if (!cell) return null;
-      const table = cell.closest('table');
-      if (!table || !container.contains(table)) return null;
-      return cell;
-    }
-
-    function getCellKey(cell: HTMLTableCellElement): string {
-      const row = cell.parentElement;
-      const table = cell.closest('table');
-      if (!row || !table) return '';
-      const rowIndex = Array.from(table.querySelectorAll('tr')).indexOf(row as HTMLTableRowElement);
-      const cellIndex = Array.from(row.children).indexOf(cell);
-      return `${rowIndex}-${cellIndex}`;
-    }
-
-    function getCellsInRange(start: HTMLTableCellElement, end: HTMLTableCellElement): Set<string> {
-      const table = start.closest('table');
-      if (!table) return new Set();
-      const rows = Array.from(table.querySelectorAll('tr'));
-      const startRow = start.parentElement;
-      const endRow = end.parentElement;
-      if (!startRow || !endRow) return new Set();
-      const startRowIndex = rows.indexOf(startRow as HTMLTableRowElement);
-      const endRowIndex = rows.indexOf(endRow as HTMLTableRowElement);
-      const startCellIndex = Array.from(startRow.children).indexOf(start);
-      const endCellIndex = Array.from(endRow.children).indexOf(end);
-
-      const minRow = Math.min(startRowIndex, endRowIndex);
-      const maxRow = Math.max(startRowIndex, endRowIndex);
-      const minCol = Math.min(startCellIndex, endCellIndex);
-      const maxCol = Math.max(startCellIndex, endCellIndex);
-
-      const result = new Set<string>();
-      for (let r = minRow; r <= maxRow; r++) {
-        const row = rows[r];
-        if (!row) continue;
-        const cells = Array.from(row.children);
-        for (let c = minCol; c <= maxCol; c++) {
-          const cell = cells[c];
-          if (cell) {
-            result.add(`${r}-${c}`);
-          }
-        }
-      }
-      return result;
-    }
-
-    function handleMouseDown(e: MouseEvent) {
-      const cell = getCellFromEvent(e);
-      if (!cell) return;
-      // Only trigger on primary button and when not clicking controls
-      if (e.button !== 0) return;
-      // Don't interfere with links or buttons inside cells
-      const target = e.target as HTMLElement;
-      if (target.closest('a, button, input, video, iframe')) return;
-
-      isDraggingRef.current = true;
-      startCellRef.current = cell;
-      const key = getCellKey(cell);
-      setSelectedCells(new Set([key]));
-      e.preventDefault();
-    }
-
-    function handleMouseMove(e: MouseEvent) {
-      if (!isDraggingRef.current || !startCellRef.current) return;
-      const cell = getCellFromEvent(e);
-      if (!cell) return;
-      const range = getCellsInRange(startCellRef.current, cell);
-      setSelectedCells(range);
-    }
-
-    function handleMouseUp() {
-      if (!isDraggingRef.current) return;
-      isDraggingRef.current = false;
-      startCellRef.current = null;
-    }
-
-    container.addEventListener('mousedown', handleMouseDown);
-    container.addEventListener('mousemove', handleMouseMove);
-    document.addEventListener('mouseup', handleMouseUp);
-
-    return () => {
-      container.removeEventListener('mousedown', handleMouseDown);
-      container.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-    };
-  }, [editor]);
-
-  // Apply visual selection via CSS class
-  useEffect(() => {
-    if (!editor || !containerRef.current) return;
-    const container = containerRef.current;
-    const tables = container.querySelectorAll('table');
-    tables.forEach(table => {
-      const rows = Array.from(table.querySelectorAll('tr'));
-      rows.forEach((row, rIndex) => {
-        const cells = Array.from(row.children);
-        cells.forEach((cell, cIndex) => {
-          const key = `${rIndex}-${cIndex}`;
-          if (selectedCells.has(key)) {
-            (cell as HTMLElement).style.background = 'color-mix(in srgb, var(--color-primary) 15%, transparent)';
-          } else {
-            (cell as HTMLElement).style.background = '';
-          }
-        });
-      });
-    });
-  }, [selectedCells, editor]);
-
-  const mergeSelectedCells = useCallback(() => {
-    if (!editor || selectedCells.size < 2) return;
-    // TipTap mergeCells merges the current selection
-    // We need to move selection to cover the selected cells
-    // Since TipTap table extension doesn't support arbitrary multi-cell selection natively,
-    // we use a workaround: find the first and last cell positions and select between them
-    editor.chain().focus().mergeCells().run();
-    setSelectedCells(new Set());
-  }, [editor, selectedCells]);
-
-  const clearSelection = useCallback(() => {
-    setSelectedCells(new Set());
-  }, []);
-
-  return {
-    containerRef,
-    selectedCells,
-    mergeSelectedCells,
-    clearSelection,
-    hasSelection: selectedCells.size >= 2,
-  };
-}
 
 export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFamily = 'inherit', onFontFamilyChange }: RichTextEditorProps) {
   const { t, language } = useTranslation();
@@ -1790,7 +1646,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     },
   }, [language]);
 
-  const { containerRef, mergeSelectedCells, hasSelection } = useTableCellSelection(editor);
+
 
   const setLink = useCallback(() => {
     if (!editor) return;
@@ -1827,7 +1683,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
   const editorFontSize = fontSizeMap[fontSize] || fontSizeMap.medium;
 
   return (
-    <div style={{ position: 'relative' }} ref={containerRef}>
+    <div style={{ position: 'relative' }}>
       {/* Sticky toolbar */}
       <div
         style={{
@@ -2113,16 +1969,13 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           )}
         </div>
 
-        {/* Table merge button - only show when cells selected */}
-        {hasSelection && (
-          <ToolbarButton
-            active={false}
-            onClick={mergeSelectedCells}
-            title="合并单元格"
-          >
-            <HugeiconsIcon icon={JoinRoundIcon} size={20} strokeWidth={2} />
-          </ToolbarButton>
-        )}
+        <ToolbarButton
+          active={false}
+          onClick={() => editor.chain().focus().mergeCells().run()}
+          title="合并单元格"
+        >
+          <HugeiconsIcon icon={JoinRoundIcon} size={20} strokeWidth={2} />
+        </ToolbarButton>
 
         <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
 
