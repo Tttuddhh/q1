@@ -1,15 +1,19 @@
 # Tasks
 
 - [x] Task 1: 修复 TipTap 表格包版本一致性
-  - 将 @tiptap/extension-table 及其相关包版本固定为 3.22.5
-  - 移除了 package.json 中的 ^ 符号，使用精确版本
-  - 重新安装依赖
+  - 将所有 @tiptap/* 包统一升级到精确版本 3.26.0
+  - 重新安装依赖，构建验证通过
+
+- [x] Task 2: 实现自定义合并后空行修复逻辑
+  - 在 `RichTextEditor.tsx` 中创建 `handleMergeCells` 函数
+  - 调用 `mergeCells()` 后，遍历表格行检测空行（childCount === 0）
+  - 向空行插入空 `<td>` 占位单元格以保持行数
+  - 替换合并按钮的 onClick 为新的 handleMergeCells
   - 构建验证通过
 
 # Task Dependencies
-- 无
+- Task 2 依赖 Task 1 完成
 
 # Notes
-- 问题可能与 TipTap 3.26.0 版本的 mergeCells() 实现有关
-- 已将表格包降级到 3.22.5，与其他 @tiptap 包保持兼容
-- 用户需要测试合并功能是否正常工作
+- 根因：第二次合并时所有单元格 rowspan=2，末尾行被 ProseMirror 移除
+- 修复方式：合并后检测空行并填充占位单元格

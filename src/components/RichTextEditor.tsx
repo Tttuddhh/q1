@@ -1685,6 +1685,30 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
   }, [editor]);
 
+  const handleMergeCells = useCallback(() => {
+    if (!editor) return;
+    editor.chain().focus().mergeCells().run();
+    // After merge, detect and fix empty rows caused by rowspan consuming all cells
+    const { state } = editor;
+    const { tr } = state;
+    let modified = false;
+    state.doc.descendants((node, pos) => {
+      if (node.type.name === 'tableRow') {
+        if (node.childCount === 0) {
+          const cell = state.schema.nodes.tableCell.create(
+            null,
+            state.schema.nodes.paragraph.create()
+          );
+          tr.insert(pos + 1, cell);
+          modified = true;
+        }
+      }
+    });
+    if (modified) {
+      editor.view.dispatch(tr);
+    }
+  }, [editor]);
+
   if (!editor) {
     return null;
   }
@@ -2010,7 +2034,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
         {canMergeCells && (
           <ToolbarButton
             active={false}
-            onClick={() => editor.chain().focus().mergeCells().run()}
+            onClick={handleMergeCells}
             title="合并单元格"
           >
             <HugeiconsIcon icon={JoinRoundIcon} size={20} strokeWidth={2} />

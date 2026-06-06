@@ -1,6 +1,8 @@
-- [x] package.json 中表格包版本固定为 3.22.5
-- [x] npm install 成功安装 3.22.5 版本
+- [x] package.json 中所有 @tiptap 包版本统一为 3.26.0
+- [x] npm install 成功安装，无版本冲突
 - [x] npm run build 通过
+- [x] 合并按钮使用自定义 handleMergeCells 函数
+- [x] 合并后检测空行并填充占位 td
 - [ ] 用户测试：2x4 表格先合并左侧 4 个单元格
 - [ ] 用户测试：再合并右侧 4 个单元格
 - [ ] 用户测试：验证表格仍然是 2 行（不是 1 行）
