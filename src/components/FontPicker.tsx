@@ -90,10 +90,9 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
         style={{
           display: 'inline-flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           gap: 8,
-          width: 'auto',
-          minWidth: 140,
+          width: 180,
           height: 32,
           borderRadius: 6,
           border: open ? '1px solid var(--color-primary)' : '1px solid transparent',
@@ -103,7 +102,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
           transition: 'background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease',
           flexShrink: 0,
           boxShadow: open ? '0 1px 3px color-mix(in srgb, var(--color-primary) 30%, transparent)' : 'none',
-          padding: '0 16px',
+          padding: '0 10px',
           fontSize: 14,
           fontWeight: 500,
         }}
@@ -119,7 +118,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
         }}
       >
         <HugeiconsIcon icon={TextIcon} size={20} strokeWidth={2} />
-        <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: currentFont.family }}>
+        <span style={{ maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: currentFont.family }}>
           {displayName}
         </span>
       </button>
@@ -136,7 +135,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
             border: '1px solid #e5e7eb',
             borderRadius: 8,
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            width: 140,
+            width: 180,
             maxHeight: 360,
             overflowY: 'auto',
             display: 'flex',
