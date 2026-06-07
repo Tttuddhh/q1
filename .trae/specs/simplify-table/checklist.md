@@ -1,0 +1,10 @@
+- [x] Merge/split state removed from component
+- [x] Merge/split button removed from toolbar
+- [x] Unused icons removed from imports
+- [x] Table CSS cleaned up
+- [x] Add row button added
+- [x] Remove row button added
+- [x] Add column button added
+- [x] Remove column button added
+- [x] npm run build passes
+- [x] npm run lint has pre-existing errors, none from our changes

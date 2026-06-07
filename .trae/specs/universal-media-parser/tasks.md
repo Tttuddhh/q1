@@ -1,0 +1,41 @@
+# Tasks
+- [ ] Task 1: 图片/视频/文件本地上传支持最多5个文件
+  - [ ] SubTask 1.1: 修改 ImageInsertDialog 本地上传选项卡，支持最多5个图片文件，全部放入列表
+  - [ ] SubTask 1.2: 修改 VideoInsertDialog 本地上传选项卡，支持最多5个视频文件，全部放入列表
+  - [ ] SubTask 1.3: 修改 FileInsertDialog 本地上传选项卡，支持最多5个文件，全部放入列表
+  - [ ] SubTask 1.4: 文件列表显示文件名、大小、删除按钮
+- [ ] Task 2: 视频本地上传直接显示播放器
+  - [ ] SubTask 2.1: 本地视频上传后，使用 HTML5 video 标签直接插入内容区
+  - [ ] SubTask 2.2: 视频播放器添加 controlsList 支持下载
+  - [ ] SubTask 2.3: 添加 CSS 样式使视频播放器美观
+- [ ] Task 3: 万能链接解析器
+  - [ ] SubTask 3.1: 创建链接解析函数，识别图片链接（.jpg, .png, .gif, .webp 等）
+  - [ ] SubTask 3.2: 创建链接解析函数，识别视频链接（Bilibili, YouTube, 抖音, 直接视频链接等）
+  - [ ] SubTask 3.3: 创建链接解析函数，识别文件链接
+  - [ ] SubTask 3.4: 图片链接直接插入为 img 标签
+  - [ ] SubTask 3.5: 视频链接解析后插入为 iframe 或 video 标签
+  - [ ] SubTask 3.6: 文件链接插入为可下载的文件卡片
+- [ ] Task 4: 视频播放器功能增强
+  - [ ] SubTask 4.1: 视频标签添加 controls 属性
+  - [ ] SubTask 4.2: 添加画中画支持（picture-in-picture）
+  - [ ] SubTask 4.3: 添加倍速播放控制（0.5x, 1x, 1.25x, 1.5x, 2x）
+  - [ ] SubTask 4.4: 添加下载按钮（controlsList="nodownload" 的反向操作）
+- [ ] Task 5: 表格操作图标重新规划
+  - [ ] SubTask 5.1: 检查当前表格操作图标，找出重复和错误的
+  - [ ] SubTask 5.2: 重新选择合适的 Hugeicons 图标
+  - [ ] SubTask 5.3: 确保每个操作都有独立且不重复的图标
+- [ ] Task 6: 修复光标无法重新放入表格
+  - [ ] SubTask 6.1: 检查表格的 CSS 和 TipTap 配置
+  - [ ] SubTask 6.2: 确保表格单元格可点击并放置光标
+  - [ ] SubTask 6.3: 修复可能阻止光标放入的样式或事件
+- [ ] Task 7: 构建并验证
+  - [ ] SubTask 7.1: 运行 npm run build 确保无错误
+  - [ ] SubTask 7.2: 验证多文件上传列表
+  - [ ] SubTask 7.3: 验证视频播放器功能
+  - [ ] SubTask 7.4: 验证万能链接解析
+  - [ ] SubTask 7.5: 验证表格图标和光标
+
+# Task Dependencies
+- Task 1, 2, 3, 4 are independent
+- Task 5, 6 are independent
+- Task 7 depends on all previous tasks

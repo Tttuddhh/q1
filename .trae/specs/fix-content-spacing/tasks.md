@@ -1,0 +1,16 @@
+# Tasks
+- [ ] Task 1: 统一 .prose 和 .ProseMirror 的段落间距
+  - [ ] SubTask 1.1: 检查当前 .prose p 和 .ProseMirror p 的 margin 差异
+  - [ ] SubTask 1.2: 统一段落 margin-bottom，确保编辑和预览一致
+  - [ ] SubTask 1.3: 确保段落之间无额外 padding 或 border 干扰
+- [ ] Task 2: 统一标题（H1/H2/H3）的上下间距
+  - [ ] SubTask 2.1: 为 .prose h1/h2/h3 和 .ProseMirror h1/h2/h3 设置一致的 margin-top 和 margin-bottom
+  - [ ] SubTask 2.2: 确保标题间距大于段落间距，形成视觉区分
+  - [ ] SubTask 2.3: 处理第一个标题的 margin-top（避免顶部过多空白）
+- [ ] Task 3: 统一列表、引用块、代码块的间距
+  - [ ] SubTask 3.1: 统一 ul/ol/blockquote/pre 的 margin-top 和 margin-bottom
+  - [ ] SubTask 3.2: 确保列表项 li 的间距一致
+  - [ ] SubTask 3.3: 确保代码块与前后文的间距和段落一致
+- [ ] Task 4: 构建并验证效果
+  - [ ] SubTask 4.1: 运行 npm run build 确保无错误
+  - [ ] SubTask 4.2: 启动预览检查编辑模式和预览模式的间距是否一致

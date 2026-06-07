@@ -1,0 +1,8 @@
+- [ ] `canMergeCells` 状态在 `onSelectionUpdate` 中正确更新
+- [ ] `canSplitCell` 状态在 `onSelectionUpdate` 中正确更新
+- [ ] 合并按钮只在 `canMergeCells` 为 true 时显示
+- [ ] 拆分按钮使用 `ScissorIcon` 图标，只在 `canSplitCell` 为 true 时显示
+- [ ] 拆分按钮点击调用 `editor.chain().focus().splitCell().run()`
+- [ ] 合并后的单元格内部边框正确消失，无多余虚线
+- [ ] `npm run build` 编译通过
+- [ ] `npm run lint` 无错误

@@ -1,0 +1,15 @@
+- [x] package.json 中所有 @tiptap 包版本统一为 3.26.0
+- [x] npm install 成功安装，无版本冲突
+- [x] npm run build 通过
+- [x] 移除旧的 handleMergeCells 空行修复逻辑
+- [x] 实现自定义 mergeCells 命令（使用 ProseMirror table 底层 API）
+- [x] 修复重建表格逻辑，确保每行至少有一个单元格
+- [x] 重写表格重建逻辑，直接遍历原表格行节点
+- [x] 使用 ProseMirror 原生 mergeCells 命令
+- [x] 调用原生 mergeCells 后，检测并修复被移除的行
+- [x] 修复占位符单元格的 colspan 使其与表格宽度一致
+- [x] 完全重写 handleMergeCells：合并前保存原始行列数，合并后对比修复
+- [ ] 合并左侧 4 个单元格后，表格为 2 列
+- [ ] 合并右侧 4 个单元格后，表格仍为 2 列，不多出任何列
+- [ ] 合并全部 8 个单元格后，表格仍为 2 行
+- [ ] 用户测试：所有合并场景结构正确

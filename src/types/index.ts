@@ -11,6 +11,7 @@ export interface Page {
   isExpanded?: boolean;
   isNewlyCreated?: boolean;
   isEdited?: boolean;
+  fontFamily?: string;
 }
 
 export interface SidebarSection {

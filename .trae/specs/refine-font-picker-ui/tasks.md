@@ -1,0 +1,11 @@
+# Tasks
+- [ ] Task 1: 修改字体选择按钮样式
+  - [ ] SubTask 1.1: 按钮宽度设为 200px，与下拉对话框一致
+  - [ ] SubTask 1.2: 按钮内文字左对齐，T 图标 + 字体名 + 箭头
+  - [ ] SubTask 1.3: 箭头使用 ArrowRight01Icon，展开时旋转 90 度
+- [ ] Task 2: 缩小下拉对话框宽度
+  - [ ] SubTask 2.1: 将 FontPicker 面板宽度从 280px 改为 200px
+  - [ ] SubTask 2.2: 确保面板内容不被截断
+- [ ] Task 3: 构建并验证
+  - [ ] SubTask 3.1: 运行 npm run build 确保无错误
+  - [ ] SubTask 3.2: 验证按钮宽度和箭头样式

@@ -20,13 +20,14 @@ function App() {
   // Lifted edit state for auto-save on navigation
   const [editContent, setEditContent] = useState('');
   const [editTags, setEditTags] = useState<string[]>([]);
+  const [editFontFamily, setEditFontFamily] = useState<string>('inherit');
 
   const isEditing = state.editingPageId === state.currentPageId;
 
   // Auto-save helper
   const autoSave = () => {
     if (isEditing && state.currentPageId) {
-      state.updatePage(state.currentPageId, { content: editContent, tags: editTags });
+      state.updatePage(state.currentPageId, { content: editContent, tags: editTags, fontFamily: editFontFamily });
       state.stopEditing();
     }
   };
@@ -162,6 +163,8 @@ function App() {
               onEditContentChange={setEditContent}
               editTags={editTags}
               onEditTagsChange={setEditTags}
+              editFontFamily={editFontFamily}
+              onEditFontFamilyChange={setEditFontFamily}
               dateFormat={settings.dateFormat}
               timezone={settings.timezone}
               editorFontSize={settings.editor.fontSize}

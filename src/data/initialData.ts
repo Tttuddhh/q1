@@ -10,6 +10,7 @@ export const initialPages: Page[] = [
     updatedAt: '2026-05-11',
     isExpanded: true,
     isEdited: true,
+    fontFamily: 'inherit',
     content: `
 <h2>欢迎使用知识库</h2>
 <p>知识库是一个现代化的知识管理平台，帮助你高效地组织、管理和分享知识内容。无论你是个人用户还是团队协作，知识库都能为你提供强大的文档编辑、页面管理和知识检索能力。</p>
@@ -56,6 +57,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '1',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>界面概览</h2>
 <p>知识库采用三栏式布局设计，界面清晰直观，操作便捷。整个界面由四个核心区域组成，每个区域承担不同的功能职责，协同工作以提供流畅的用户体验。</p>
@@ -115,6 +117,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '1',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>快捷键说明</h2>
 <p>知识库支持多种快捷键操作，帮助你更高效地使用系统功能。掌握这些快捷键可以显著提升你的工作效率。</p>
@@ -161,6 +164,7 @@ export const initialPages: Page[] = [
     updatedAt: '2026-05-11',
     isExpanded: true,
     isEdited: true,
+    fontFamily: 'inherit',
     content: `
 <h2>页面管理</h2>
 <p>页面是知识库的核心内容单元。你可以创建、编辑、删除页面，并通过父子层级关系组织页面结构，建立清晰的知识体系。</p>
@@ -203,6 +207,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '2',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>页面树操作</h2>
 <p>页面树位于界面左侧，展示所有页面的层级结构，是知识库的主要导航方式。通过页面树，你可以快速浏览、定位和操作页面。</p>
@@ -261,6 +266,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '2',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>标签管理</h2>
 <p>标签是组织和分类页面内容的重要方式。你可以为每个页面添加多个标签，便于后续检索和筛选。合理使用标签可以显著提升知识库的可管理性。</p>
@@ -307,6 +313,7 @@ export const initialPages: Page[] = [
     updatedAt: '2026-05-11',
     isExpanded: true,
     isEdited: true,
+    fontFamily: 'inherit',
     content: `
 <h2>富文本编辑器</h2>
 <p>知识库内置功能强大的富文本编辑器，基于 TipTap 框架构建，支持多种文本格式和排版功能。编辑器设计简洁直观，让你可以专注于内容创作。</p>
@@ -341,6 +348,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '3',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>文本格式化</h2>
 <p>编辑器提供丰富的文本格式化功能，通过工具栏按钮或快捷键即可应用。合理使用格式化可以让内容层次清晰，重点突出。</p>
@@ -396,6 +404,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '3',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>列表与引用</h2>
 <p>编辑器支持多种列表格式和引用块，帮助你更好地组织内容结构，让信息呈现更加清晰有序。</p>
@@ -446,6 +455,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '3',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>链接与代码</h2>
 <p>编辑器支持插入超链接和代码内容，丰富页面的表达能力，让文档更加专业和实用。</p>
@@ -497,6 +507,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '3',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>表情符号</h2>
 <p>编辑器支持插入 Unicode 表情符号，让内容更加生动有趣。适当使用表情可以增强内容的亲和力和表达力。</p>
@@ -548,6 +559,7 @@ export const initialPages: Page[] = [
     updatedAt: '2026-05-11',
     isExpanded: true,
     isEdited: true,
+    fontFamily: 'inherit',
     content: `
 <h2>搜索与导航</h2>
 <p>知识库提供强大的搜索功能和便捷的导航方式，帮助你快速找到所需内容。无论是通过关键词搜索还是通过层级导航，都能高效定位信息。</p>
@@ -590,6 +602,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '4',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>搜索技巧</h2>
 <p>掌握搜索技巧可以更高效地找到所需内容。以下是一些实用的搜索建议：</p>
@@ -630,6 +643,7 @@ export const initialPages: Page[] = [
     updatedAt: '2026-05-11',
     isExpanded: true,
     isEdited: true,
+    fontFamily: 'inherit',
     content: `
 <h2>设置与个性化</h2>
 <p>知识库提供丰富的设置选项，允许你根据个人偏好自定义界面和功能。通过合理配置，可以让知识库更符合你的使用习惯。</p>
@@ -655,6 +669,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '5',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>通用设置</h2>
 <p>通用设置包含语言、时区、日期和时间格式等基础配置。这些设置影响知识库的整体显示方式。</p>
@@ -706,6 +721,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '5',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>外观设置</h2>
 <p>外观设置允许你自定义知识库的视觉效果，包括主题、颜色和布局。</p>
@@ -755,6 +771,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '5',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>编辑器设置</h2>
 <p>编辑器设置允许你自定义富文本编辑器的行为和显示效果。</p>
@@ -823,6 +840,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '5',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>通知设置</h2>
 <p>通知设置允许你配置各类事件的通知方式，包括邮件通知和推送通知。</p>
@@ -863,6 +881,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '5',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>账号与安全</h2>
 <p>账号与安全设置帮助你管理个人信息和保护账号安全。</p>
@@ -910,6 +929,7 @@ export const initialPages: Page[] = [
         updatedAt: '2026-05-11',
         parentId: '5',
         isEdited: true,
+    fontFamily: 'inherit',
         content: `
 <h2>数据与备份</h2>
 <p>数据与备份设置帮助你管理知识库的数据，包括导出、导入和自动备份。</p>
@@ -960,6 +980,7 @@ export const initialPages: Page[] = [
     updatedAt: '2026-05-11',
     isExpanded: false,
     isEdited: true,
+    fontFamily: 'inherit',
     content: `
 <h2>导出与分享</h2>
 <p>知识库支持将页面内容导出为多种格式，便于分享和备份。你可以根据需要选择不同的导出格式和分享方式。</p>
