@@ -2,6 +2,7 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Color from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
+import FontFamily from '@tiptap/extension-font-family';
 import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
@@ -33,6 +34,8 @@ import {
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
+import { FontPicker } from './FontPicker';
+import { type FontData } from '../data/fonts';
 
 interface RichTextEditorProps {
   content: string;
@@ -858,14 +861,27 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const [highlightColor, setHighlightColor] = useState('#fef08a');
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [currentFontName, setCurrentFontName] = useState<string>('');
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
+
+  const handleFontSelect = useCallback((font: FontData) => {
+    if (!editor) return;
+    if (font.family === 'inherit') {
+      editor.chain().focus().unsetFontFamily().run();
+      setCurrentFontName('');
+    } else {
+      editor.chain().focus().setFontFamily(font.family).run();
+      setCurrentFontName(font.name);
+    }
+  }, []);
 
   const editor = useEditor({
     extensions: [
       StarterKit,
       TextStyle,
       Color,
+      FontFamily,
       Highlight.configure({ multicolor: true }),
       Underline,
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
@@ -880,6 +896,14 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
     },
     onSelectionUpdate: ({ editor }) => {
       setActiveFormats(getActiveFormats(editor));
+      const fontFamily = editor.getAttributes('textStyle').fontFamily;
+      if (fontFamily) {
+        // Try to find font name from family
+        const found = FONTS.find(f => f.family === fontFamily);
+        setCurrentFontName(found ? found.name : '');
+      } else {
+        setCurrentFontName('');
+      }
     },
   }, [language]);
 
@@ -936,6 +960,10 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           background: '#ffffff',
         }}
       >
+        <FontPicker currentFont={currentFontName} onSelect={handleFontSelect} />
+
+        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
+
         <ToolbarButton
           active={activeFormats.has('bold')}
           onClick={() => editor.chain().focus().toggleBold().run()}
