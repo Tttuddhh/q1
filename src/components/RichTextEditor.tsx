@@ -920,22 +920,23 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Sticky toolbar - only sticks to top when scrolling */}
-      <div
-        style={{
-          display: 'flex',
-          alignItems: 'center',
-          gap: 2,
-          flexWrap: 'wrap',
-          padding: '8px 0',
-          marginBottom: 8,
-          borderBottom: '1px solid #e5e7eb',
-          position: 'sticky',
-          top: -8,
-          zIndex: 100,
-          background: '#ffffff',
-        }}
-      >
+      {/* Sticky toolbar wrapper - negative margin to offset parent padding */}
+      <div style={{ marginTop: -40, marginLeft: -48, marginRight: -48 }}>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 2,
+            flexWrap: 'wrap',
+            padding: '8px 48px',
+            marginBottom: 8,
+            borderBottom: '1px solid #e5e7eb',
+            position: 'sticky',
+            top: 0,
+            zIndex: 100,
+            background: '#ffffff',
+          }}
+        >
         <ToolbarButton
           active={activeFormats.has('bold')}
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -1097,6 +1098,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
         >
           <HugeiconsIcon icon={TextAlignRightIcon} size={20} strokeWidth={2} />
         </ToolbarButton>
+      </div>
       </div>
 
       {/* Editor content */}

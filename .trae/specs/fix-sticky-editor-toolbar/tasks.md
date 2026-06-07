@@ -58,14 +58,30 @@
   - 工具栏需要在这个滚动容器内正确使用 sticky
   - 修复对齐问题：移除工具栏的 padding 要匹配 MainContent 的 padding
   - 确保工具栏有实色背景，z-index 足够高
+- **结果**: 工具栏吸附位置不正确，仍有空隙
+
+## [x] Task 7: 修复工具栏吸附位置（紧贴顶部）
+- **Priority**: P0
+- **Depends On**: None
+- **Description**: 
+  - 问题分析：
+    - MainContent 有 padding-top: 40px
+    - 工具栏当前 top: -8，导致吸附位置不正确
+    - 从截图看，工具栏和 Header 之间有空隙，文字从空隙中透出
+  - 解决方案：
+    - 将工具栏的 top 改为 0（或考虑 padding 的负值）
+    - 由于 MainContent 有 padding-top: 40px，sticky 元素 top: 0 会吸附到 padding 边界
+    - 但我们需要工具栏紧贴 Header 下方，所以需要处理这个 padding
+    - 正确做法：给工具栏添加负 margin-top: -40px，抵消 MainContent 的 padding-top
+    - 或者：将工具栏移到 MainContent 的 padding 区域之外
+    - 最佳方案：将工具栏包裹在一个负 margin 的容器中，使工具栏能够向上延伸到 padding 区域
   - 修改：
-    - 将 RichTextEditor 中的工具栏 padding 修改为正确的 padding，匹配 MainContent 的 padding (48px)
-    - 确保工具栏有实色背景，z-index: 100（确保足够高）
-    - 确保工具栏在滚动容器内正确 sticky
+    - 在 RichTextEditor 中添加一个包裹层，使用负 margin 抵消 padding
+    - 工具栏设置 top: 0
+    - 确保工具栏有实色背景和足够高的 z-index
   - 涉及文件：`RichTextEditor.tsx`
-- **Acceptance Criteria Addressed**: [AC-1, AC-2, AC-3]
+- **Acceptance Criteria Addressed**: [AC-1, AC-2]
 - **Test Requirements**:
-  - `human-judgement` TR-6.1: 向下滚动 MainContent，验证工具栏正确吸附到顶部
-  - `human-judgement` TR-6.2: 验证工具栏后面没有任何文字或内容透出
-  - `human-judgement` TR-6.3: 验证工具栏与编辑器内容对齐正确
-- **Notes**: 关键是要确保工具栏的 padding 正确，并且有足够高的 z-index 和实色背景
+  - `human-judgement` TR-7.1: 向下滚动 MainContent，验证工具栏紧贴 Header 下方，没有空隙
+  - `human-judgement` TR-7.2: 验证工具栏后面没有任何文字或内容透出
+- **Notes**: 关键是处理 MainContent 的 padding 对 sticky 定位的影响
