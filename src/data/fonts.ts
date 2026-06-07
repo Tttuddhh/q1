@@ -23,45 +23,45 @@ export const SYSTEM_FONT: FontData = {
 };
 
 export const FONTS: FontData[] = [
-  // 中文字体 (30+)
+  // 中文字体 (30+) —— 风格差异极大
   {
     name: '马善政毛笔楷体',
     family: '"Ma Shan Zheng", cursive',
     googleFontName: 'Ma+Shan+Zheng',
     category: 'chinese',
-    tags: ['handwriting', 'brush'],
+    tags: ['毛笔', '楷书'],
     preview: '马善政毛笔楷体',
   },
   {
-    name: '志莽行书',
+    name: '钟齐志莽行书',
     family: '"Zhi Mang Xing", cursive',
     googleFontName: 'Zhi+Mang+Xing',
     category: 'chinese',
-    tags: ['handwriting', 'brush'],
-    preview: '志莽行书',
+    tags: ['行书', '书法'],
+    preview: '钟齐志莽行书',
   },
   {
     name: '龙苍行书',
     family: '"Long Cang", cursive',
     googleFontName: 'Long+Cang',
     category: 'chinese',
-    tags: ['handwriting'],
+    tags: ['行书', '手写'],
     preview: '龙苍行书',
   },
   {
-    name: '刘建毛草',
+    name: '钟齐流江毛草',
     family: '"Liu Jian Mao Cao", cursive',
     googleFontName: 'Liu+Jian+Mao+Cao',
     category: 'chinese',
-    tags: ['handwriting', 'brush'],
-    preview: '刘建毛草',
+    tags: ['毛草', '狂草'],
+    preview: '钟齐流江毛草',
   },
   {
     name: '霞鹜文楷',
     family: '"LXGW WenKai", serif',
     googleFontName: 'LXGW+WenKai',
     category: 'chinese',
-    tags: ['serif', 'literary'],
+    tags: ['楷体', '文艺'],
     preview: '霞鹜文楷',
   },
   {
@@ -69,7 +69,7 @@ export const FONTS: FontData[] = [
     family: '"LXGW WenKai TC", serif',
     googleFontName: 'LXGW+WenKai+TC',
     category: 'chinese',
-    tags: ['serif', 'literary', 'traditional'],
+    tags: ['楷体', '繁体'],
     preview: '霞鹜文楷繁体',
   },
   {
@@ -77,7 +77,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL XiaoWei", serif',
     googleFontName: 'ZCOOL+XiaoWei',
     category: 'chinese',
-    tags: ['serif', 'elegant'],
+    tags: ['细体', '优雅'],
     preview: '站酷小薇体',
   },
   {
@@ -85,7 +85,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL KuaiLe", cursive',
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
-    tags: ['display', 'cute'],
+    tags: ['卡通', '可爱'],
     preview: '站酷快乐体',
   },
   {
@@ -93,7 +93,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe HuangYou", cursive',
     googleFontName: 'ZCOOL+QingKe+HuangYou',
     category: 'chinese',
-    tags: ['display', 'cute'],
+    tags: ['复古', '粗体'],
     preview: '站酷清刻黄油',
   },
   {
@@ -101,7 +101,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL ManYao", cursive',
     googleFontName: 'ZCOOL+ManYao',
     category: 'chinese',
-    tags: ['display', 'cute'],
+    tags: ['卡通', '活泼'],
     preview: '站酷漫遥体',
   },
   {
@@ -109,7 +109,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans SC", sans-serif',
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
-    tags: ['sans-serif', 'modern'],
+    tags: ['黑体', '现代'],
     preview: '思源黑体',
   },
   {
@@ -117,7 +117,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif SC", serif',
     googleFontName: 'Noto+Serif+SC',
     category: 'chinese',
-    tags: ['serif', 'traditional'],
+    tags: ['宋体', '传统'],
     preview: '思源宋体',
   },
   {
@@ -125,7 +125,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans TC", sans-serif',
     googleFontName: 'Noto+Sans+TC',
     category: 'chinese',
-    tags: ['sans-serif', 'traditional'],
+    tags: ['黑体', '繁体'],
     preview: '思源黑体繁体',
   },
   {
@@ -133,31 +133,15 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif TC", serif',
     googleFontName: 'Noto+Serif+TC',
     category: 'chinese',
-    tags: ['serif', 'traditional'],
+    tags: ['宋体', '繁体'],
     preview: '思源宋体繁体',
-  },
-  {
-    name: '站酷斜体02',
-    family: '"ZCOOL Addict Italic 02", cursive',
-    googleFontName: 'ZCOOL+Addict+Italic+02',
-    category: 'chinese',
-    tags: ['display', 'italic'],
-    preview: '站酷斜体02',
-  },
-  {
-    name: '站酷斜体01',
-    family: '"ZCOOL Addict Italic 01", cursive',
-    googleFontName: 'ZCOOL+Addict+Italic+01',
-    category: 'chinese',
-    tags: ['display', 'italic'],
-    preview: '站酷斜体01',
   },
   {
     name: '站酷酷黑体',
     family: '"ZCOOL KuHei", sans-serif',
     googleFontName: 'ZCOOL+KuHei',
     category: 'chinese',
-    tags: ['sans-serif', 'bold'],
+    tags: ['黑体', '粗体'],
     preview: '站酷酷黑体',
   },
   {
@@ -165,7 +149,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL XiaoWei Regular", serif',
     googleFontName: 'ZCOOL+XiaoWei+Regular',
     category: 'chinese',
-    tags: ['serif'],
+    tags: ['细体', '优雅'],
     preview: '站酷小薇常规',
   },
   {
@@ -173,7 +157,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe BenYue", serif',
     googleFontName: 'ZCOOL+QingKe+BenYue',
     category: 'chinese',
-    tags: ['serif', 'elegant'],
+    tags: ['宋体', '古典'],
     preview: '站酷清刻奔月',
   },
   {
@@ -181,7 +165,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ChuangWei", cursive',
     googleFontName: 'ZCOOL+QingKe+ChuangWei',
     category: 'chinese',
-    tags: ['handwriting'],
+    tags: ['手写', '行书'],
     preview: '站酷清刻创伟',
   },
   {
@@ -189,7 +173,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe HuangYou Regular", cursive',
     googleFontName: 'ZCOOL+QingKe+HuangYou+Regular',
     category: 'chinese',
-    tags: ['display'],
+    tags: ['复古', '粗体'],
     preview: '站酷清刻黄油常规',
   },
   {
@@ -197,7 +181,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe KouWei", cursive',
     googleFontName: 'ZCOOL+QingKe+KouWei',
     category: 'chinese',
-    tags: ['display', 'cute'],
+    tags: ['卡通', '可爱'],
     preview: '站酷清刻口味',
   },
   {
@@ -205,7 +189,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZhongKaiTi", serif',
     googleFontName: 'ZCOOL+QingKe+ZhongKaiTi',
     category: 'chinese',
-    tags: ['serif'],
+    tags: ['楷体', '端庄'],
     preview: '站酷清刻中楷体',
   },
   {
@@ -213,7 +197,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZhongYouTi", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZhongYouTi',
     category: 'chinese',
-    tags: ['sans-serif', 'bold'],
+    tags: ['黑体', '粗体'],
     preview: '站酷清刻中优体',
   },
   {
@@ -221,7 +205,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi',
     category: 'chinese',
-    tags: ['sans-serif', 'bold'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体',
   },
   {
@@ -229,7 +213,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi 02", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi+02',
     category: 'chinese',
-    tags: ['sans-serif'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体02',
   },
   {
@@ -237,7 +221,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi 03", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi+03',
     category: 'chinese',
-    tags: ['sans-serif'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体03',
   },
   {
@@ -245,7 +229,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi 04", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi+04',
     category: 'chinese',
-    tags: ['sans-serif'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体04',
   },
   {
@@ -253,7 +237,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi 05", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi+05',
     category: 'chinese',
-    tags: ['sans-serif'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体05',
   },
   {
@@ -261,7 +245,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi 06", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi+06',
     category: 'chinese',
-    tags: ['sans-serif'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体06',
   },
   {
@@ -269,7 +253,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi 07", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi+07',
     category: 'chinese',
-    tags: ['sans-serif'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体07',
   },
   {
@@ -277,7 +261,7 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi 08", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi+08',
     category: 'chinese',
-    tags: ['sans-serif'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体08',
   },
   {
@@ -285,18 +269,18 @@ export const FONTS: FontData[] = [
     family: '"ZCOOL QingKe ZongYiTi 09", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYiTi+09',
     category: 'chinese',
-    tags: ['sans-serif'],
+    tags: ['综艺', '标题'],
     preview: '站酷清刻综艺体09',
   },
 
-  // 英文字体 (30+)
+  // 英文字体 (34) —— 风格差异极大，每种都独一无二
   // === 衬线体 Serif (6) ===
   {
     name: 'Playfair Display',
     family: '"Playfair Display", serif',
     googleFontName: 'Playfair+Display',
     category: 'english',
-    tags: ['serif', 'elegant', 'classical'],
+    tags: ['衬线', '优雅', '古典'],
     preview: 'Playfair Display',
   },
   {
@@ -304,7 +288,7 @@ export const FONTS: FontData[] = [
     family: '"Merriweather", serif',
     googleFontName: 'Merriweather',
     category: 'english',
-    tags: ['serif', 'readable'],
+    tags: ['衬线', '报纸', '阅读'],
     preview: 'Merriweather',
   },
   {
@@ -312,7 +296,7 @@ export const FONTS: FontData[] = [
     family: '"Source Serif 4", serif',
     googleFontName: 'Source+Serif+4',
     category: 'english',
-    tags: ['serif', 'modern'],
+    tags: ['衬线', '现代'],
     preview: 'Source Serif 4',
   },
   {
@@ -320,7 +304,7 @@ export const FONTS: FontData[] = [
     family: '"Libre Baskerville", serif',
     googleFontName: 'Libre+Baskerville',
     category: 'english',
-    tags: ['serif', 'classic'],
+    tags: ['衬线', '复古'],
     preview: 'Libre Baskerville',
   },
   {
@@ -328,7 +312,7 @@ export const FONTS: FontData[] = [
     family: '"Bodoni Moda", serif',
     googleFontName: 'Bodoni+Moda',
     category: 'english',
-    tags: ['serif', 'fashion', 'high-contrast'],
+    tags: ['衬线', '时尚', '高对比'],
     preview: 'Bodoni Moda',
   },
   {
@@ -336,7 +320,7 @@ export const FONTS: FontData[] = [
     family: '"Roboto Slab", serif',
     googleFontName: 'Roboto+Slab',
     category: 'english',
-    tags: ['serif', 'bold', 'geometric'],
+    tags: ['衬线', '粗体', '几何'],
     preview: 'Roboto Slab',
   },
 
@@ -346,7 +330,7 @@ export const FONTS: FontData[] = [
     family: '"Montserrat", sans-serif',
     googleFontName: 'Montserrat',
     category: 'english',
-    tags: ['sans-serif', 'geometric'],
+    tags: ['无衬线', '几何'],
     preview: 'Montserrat',
   },
   {
@@ -354,7 +338,7 @@ export const FONTS: FontData[] = [
     family: '"Open Sans", sans-serif',
     googleFontName: 'Open+Sans',
     category: 'english',
-    tags: ['sans-serif', 'humanist'],
+    tags: ['无衬线', '人文'],
     preview: 'Open Sans',
   },
   {
@@ -362,7 +346,7 @@ export const FONTS: FontData[] = [
     family: '"Oswald", sans-serif',
     googleFontName: 'Oswald',
     category: 'english',
-    tags: ['sans-serif', 'condensed', 'bold'],
+    tags: ['无衬线', '窄体', '粗体'],
     preview: 'Oswald',
   },
   {
@@ -370,7 +354,7 @@ export const FONTS: FontData[] = [
     family: '"Nunito", sans-serif',
     googleFontName: 'Nunito',
     category: 'english',
-    tags: ['sans-serif', 'rounded'],
+    tags: ['无衬线', '圆润'],
     preview: 'Nunito',
   },
   {
@@ -378,7 +362,7 @@ export const FONTS: FontData[] = [
     family: '"Inter", sans-serif',
     googleFontName: 'Inter',
     category: 'english',
-    tags: ['sans-serif', 'technical'],
+    tags: ['无衬线', '技术'],
     preview: 'Inter',
   },
   {
@@ -386,7 +370,7 @@ export const FONTS: FontData[] = [
     family: '"Barlow Condensed", sans-serif',
     googleFontName: 'Barlow+Condensed',
     category: 'english',
-    tags: ['sans-serif', 'condensed'],
+    tags: ['无衬线', '极窄'],
     preview: 'Barlow Condensed',
   },
 
@@ -396,7 +380,7 @@ export const FONTS: FontData[] = [
     family: '"Dancing Script", cursive',
     googleFontName: 'Dancing+Script',
     category: 'english',
-    tags: ['handwriting', 'elegant'],
+    tags: ['手写', '优雅', '花体'],
     preview: 'Dancing Script',
   },
   {
@@ -404,7 +388,7 @@ export const FONTS: FontData[] = [
     family: '"Great Vibes", cursive',
     googleFontName: 'Great+Vibes',
     category: 'english',
-    tags: ['handwriting', 'elegant', 'calligraphy'],
+    tags: ['手写', '华丽', '书法'],
     preview: 'Great Vibes',
   },
   {
@@ -412,7 +396,7 @@ export const FONTS: FontData[] = [
     family: '"Caveat", cursive',
     googleFontName: 'Caveat',
     category: 'english',
-    tags: ['handwriting', 'casual'],
+    tags: ['手写', '随意'],
     preview: 'Caveat',
   },
   {
@@ -420,7 +404,7 @@ export const FONTS: FontData[] = [
     family: '"Satisfy", cursive',
     googleFontName: 'Satisfy',
     category: 'english',
-    tags: ['handwriting', 'elegant'],
+    tags: ['手写', '优雅'],
     preview: 'Satisfy',
   },
   {
@@ -428,7 +412,7 @@ export const FONTS: FontData[] = [
     family: '"Pacifico", cursive',
     googleFontName: 'Pacifico',
     category: 'english',
-    tags: ['handwriting', 'cute', 'rounded'],
+    tags: ['手写', '可爱', '圆润'],
     preview: 'Pacifico',
   },
   {
@@ -436,7 +420,7 @@ export const FONTS: FontData[] = [
     family: '"Permanent Marker", cursive',
     googleFontName: 'Permanent+Marker',
     category: 'english',
-    tags: ['handwriting', 'bold', 'marker'],
+    tags: ['手写', '粗马克笔'],
     preview: 'Permanent Marker',
   },
   {
@@ -444,7 +428,7 @@ export const FONTS: FontData[] = [
     family: '"Indie Flower", cursive',
     googleFontName: 'Indie+Flower',
     category: 'english',
-    tags: ['handwriting', 'pencil', 'thin'],
+    tags: ['手写', '细铅笔'],
     preview: 'Indie Flower',
   },
 
@@ -454,7 +438,7 @@ export const FONTS: FontData[] = [
     family: '"Bebas Neue", sans-serif',
     googleFontName: 'Bebas+Neue',
     category: 'english',
-    tags: ['display', 'bold', 'condensed'],
+    tags: ['展示', '粗黑', '窄体'],
     preview: 'Bebas Neue',
   },
   {
@@ -462,7 +446,7 @@ export const FONTS: FontData[] = [
     family: '"Abril Fatface", cursive',
     googleFontName: 'Abril+Fatface',
     category: 'english',
-    tags: ['display', 'bold', 'vintage'],
+    tags: ['展示', '复古海报'],
     preview: 'Abril Fatface',
   },
   {
@@ -470,7 +454,7 @@ export const FONTS: FontData[] = [
     family: '"Fredoka", sans-serif',
     googleFontName: 'Fredoka',
     category: 'english',
-    tags: ['display', 'cute', 'rounded'],
+    tags: ['展示', '卡通', '可爱'],
     preview: 'Fredoka',
   },
   {
@@ -478,7 +462,7 @@ export const FONTS: FontData[] = [
     family: '"Orbitron", sans-serif',
     googleFontName: 'Orbitron',
     category: 'english',
-    tags: ['display', 'futuristic', 'sci-fi'],
+    tags: ['展示', '科幻', '未来'],
     preview: 'Orbitron',
   },
   {
@@ -486,7 +470,7 @@ export const FONTS: FontData[] = [
     family: '"UnifrakturMaguntia", cursive',
     googleFontName: 'UnifrakturMaguntia',
     category: 'english',
-    tags: ['display', 'gothic', 'blackletter'],
+    tags: ['展示', '哥特', '黑体'],
     preview: 'UnifrakturMaguntia',
   },
   {
@@ -494,7 +478,7 @@ export const FONTS: FontData[] = [
     family: '"Press Start 2P", cursive',
     googleFontName: 'Press+Start+2P',
     category: 'english',
-    tags: ['display', 'pixel', 'retro'],
+    tags: ['展示', '像素', '复古'],
     preview: 'Press Start 2P',
   },
   {
@@ -502,7 +486,7 @@ export const FONTS: FontData[] = [
     family: '"Bangers", cursive',
     googleFontName: 'Bangers',
     category: 'english',
-    tags: ['display', 'comic', 'bold'],
+    tags: ['展示', '漫画', '爆炸'],
     preview: 'Bangers',
   },
 
@@ -512,7 +496,7 @@ export const FONTS: FontData[] = [
     family: '"JetBrains Mono", monospace',
     googleFontName: 'JetBrains+Mono',
     category: 'english',
-    tags: ['monospace', 'code'],
+    tags: ['等宽', '代码'],
     preview: 'JetBrains Mono',
   },
   {
@@ -520,7 +504,7 @@ export const FONTS: FontData[] = [
     family: '"Fira Code", monospace',
     googleFontName: 'Fira+Code',
     category: 'english',
-    tags: ['monospace', 'code'],
+    tags: ['等宽', '代码'],
     preview: 'Fira Code',
   },
   {
@@ -528,7 +512,7 @@ export const FONTS: FontData[] = [
     family: '"Space Mono", monospace',
     googleFontName: 'Space+Mono',
     category: 'english',
-    tags: ['monospace', 'modern'],
+    tags: ['等宽', '现代'],
     preview: 'Space Mono',
   },
   {
@@ -536,7 +520,7 @@ export const FONTS: FontData[] = [
     family: '"Inconsolata", monospace',
     googleFontName: 'Inconsolata',
     category: 'english',
-    tags: ['monospace', 'clean'],
+    tags: ['等宽', '简洁'],
     preview: 'Inconsolata',
   },
 
@@ -546,7 +530,7 @@ export const FONTS: FontData[] = [
     family: '"Rye", cursive',
     googleFontName: 'Rye',
     category: 'english',
-    tags: ['display', 'western', 'vintage'],
+    tags: ['展示', '西部', '牛仔'],
     preview: 'Rye',
   },
   {
@@ -554,7 +538,7 @@ export const FONTS: FontData[] = [
     family: '"Special Elite", cursive',
     googleFontName: 'Special+Elite',
     category: 'english',
-    tags: ['display', 'typewriter', 'retro'],
+    tags: ['展示', '打字机', '复古'],
     preview: 'Special Elite',
   },
   {
@@ -562,7 +546,7 @@ export const FONTS: FontData[] = [
     family: '"Bungee", cursive',
     googleFontName: 'Bungee',
     category: 'english',
-    tags: ['display', '3d', 'urban'],
+    tags: ['展示', '3D', '城市'],
     preview: 'Bungee',
   },
   {
@@ -570,7 +554,7 @@ export const FONTS: FontData[] = [
     family: '"Gochi Hand", cursive',
     googleFontName: 'Gochi+Hand',
     category: 'english',
-    tags: ['handwriting', 'crayon', 'childish'],
+    tags: ['手写', '蜡笔', '儿童'],
     preview: 'Gochi Hand',
   },
 
@@ -580,7 +564,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans JP", sans-serif',
     googleFontName: 'Noto+Sans+JP',
     category: 'other',
-    tags: ['japanese', 'sans-serif'],
+    tags: ['日文', '无衬线'],
     preview: 'Noto Sans JP',
   },
   {
@@ -588,7 +572,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif JP", serif',
     googleFontName: 'Noto+Serif+JP',
     category: 'other',
-    tags: ['japanese', 'serif'],
+    tags: ['日文', '衬线'],
     preview: 'Noto Serif JP',
   },
   {
@@ -596,7 +580,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans KR", sans-serif',
     googleFontName: 'Noto+Sans+KR',
     category: 'other',
-    tags: ['korean', 'sans-serif'],
+    tags: ['韩文', '无衬线'],
     preview: 'Noto Sans KR',
   },
   {
@@ -604,7 +588,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif KR", serif',
     googleFontName: 'Noto+Serif+KR',
     category: 'other',
-    tags: ['korean', 'serif'],
+    tags: ['韩文', '衬线'],
     preview: 'Noto Serif KR',
   },
   {
@@ -612,7 +596,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Arabic", sans-serif',
     googleFontName: 'Noto+Sans+Arabic',
     category: 'other',
-    tags: ['arabic', 'sans-serif'],
+    tags: ['阿拉伯', '无衬线'],
     preview: 'Noto Sans Arabic',
   },
   {
@@ -620,7 +604,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Naskh Arabic", serif',
     googleFontName: 'Noto+Naskh+Arabic',
     category: 'other',
-    tags: ['arabic', 'serif'],
+    tags: ['阿拉伯', '衬线'],
     preview: 'Noto Naskh Arabic',
   },
   {
@@ -628,7 +612,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Thai", sans-serif',
     googleFontName: 'Noto+Sans+Thai',
     category: 'other',
-    tags: ['thai', 'sans-serif'],
+    tags: ['泰文', '无衬线'],
     preview: 'Noto Sans Thai',
   },
   {
@@ -636,7 +620,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Thai", serif',
     googleFontName: 'Noto+Serif+Thai',
     category: 'other',
-    tags: ['thai', 'serif'],
+    tags: ['泰文', '衬线'],
     preview: 'Noto Serif Thai',
   },
   {
@@ -644,7 +628,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Devanagari", sans-serif',
     googleFontName: 'Noto+Sans+Devanagari',
     category: 'other',
-    tags: ['hindi', 'devanagari', 'sans-serif'],
+    tags: ['印地语', '天城文'],
     preview: 'Noto Sans Devanagari',
   },
   {
@@ -652,7 +636,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Devanagari", serif',
     googleFontName: 'Noto+Serif+Devanagari',
     category: 'other',
-    tags: ['hindi', 'devanagari', 'serif'],
+    tags: ['印地语', '天城文'],
     preview: 'Noto Serif Devanagari',
   },
   {
@@ -660,7 +644,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Bengali", sans-serif',
     googleFontName: 'Noto+Sans+Bengali',
     category: 'other',
-    tags: ['bengali', 'sans-serif'],
+    tags: ['孟加拉', '无衬线'],
     preview: 'Noto Sans Bengali',
   },
   {
@@ -668,7 +652,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Bengali", serif',
     googleFontName: 'Noto+Serif+Bengali',
     category: 'other',
-    tags: ['bengali', 'serif'],
+    tags: ['孟加拉', '衬线'],
     preview: 'Noto Serif Bengali',
   },
   {
@@ -676,7 +660,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Tamil", sans-serif',
     googleFontName: 'Noto+Sans+Tamil',
     category: 'other',
-    tags: ['tamil', 'sans-serif'],
+    tags: ['泰米尔', '无衬线'],
     preview: 'Noto Sans Tamil',
   },
   {
@@ -684,7 +668,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Tamil", serif',
     googleFontName: 'Noto+Serif+Tamil',
     category: 'other',
-    tags: ['tamil', 'serif'],
+    tags: ['泰米尔', '衬线'],
     preview: 'Noto Serif Tamil',
   },
   {
@@ -692,7 +676,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Telugu", sans-serif',
     googleFontName: 'Noto+Sans+Telugu',
     category: 'other',
-    tags: ['telugu', 'sans-serif'],
+    tags: ['泰卢固', '无衬线'],
     preview: 'Noto Sans Telugu',
   },
   {
@@ -700,7 +684,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Telugu", serif',
     googleFontName: 'Noto+Serif+Telugu',
     category: 'other',
-    tags: ['telugu', 'serif'],
+    tags: ['泰卢固', '衬线'],
     preview: 'Noto Serif Telugu',
   },
   {
@@ -708,7 +692,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Gujarati", sans-serif',
     googleFontName: 'Noto+Sans+Gujarati',
     category: 'other',
-    tags: ['gujarati', 'sans-serif'],
+    tags: ['古吉拉特', '无衬线'],
     preview: 'Noto Sans Gujarati',
   },
   {
@@ -716,7 +700,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Gujarati", serif',
     googleFontName: 'Noto+Serif+Gujarati',
     category: 'other',
-    tags: ['gujarati', 'serif'],
+    tags: ['古吉拉特', '衬线'],
     preview: 'Noto Serif Gujarati',
   },
   {
@@ -724,7 +708,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Kannada", sans-serif',
     googleFontName: 'Noto+Sans+Kannada',
     category: 'other',
-    tags: ['kannada', 'sans-serif'],
+    tags: ['卡纳达', '无衬线'],
     preview: 'Noto Sans Kannada',
   },
   {
@@ -732,7 +716,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Kannada", serif',
     googleFontName: 'Noto+Serif+Kannada',
     category: 'other',
-    tags: ['kannada', 'serif'],
+    tags: ['卡纳达', '衬线'],
     preview: 'Noto Serif Kannada',
   },
   {
@@ -740,7 +724,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Malayalam", sans-serif',
     googleFontName: 'Noto+Sans+Malayalam',
     category: 'other',
-    tags: ['malayalam', 'sans-serif'],
+    tags: ['马拉雅拉姆', '无衬线'],
     preview: 'Noto Sans Malayalam',
   },
   {
@@ -748,7 +732,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Malayalam", serif',
     googleFontName: 'Noto+Serif+Malayalam',
     category: 'other',
-    tags: ['malayalam', 'serif'],
+    tags: ['马拉雅拉姆', '衬线'],
     preview: 'Noto Serif Malayalam',
   },
   {
@@ -756,7 +740,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Myanmar", sans-serif',
     googleFontName: 'Noto+Sans+Myanmar',
     category: 'other',
-    tags: ['myanmar', 'sans-serif'],
+    tags: ['缅甸', '无衬线'],
     preview: 'Noto Sans Myanmar',
   },
   {
@@ -764,7 +748,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Myanmar", serif',
     googleFontName: 'Noto+Serif+Myanmar',
     category: 'other',
-    tags: ['myanmar', 'serif'],
+    tags: ['缅甸', '衬线'],
     preview: 'Noto Serif Myanmar',
   },
   {
@@ -772,7 +756,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Khmer", sans-serif',
     googleFontName: 'Noto+Sans+Khmer',
     category: 'other',
-    tags: ['khmer', 'sans-serif'],
+    tags: ['高棉', '无衬线'],
     preview: 'Noto Sans Khmer',
   },
   {
@@ -780,7 +764,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Khmer", serif',
     googleFontName: 'Noto+Serif+Khmer',
     category: 'other',
-    tags: ['khmer', 'serif'],
+    tags: ['高棉', '衬线'],
     preview: 'Noto Serif Khmer',
   },
   {
@@ -788,7 +772,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Lao", sans-serif',
     googleFontName: 'Noto+Sans+Lao',
     category: 'other',
-    tags: ['lao', 'sans-serif'],
+    tags: ['老挝', '无衬线'],
     preview: 'Noto Sans Lao',
   },
   {
@@ -796,7 +780,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Lao", serif',
     googleFontName: 'Noto+Serif+Lao',
     category: 'other',
-    tags: ['lao', 'serif'],
+    tags: ['老挝', '衬线'],
     preview: 'Noto Serif Lao',
   },
   {
@@ -804,7 +788,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Sinhala", sans-serif',
     googleFontName: 'Noto+Sans+Sinhala',
     category: 'other',
-    tags: ['sinhala', 'sans-serif'],
+    tags: ['僧伽罗', '无衬线'],
     preview: 'Noto Sans Sinhala',
   },
   {
@@ -812,7 +796,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Sinhala", serif',
     googleFontName: 'Noto+Serif+Sinhala',
     category: 'other',
-    tags: ['sinhala', 'serif'],
+    tags: ['僧伽罗', '衬线'],
     preview: 'Noto Serif Sinhala',
   },
   {
@@ -820,7 +804,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Hebrew", sans-serif',
     googleFontName: 'Noto+Sans+Hebrew',
     category: 'other',
-    tags: ['hebrew', 'sans-serif'],
+    tags: ['希伯来', '无衬线'],
     preview: 'Noto Sans Hebrew',
   },
   {
@@ -828,7 +812,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Hebrew", serif',
     googleFontName: 'Noto+Serif+Hebrew',
     category: 'other',
-    tags: ['hebrew', 'serif'],
+    tags: ['希伯来', '衬线'],
     preview: 'Noto Serif Hebrew',
   },
   {
@@ -836,7 +820,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Georgian", sans-serif',
     googleFontName: 'Noto+Sans+Georgian',
     category: 'other',
-    tags: ['georgian', 'sans-serif'],
+    tags: ['格鲁吉亚', '无衬线'],
     preview: 'Noto Sans Georgian',
   },
   {
@@ -844,7 +828,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Georgian", serif',
     googleFontName: 'Noto+Serif+Georgian',
     category: 'other',
-    tags: ['georgian', 'serif'],
+    tags: ['格鲁吉亚', '衬线'],
     preview: 'Noto Serif Georgian',
   },
   {
@@ -852,7 +836,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Armenian", sans-serif',
     googleFontName: 'Noto+Sans+Armenian',
     category: 'other',
-    tags: ['armenian', 'sans-serif'],
+    tags: ['亚美尼亚', '无衬线'],
     preview: 'Noto Sans Armenian',
   },
   {
@@ -860,7 +844,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Armenian", serif',
     googleFontName: 'Noto+Serif+Armenian',
     category: 'other',
-    tags: ['armenian', 'serif'],
+    tags: ['亚美尼亚', '衬线'],
     preview: 'Noto Serif Armenian',
   },
   {
@@ -868,7 +852,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Ethiopic", sans-serif',
     googleFontName: 'Noto+Sans+Ethiopic',
     category: 'other',
-    tags: ['ethiopic', 'sans-serif'],
+    tags: ['埃塞俄比亚', '无衬线'],
     preview: 'Noto Sans Ethiopic',
   },
   {
@@ -876,7 +860,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Serif Ethiopic", serif',
     googleFontName: 'Noto+Serif+Ethiopic',
     category: 'other',
-    tags: ['ethiopic', 'serif'],
+    tags: ['埃塞俄比亚', '衬线'],
     preview: 'Noto Serif Ethiopic',
   },
   {
@@ -884,7 +868,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Cherokee", sans-serif',
     googleFontName: 'Noto+Sans+Cherokee',
     category: 'other',
-    tags: ['cherokee', 'sans-serif'],
+    tags: ['切罗基', '无衬线'],
     preview: 'Noto Sans Cherokee',
   },
   {
@@ -892,7 +876,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Mongolian", sans-serif',
     googleFontName: 'Noto+Sans+Mongolian',
     category: 'other',
-    tags: ['mongolian', 'sans-serif'],
+    tags: ['蒙古', '无衬线'],
     preview: 'Noto Sans Mongolian',
   },
   {
@@ -900,7 +884,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Tibetan", sans-serif',
     googleFontName: 'Noto+Sans+Tibetan',
     category: 'other',
-    tags: ['tibetan', 'sans-serif'],
+    tags: ['藏文', '无衬线'],
     preview: 'Noto Sans Tibetan',
   },
   {
@@ -908,7 +892,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Syriac", sans-serif',
     googleFontName: 'Noto+Sans+Syriac',
     category: 'other',
-    tags: ['syriac', 'sans-serif'],
+    tags: ['叙利亚', '无衬线'],
     preview: 'Noto Sans Syriac',
   },
   {
@@ -916,7 +900,7 @@ export const FONTS: FontData[] = [
     family: '"Noto Sans Coptic", sans-serif',
     googleFontName: 'Noto+Sans+Coptic',
     category: 'other',
-    tags: ['coptic', 'sans-serif'],
+    tags: ['科普特', '无衬线'],
     preview: 'Noto Sans Coptic',
   },
 ];
