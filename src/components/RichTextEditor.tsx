@@ -1751,48 +1751,66 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
       contents.length > 0 ? state.schema.nodes.paragraph.create() : state.schema.nodes.paragraph.create()
     );
 
-    // Build new rows
+    // Build new rows by iterating original table rows
     const newRows: any[] = [];
-    for (let row = 0; row < map.height; row++) {
-      const newCells: any[] = [];
-      let mergedCellPlaced = false;
-      for (let col = 0; col < map.width; col++) {
-        const cellPos = map.map[row * map.width + col];
-        // Check if this cell position is in the merge rect
-        const inRect =
-          row >= rect.top &&
-          row < rect.bottom &&
-          col >= rect.left &&
-          col < rect.right;
+    let currentRow = 0;
+    tableNode.forEach((rowNode) => {
+      if (rowNode.type.name !== 'tableRow') return;
 
-        if (inRect) {
-          // Only place merged cell at top-left of rect
-          if (row === rect.top && col === rect.left) {
+      const newCells: any[] = [];
+      let currentCol = 0;
+      let rowHasMergedCell = false;
+
+      rowNode.forEach((cellNode) => {
+        const cellColspan = cellNode.attrs.colspan || 1;
+        const cellRowspan = cellNode.attrs.rowspan || 1;
+
+        // Check if this cell is completely inside the merge rect
+        const cellLeft = currentCol;
+        const cellRight = currentCol + cellColspan;
+        const cellTop = currentRow;
+        const cellBottom = currentRow + cellRowspan;
+
+        const completelyInRect =
+          cellLeft >= rect.left &&
+          cellRight <= rect.right &&
+          cellTop >= rect.top &&
+          cellBottom <= rect.bottom;
+
+        const completelyOutsideRect =
+          cellRight <= rect.left ||
+          cellLeft >= rect.right ||
+          cellBottom <= rect.top ||
+          cellTop >= rect.bottom;
+
+        if (completelyInRect) {
+          // This cell is absorbed by the merge
+          // Place merged cell at the top-left of the rect, only once
+          if (currentRow === rect.top && !rowHasMergedCell) {
             newCells.push(mergedCell);
-            mergedCellPlaced = true;
+            rowHasMergedCell = true;
           }
-          // Skip other positions in rect (they are absorbed)
+        } else if (completelyOutsideRect) {
+          // This cell is outside the merge rect, keep it as is
+          newCells.push(cellNode);
         } else {
-          // Copy existing cell (only if it's the start position of that cell)
-          const cellNode = state.doc.nodeAt(tableStart + cellPos);
-          if (cellNode) {
-            // Check if this is the first slot this cell occupies
-            const isFirstSlot =
-              row === 0 ||
-              map.map[(row - 1) * map.width + col] !== cellPos;
-            if (isFirstSlot) {
-              newCells.push(cellNode);
-            }
-          }
+          // Partial overlap - this shouldn't happen with rectangular selection
+          // Keep the cell to avoid data loss
+          newCells.push(cellNode);
         }
-      }
-      // If this row is entirely inside the merge rect but merged cell was placed at a different row,
-      // we need to add the merged cell here too (but only once per row)
-      if (newCells.length === 0 && row >= rect.top && row < rect.bottom) {
+
+        currentCol += cellColspan;
+      });
+
+      // If this row is inside the merge rect but no merged cell was placed,
+      // place it (handles rowspan > 1 cases)
+      if (currentRow >= rect.top && currentRow < rect.bottom && !rowHasMergedCell) {
         newCells.push(mergedCell);
       }
+
       newRows.push(state.schema.nodes.tableRow.create(null, newCells));
-    }
+      currentRow++;
+    });
 
     const newTable = state.schema.nodes.table.create(null, newRows);
 
