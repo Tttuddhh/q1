@@ -932,7 +932,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           borderBottom: '1px solid #e5e7eb',
           position: 'sticky',
           top: 0,
-          zIndex: 10,
+          zIndex: 50,
           background: '#ffffff',
         }}
       >

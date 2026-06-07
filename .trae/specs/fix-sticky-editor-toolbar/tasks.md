@@ -42,3 +42,22 @@
   - `human-judgement` TR-3.1: 验证吸附状态下工具栏按钮点击正常
   - `human-judgement` TR-3.2: 验证表情选择器弹出位置正确
 - **Notes**: 表情选择器使用 absolute 定位，需要确保在 sticky 工具栏下位置正确
+
+## [x] Task 4: 修复工具栏后方内容透出问题
+- **Priority**: P0
+- **Depends On**: None
+- **Description**: 
+  - 从截图可以看到，工具栏后方透出了页面标题等文字内容
+  - 分析原因：Header 组件使用了 `backdrop-blur-sm` + `bg-white/80`（半透明背景），且 Header 也有 `position: sticky`
+  - 工具栏虽然设置了 `background: '#ffffff'`，但可能因为 z-index 不够高，或者 sticky 定位的上下文问题导致内容透出
+  - 解决方案：
+    1. 提高工具栏的 z-index 到 50 或更高，确保在 Header 之上
+    2. 确保工具栏背景为实色白色（非半透明）
+    3. 检查 MainContent 的 padding 是否导致工具栏和 Header 重叠区域有内容透出
+    4. 可能需要给工具栏添加 `width: 100%` 确保完全覆盖
+  - 涉及文件：`RichTextEditor.tsx`
+- **Acceptance Criteria Addressed**: [AC-2]
+- **Test Requirements**:
+  - `human-judgement` TR-4.1: 向下滚动页面，验证工具栏后方没有任何文字或内容透出
+  - `human-judgement` TR-4.2: 在不同滚动位置验证工具栏背景完全遮挡后方内容
+- **Notes**: 这是本次修复的重点，必须确保不透出任何内容
