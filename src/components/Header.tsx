@@ -258,11 +258,22 @@ export function Header({
               background: 'transparent',
             }}
           >
-            <img
-              src="https://api.dicebear.com/7.x/notionists/svg?seed=user"
-              alt="User"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-            />
+            <div
+              style={{
+                width: '100%',
+                height: '100%',
+                borderRadius: 10,
+                background: 'var(--color-primary)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#ffffff',
+                fontSize: 14,
+                fontWeight: 600,
+              }}
+            >
+              U
+            </div>
           </button>
 
           {avatarDropdownOpen && (

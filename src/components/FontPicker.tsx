@@ -200,11 +200,18 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
                 <div key={cat.key}>
                   <div
                     style={{
-                      padding: '4px 12px',
+                      padding: '3px 10px',
                       fontSize: 11,
-                      color: '#9ca3af',
-                      fontWeight: 500,
-                      marginTop: 2,
+                      color: '#ffffff',
+                      fontWeight: 600,
+                      marginTop: 4,
+                      marginBottom: 2,
+                      marginLeft: 8,
+                      marginRight: 8,
+                      borderRadius: 4,
+                      background: 'var(--color-primary)',
+                      display: 'inline-block',
+                      letterSpacing: '0.5px',
                     }}
                   >
                     {cat.label}
