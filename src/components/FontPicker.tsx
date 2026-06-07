@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Search01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
-import { FONTS, FONT_CATEGORIES, SYSTEM_FONT, type FontData } from '../data/fonts';
+import { FONTS, SYSTEM_FONT, type FontData } from '../data/fonts';
 import { loadGoogleFont } from '../utils/fontLoader';
 import { useTranslation } from '../i18n';
 
@@ -10,11 +10,18 @@ interface FontPickerProps {
   onSelect: (font: FontData) => void;
 }
 
+const CATEGORY_ORDER: Array<'chinese' | 'english' | 'other'> = ['chinese', 'english', 'other'];
+
+const CATEGORY_LABELS: Record<string, string> = {
+  chinese: '中文字体',
+  english: '英文字体',
+  other: '其他字体',
+};
+
 export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('all');
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
@@ -38,10 +45,6 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const filteredFonts = useMemo(() => {
     let fonts = [...FONTS];
 
-    if (activeCategory !== 'all') {
-      fonts = fonts.filter(f => f.tags.includes(activeCategory));
-    }
-
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
       fonts = fonts.filter(
@@ -52,7 +55,17 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
     }
 
     return fonts;
-  }, [activeCategory, searchQuery]);
+  }, [searchQuery]);
+
+  const groupedFonts = useMemo(() => {
+    const groups: Record<string, FontData[]> = {};
+    for (const font of filteredFonts) {
+      const cat = font.category;
+      if (!groups[cat]) groups[cat] = [];
+      groups[cat].push(font);
+    }
+    return groups;
+  }, [filteredFonts]);
 
   const handleSelect = useCallback(
     (font: FontData) => {
@@ -126,8 +139,8 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
             border: '1px solid #e5e7eb',
             borderRadius: 8,
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            width: 320,
-            maxHeight: 420,
+            width: 140,
+            maxHeight: 360,
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
@@ -137,14 +150,14 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
           {/* Search */}
           <div
             style={{
-              padding: '10px 12px',
+              padding: '8px 10px',
               borderBottom: '1px solid #e5e7eb',
               display: 'flex',
               alignItems: 'center',
-              gap: 8,
+              gap: 6,
             }}
           >
-            <HugeiconsIcon icon={Search01Icon} size={16} strokeWidth={2} color="#9ca3af" />
+            <HugeiconsIcon icon={Search01Icon} size={14} strokeWidth={2} color="#9ca3af" />
             <input
               autoFocus
               value={searchQuery}
@@ -154,47 +167,11 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                 flex: 1,
                 border: 'none',
                 outline: 'none',
-                fontSize: 13,
+                fontSize: 12,
                 color: '#374151',
                 background: 'transparent',
               }}
             />
-          </div>
-
-          {/* Category tabs */}
-          <div
-            style={{
-              display: 'flex',
-              gap: 4,
-              padding: '8px 12px',
-              borderBottom: '1px solid #e5e7eb',
-              overflowX: 'auto',
-              scrollbarWidth: 'none',
-              msOverflowStyle: 'none',
-            }}
-          >
-            {FONT_CATEGORIES.map(cat => (
-              <button
-                key={cat.key}
-                type="button"
-                onClick={() => setActiveCategory(cat.key)}
-                style={{
-                  padding: '4px 10px',
-                  borderRadius: 9999,
-                  border: 'none',
-                  fontSize: 12,
-                  fontWeight: 500,
-                  cursor: 'pointer',
-                  whiteSpace: 'nowrap',
-                  flexShrink: 0,
-                  background: activeCategory === cat.key ? 'var(--color-primary)' : '#f3f4f6',
-                  color: activeCategory === cat.key ? '#ffffff' : '#6b7280',
-                  transition: 'background-color 0.15s ease, color 0.15s ease',
-                }}
-              >
-                {t(cat.labelKey as any)}
-              </button>
-            ))}
           </div>
 
           {/* Font list */}
@@ -202,7 +179,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
             style={{
               flex: 1,
               overflowY: 'auto',
-              padding: '8px 0',
+              padding: '4px 0',
               scrollbarWidth: 'thin',
             }}
           >
@@ -213,11 +190,11 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
               style={{
                 width: '100%',
                 textAlign: 'left',
-                padding: '8px 16px',
+                padding: '6px 10px',
                 border: 'none',
                 background: currentFont === SYSTEM_FONT.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
                 cursor: 'pointer',
-                fontSize: 14,
+                fontSize: 12,
                 color: '#374151',
                 transition: 'background-color 0.15s ease',
               }}
@@ -234,57 +211,87 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
               {t('editor.font_system')}
             </button>
 
-            {filteredFonts.map(font => (
-              <button
-                key={font.name}
-                type="button"
-                onClick={() => handleSelect(font)}
-                style={{
-                  width: '100%',
-                  textAlign: 'left',
-                  padding: '8px 16px',
-                  border: 'none',
-                  background: currentFont === font.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
-                  cursor: 'pointer',
-                  fontSize: 14,
-                  color: '#374151',
-                  transition: 'background-color 0.15s ease',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 8,
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = '#f3f4f6';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background =
-                    currentFont === font.name
-                      ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
-                      : 'transparent';
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: font.family,
-                    fontSize: 15,
-                    flex: 1,
-                    overflow: 'hidden',
-                    textOverflow: 'ellipsis',
-                    whiteSpace: 'nowrap',
-                  }}
-                >
-                  {font.name}
-                </span>
-              </button>
-            ))}
+            {CATEGORY_ORDER.map(cat => {
+              const fonts = groupedFonts[cat];
+              if (!fonts || fonts.length === 0) return null;
+              return (
+                <div key={cat}>
+                  <div
+                    style={{
+                      padding: '4px 10px 2px',
+                      fontSize: 11,
+                      color: '#9ca3af',
+                      fontWeight: 500,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.02em',
+                    }}
+                  >
+                    {CATEGORY_LABELS[cat]}
+                  </div>
+                  {fonts.map(font => (
+                    <button
+                      key={font.name}
+                      type="button"
+                      onClick={() => handleSelect(font)}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '5px 10px',
+                        border: 'none',
+                        background: currentFont === font.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
+                        cursor: 'pointer',
+                        transition: 'background-color 0.15s ease',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: 1,
+                      }}
+                      onMouseEnter={e => {
+                        e.currentTarget.style.background = '#f3f4f6';
+                      }}
+                      onMouseLeave={e => {
+                        e.currentTarget.style.background =
+                          currentFont === font.name
+                            ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
+                            : 'transparent';
+                      }}
+                    >
+                      <span
+                        style={{
+                          fontFamily: font.family,
+                          fontSize: 13,
+                          lineHeight: 1.3,
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                          color: '#111827',
+                        }}
+                      >
+                        {font.preview}
+                      </span>
+                      <span
+                        style={{
+                          fontSize: 10,
+                          color: '#9ca3af',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {font.name}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              );
+            })}
 
             {filteredFonts.length === 0 && (
               <div
                 style={{
-                  padding: 24,
+                  padding: 16,
                   textAlign: 'center',
                   color: '#9ca3af',
-                  fontSize: 13,
+                  fontSize: 12,
                 }}
               >
                 {t('editor.font_no_results')}

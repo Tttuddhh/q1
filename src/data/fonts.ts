@@ -4,6 +4,7 @@ export interface FontData {
   googleFontName: string;
   category: 'chinese' | 'english' | 'other';
   tags: string[];
+  preview: string;
 }
 
 export const FONT_CATEGORIES = [
@@ -26,6 +27,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '思源黑体',
@@ -33,6 +35,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '思源宋体',
@@ -40,6 +43,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Serif+SC',
     category: 'chinese',
     tags: ['chinese', 'serif'],
+    preview: '天地玄黄',
   },
   {
     name: '霞鹜文楷',
@@ -47,6 +51,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'LXGW+WenKai',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '霞鹜文楷 TC',
@@ -54,6 +59,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'LXGW+WenKai+TC',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '站酷庆科黄油体',
@@ -61,6 +67,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+QingKe+HuangYou',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
   {
     name: '站酷快乐体',
@@ -68,6 +75,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
   {
     name: '站酷小薇体',
@@ -75,6 +83,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+XiaoWei',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '站酷高端黑',
@@ -82,6 +91,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+GaoDuanHei',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '优设标题黑',
@@ -89,6 +99,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '仓耳周珂正大榜书',
@@ -96,6 +107,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Ma+Shan+Zheng',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '马善政毛笔楷体',
@@ -103,6 +115,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Ma+Shan+Zheng',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '钟齐志莽行书',
@@ -110,6 +123,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Zhi+Mang+Xing',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '黄令东齐伋体',
@@ -117,6 +131,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Serif+SC',
     category: 'chinese',
     tags: ['chinese', 'serif'],
+    preview: '天地玄黄',
   },
   {
     name: '文道潮黑体',
@@ -124,6 +139,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '鸿雷行书简体',
@@ -131,6 +147,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Zhi+Mang+Xing',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '演示悠然小楷',
@@ -138,6 +155,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+XiaoWei',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '猫啃珠圆体',
@@ -145,6 +163,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
   {
     name: '猫啃网糖圆体',
@@ -152,6 +171,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
   {
     name: '小赖体',
@@ -159,6 +179,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
   {
     name: '悠哉体',
@@ -166,6 +187,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '有字库龙藏体',
@@ -173,6 +195,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Ma+Shan+Zheng',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '江西拙楷',
@@ -180,6 +203,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Zhi+Mang+Xing',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '杨任东竹石体',
@@ -187,6 +211,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+QingKe+HuangYou',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '装甲明朝体',
@@ -194,6 +219,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Serif+SC',
     category: 'chinese',
     tags: ['chinese', 'serif', 'gothic'],
+    preview: '天地玄黄',
   },
   {
     name: '全小素体',
@@ -201,6 +227,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '千图雪花体',
@@ -208,6 +235,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
   {
     name: '千图厚黑体',
@@ -215,6 +243,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+QingKe+HuangYou',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '千图马克体',
@@ -222,6 +251,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '千图纤墨体',
@@ -229,6 +259,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+XiaoWei',
     category: 'chinese',
     tags: ['chinese', 'serif'],
+    preview: '天地玄黄',
   },
   {
     name: '千图笔锋体',
@@ -236,6 +267,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Ma+Shan+Zheng',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
+    preview: '天地玄黄',
   },
   {
     name: '千图小兔体',
@@ -243,6 +275,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
   {
     name: '千图涂鸦体',
@@ -250,6 +283,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
   {
     name: '千图方格体',
@@ -257,6 +291,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+QingKe+HuangYou',
     category: 'chinese',
     tags: ['chinese', 'sans'],
+    preview: '天地玄黄',
   },
   {
     name: '千图乐酷体',
@@ -264,6 +299,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
     tags: ['chinese', 'cute'],
+    preview: '天地玄黄',
   },
 
   // ===== 英文字体 (35+) =====
@@ -273,6 +309,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Roboto',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Open Sans',
@@ -280,6 +317,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Open+Sans',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Lato',
@@ -287,6 +325,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Lato',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Montserrat',
@@ -294,6 +333,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Montserrat',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Poppins',
@@ -301,6 +341,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Poppins',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Inter',
@@ -308,6 +349,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Inter',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Playfair Display',
@@ -315,6 +357,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Playfair+Display',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Merriweather',
@@ -322,6 +365,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Merriweather',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Lora',
@@ -329,6 +373,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Lora',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Oswald',
@@ -336,6 +381,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Oswald',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Raleway',
@@ -343,6 +389,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Raleway',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Nunito',
@@ -350,6 +397,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Nunito',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Ubuntu',
@@ -357,6 +405,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Ubuntu',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'PT Sans',
@@ -364,6 +413,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'PT+Sans',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'PT Serif',
@@ -371,6 +421,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'PT+Serif',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Libre Baskerville',
@@ -378,6 +429,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Libre+Baskerville',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Crimson Text',
@@ -385,6 +437,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Crimson+Text',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Work Sans',
@@ -392,6 +445,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Work+Sans',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Fira Sans',
@@ -399,6 +453,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Fira+Sans',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Source Sans Pro',
@@ -406,6 +461,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Source+Sans+Pro',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Source Serif Pro',
@@ -413,6 +469,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Source+Serif+Pro',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Inconsolata',
@@ -420,6 +477,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Inconsolata',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'JetBrains Mono',
@@ -427,6 +485,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'JetBrains+Mono',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Bebas Neue',
@@ -434,6 +493,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Bebas+Neue',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Abril Fatface',
@@ -441,6 +501,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Abril+Fatface',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Pacifico',
@@ -448,6 +509,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Pacifico',
     category: 'english',
     tags: ['english', 'handwriting'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Dancing Script',
@@ -455,6 +517,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Dancing+Script',
     category: 'english',
     tags: ['english', 'handwriting'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Great Vibes',
@@ -462,6 +525,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Great+Vibes',
     category: 'english',
     tags: ['english', 'handwriting'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Caveat',
@@ -469,6 +533,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Caveat',
     category: 'english',
     tags: ['english', 'handwriting'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Satisfy',
@@ -476,6 +541,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Satisfy',
     category: 'english',
     tags: ['english', 'handwriting'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Lobster',
@@ -483,6 +549,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Lobster',
     category: 'english',
     tags: ['english', 'cute'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Fredoka One',
@@ -490,6 +557,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Fredoka+One',
     category: 'english',
     tags: ['english', 'cute'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Righteous',
@@ -497,6 +565,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Righteous',
     category: 'english',
     tags: ['english', 'cute'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Comfortaa',
@@ -504,6 +573,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Comfortaa',
     category: 'english',
     tags: ['english', 'cute'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Quicksand',
@@ -511,6 +581,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Quicksand',
     category: 'english',
     tags: ['english', 'cute'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Josefin Sans',
@@ -518,6 +589,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Josefin+Sans',
     category: 'english',
     tags: ['english', 'sans'],
+    preview: 'AaBbCc',
   },
   {
     name: 'Cormorant Garamond',
@@ -525,6 +597,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Cormorant+Garamond',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
   {
     name: 'EB Garamond',
@@ -532,6 +605,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'EB+Garamond',
     category: 'english',
     tags: ['english', 'serif'],
+    preview: 'AaBbCc',
   },
 
   // ===== 其他语言字体 (35+) - 可爱风/哥特风/手写体等 =====
@@ -541,6 +615,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'M+PLUS+Rounded+1c',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Kosugi Maru',
@@ -548,6 +623,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Kosugi+Maru',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Sawarabi Mincho',
@@ -555,6 +631,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Sawarabi+Mincho',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Sawarabi Gothic',
@@ -562,6 +639,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Sawarabi+Gothic',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans JP',
@@ -569,6 +647,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+JP',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Serif JP',
@@ -576,6 +655,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Serif+JP',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans KR',
@@ -583,6 +663,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+KR',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Serif KR',
@@ -590,6 +671,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Serif+KR',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Thai',
@@ -597,6 +679,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Thai',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Arabic',
@@ -604,6 +687,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Arabic',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Hebrew',
@@ -611,6 +695,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Hebrew',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Devanagari',
@@ -618,6 +703,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Devanagari',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Cinzel',
@@ -625,6 +711,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Cinzel',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Cinzel Decorative',
@@ -632,6 +719,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Cinzel+Decorative',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'UnifrakturMaguntia',
@@ -639,6 +727,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'UnifrakturMaguntia',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Pirata One',
@@ -646,6 +735,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Pirata+One',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Germania One',
@@ -653,6 +743,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Germania+One',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Metal Mania',
@@ -660,6 +751,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Metal+Mania',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'New Rocker',
@@ -667,6 +759,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'New+Rocker',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Bangers',
@@ -674,6 +767,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Bangers',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Chewy',
@@ -681,6 +775,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Chewy',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Carter One',
@@ -688,6 +783,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Carter+One',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Gochi Hand',
@@ -695,6 +791,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Gochi+Hand',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Permanent Marker',
@@ -702,6 +799,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Permanent+Marker',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Rock Salt',
@@ -709,6 +807,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Rock+Salt',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Shadows Into Light',
@@ -716,6 +815,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Shadows+Into+Light',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Indie Flower',
@@ -723,6 +823,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Indie+Flower',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Amatic SC',
@@ -730,6 +831,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Amatic+SC',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Sacramento',
@@ -737,6 +839,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Sacramento',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Architects Daughter',
@@ -744,6 +847,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Architects+Daughter',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Patrick Hand',
@@ -751,6 +855,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Patrick+Hand',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Kalam',
@@ -758,6 +863,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Kalam',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Covered By Your Grace',
@@ -765,6 +871,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Covered+By+Your+Grace',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Reenie Beanie',
@@ -772,6 +879,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Reenie+Beanie',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Itim',
@@ -779,6 +887,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Itim',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Varela Round',
@@ -786,6 +895,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Varela+Round',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Nunito Sans',
@@ -793,6 +903,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Nunito+Sans',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Barlow',
@@ -800,6 +911,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Barlow',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Heebo',
@@ -807,6 +919,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Heebo',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Karla',
@@ -814,6 +927,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Karla',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Manrope',
@@ -821,6 +935,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Manrope',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Outfit',
@@ -828,6 +943,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Outfit',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Space Grotesk',
@@ -835,6 +951,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Space+Grotesk',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Syne',
@@ -842,6 +959,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Syne',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'DM Sans',
@@ -849,6 +967,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'DM+Sans',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'DM Serif Display',
@@ -856,6 +975,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'DM+Serif+Display',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'DM Serif Text',
@@ -863,6 +983,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'DM+Serif+Text',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Bitter',
@@ -870,6 +991,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Bitter',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Literata',
@@ -877,6 +999,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Literata',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Spectral',
@@ -884,6 +1007,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Spectral',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Cardo',
@@ -891,6 +1015,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Cardo',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Old Standard TT',
@@ -898,6 +1023,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Old+Standard+TT',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Vollkorn',
@@ -905,6 +1031,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Vollkorn',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Alegreya',
@@ -912,6 +1039,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Alegreya',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Faustina',
@@ -919,6 +1047,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Faustina',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Sora',
@@ -926,6 +1055,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Sora',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Lexend',
@@ -933,6 +1063,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Lexend',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Exo 2',
@@ -940,6 +1071,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Exo+2',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Teko',
@@ -947,6 +1079,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Teko',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Rajdhani',
@@ -954,6 +1087,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Rajdhani',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Orbitron',
@@ -961,6 +1095,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Orbitron',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Russo One',
@@ -968,6 +1103,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Russo+One',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Black Ops One',
@@ -975,6 +1111,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Black+Ops+One',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Rubik Mono One',
@@ -982,6 +1119,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Rubik+Mono+One',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Bungee',
@@ -989,6 +1127,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Bungee',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Monoton',
@@ -996,6 +1135,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Monoton',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Press Start 2P',
@@ -1003,6 +1143,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Press+Start+2P',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Special Elite',
@@ -1010,6 +1151,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Special+Elite',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Courier Prime',
@@ -1017,6 +1159,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Courier+Prime',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Space Mono',
@@ -1024,6 +1167,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Space+Mono',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Anonymous Pro',
@@ -1031,6 +1175,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Anonymous+Pro',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Zilla Slab',
@@ -1038,6 +1183,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Zilla+Slab',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'BioRhyme',
@@ -1045,6 +1191,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'BioRhyme',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Hepta Slab',
@@ -1052,6 +1199,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Hepta+Slab',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Sanchez',
@@ -1059,6 +1207,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Sanchez',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Kreon',
@@ -1066,6 +1215,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Kreon',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Gudea',
@@ -1073,6 +1223,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Gudea',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Cabin',
@@ -1080,6 +1231,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Cabin',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Asap',
@@ -1087,6 +1239,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Asap',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Overpass',
@@ -1094,6 +1247,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Overpass',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Red Hat Display',
@@ -1101,6 +1255,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Red+Hat+Display',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Red Hat Text',
@@ -1108,6 +1263,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Red+Hat+Text',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Alata',
@@ -1115,6 +1271,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Alata',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Prompt',
@@ -1122,6 +1279,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Prompt',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Kanit',
@@ -1129,6 +1287,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Kanit',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Taviraj',
@@ -1136,6 +1295,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Taviraj',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Sarabun',
@@ -1143,6 +1303,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Sarabun',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Fira Code',
@@ -1150,6 +1311,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Fira+Code',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'IBM Plex Sans',
@@ -1157,6 +1319,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'IBM+Plex+Sans',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'IBM Plex Serif',
@@ -1164,6 +1327,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'IBM+Plex+Serif',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'IBM Plex Mono',
@@ -1171,6 +1335,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'IBM+Plex+Mono',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Mono',
@@ -1178,6 +1343,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Mono',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Balsamiq Sans',
@@ -1185,6 +1351,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Balsamiq+Sans',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Baloo 2',
@@ -1192,6 +1359,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Baloo+2',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Concert One',
@@ -1199,6 +1367,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Concert+One',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Lilita One',
@@ -1206,6 +1375,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Lilita+One',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Titan One',
@@ -1213,6 +1383,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Titan+One',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Boogaloo',
@@ -1220,6 +1391,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Boogaloo',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Kavoon',
@@ -1227,6 +1399,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Kavoon',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Henny Penny',
@@ -1234,6 +1407,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Henny+Penny',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Ranchers',
@@ -1241,6 +1415,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Ranchers',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Shrikhand',
@@ -1248,6 +1423,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Shrikhand',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Mogra',
@@ -1255,6 +1431,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Mogra',
     category: 'other',
     tags: ['other', 'cute'],
+    preview: 'Hello',
   },
   {
     name: 'Rakkas',
@@ -1262,6 +1439,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Rakkas',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Mirza',
@@ -1269,6 +1447,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Mirza',
     category: 'other',
     tags: ['other', 'gothic'],
+    preview: 'Hello',
   },
   {
     name: 'Reem Kufi',
@@ -1276,6 +1455,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Reem+Kufi',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'El Messiri',
@@ -1283,6 +1463,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'El+Messiri',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Lateef',
@@ -1290,6 +1471,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Lateef',
     category: 'other',
     tags: ['other', 'handwriting'],
+    preview: 'Hello',
   },
   {
     name: 'Scheherazade New',
@@ -1297,6 +1479,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Scheherazade+New',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Amiri',
@@ -1304,6 +1487,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Amiri',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Aref Ruqaa',
@@ -1311,6 +1495,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Aref+Ruqaa',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Almarai',
@@ -1318,6 +1503,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Almarai',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Tajawal',
@@ -1325,6 +1511,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Tajawal',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Cairo',
@@ -1332,6 +1519,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Cairo',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Changa',
@@ -1339,6 +1527,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Changa',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Markazi Text',
@@ -1346,6 +1535,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Markazi+Text',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Naskh Arabic',
@@ -1353,6 +1543,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Naskh+Arabic',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Nastaliq Urdu',
@@ -1360,6 +1551,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Nastaliq+Urdu',
     category: 'other',
     tags: ['other', 'serif'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Bengali',
@@ -1367,6 +1559,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Bengali',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Tamil',
@@ -1374,6 +1567,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Tamil',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Telugu',
@@ -1381,6 +1575,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Telugu',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Gujarati',
@@ -1388,6 +1583,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Gujarati',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Kannada',
@@ -1395,6 +1591,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Kannada',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Malayalam',
@@ -1402,6 +1599,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Malayalam',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Myanmar',
@@ -1409,6 +1607,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Myanmar',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Khmer',
@@ -1416,6 +1615,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Khmer',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Lao',
@@ -1423,6 +1623,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Lao',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Georgian',
@@ -1430,6 +1631,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Georgian',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Armenian',
@@ -1437,6 +1639,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Armenian',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Ethiopic',
@@ -1444,6 +1647,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Ethiopic',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Cherokee',
@@ -1451,6 +1655,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Cherokee',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Mongolian',
@@ -1458,6 +1663,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Mongolian',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Tibetan',
@@ -1465,6 +1671,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Tibetan',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Sinhala',
@@ -1472,6 +1679,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Sinhala',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Oriya',
@@ -1479,6 +1687,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Oriya',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Gurmukhi',
@@ -1486,6 +1695,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Gurmukhi',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
   {
     name: 'Noto Sans Telugu',
@@ -1493,6 +1703,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Telugu',
     category: 'other',
     tags: ['other', 'sans'],
+    preview: 'Hello',
   },
 ];
 
@@ -1502,4 +1713,5 @@ export const SYSTEM_FONT = {
   googleFontName: '',
   category: 'chinese' as const,
   tags: ['chinese'],
+  preview: '天地玄黄',
 };
