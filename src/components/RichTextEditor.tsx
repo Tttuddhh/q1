@@ -927,12 +927,12 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           alignItems: 'center',
           gap: 2,
           flexWrap: 'wrap',
-          padding: '8px 48px',
+          padding: '8px 0',
           marginBottom: 8,
           borderBottom: '1px solid #e5e7eb',
           position: 'sticky',
-          top: 0,
-          zIndex: 50,
+          top: -8,
+          zIndex: 100,
           background: '#ffffff',
         }}
       >
