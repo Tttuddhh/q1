@@ -1688,134 +1688,70 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
 
   const handleMergeCells = useCallback(() => {
     if (!editor) return;
+
+    // Step 1: Call ProseMirror native mergeCells
+    editor.chain().focus().mergeCells().run();
+
+    // Step 2: Fix the side effect where rows with all cells absorbed by rowspan are removed
     const { state } = editor;
-    const { selection, tr } = state;
+    const { tr: fixTr } = state;
+    let modified = false;
 
-    // Only proceed if we have a cell selection
-    if (!(selection instanceof CellSelection)) {
-      editor.chain().focus().mergeCells().run();
-      return;
-    }
+    state.doc.descendants((node, pos) => {
+      if (node.type.name === 'table') {
+        const tableMap = TableMap.get(node);
+        const tableStart = pos + 1;
 
-    const $anchorCell = selection.$anchorCell;
-    const $headCell = selection.$headCell;
-
-    // Find the table node and its position
-    let tablePos = $anchorCell.pos - $anchorCell.parentOffset - 1;
-    let depth = $anchorCell.depth;
-    while (depth > 0 && $anchorCell.node(depth).type.name !== 'table') {
-      depth--;
-    }
-    const tableNode = $anchorCell.node(depth);
-    const tableStart = $anchorCell.start(depth);
-
-    if (!tableNode || tableNode.type.name !== 'table') {
-      editor.chain().focus().mergeCells().run();
-      return;
-    }
-
-    const map = TableMap.get(tableNode);
-    const rect = map.rectBetween(
-      $anchorCell.pos - tableStart,
-      $headCell.pos - tableStart
-    );
-
-    // Determine cell type from anchor cell
-    const anchorCellNode = $anchorCell.nodeAfter;
-    const cellTypeName = anchorCellNode?.type.name === 'tableHeader' ? 'tableHeader' : 'tableCell';
-    const cellType = state.schema.nodes[cellTypeName];
-
-    if (!cellType) {
-      editor.chain().focus().mergeCells().run();
-      return;
-    }
-
-    // Collect all cell positions in the rect
-    const cells = map.cellsInRect(rect);
-
-    // Gather content from all cells
-    const contents: any[] = [];
-    cells.forEach((relativePos) => {
-      const cellPos = tableStart + relativePos;
-      const cellNode = state.doc.nodeAt(cellPos);
-      if (cellNode) {
-        cellNode.content.forEach((child) => {
-          contents.push(child);
-        });
-      }
-    });
-
-    // Create merged cell with correct colspan and rowspan
-    const mergedCell = cellType.create(
-      { colspan: rect.right - rect.left, rowspan: rect.bottom - rect.top },
-      contents.length > 0 ? state.schema.nodes.paragraph.create() : state.schema.nodes.paragraph.create()
-    );
-
-    // Build new rows by iterating original table rows
-    const newRows: any[] = [];
-    let currentRow = 0;
-    tableNode.forEach((rowNode) => {
-      if (rowNode.type.name !== 'tableRow') return;
-
-      const newCells: any[] = [];
-      let currentCol = 0;
-      let rowHasMergedCell = false;
-
-      rowNode.forEach((cellNode) => {
-        const cellColspan = cellNode.attrs.colspan || 1;
-        const cellRowspan = cellNode.attrs.rowspan || 1;
-
-        // Check if this cell is completely inside the merge rect
-        const cellLeft = currentCol;
-        const cellRight = currentCol + cellColspan;
-        const cellTop = currentRow;
-        const cellBottom = currentRow + cellRowspan;
-
-        const completelyInRect =
-          cellLeft >= rect.left &&
-          cellRight <= rect.right &&
-          cellTop >= rect.top &&
-          cellBottom <= rect.bottom;
-
-        const completelyOutsideRect =
-          cellRight <= rect.left ||
-          cellLeft >= rect.right ||
-          cellBottom <= rect.top ||
-          cellTop >= rect.bottom;
-
-        if (completelyInRect) {
-          // This cell is absorbed by the merge
-          // Place merged cell at the top-left of the rect, only once
-          if (currentRow === rect.top && !rowHasMergedCell) {
-            newCells.push(mergedCell);
-            rowHasMergedCell = true;
+        for (let row = 0; row < tableMap.height; row++) {
+          // Check if this row has any cells that actually belong to it
+          let hasOwnCell = false;
+          for (let col = 0; col < tableMap.width; col++) {
+            const cellRelPos = tableMap.map[row * tableMap.width + col];
+            const cellPos = tableStart + cellRelPos;
+            const cellNode = state.doc.nodeAt(cellPos);
+            if (cellNode) {
+              const rowspan = cellNode.attrs.rowspan || 1;
+              // This cell belongs to this row if its rowspan doesn't extend above this row
+              if (rowspan > 0) {
+                // Check if this cell's position is the start of the cell
+                const isStartOfCell = row === 0 || tableMap.map[(row - 1) * tableMap.width + col] !== cellRelPos;
+                if (isStartOfCell) {
+                  hasOwnCell = true;
+                  break;
+                }
+              }
+            }
           }
-        } else if (completelyOutsideRect) {
-          // This cell is outside the merge rect, keep it as is
-          newCells.push(cellNode);
-        } else {
-          // Partial overlap - this shouldn't happen with rectangular selection
-          // Keep the cell to avoid data loss
-          newCells.push(cellNode);
+
+          if (!hasOwnCell) {
+            // This row has no cells of its own, all cells are from rowspan above
+            // We need to add a placeholder cell to keep the row
+            // Find the row node position
+            let rowPos = tableStart;
+            let rowCount = 0;
+            node.forEach((child) => {
+              if (child.type.name === 'tableRow') {
+                if (rowCount === row) {
+                  // Insert a placeholder cell at the start of this row
+                  const placeholderCell = state.schema.nodes.tableCell.create(
+                    null,
+                    state.schema.nodes.paragraph.create()
+                  );
+                  fixTr.insert(rowPos + 1, placeholderCell);
+                  modified = true;
+                }
+                rowCount++;
+                rowPos += child.nodeSize;
+              }
+            });
+          }
         }
-
-        currentCol += cellColspan;
-      });
-
-      // If this row is inside the merge rect but no merged cell was placed,
-      // place it (handles rowspan > 1 cases)
-      if (currentRow >= rect.top && currentRow < rect.bottom && !rowHasMergedCell) {
-        newCells.push(mergedCell);
       }
-
-      newRows.push(state.schema.nodes.tableRow.create(null, newCells));
-      currentRow++;
     });
 
-    const newTable = state.schema.nodes.table.create(null, newRows);
-
-    tr.replaceWith(tableStart - 1, tableStart + tableNode.nodeSize - 1, newTable);
-    editor.view.dispatch(tr);
+    if (modified) {
+      editor.view.dispatch(fixTr);
+    }
   }, [editor]);
 
   if (!editor) {

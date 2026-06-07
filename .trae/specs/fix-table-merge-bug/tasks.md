@@ -4,18 +4,17 @@
 - [x] Task 2: 实现自定义合并后空行修复逻辑（已废弃，引入新问题）
 - [x] Task 3: 实现自定义 mergeCells 命令替代 TipTap 原生命令（基础版本）
 - [x] Task 4: 修复自定义合并逻辑中的行数丢失问题
-- [x] Task 5: 重写表格重建逻辑，正确处理已有合并单元格
-  - 分析当前重建逻辑的问题（map 遍历导致单元格重复/错位）
-  - 重写 handleMergeCells，直接遍历原表格的 tableRow 节点
-  - 对于每一行，遍历每个单元格，判断是否与合并区域相交
-  - 保留完全在合并区域外的单元格
-  - 删除完全在合并区域内的单元格
-  - 在合并区域的第一行插入合并后的单元格
+- [x] Task 5: 重写表格重建逻辑，正确处理已有合并单元格（当前版本仍有bug）
+- [x] Task 6: 使用 ProseMirror 原生 mergeCells 命令并修复其副作用
+  - 分析：ProseMirror 的 mergeCells 本身能正确处理 colspan/rowspan，但会在第二行全被 rowspan 吸收时移除空行
+  - 方案：调用原生 mergeCells 后，检测并修复被移除的行
+  - 与之前的空行修复不同，这次只在行被完全吸收时才添加占位符
+  - 确保添加的占位符不会导致列数异常
   - 构建验证通过
 
 # Task Dependencies
-- Task 5 依赖 Task 4 完成
+- Task 6 依赖 Task 5 的经验
 
 # Notes
-- 根因：使用 TableMap 遍历每个格子时，没有正确处理已有 colspan/rowspan 的单元格
-- 修复方式：直接遍历原表格行节点，基于单元格级别判断是否在合并区域内
+- 根因：自定义重建逻辑无法正确处理已有合并单元格的复杂情况
+- 修复方式：回归使用 ProseMirror 原生 mergeCells，只修复其行移除的副作用
