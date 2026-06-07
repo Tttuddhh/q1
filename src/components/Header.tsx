@@ -259,7 +259,7 @@ export function Header({
             }}
           >
             <img
-              src="https://api.dicebear.com/9.x/notionists/svg?seed=user"
+              src="https://api.dicebear.com/10.x/open-peeps/svg?seed=user"
               alt="User"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
