@@ -1726,6 +1726,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           if (!hasOwnCell) {
             // This row has no cells of its own, all cells are from rowspan above
             // We need to add a placeholder cell to keep the row
+            // The placeholder colspan should equal the table width to span all columns
             // Find the row node position
             let rowPos = tableStart;
             let rowCount = 0;
@@ -1733,8 +1734,9 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
               if (child.type.name === 'tableRow') {
                 if (rowCount === row) {
                   // Insert a placeholder cell at the start of this row
+                  // Use colspan equal to table width so it spans all columns
                   const placeholderCell = state.schema.nodes.tableCell.create(
-                    null,
+                    { colspan: tableMap.width },
                     state.schema.nodes.paragraph.create()
                   );
                   fixTr.insert(rowPos + 1, placeholderCell);
