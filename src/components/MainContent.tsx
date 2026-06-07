@@ -135,7 +135,6 @@ export function MainContent({
       style={{
         flex: 1,
         overflow: 'auto',
-        padding: '40px 48px',
         maxWidth: 900,
         margin: '0 auto',
         width: '100%',
@@ -143,185 +142,188 @@ export function MainContent({
       className="main-content-scroll animate-fade-in"
     >
       {/* Page Header */}
-      <div style={{ marginBottom: 32 }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-          {/* Emoji */}
-          <button
-            style={{
-              fontSize: '3rem',
-              lineHeight: 1,
-              padding: '8px 12px',
-              borderRadius: 12,
-              background: 'transparent',
-              border: 'none',
-              cursor: 'pointer',
-              marginBottom: 16,
-              display: 'block',
-            }}
-            onMouseEnter={e => (e.currentTarget.style.background = '#f3f4f6')}
-            onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
-          >
-            {page.emoji}
-          </button>
-        </div>
-
-        {/* Title */}
-        <h1
-          style={{
-            fontSize: '2.25rem',
-            fontWeight: 700,
-            color: '#1a1a1a',
-            margin: '0 0 12px 0',
-            lineHeight: 1.3,
-          }}
-        >
-          {page.isEdited === false ? t('page.untitled') : page.title}
-        </h1>
-
-        {/* Meta info */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 16,
-            fontSize: 14,
-            color: '#6b7280',
-            marginBottom: 16,
-          }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <HugeiconsIcon icon={Calendar01Icon} size={18} strokeWidth={1.5} />
-            {t('page.created_at')} {formatDate(page.createdAt)}
-          </span>
-          <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
-            <HugeiconsIcon icon={Clock03Icon} size={18} strokeWidth={1.5} />
-            {t('page.updated_at')} {formatDate(page.updatedAt)}
-          </span>
-        </div>
-
-        {/* Tags */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
-          {page.isEdited === false ? null : tags.map(tag => (
-            <span
-              key={tag}
-              className={justAddedTag === tag ? 'animate-pop-in' : removingTag === tag ? 'animate-pop-out' : ''}
+      <div style={{ padding: '40px 48px 0' }}>
+        <div style={{ marginBottom: 32 }}>
+          <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
+            {/* Emoji */}
+            <button
               style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 4,
-                padding: '4px 10px',
-                borderRadius: 9999,
-                fontSize: 13,
-                fontWeight: 500,
-                background: 'color-mix(in srgb, var(--color-primary) 10%, transparent)',
-                color: 'var(--color-primary)',
-                transition: 'background-color 0.2s, transform 0.15s',
-                cursor: 'default',
+                fontSize: '3rem',
+                lineHeight: 1,
+                padding: '8px 12px',
+                borderRadius: 12,
+                background: 'transparent',
+                border: 'none',
+                cursor: 'pointer',
+                marginBottom: 16,
+                display: 'block',
               }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'color-mix(in srgb, var(--color-primary) 20%, transparent)';
-                e.currentTarget.style.transform = 'translateY(-1px)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'color-mix(in srgb, var(--color-primary) 10%, transparent)';
-                e.currentTarget.style.transform = 'translateY(0)';
-              }}
+              onMouseEnter={e => (e.currentTarget.style.background = '#f3f4f6')}
+              onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
             >
-              <HugeiconsIcon icon={Tag01Icon} size={12} strokeWidth={1.5} />
-              {tag}
-              <button
-                onClick={() => handleRemoveTag(tag)}
-                className="tag-remove-btn"
+              {page.emoji}
+            </button>
+          </div>
+
+          {/* Title */}
+          <h1
+            style={{
+              fontSize: '2.25rem',
+              fontWeight: 700,
+              color: '#1a1a1a',
+              margin: '0 0 12px 0',
+              lineHeight: 1.3,
+            }}
+          >
+            {page.isEdited === false ? t('page.untitled') : page.title}
+          </h1>
+
+          {/* Meta info */}
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 16,
+              fontSize: 14,
+              color: '#6b7280',
+              marginBottom: 16,
+            }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <HugeiconsIcon icon={Calendar01Icon} size={18} strokeWidth={1.5} />
+              {t('page.created_at')} {formatDate(page.createdAt)}
+            </span>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
+              <HugeiconsIcon icon={Clock03Icon} size={18} strokeWidth={1.5} />
+              {t('page.updated_at')} {formatDate(page.updatedAt)}
+            </span>
+          </div>
+
+          {/* Tags */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            {page.isEdited === false ? null : tags.map(tag => (
+              <span
+                key={tag}
+                className={justAddedTag === tag ? 'animate-pop-in' : removingTag === tag ? 'animate-pop-out' : ''}
                 style={{
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: 0,
-                  display: 'flex',
-                  color: 'inherit',
-                  opacity: 0.5,
-                  transition: 'opacity 0.15s, transform 0.15s',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  padding: '4px 10px',
+                  borderRadius: 9999,
+                  fontSize: 13,
+                  fontWeight: 500,
+                  background: 'color-mix(in srgb, var(--color-primary) 10%, transparent)',
+                  color: 'var(--color-primary)',
+                  transition: 'background-color 0.2s, transform 0.15s',
+                  cursor: 'default',
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.opacity = '1';
-                  e.currentTarget.style.transform = 'scale(1.2)';
+                  e.currentTarget.style.background = 'color-mix(in srgb, var(--color-primary) 20%, transparent)';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.opacity = '0.5';
-                  e.currentTarget.style.transform = 'scale(1)';
+                  e.currentTarget.style.background = 'color-mix(in srgb, var(--color-primary) 10%, transparent)';
+                  e.currentTarget.style.transform = 'translateY(0)';
                 }}
               >
-                <HugeiconsIcon icon={Cancel01Icon} size={12} strokeWidth={1.5} />
-              </button>
-            </span>
-          ))}
+                <HugeiconsIcon icon={Tag01Icon} size={12} strokeWidth={1.5} />
+                {tag}
+                <button
+                  onClick={() => handleRemoveTag(tag)}
+                  className="tag-remove-btn"
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    display: 'flex',
+                    color: 'inherit',
+                    opacity: 0.5,
+                    transition: 'opacity 0.15s, transform 0.15s',
+                  }}
+                  onMouseEnter={e => {
+                    e.currentTarget.style.opacity = '1';
+                    e.currentTarget.style.transform = 'scale(1.2)';
+                  }}
+                  onMouseLeave={e => {
+                    e.currentTarget.style.opacity = '0.5';
+                    e.currentTarget.style.transform = 'scale(1)';
+                  }}
+                >
+                  <HugeiconsIcon icon={Cancel01Icon} size={12} strokeWidth={1.5} />
+                </button>
+              </span>
+            ))}
 
-          {showTagInput ? (
-            <input
-              autoFocus
-              value={newTag}
-              onChange={e => setNewTag(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === 'Enter') handleAddTag();
-                if (e.key === 'Escape') setShowTagInput(false);
-              }}
-              onBlur={handleAddTag}
-              placeholder={t('tag.input_placeholder')}
-              className="animate-pop-in"
-              style={{
-                padding: '4px 10px',
-                borderRadius: 9999,
-                border: '1px solid #e5e7eb',
-                fontSize: 13,
-                outline: 'none',
-                width: 100,
-                animation: 'pop-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
-              }}
-            />
-          ) : (
-            <button
-              onClick={() => setShowTagInput(true)}
-              className="tag-add-btn"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: 4,
-                padding: '4px 10px',
-                borderRadius: 9999,
-                fontSize: 13,
-                fontWeight: 500,
-                background: 'transparent',
-                color: '#9ca3af',
-                border: '1px dashed #d1d5db',
-                cursor: 'pointer',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.borderColor = 'var(--color-primary)';
-                e.currentTarget.style.color = 'var(--color-primary)';
-                e.currentTarget.style.background = 'color-mix(in srgb, var(--color-primary) 5%, transparent)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.borderColor = '#d1d5db';
-                e.currentTarget.style.color = '#9ca3af';
-                e.currentTarget.style.background = 'transparent';
-              }}
-            >
-              <HugeiconsIcon icon={Add01Icon} size={12} strokeWidth={1.5} />
-              {t('tag.add')}
-            </button>
-          )}
+            {showTagInput ? (
+              <input
+                autoFocus
+                value={newTag}
+                onChange={e => setNewTag(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') handleAddTag();
+                  if (e.key === 'Escape') setShowTagInput(false);
+                }}
+                onBlur={handleAddTag}
+                placeholder={t('tag.input_placeholder')}
+                className="animate-pop-in"
+                style={{
+                  padding: '4px 10px',
+                  borderRadius: 9999,
+                  border: '1px solid #e5e7eb',
+                  fontSize: 13,
+                  outline: 'none',
+                  width: 100,
+                  animation: 'pop-in 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                }}
+              />
+            ) : (
+              <button
+                onClick={() => setShowTagInput(true)}
+                className="tag-add-btn"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: 4,
+                  padding: '4px 10px',
+                  borderRadius: 9999,
+                  fontSize: 13,
+                  fontWeight: 500,
+                  background: 'transparent',
+                  color: '#9ca3af',
+                  border: '1px dashed #d1d5db',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.borderColor = 'var(--color-primary)';
+                  e.currentTarget.style.color = 'var(--color-primary)';
+                  e.currentTarget.style.background = 'color-mix(in srgb, var(--color-primary) 5%, transparent)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.borderColor = '#d1d5db';
+                  e.currentTarget.style.color = '#9ca3af';
+                  e.currentTarget.style.background = 'transparent';
+                }}
+              >
+                <HugeiconsIcon icon={Add01Icon} size={12} strokeWidth={1.5} />
+                {t('tag.add')}
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Content */}
       {isEditing ? (
-        <div className="animate-slide-in-right">
+        <div className="animate-slide-in-right" style={{ padding: '0 48px 40px' }}>
           <RichTextEditor content={editContent} onChange={setEditContent} fontSize={editorFontSize} />
         </div>
       ) : (
         <div
           className="prose animate-fade-in"
+          style={{ padding: '0 48px 40px' }}
           dangerouslySetInnerHTML={{ __html: page.isEdited === false ? t('page.default_content') : page.content }}
         />
       )}

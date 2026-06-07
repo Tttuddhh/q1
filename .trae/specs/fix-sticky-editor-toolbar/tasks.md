@@ -85,3 +85,29 @@
   - `human-judgement` TR-7.1: 向下滚动 MainContent，验证工具栏紧贴 Header 下方，没有空隙
   - `human-judgement` TR-7.2: 验证工具栏后面没有任何文字或内容透出
 - **Notes**: 关键是处理 MainContent 的 padding 对 sticky 定位的影响
+
+## [x] Task 8: 修复初始位置错误和吸附失效问题（最终方案）
+- **Priority**: P0
+- **Depends On**: None
+- **Description**: 
+  - 问题分析：
+    - 负 margin 方案导致工具栏初始位置向上偏移，破坏了正常布局
+    - 负 margin 还导致 sticky 定位计算异常，工具栏完全不吸附
+    - 根本原因是 MainContent 的 padding 和 overflow: auto 共同影响了 sticky 行为
+  - 最终解决方案：
+    - **移除 RichTextEditor 中的负 margin 包裹层**，恢复工具栏正常初始位置
+    - **调整 MainContent 的 padding 分布**：将 `padding: '40px 48px'` 改为只在需要的地方加 padding
+      - Page Header 区域：`padding: '40px 48px 0'`（顶部有 padding，底部无）
+      - Content 区域：`padding: '0 48px 40px'`（左右有 padding，底部有 padding）
+    - **工具栏保持 `position: sticky; top: 0`**，在 Content 区域内正常吸附
+    - 这样工具栏的 sticky top: 0 就是相对于 MainContent 的 padding 边界（即 Header 下方），没有空隙
+  - 修改文件：
+    - `RichTextEditor.tsx`: 移除负 margin 包裹层，工具栏 padding 改为 `'8px 0'`
+    - `MainContent.tsx`: 重新分配 padding 到各个子区域
+- **Acceptance Criteria Addressed**: [AC-1, AC-2, AC-3]
+- **Test Requirements**:
+  - `human-judgement` TR-8.1: 验证工具栏初始位置正确，没有向上偏移
+  - `human-judgement` TR-8.2: 向下滚动，验证工具栏紧贴 Header 下方吸附
+  - `human-judgement` TR-8.3: 验证工具栏后面没有任何文字或内容透出
+  - `human-judgement` TR-8.4: 验证工具栏与编辑器内容左右对齐正确
+- **Notes**: 这是最终方案，通过调整 padding 分布而不是使用负 margin 来解决问题
