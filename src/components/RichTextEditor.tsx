@@ -920,8 +920,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
 
   return (
     <div style={{ position: 'relative' }}>
-      {/* Fixed toolbar wrapper - creates blank space and holds the fixed bar */}
-      <div style={{ height: 48 }} />
+      {/* Sticky toolbar - only sticks to top when scrolling */}
       <div
         style={{
           display: 'flex',
@@ -931,10 +930,8 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           padding: '8px 48px',
           marginBottom: 8,
           borderBottom: '1px solid #e5e7eb',
-          position: 'fixed',
-          top: 56,
-          width: '100%',
-          boxSizing: 'border-box',
+          position: 'sticky',
+          top: 0,
           zIndex: 50,
           background: '#ffffff',
         }}

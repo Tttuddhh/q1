@@ -316,7 +316,7 @@ export function MainContent({
 
       {/* Content */}
       {isEditing ? (
-        <div className="animate-slide-in-right" style={{ position: 'relative', zIndex: 1 }}>
+        <div className="animate-slide-in-right">
           <RichTextEditor content={editContent} onChange={setEditContent} fontSize={editorFontSize} />
         </div>
       ) : (
