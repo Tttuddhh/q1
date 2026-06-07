@@ -103,7 +103,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
           flexShrink: 0,
           boxShadow: open ? '0 1px 3px color-mix(in srgb, var(--color-primary) 30%, transparent)' : 'none',
           padding: '0 10px',
-          fontSize: 15,
+          fontSize: 17,
           fontWeight: 500,
         }}
         onMouseEnter={(e) => {
