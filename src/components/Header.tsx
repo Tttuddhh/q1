@@ -255,32 +255,16 @@ export function Header({
               border: 'none',
               cursor: 'pointer',
               padding: 0,
-              background: 'transparent',
+              background: 'var(--color-primary)',
             }}
           >
             <img
-              src="https://api.dicebear.com/7.x/avataaars/svg?seed=user"
+              src="https://api.dicebear.com/9.x/initials/svg?seed=User&backgroundColor=ff6b35&textColor=ffffff"
               alt="User"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               onError={(e) => {
                 const target = e.currentTarget;
                 target.style.display = 'none';
-                const parent = target.parentElement;
-                if (parent) {
-                  const fallback = document.createElement('div');
-                  fallback.style.width = '100%';
-                  fallback.style.height = '100%';
-                  fallback.style.borderRadius = '10px';
-                  fallback.style.background = 'var(--color-primary)';
-                  fallback.style.display = 'flex';
-                  fallback.style.alignItems = 'center';
-                  fallback.style.justifyContent = 'center';
-                  fallback.style.color = '#ffffff';
-                  fallback.style.fontSize = '14px';
-                  fallback.style.fontWeight = '600';
-                  fallback.textContent = 'U';
-                  parent.appendChild(fallback);
-                }
               }}
             />
           </button>
