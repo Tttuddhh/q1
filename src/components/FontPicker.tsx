@@ -52,6 +52,16 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
     return groups;
   }, [filteredFonts]);
 
+  // 预加载当前显示的所有字体
+  useEffect(() => {
+    if (!open) return;
+    filteredFonts.forEach((font) => {
+      if (font.googleFontName) {
+        loadGoogleFont(font.googleFontName);
+      }
+    });
+  }, [open, filteredFonts]);
+
   const handleSelect = useCallback(
     (font: FontData) => {
       if (font.googleFontName) {
