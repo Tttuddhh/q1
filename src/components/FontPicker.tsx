@@ -105,7 +105,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
         }}
       >
         <HugeiconsIcon icon={TextFontIcon} size={18} strokeWidth={2} />
-        <span style={{ maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {displayName}
         </span>
       </button>
@@ -122,7 +122,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
             border: '1px solid #e5e7eb',
             borderRadius: 8,
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            width: 220,
+            width: 280,
             maxHeight: 360,
             overflowY: 'auto',
             display: 'flex',
