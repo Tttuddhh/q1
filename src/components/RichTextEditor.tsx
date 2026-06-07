@@ -928,17 +928,15 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           alignItems: 'center',
           gap: 2,
           flexWrap: 'wrap',
-          padding: '8px 0',
+          padding: '8px 48px',
           marginBottom: 8,
           borderBottom: '1px solid #e5e7eb',
           position: 'fixed',
           top: 56,
-          left: 0,
-          right: 0,
+          width: '100%',
+          boxSizing: 'border-box',
           zIndex: 50,
           background: '#ffffff',
-          paddingLeft: 48,
-          paddingRight: 48,
         }}
       >
         <ToolbarButton
