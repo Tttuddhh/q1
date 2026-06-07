@@ -707,6 +707,11 @@ body {
   line-height: 1.6;
 }
 
+.compact-mode .ProseMirror p {
+  margin-bottom: 0.5em;
+  line-height: 1.6;
+}
+
 .compact-mode .prose ul,
 .compact-mode .prose ol {
   margin-bottom: 0.5em;
@@ -888,6 +893,12 @@ body {
   font-weight: 600 !important;
   margin-top: 0.5em !important;
   margin-bottom: 0.5em !important;
+}
+
+/* Paragraph spacing in editor - match line-height gap */
+.ProseMirror p {
+  margin-bottom: 0.75em;
+  line-height: 1.75;
 }
 
 /* List styles in editor */
