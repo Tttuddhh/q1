@@ -14,6 +14,7 @@ import { TableCell } from '@tiptap/extension-table-cell';
 import { TableHeader } from '@tiptap/extension-table-header';
 import Placeholder from '@tiptap/extension-placeholder';
 import { Node, mergeAttributes } from '@tiptap/core';
+import { CellSelection, TableMap } from '@tiptap/pm/tables';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   TextBoldIcon,
@@ -1687,26 +1688,109 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
 
   const handleMergeCells = useCallback(() => {
     if (!editor) return;
-    editor.chain().focus().mergeCells().run();
-    // After merge, detect and fix empty rows caused by rowspan consuming all cells
     const { state } = editor;
-    const { tr } = state;
-    let modified = false;
-    state.doc.descendants((node, pos) => {
-      if (node.type.name === 'tableRow') {
-        if (node.childCount === 0) {
-          const cell = state.schema.nodes.tableCell.create(
-            null,
-            state.schema.nodes.paragraph.create()
-          );
-          tr.insert(pos + 1, cell);
-          modified = true;
-        }
+    const { selection, tr } = state;
+
+    // Only proceed if we have a cell selection
+    if (!(selection instanceof CellSelection)) {
+      editor.chain().focus().mergeCells().run();
+      return;
+    }
+
+    const $anchorCell = selection.$anchorCell;
+    const $headCell = selection.$headCell;
+
+    // Find the table node and its position
+    let tablePos = $anchorCell.pos - $anchorCell.parentOffset - 1;
+    let depth = $anchorCell.depth;
+    while (depth > 0 && $anchorCell.node(depth).type.name !== 'table') {
+      depth--;
+    }
+    const tableNode = $anchorCell.node(depth);
+    const tableStart = $anchorCell.start(depth);
+
+    if (!tableNode || tableNode.type.name !== 'table') {
+      editor.chain().focus().mergeCells().run();
+      return;
+    }
+
+    const map = TableMap.get(tableNode);
+    const rect = map.rectBetween(
+      $anchorCell.pos - tableStart,
+      $headCell.pos - tableStart
+    );
+
+    // Determine cell type from anchor cell
+    const anchorCellNode = $anchorCell.nodeAfter;
+    const cellTypeName = anchorCellNode?.type.name === 'tableHeader' ? 'tableHeader' : 'tableCell';
+    const cellType = state.schema.nodes[cellTypeName];
+
+    if (!cellType) {
+      editor.chain().focus().mergeCells().run();
+      return;
+    }
+
+    // Collect all cell positions in the rect
+    const cells = map.cellsInRect(rect);
+
+    // Gather content from all cells
+    const contents: any[] = [];
+    cells.forEach((relativePos) => {
+      const cellPos = tableStart + relativePos;
+      const cellNode = state.doc.nodeAt(cellPos);
+      if (cellNode) {
+        cellNode.content.forEach((child) => {
+          contents.push(child);
+        });
       }
     });
-    if (modified) {
-      editor.view.dispatch(tr);
+
+    // Create merged cell with correct colspan and rowspan
+    const mergedCell = cellType.create(
+      { colspan: rect.right - rect.left, rowspan: rect.bottom - rect.top },
+      contents.length > 0 ? state.schema.nodes.paragraph.create() : state.schema.nodes.paragraph.create()
+    );
+
+    // Build new rows
+    const newRows: any[] = [];
+    for (let row = 0; row < map.height; row++) {
+      const newCells: any[] = [];
+      for (let col = 0; col < map.width; col++) {
+        const cellPos = map.map[row * map.width + col];
+        // Check if this cell position is in the merge rect
+        const inRect =
+          row >= rect.top &&
+          row < rect.bottom &&
+          col >= rect.left &&
+          col < rect.right;
+
+        if (inRect) {
+          // Only place merged cell at top-left of rect
+          if (row === rect.top && col === rect.left) {
+            newCells.push(mergedCell);
+          }
+          // Skip other positions in rect (they are absorbed)
+        } else {
+          // Copy existing cell (only if it's the start position of that cell)
+          const cellNode = state.doc.nodeAt(tableStart + cellPos);
+          if (cellNode) {
+            // Check if this is the first slot this cell occupies
+            const isFirstSlot =
+              row === 0 ||
+              map.map[(row - 1) * map.width + col] !== cellPos;
+            if (isFirstSlot) {
+              newCells.push(cellNode);
+            }
+          }
+        }
+      }
+      newRows.push(state.schema.nodes.tableRow.create(null, newCells));
     }
+
+    const newTable = state.schema.nodes.table.create(null, newRows);
+
+    tr.replaceWith(tableStart - 1, tableStart + tableNode.nodeSize - 1, newTable);
+    editor.view.dispatch(tr);
   }, [editor]);
 
   if (!editor) {
