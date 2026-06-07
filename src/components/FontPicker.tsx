@@ -52,15 +52,14 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
     return groups;
   }, [filteredFonts]);
 
-  // 预加载当前显示的所有字体
+  // 组件挂载时预加载所有字体
   useEffect(() => {
-    if (!open) return;
-    filteredFonts.forEach((font) => {
+    FONTS.forEach((font) => {
       if (font.googleFontName) {
         loadGoogleFont(font.googleFontName);
       }
     });
-  }, [open, filteredFonts]);
+  }, []);
 
   const handleSelect = useCallback(
     (font: FontData) => {
@@ -75,6 +74,11 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
   );
 
   const displayName = currentFontName || SYSTEM_FONT.name;
+
+  const currentFont = useMemo(() => {
+    if (!currentFontName) return SYSTEM_FONT;
+    return FONTS.find((f) => f.name === currentFontName) || SYSTEM_FONT;
+  }, [currentFontName]);
 
   return (
     <div style={{ position: 'relative' }}>
@@ -115,7 +119,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
         }}
       >
         <HugeiconsIcon icon={TextFontIcon} size={18} strokeWidth={2} />
-        <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+        <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: currentFont.family }}>
           {displayName}
         </span>
       </button>
