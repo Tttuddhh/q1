@@ -1,6 +1,6 @@
 # 编辑器字体选择器 - Implementation Tasks
 
-## [ ] Task 1: 安装 Tiptap FontFamily 扩展
+## [x] Task 1: 安装 Tiptap FontFamily 扩展
 - **Priority**: P0
 - **Depends On**: None
 - **Description**:
@@ -10,7 +10,7 @@
 - **Test Requirements**:
   - 构建成功，无错误
 
-## [ ] Task 2: 创建字体数据文件
+## [x] Task 2: 创建字体数据文件
 - **Priority**: P0
 - **Depends On**: None
 - **Description**:
@@ -24,7 +24,7 @@
   - 字体数据文件编译通过
   - 字体总数 >= 100
 
-## [ ] Task 3: 创建 Google Fonts 加载工具
+## [x] Task 3: 创建 Google Fonts 加载工具
 - **Priority**: P0
 - **Depends On**: Task 2
 - **Description**:
@@ -37,7 +37,7 @@
   - 字体能够正确加载
   - 重复加载同一字体不会创建多个 link 标签
 
-## [ ] Task 4: 创建字体选择器下拉面板组件
+## [x] Task 4: 创建字体选择器下拉面板组件
 - **Priority**: P0
 - **Depends On**: Task 2
 - **Description**:
@@ -58,7 +58,7 @@
   - 搜索过滤正常
   - 字体预览正确显示
 
-## [ ] Task 5: 在工具栏集成字体选择器
+## [x] Task 5: 在工具栏集成字体选择器
 - **Priority**: P0
 - **Depends On**: Task 1, Task 3, Task 4
 - **Description**:
@@ -76,7 +76,7 @@
   - 选择字体后选中文字字体改变
   - 字体状态正确显示
 
-## [ ] Task 6: 添加 i18n 翻译
+## [x] Task 6: 添加 i18n 翻译
 - **Priority**: P1
 - **Depends On**: None
 - **Description**:
@@ -97,7 +97,7 @@
 - **Test Requirements**:
   - 所有语言翻译完整
 
-## [ ] Task 7: 添加编辑器字体样式支持
+## [x] Task 7: 添加编辑器字体样式支持
 - **Priority**: P1
 - **Depends On**: Task 1
 - **Description**:
@@ -107,7 +107,7 @@
 - **Test Requirements**:
   - 编辑器内容正确显示所选字体
 
-## [ ] Task 8: 验证构建和功能
+## [x] Task 8: 验证构建和功能
 - **Priority**: P0
 - **Depends On**: All above
 - **Description**:

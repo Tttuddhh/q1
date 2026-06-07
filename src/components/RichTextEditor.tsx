@@ -35,7 +35,7 @@ import {
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
 import { FontPicker } from './FontPicker';
-import { type FontData } from '../data/fonts';
+import { FONTS, type FontData } from '../data/fonts';
 
 interface RichTextEditorProps {
   content: string;
