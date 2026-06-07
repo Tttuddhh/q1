@@ -255,13 +255,14 @@ export function Header({
               border: 'none',
               cursor: 'pointer',
               padding: 0,
-              background: 'transparent',
+              background: 'var(--color-primary)',
             }}
           >
             <img
               src="https://api.dicebear.com/10.x/open-peeps/svg?seed=user"
               alt="User"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ width: '100%', height: '100%', display: 'block' }}
+              crossOrigin="anonymous"
             />
           </button>
 
