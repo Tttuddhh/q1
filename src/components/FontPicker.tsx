@@ -3,7 +3,7 @@ import { FONTS, SYSTEM_FONT, FONT_CATEGORIES } from '../data/fonts';
 import type { FontData } from '../data/fonts';
 import { loadGoogleFont } from '../utils/fontLoader';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { TextFontIcon } from '@hugeicons/core-free-icons';
+import { TextIcon } from '@hugeicons/core-free-icons';
 
 interface FontPickerProps {
   currentFontName: string;
@@ -91,9 +91,9 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
           display: 'inline-flex',
           alignItems: 'center',
           justifyContent: 'center',
-          gap: 4,
+          gap: 8,
           width: 'auto',
-          minWidth: 32,
+          minWidth: 140,
           height: 32,
           borderRadius: 6,
           border: open ? '1px solid var(--color-primary)' : '1px solid transparent',
@@ -103,8 +103,8 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
           transition: 'background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease',
           flexShrink: 0,
           boxShadow: open ? '0 1px 3px color-mix(in srgb, var(--color-primary) 30%, transparent)' : 'none',
-          padding: '0 12px',
-          fontSize: 13,
+          padding: '0 16px',
+          fontSize: 14,
           fontWeight: 500,
         }}
         onMouseEnter={(e) => {
@@ -118,7 +118,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
           }
         }}
       >
-        <HugeiconsIcon icon={TextFontIcon} size={18} strokeWidth={2} />
+        <HugeiconsIcon icon={TextIcon} size={20} strokeWidth={2} />
         <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: currentFont.family }}>
           {displayName}
         </span>
@@ -136,7 +136,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
             border: '1px solid #e5e7eb',
             borderRadius: 8,
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            width: 280,
+            width: 140,
             maxHeight: 360,
             overflowY: 'auto',
             display: 'flex',
