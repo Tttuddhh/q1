@@ -258,22 +258,31 @@ export function Header({
               background: 'transparent',
             }}
           >
-            <div
-              style={{
-                width: '100%',
-                height: '100%',
-                borderRadius: 10,
-                background: 'var(--color-primary)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#ffffff',
-                fontSize: 14,
-                fontWeight: 600,
+            <img
+              src="https://api.dicebear.com/9.x/notionists/svg?seed=user&backgroundColor=ffdfbf"
+              alt="User"
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.style.display = 'none';
+                const parent = target.parentElement;
+                if (parent) {
+                  const fallback = document.createElement('div');
+                  fallback.style.width = '100%';
+                  fallback.style.height = '100%';
+                  fallback.style.borderRadius = '10px';
+                  fallback.style.background = 'var(--color-primary)';
+                  fallback.style.display = 'flex';
+                  fallback.style.alignItems = 'center';
+                  fallback.style.justifyContent = 'center';
+                  fallback.style.color = '#ffffff';
+                  fallback.style.fontSize = '14px';
+                  fallback.style.fontWeight = '600';
+                  fallback.textContent = 'U';
+                  parent.appendChild(fallback);
+                }
               }}
-            >
-              U
-            </div>
+            />
           </button>
 
           {avatarDropdownOpen && (
