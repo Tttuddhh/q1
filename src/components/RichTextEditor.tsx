@@ -1692,7 +1692,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     const { state: preState } = editor;
     const { selection: preSelection } = preState;
 
-    // Only proceed if we have a cell selection
+    // Non-cell-selection fallback
     if (!(preSelection instanceof CellSelection)) {
       editor.chain().focus().mergeCells().run();
       return;
@@ -1700,21 +1700,19 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
 
     // Save original table dimensions before merge
     let origHeight = 0;
-    let origWidth = 0;
     preState.doc.descendants((node) => {
       if (node.type.name === 'table') {
         const map = TableMap.get(node);
         origHeight = map.height;
-        origWidth = map.width;
       }
     });
 
     if (origHeight === 0) return;
 
-    // Step 1: Call ProseMirror native mergeCells
+    // Call ProseMirror native mergeCells
     editor.chain().focus().mergeCells().run();
 
-    // Step 2: Check if rows were removed
+    // Check if rows were removed
     const { state: postState } = editor;
     let postHeight = 0;
     let tablePos = 0;
@@ -1729,30 +1727,50 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
       }
     });
 
-    // If rows were removed, add them back
+    // If rows were removed, fix by converting rowspan to per-row colspan
     if (postHeight < origHeight && tableNode) {
       const { tr } = postState;
       const rowsToAdd = origHeight - postHeight;
 
-      // Find the last row position in the table
-      let lastRowPos = tablePos + 1;
-      tableNode.forEach((child: any) => {
-        if (child.type.name === 'tableRow') {
-          lastRowPos += child.nodeSize;
+      // Step 1: Reduce rowspan on all cells that have rowspan > 1
+      tableNode.descendants((node: any, pos: number) => {
+        if (node.type.name === 'tableCell' || node.type.name === 'tableHeader') {
+          const rs = node.attrs.rowspan;
+          if (rs > 1) {
+            const newRs = Math.max(1, rs - rowsToAdd);
+            tr.setNodeMarkup(tablePos + pos, null, {
+              ...node.attrs,
+              rowspan: newRs,
+            });
+          }
         }
       });
 
-      for (let i = 0; i < rowsToAdd; i++) {
-        const placeholderCell = postState.schema.nodes.tableCell.create(
-          { colspan: origWidth },
-          postState.schema.nodes.paragraph.create()
-        );
-        const newRow = postState.schema.nodes.tableRow.create(
-          null,
-          [placeholderCell]
-        );
-        // Insert the new row at the end of the table (before the table's closing tag)
-        tr.insert(lastRowPos - 1, newRow);
+      // Step 2: Get the first row's cell structure to replicate
+      let firstRow: any = null;
+      tableNode.forEach((child: any) => {
+        if (child.type.name === 'tableRow' && !firstRow) {
+          firstRow = child;
+        }
+      });
+
+      if (firstRow) {
+        // Step 3: Build placeholder cells matching the first row's column layout
+        const newCells: any[] = [];
+        firstRow.forEach((cell: any) => {
+          const newCell = postState.schema.nodes.tableCell.create(
+            { colspan: cell.attrs.colspan || 1 },
+            postState.schema.nodes.paragraph.create()
+          );
+          newCells.push(newCell);
+        });
+
+        // Step 4: Insert the missing rows at the end of the table
+        const insertPos = tablePos + tableNode.nodeSize - 1;
+        for (let i = 0; i < rowsToAdd; i++) {
+          const newRow = postState.schema.nodes.tableRow.create(null, newCells);
+          tr.insert(insertPos + i, newRow);
+        }
       }
 
       editor.view.dispatch(tr);
