@@ -38,7 +38,7 @@ import {
   Image01Icon,
   Video01Icon,
   File01Icon,
-  Table01Icon,
+  GridTableIcon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
@@ -1202,7 +1202,7 @@ const insertTable = useCallback(() => {
           onClick={insertTable}
           title={t('editor.table') || '表格'}
         >
-          <HugeiconsIcon icon={Table01Icon} size={20} strokeWidth={2} />
+          <HugeiconsIcon icon={GridTableIcon} size={20} strokeWidth={2} />
         </ToolbarButton>
       </div>
 
