@@ -113,7 +113,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
         }}
       >
         <span style={{ fontSize: 16, fontFamily: 'serif' }}>T</span>
-        <span style={{ maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {displayLabel}
         </span>
         <HugeiconsIcon
@@ -139,7 +139,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
             border: '1px solid #e5e7eb',
             borderRadius: 8,
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            width: 140,
+            width: 220,
             maxHeight: 360,
             display: 'flex',
             flexDirection: 'column',
@@ -236,14 +236,11 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                       style={{
                         width: '100%',
                         textAlign: 'left',
-                        padding: '5px 10px',
+                        padding: '6px 10px',
                         border: 'none',
                         background: currentFont === font.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
                         cursor: 'pointer',
                         transition: 'background-color 0.15s ease',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: 1,
                       }}
                       onMouseEnter={e => {
                         e.currentTarget.style.background = '#f3f4f6';
@@ -258,23 +255,12 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                       <span
                         style={{
                           fontFamily: font.family,
-                          fontSize: 13,
+                          fontSize: 14,
                           lineHeight: 1.3,
                           overflow: 'hidden',
                           textOverflow: 'ellipsis',
                           whiteSpace: 'nowrap',
                           color: '#111827',
-                        }}
-                      >
-                        {font.preview}
-                      </span>
-                      <span
-                        style={{
-                          fontSize: 10,
-                          color: '#9ca3af',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
                         }}
                       >
                         {font.name}
