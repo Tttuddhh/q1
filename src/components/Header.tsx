@@ -259,7 +259,7 @@ export function Header({
             }}
           >
             <img
-              src="https://api.dicebear.com/9.x/initials/svg?seed=User&backgroundColor=ff6b35&textColor=ffffff"
+              src="https://api.dicebear.com/7.x/notionists/svg?seed=user"
               alt="User"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               onError={(e) => {
