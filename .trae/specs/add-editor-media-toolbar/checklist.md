@@ -1,0 +1,10 @@
+- [x] `@tiptap/extension-table` 及其依赖已安装
+- [x] 编辑器扩展中注册了 Table、TableRow、TableCell、TableHeader
+- [x] 工具栏显示图片按钮（Image01Icon），点击弹出 URL 输入框
+- [x] 工具栏显示视频按钮（Video01Icon），点击弹出 URL 输入框
+- [x] 工具栏显示文件按钮（File01Icon），点击触发文件选择
+- [x] 工具栏显示表格按钮（Table01Icon），点击插入 3x3 表格
+- [x] 图片插入后为块级元素，光标可前后放置
+- [x] 视频插入后为块级元素，光标可前后放置
+- [x] 所有功能有 i18n 翻译（zh/en/ja/ko）
+- [x] `npm run build` 构建成功

@@ -2,6 +2,10 @@ import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Color from '@tiptap/extension-color';
 import { TextStyle } from '@tiptap/extension-text-style';
+import { Table } from '@tiptap/extension-table';
+import { TableRow } from '@tiptap/extension-table-row';
+import { TableCell } from '@tiptap/extension-table-cell';
+import { TableHeader } from '@tiptap/extension-table-header';
 import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
 import TextAlign from '@tiptap/extension-text-align';
@@ -31,6 +35,10 @@ import {
   TextAlignRightIcon,
   SmileIcon,
   UploadIcon,
+  Image01Icon,
+  Video01Icon,
+  File01Icon,
+  Table01Icon,
 } from '@hugeicons/core-free-icons';
 import { useCallback, useState, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
@@ -886,6 +894,10 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
       Link.configure({ openOnClick: false }),
       Image,
+      Table.configure({ resizable: true }),
+      TableRow,
+      TableCell,
+      TableHeader,
       Placeholder.configure({ placeholder: t('editor.placeholder') }),
       FontFamily,
     ],
@@ -936,6 +948,45 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
     }
     setShowEmojiPicker(false);
   }, [editor, addRecentEmoji]);
+
+  const insertImage = useCallback(() => {
+  if (!editor) return;
+  const url = window.prompt(t('editor.image_prompt') || '输入图片URL');
+  if (!url) return;
+  // Wrap in paragraph to make it block-level, allowing cursor before/after
+  editor.chain().focus().insertContent(`<p><img src="${url}" alt="" /></p>`).run();
+}, [editor, t]);
+
+const insertVideo = useCallback(() => {
+  if (!editor) return;
+  const url = window.prompt(t('editor.video_prompt') || '输入视频URL');
+  if (!url) return;
+  // Wrap in paragraph to make it block-level
+  const iframeHtml = `<p><iframe src="${url}" width="100%" height="400" frameborder="0" allowfullscreen></iframe></p>`;
+  editor.chain().focus().insertContent(iframeHtml).run();
+}, [editor, t]);
+
+const insertFile = useCallback(() => {
+  const input = document.createElement('input');
+  input.type = 'file';
+  input.onchange = (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file || !editor) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      const base64 = reader.result as string;
+      const fileLink = `<p><a href="${base64}" download="${file.name}" style="color: var(--color-primary); text-decoration: underline;">📎 ${file.name} (${(file.size / 1024).toFixed(1)} KB)</a></p>`;
+      editor.chain().focus().insertContent(fileLink).run();
+    };
+    reader.readAsDataURL(file);
+  };
+  input.click();
+}, [editor]);
+
+const insertTable = useCallback(() => {
+  if (!editor) return;
+  editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+}, [editor]);
 
   if (!editor) {
     return null;
@@ -1125,6 +1176,33 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           title={t('editor.align_right')}
         >
           <HugeiconsIcon icon={TextAlignRightIcon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+
+        <div style={{ width: 1, height: 20, background: '#e5e7eb', margin: '0 4px' }} />
+
+        <ToolbarButton
+          onClick={insertImage}
+          title={t('editor.image') || '图片'}
+        >
+          <HugeiconsIcon icon={Image01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={insertVideo}
+          title={t('editor.video') || '视频'}
+        >
+          <HugeiconsIcon icon={Video01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={insertFile}
+          title={t('editor.file') || '文件'}
+        >
+          <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} />
+        </ToolbarButton>
+        <ToolbarButton
+          onClick={insertTable}
+          title={t('editor.table') || '表格'}
+        >
+          <HugeiconsIcon icon={Table01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
       </div>
 
