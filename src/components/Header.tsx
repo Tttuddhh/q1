@@ -255,18 +255,23 @@ export function Header({
               border: 'none',
               cursor: 'pointer',
               padding: 0,
-              background: 'var(--color-primary)',
+              background: '#f3f4f6',
             }}
           >
-            <img
-              src="https://api.dicebear.com/7.x/notionists/svg?seed=user"
-              alt="User"
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              onError={(e) => {
-                const target = e.currentTarget;
-                target.style.display = 'none';
-              }}
-            />
+            <svg
+              viewBox="0 0 100 100"
+              style={{ width: '100%', height: '100%', display: 'block' }}
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width="100" height="100" fill="#ff6b35" rx="20" />
+              <circle cx="50" cy="40" r="22" fill="#ffffff" />
+              <circle cx="50" cy="105" r="40" fill="#ffffff" />
+              <circle cx="42" cy="36" r="4" fill="#1f2937" />
+              <circle cx="58" cy="36" r="4" fill="#1f2937" />
+              <path d="M 44 48 Q 50 54 56 48" stroke="#1f2937" strokeWidth="3" fill="none" strokeLinecap="round" />
+              <rect x="38" y="28" width="10" height="4" fill="#1f2937" rx="2" />
+              <rect x="52" y="28" width="10" height="4" fill="#1f2937" rx="2" />
+            </svg>
           </button>
 
           {avatarDropdownOpen && (
