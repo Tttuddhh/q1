@@ -258,16 +258,11 @@ export function Header({
               background: '#f3f4f6',
             }}
           >
-            <svg viewBox="0 0 100 100" style={{ width: '100%', height: '100%', display: 'block' }}>
-              <rect width="100" height="100" fill="#ff6b35" rx="20" />
-              <circle cx="50" cy="38" r="22" fill="#ffffff" />
-              <circle cx="50" cy="110" r="45" fill="#ffffff" />
-              <circle cx="42" cy="34" r="3.5" fill="#1f2937" />
-              <circle cx="58" cy="34" r="3.5" fill="#1f2937" />
-              <path d="M 44 46 Q 50 52 56 46" stroke="#1f2937" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-              <path d="M 38 26 Q 42 22 46 26" stroke="#1f2937" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-              <path d="M 54 26 Q 58 22 62 26" stroke="#1f2937" strokeWidth="2.5" fill="none" strokeLinecap="round" />
-            </svg>
+            <img
+              src="https://source.boringavatars.com/beam/32/user?colors=ff6b35,ff8f5a,ffb380"
+              alt="User"
+              style={{ width: '100%', height: '100%', display: 'block' }}
+            />
           </button>
 
           {avatarDropdownOpen && (
