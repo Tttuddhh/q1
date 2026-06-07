@@ -1689,70 +1689,73 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
   const handleMergeCells = useCallback(() => {
     if (!editor) return;
 
-    // Step 1: Call ProseMirror native mergeCells
-    editor.chain().focus().mergeCells().run();
+    const { state: preState } = editor;
+    const { selection: preSelection } = preState;
 
-    // Step 2: Fix the side effect where rows with all cells absorbed by rowspan are removed
-    const { state } = editor;
-    const { tr: fixTr } = state;
-    let modified = false;
+    // Only proceed if we have a cell selection
+    if (!(preSelection instanceof CellSelection)) {
+      editor.chain().focus().mergeCells().run();
+      return;
+    }
 
-    state.doc.descendants((node, pos) => {
+    // Save original table dimensions before merge
+    let origHeight = 0;
+    let origWidth = 0;
+    preState.doc.descendants((node) => {
       if (node.type.name === 'table') {
-        const tableMap = TableMap.get(node);
-        const tableStart = pos + 1;
-
-        for (let row = 0; row < tableMap.height; row++) {
-          // Check if this row has any cells that actually belong to it
-          let hasOwnCell = false;
-          for (let col = 0; col < tableMap.width; col++) {
-            const cellRelPos = tableMap.map[row * tableMap.width + col];
-            const cellPos = tableStart + cellRelPos;
-            const cellNode = state.doc.nodeAt(cellPos);
-            if (cellNode) {
-              const rowspan = cellNode.attrs.rowspan || 1;
-              // This cell belongs to this row if its rowspan doesn't extend above this row
-              if (rowspan > 0) {
-                // Check if this cell's position is the start of the cell
-                const isStartOfCell = row === 0 || tableMap.map[(row - 1) * tableMap.width + col] !== cellRelPos;
-                if (isStartOfCell) {
-                  hasOwnCell = true;
-                  break;
-                }
-              }
-            }
-          }
-
-          if (!hasOwnCell) {
-            // This row has no cells of its own, all cells are from rowspan above
-            // We need to add a placeholder cell to keep the row
-            // The placeholder colspan should equal the table width to span all columns
-            // Find the row node position
-            let rowPos = tableStart;
-            let rowCount = 0;
-            node.forEach((child) => {
-              if (child.type.name === 'tableRow') {
-                if (rowCount === row) {
-                  // Insert a placeholder cell at the start of this row
-                  // Use colspan equal to table width so it spans all columns
-                  const placeholderCell = state.schema.nodes.tableCell.create(
-                    { colspan: tableMap.width },
-                    state.schema.nodes.paragraph.create()
-                  );
-                  fixTr.insert(rowPos + 1, placeholderCell);
-                  modified = true;
-                }
-                rowCount++;
-                rowPos += child.nodeSize;
-              }
-            });
-          }
-        }
+        const map = TableMap.get(node);
+        origHeight = map.height;
+        origWidth = map.width;
       }
     });
 
-    if (modified) {
-      editor.view.dispatch(fixTr);
+    if (origHeight === 0) return;
+
+    // Step 1: Call ProseMirror native mergeCells
+    editor.chain().focus().mergeCells().run();
+
+    // Step 2: Check if rows were removed
+    const { state: postState } = editor;
+    let postHeight = 0;
+    let tablePos = 0;
+    let tableNode: any = null;
+
+    postState.doc.descendants((node, pos) => {
+      if (node.type.name === 'table') {
+        const map = TableMap.get(node);
+        postHeight = map.height;
+        tablePos = pos;
+        tableNode = node;
+      }
+    });
+
+    // If rows were removed, add them back
+    if (postHeight < origHeight && tableNode) {
+      const { tr } = postState;
+      const rowsToAdd = origHeight - postHeight;
+
+      // Find the last row position in the table
+      let lastRowPos = tablePos + 1;
+      tableNode.forEach((child: any) => {
+        if (child.type.name === 'tableRow') {
+          lastRowPos += child.nodeSize;
+        }
+      });
+
+      for (let i = 0; i < rowsToAdd; i++) {
+        const placeholderCell = postState.schema.nodes.tableCell.create(
+          { colspan: origWidth },
+          postState.schema.nodes.paragraph.create()
+        );
+        const newRow = postState.schema.nodes.tableRow.create(
+          null,
+          [placeholderCell]
+        );
+        // Insert the new row at the end of the table (before the table's closing tag)
+        tr.insert(lastRowPos - 1, newRow);
+      }
+
+      editor.view.dispatch(tr);
     }
   }, [editor]);
 
