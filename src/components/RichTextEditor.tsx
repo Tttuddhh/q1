@@ -1755,6 +1755,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
     const newRows: any[] = [];
     for (let row = 0; row < map.height; row++) {
       const newCells: any[] = [];
+      let mergedCellPlaced = false;
       for (let col = 0; col < map.width; col++) {
         const cellPos = map.map[row * map.width + col];
         // Check if this cell position is in the merge rect
@@ -1768,6 +1769,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
           // Only place merged cell at top-left of rect
           if (row === rect.top && col === rect.left) {
             newCells.push(mergedCell);
+            mergedCellPlaced = true;
           }
           // Skip other positions in rect (they are absorbed)
         } else {
@@ -1783,6 +1785,11 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium', fontFam
             }
           }
         }
+      }
+      // If this row is entirely inside the merge rect but merged cell was placed at a different row,
+      // we need to add the merged cell here too (but only once per row)
+      if (newCells.length === 0 && row >= rect.top && row < rect.bottom) {
+        newCells.push(mergedCell);
       }
       newRows.push(state.schema.nodes.tableRow.create(null, newCells));
     }
