@@ -43,21 +43,33 @@
   - `human-judgement` TR-3.2: 验证表情选择器弹出位置正确
 - **Notes**: 表情选择器使用 absolute 定位，需要确保在 sticky 工具栏下位置正确
 
-## [x] Task 4: 修复工具栏后方内容透出问题
+## [x] Task 4: 修复工具栏后方内容透出问题（第一次尝试）
 - **Priority**: P0
 - **Depends On**: None
 - **Description**: 
-  - 从截图可以看到，工具栏后方透出了页面标题等文字内容
-  - 分析原因：Header 组件使用了 `backdrop-blur-sm` + `bg-white/80`（半透明背景），且 Header 也有 `position: sticky`
-  - 工具栏虽然设置了 `background: '#ffffff'`，但可能因为 z-index 不够高，或者 sticky 定位的上下文问题导致内容透出
-  - 解决方案：
-    1. 提高工具栏的 z-index 到 50 或更高，确保在 Header 之上
-    2. 确保工具栏背景为实色白色（非半透明）
-    3. 检查 MainContent 的 padding 是否导致工具栏和 Header 重叠区域有内容透出
-    4. 可能需要给工具栏添加 `width: 100%` 确保完全覆盖
+  - 将工具栏 z-index 提高到 50
+  - 为编辑器容器添加 position: relative + z-index: 1
+- **结果**: 未完全修复，内容仍然透出
+
+## [ ] Task 5: 重新分析并修复内容透出问题
+- **Priority**: P0
+- **Depends On**: None
+- **Description**: 
+  - 深入分析问题根本原因：
+    1. MainContent 是 overflow: auto 的滚动容器
+    2. Header 是 sticky 定位在 MainContent 之外
+    3. 工具栏是 sticky 定位在 MainContent 之内
+    4. 从截图看，透出的是页面标题文字（位于 Page Header 区域）
+    5. 问题可能是：当 MainContent 滚动时，Page Header 向上滚动，工具栏 sticky 在 MainContent 顶部，但 Header（在 MainContent 外）也是 sticky 的，导致层级混乱
+  - 正确解决方案：
+    - 方案A：将工具栏改为 fixed 定位，相对于视口固定，而不是相对于 MainContent sticky
+    - 方案B：给工具栏添加 `marginTop: -40px` 或类似值，使其向上延伸到 Header 区域
+    - 方案C：将工具栏包裹在一个全宽的容器中，该容器 sticky 在 MainContent 顶部，并有实色背景
+    - 方案D：使用 `position: fixed` + `top: 56px`（Header 高度），让工具栏固定在 Header 下方
+  - 采用方案D：使用 fixed 定位，top 设置为 Header 的高度 56px，这样工具栏会固定在视口的 Header 下方，完全脱离 MainContent 的滚动上下文
   - 涉及文件：`RichTextEditor.tsx`
 - **Acceptance Criteria Addressed**: [AC-2]
 - **Test Requirements**:
-  - `human-judgement` TR-4.1: 向下滚动页面，验证工具栏后方没有任何文字或内容透出
-  - `human-judgement` TR-4.2: 在不同滚动位置验证工具栏背景完全遮挡后方内容
-- **Notes**: 这是本次修复的重点，必须确保不透出任何内容
+  - `human-judgement` TR-5.1: 向下滚动页面，验证工具栏后方没有任何文字或内容透出
+  - `human-judgement` TR-5.2: 工具栏始终固定在 Header 正下方
+- **Notes**: 使用 fixed 定位可以彻底解决 sticky 上下文问题
