@@ -3,7 +3,7 @@ import { FONTS, SYSTEM_FONT, FONT_CATEGORIES } from '../data/fonts';
 import type { FontData } from '../data/fonts';
 import { loadGoogleFont } from '../utils/fontLoader';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { TextIcon } from '@hugeicons/core-free-icons';
+import { TextIcon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
 
 interface FontPickerProps {
   currentFontName: string;
@@ -121,6 +121,13 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
         <span style={{ maxWidth: 130, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', fontFamily: currentFont.family }}>
           {displayName}
         </span>
+        <HugeiconsIcon
+          icon={ArrowDown01Icon}
+          size={14}
+          strokeWidth={1.5}
+          className={`func-chevron ${!open ? 'collapsed' : ''}`}
+          style={{ marginLeft: 'auto', flexShrink: 0 }}
+        />
       </button>
 
       {open && (

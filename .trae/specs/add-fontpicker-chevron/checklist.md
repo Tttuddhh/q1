@@ -1,0 +1,4 @@
+- [x] FontPicker 按钮右侧显示 `ArrowDown01Icon` 箭头
+- [x] 面板关闭时箭头旋转 -90deg（collapsed 状态）
+- [x] 面板展开时箭头恢复向下
+- [x] 箭头位置固定靠右，不随字体名变化
