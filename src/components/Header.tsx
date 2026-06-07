@@ -259,9 +259,9 @@ export function Header({
             }}
           >
             <img
-              src="https://api.dicebear.com/9.x/notionists/svg?seed=user&backgroundColor=ffdfbf"
+              src="https://api.dicebear.com/7.x/avataaars/svg?seed=user"
               alt="User"
-              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
               onError={(e) => {
                 const target = e.currentTarget;
                 target.style.display = 'none';
