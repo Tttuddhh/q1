@@ -258,39 +258,7 @@ export function Header({
               background: '#f3f4f6',
             }}
           >
-            <svg viewBox="0 0 80 80" style={{ width: '100%', height: '100%', display: 'block' }} xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#ff6b35" />
-                  <stop offset="100%" stopColor="#e0552a" />
-                </linearGradient>
-              </defs>
-              <rect width="80" height="80" fill="url(#bg)" rx="16" />
-              {/* Body */}
-              <ellipse cx="40" cy="75" rx="26" ry="18" fill="#2d3436" />
-              {/* Neck */}
-              <rect x="34" y="38" width="12" height="10" fill="#f5d0a9" rx="3" />
-              {/* Collar */}
-              <polygon points="34,48 40,54 46,48" fill="#dfe6e9" />
-              {/* Head */}
-              <circle cx="40" cy="30" r="16" fill="#f5d0a9" />
-              {/* Hair */}
-              <path d="M24 30 Q24 12 40 12 Q56 12 56 30 Q56 22 40 22 Q24 22 24 30" fill="#2d3436" />
-              <path d="M24 30 Q22 18 30 14" stroke="#2d3436" strokeWidth="4" fill="none" strokeLinecap="round" />
-              <path d="M56 30 Q58 18 50 14" stroke="#2d3436" strokeWidth="4" fill="none" strokeLinecap="round" />
-              {/* Eyes */}
-              <ellipse cx="35" cy="30" rx="2.5" ry="3" fill="#2d3436" />
-              <ellipse cx="45" cy="30" rx="2.5" ry="3" fill="#2d3436" />
-              <circle cx="35.5" cy="29" r="0.8" fill="#fff" />
-              <circle cx="45.5" cy="29" r="0.8" fill="#fff" />
-              {/* Nose */}
-              <path d="M40 31 Q38 35 40 36" stroke="#d4a574" strokeWidth="1" fill="none" />
-              {/* Mouth */}
-              <path d="M37 39 Q40 42 43 39" stroke="#2d3436" strokeWidth="1.2" fill="none" strokeLinecap="round" />
-              {/* Blush */}
-              <ellipse cx="31" cy="34" rx="3" ry="1.5" fill="#ff9e9e" opacity="0.4" />
-              <ellipse cx="49" cy="34" rx="3" ry="1.5" fill="#ff9e9e" opacity="0.4" />
-            </svg>
+            <img src="/avatar.svg" alt="User avatar" style={{ width: '100%', height: '100%', display: 'block' }} />
           </button>
 
           {avatarDropdownOpen && (
