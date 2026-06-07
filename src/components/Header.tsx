@@ -259,7 +259,7 @@ export function Header({
             }}
           >
             <img
-              src="https://robohash.org/user?set=set4&size=64x64"
+              src="https://api.dicebear.com/9.x/notionists/svg?seed=user"
               alt="User"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
