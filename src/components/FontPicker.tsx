@@ -89,7 +89,7 @@ export function FontPicker({ currentFontName, onSelect }: FontPickerProps) {
           transition: 'background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease',
           flexShrink: 0,
           boxShadow: open ? '0 1px 3px color-mix(in srgb, var(--color-primary) 30%, transparent)' : 'none',
-          padding: '0 8px',
+          padding: '0 12px',
           fontSize: 13,
           fontWeight: 500,
         }}
