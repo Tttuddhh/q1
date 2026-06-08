@@ -586,8 +586,8 @@ export function ContainerPage() {
           </div>
           {/* Right: action buttons */}
           <div style={{ display: 'flex', gap: 10 }}>
-            <button style={{ padding: '8px 20px', borderRadius: 9999, border: 'none', background: '#000', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>{t('container.upload')}</button>
-            <button style={{ padding: '8px 20px', borderRadius: 9999, border: 'none', background: '#000', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>{t('container.my')}</button>
+            <button style={{ padding: '8px 20px', borderRadius: 9999, border: '1px solid rgba(255,255,255,0.3)', background: 'transparent', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer', transition: 'all 0.15s ease' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}>{t('container.upload')}</button>
+            <button style={{ padding: '8px 20px', borderRadius: 9999, border: '1px solid rgba(255,255,255,0.3)', background: 'transparent', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer', transition: 'all 0.15s ease' }} onMouseEnter={e => { e.currentTarget.style.background = 'rgba(255,255,255,0.1)'; }} onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; }}>{t('container.my')}</button>
           </div>
         </div>
       </div>
@@ -618,19 +618,19 @@ export function ContainerPage() {
               style={{
                 padding: '6px 18px',
                 borderRadius: 9999,
-                border: 'none',
-                background: activeCategory === cat ? '#FF743D' : '#1a1a1a',
-                color: '#fff',
+                background: activeCategory === cat ? '#FF743D' : '#fff',
+                color: activeCategory === cat ? '#fff' : '#1a1a1a',
+                border: activeCategory === cat ? '1px solid #FF743D' : '1px solid #e5e7eb',
                 fontSize: 13,
                 cursor: 'pointer',
-                transition: 'background 0.15s ease',
+                transition: 'all 0.15s ease',
               }}
             >
               {cat}
             </button>
           ))}
         </div>
-        <button style={{ padding: '6px 18px', borderRadius: 9999, border: 'none', background: '#1a1a1a', color: '#fff', fontSize: 13, cursor: 'pointer' }}>{t('container.filter')}</button>
+        <button style={{ padding: '6px 18px', borderRadius: 9999, border: '1px solid #e5e7eb', background: '#fff', color: '#1a1a1a', fontSize: 13, cursor: 'pointer' }}>{t('container.filter')}</button>
       </div>
 
       {/* Card Grid */}
@@ -666,8 +666,8 @@ export function ContainerPage() {
                 </div>
                 {/* Tags */}
                 <div style={{ display: 'flex', gap: 6 }}>
-                  <span style={{ padding: '2px 8px', borderRadius: 9999, background: '#1a1a1a', color: '#fff', fontSize: 11 }}>{item.category}</span>
-                  <span style={{ padding: '2px 8px', borderRadius: 9999, background: '#1a1a1a', color: '#fff', fontSize: 11 }}>{item.scene === 'editor' ? t('container.scene_editor') : item.scene === 'knowledge' ? t('container.scene_knowledge') : t('container.scene_both')}</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 9999, background: '#fff', color: '#1a1a1a', border: '1px solid #e5e7eb', fontSize: 11 }}>{item.category}</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 9999, background: '#fff', color: '#1a1a1a', border: '1px solid #e5e7eb', fontSize: 11 }}>{item.scene === 'editor' ? t('container.scene_editor') : item.scene === 'knowledge' ? t('container.scene_knowledge') : t('container.scene_both')}</span>
                 </div>
               </div>
             ))}
@@ -777,7 +777,7 @@ export function ContainerPage() {
                     padding: '8px 20px',
                     borderRadius: 8,
                     border: 'none',
-                    background: '#000',
+                    background: '#1a1a1a',
                     color: '#fff',
                     fontSize: 14,
                     fontWeight: 600,
@@ -791,6 +791,14 @@ export function ContainerPage() {
                   {t('container.install_btn')}
                 </button>
               </div>
+            </div>
+
+            {/* 简述 section */}
+            <div style={{ padding: '20px 24px 0' }}>
+              <h4 style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', margin: '0 0 10px 0' }}>简述</h4>
+              <p style={{ fontSize: 14, color: '#4b5563', lineHeight: 1.7, margin: 0 }}>
+                {selectedItem.description}
+              </p>
             </div>
 
             {/* Preview section */}
