@@ -114,7 +114,7 @@ const CONTAINERS: ContainerItem[] = [
       { label: '公式编号引用', bgColor: '#bfdbfe' },
     ],
     changelog: [
-      { version: '1.8.3', date: '2026-04-15', changes: ['修复复杂矩阵公式渲染偏移问题', '新增 \text{} 中文支持优化'] },
+      { version: '1.8.3', date: '2026-04-15', changes: ['修复复杂矩阵公式渲染偏移问题', '新增 \\text{} 中文支持优化'] },
       { version: '1.7.0', date: '2026-02-20', changes: ['新增公式编号与交叉引用功能', '符号面板新增 200+ 常用符号'] },
       { version: '1.5.0', date: '2025-12-20', changes: ['支持 MathML 导出', '优化大型公式渲染性能'] },
     ],
@@ -522,14 +522,15 @@ const CONTAINERS: ContainerItem[] = [
   },
 ];
 
-const PRIMARY_COLOR = '#FF743D';
+const CATEGORIES = ['全部', '排版', '工具', '数据', '媒体', '交互', '嵌入'];
 
 export function ContainerPage() {
   const { t } = useTranslation();
   const [searchText, setSearchText] = useState('');
-  const [activeSceneTab, setActiveSceneTab] = useState<'all' | 'editor' | 'knowledge'>('all');
+  const [activeCategory, setActiveCategory] = useState('全部');
   const [selectedItem, setSelectedItem] = useState<ContainerItem | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [activeModalTab, setActiveModalTab] = useState<'description' | 'features' | 'tutorial' | 'changelog' | 'info'>('description');
 
   useEffect(() => {
     if (selectedItem) {
@@ -542,15 +543,16 @@ export function ContainerPage() {
 
   const closeModal = () => {
     setModalVisible(false);
-    setTimeout(() => setSelectedItem(null), 200);
+    setTimeout(() => {
+      setSelectedItem(null);
+      setActiveModalTab('description');
+    }, 200);
   };
 
   const filtered = useMemo(() => {
     let list = CONTAINERS;
-    if (activeSceneTab === 'editor') {
-      list = list.filter(c => c.scene === 'editor' || c.scene === 'both');
-    } else if (activeSceneTab === 'knowledge') {
-      list = list.filter(c => c.scene === 'knowledge' || c.scene === 'both');
+    if (activeCategory !== '全部') {
+      list = list.filter(c => c.category === activeCategory);
     }
     if (searchText.trim()) {
       const q = searchText.trim().toLowerCase();
@@ -559,264 +561,113 @@ export function ContainerPage() {
       );
     }
     return list;
-  }, [searchText, activeSceneTab]);
+  }, [searchText, activeCategory]);
 
-  const sceneTabs = [
-    { key: 'all' as const, label: t('container.detail.all') },
-    { key: 'editor' as const, label: t('container.scene_editor') },
-    { key: 'knowledge' as const, label: t('container.scene_knowledge') },
+  const modalTabs: { key: typeof activeModalTab; label: string }[] = [
+    { key: 'description', label: t('container.detail.description') },
+    { key: 'features', label: t('container.detail.features') },
+    { key: 'tutorial', label: t('container.detail.tutorial') },
+    { key: 'changelog', label: t('container.detail.changelog') },
+    { key: 'info', label: t('container.detail.other_info') },
   ];
 
   return (
-    <div
-      style={{
-        flex: 1,
-        overflow: 'auto',
-        background: '#fafbfc',
-      }}
-    >
-      <div
-        style={{
-          maxWidth: 900,
-          margin: '0 auto',
-          padding: '40px 32px 64px',
-          width: '100%',
-        }}
-      >
-        {/* Header */}
-        <h1
-          style={{
-            fontSize: 24,
-            fontWeight: 700,
-            color: '#1a1a1a',
-            margin: '0 0 8px 0',
-            lineHeight: 1.3,
-          }}
-        >
-          {t('container.title')}
-        </h1>
-        <p
-          style={{
-            fontSize: 14,
-            color: '#6b7280',
-            margin: '0 0 28px 0',
-            lineHeight: 1.5,
-          }}
-        >
-          {t('container.subtitle')}
-        </p>
+    <div style={{ flex: 1, overflow: 'auto', background: '#f5f5f5' }}>
+      {/* Banner */}
+      <div style={{ background: 'linear-gradient(135deg, #1a1a2e, #16213e)', padding: '32px 40px' }}>
+        <div style={{ maxWidth: 1400, margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {/* Left: icon + title + subtitle */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+            <div style={{ width: 48, height: 48, borderRadius: 12, background: '#FF743D', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 24 }}>📦</div>
+            <div>
+              <h1 style={{ fontSize: 28, fontWeight: 700, color: '#fff', margin: 0 }}>{t('container.title')}</h1>
+              <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', margin: '4px 0 0 0' }}>{t('container.subtitle')}</p>
+            </div>
+          </div>
+          {/* Right: action buttons */}
+          <div style={{ display: 'flex', gap: 10 }}>
+            <button style={{ padding: '8px 20px', borderRadius: 9999, border: 'none', background: '#000', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>{t('container.upload')}</button>
+            <button style={{ padding: '8px 20px', borderRadius: 9999, border: 'none', background: '#000', color: '#fff', fontSize: 14, fontWeight: 500, cursor: 'pointer' }}>{t('container.my')}</button>
+          </div>
+        </div>
+      </div>
 
-        {/* Search Bar */}
-        <div
-          style={{
-            position: 'relative',
-            marginBottom: 20,
-          }}
-        >
-          <span
-            style={{
-              position: 'absolute',
-              left: 14,
-              top: '50%',
-              transform: 'translateY(-50%)',
-              fontSize: 16,
-              color: '#9ca3af',
-              pointerEvents: 'none',
-              lineHeight: 1,
-            }}
-          >
-            🔍
-          </span>
+      {/* Search Bar */}
+      <div style={{ maxWidth: 1400, margin: '0 auto', padding: '20px 40px 0' }}>
+        <div style={{ position: 'relative', marginBottom: 16 }}>
+          <span style={{ position: 'absolute', left: 14, top: '50%', transform: 'translateY(-50%)', fontSize: 16, color: '#9ca3af', pointerEvents: 'none', lineHeight: 1 }}>🔍</span>
           <input
             type="text"
             value={searchText}
             onChange={e => setSearchText(e.target.value)}
             placeholder={t('container.search_placeholder')}
-            style={{
-              width: '100%',
-              padding: '10px 16px 10px 42px',
-              borderRadius: 10,
-              border: '1px solid #e5e7eb',
-              fontSize: 14,
-              color: '#1a1a1a',
-              outline: 'none',
-              background: '#f9fafb',
-              transition: 'border-color 0.2s, box-shadow 0.2s',
-              boxSizing: 'border-box',
-            }}
-            onFocus={e => {
-              e.currentTarget.style.borderColor = PRIMARY_COLOR;
-              e.currentTarget.style.boxShadow = `0 0 0 3px color-mix(in srgb, ${PRIMARY_COLOR} 15%, transparent)`;
-              e.currentTarget.style.background = '#fff';
-            }}
-            onBlur={e => {
-              e.currentTarget.style.borderColor = '#e5e7eb';
-              e.currentTarget.style.boxShadow = 'none';
-              e.currentTarget.style.background = '#f9fafb';
-            }}
+            style={{ width: '100%', padding: '10px 16px 10px 42px', borderRadius: 10, border: '1px solid #e5e7eb', fontSize: 14, color: '#1a1a1a', outline: 'none', background: '#fff', transition: 'border-color 0.2s, box-shadow 0.2s', boxSizing: 'border-box' }}
+            onFocus={e => { e.currentTarget.style.borderColor = '#FF743D'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(255,116,61,0.15)'; }}
+            onBlur={e => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.boxShadow = 'none'; }}
           />
         </div>
+      </div>
 
-        {/* Scene Filter Tabs */}
-        <div
-          style={{
-            display: 'flex',
-            gap: 4,
-            marginBottom: 24,
-          }}
-        >
-          {sceneTabs.map(tab => (
+      {/* Category Filter Bar */}
+      <div style={{ maxWidth: 1400, margin: '0 auto', padding: '20px 40px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ display: 'flex', gap: 12 }}>
+          {CATEGORIES.map(cat => (
             <button
-              key={tab.key}
-              onClick={() => setActiveSceneTab(tab.key)}
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
               style={{
-                padding: '8px 20px',
+                padding: '6px 18px',
+                borderRadius: 9999,
                 border: 'none',
-                background: 'transparent',
-                fontSize: 14,
-                fontWeight: activeSceneTab === tab.key ? 600 : 400,
-                color: activeSceneTab === tab.key ? PRIMARY_COLOR : '#6b7280',
+                background: activeCategory === cat ? '#FF743D' : '#1a1a1a',
+                color: '#fff',
+                fontSize: 13,
                 cursor: 'pointer',
-                borderBottom: activeSceneTab === tab.key ? `2px solid ${PRIMARY_COLOR}` : '2px solid transparent',
-                transition: 'color 0.15s ease, border-color 0.15s ease',
+                transition: 'background 0.15s ease',
               }}
             >
-              {tab.label}
+              {cat}
             </button>
           ))}
         </div>
+        <button style={{ padding: '6px 18px', borderRadius: 9999, border: 'none', background: '#1a1a1a', color: '#fff', fontSize: 13, cursor: 'pointer' }}>{t('container.filter')}</button>
+      </div>
 
-        {/* Card List */}
+      {/* Card Grid */}
+      <div style={{ maxWidth: 1400, margin: '0 auto', padding: '0 40px 40px' }}>
         {filtered.length === 0 ? (
-          <div
-            style={{
-              textAlign: 'center',
-              padding: '60px 20px',
-              color: '#9ca3af',
-              fontSize: 15,
-            }}
-          >
+          <div style={{ textAlign: 'center', padding: '60px 20px', color: '#9ca3af', fontSize: 15 }}>
             {t('container.empty_text')}
           </div>
         ) : (
-          <div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 20 }}>
             {filtered.map(item => (
               <div
                 key={item.id}
                 onClick={() => setSelectedItem(item)}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '12px 16px',
-                  borderRadius: 10,
-                  background: '#fff',
-                  border: '1px solid #f0f0f0',
-                  marginBottom: 6,
-                  cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
+                style={{ cursor: 'pointer', transition: 'transform 0.2s ease, box-shadow 0.2s ease' }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.background = '#f9fafb';
-                  e.currentTarget.style.borderColor = '#e5e7eb';
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.04)';
+                  e.currentTarget.style.transform = 'translateY(-4px)';
+                  e.currentTarget.style.boxShadow = '0 12px 24px rgba(0,0,0,0.1)';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.background = '#fff';
-                  e.currentTarget.style.borderColor = '#f0f0f0';
+                  e.currentTarget.style.transform = 'translateY(0)';
                   e.currentTarget.style.boxShadow = 'none';
                 }}
               >
-                {/* Left: Icon */}
-                <div
-                  style={{
-                    width: 40,
-                    height: 40,
-                    borderRadius: 10,
-                    background: `linear-gradient(135deg, ${item.gradient[0]}, ${item.gradient[1]})`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: 18,
-                    flexShrink: 0,
-                    lineHeight: 1,
-                  }}
-                >
+                {/* Cover */}
+                <div style={{ aspectRatio: '16/10', borderRadius: 12, background: `linear-gradient(135deg, ${item.gradient[0]}, ${item.gradient[1]})`, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48, marginBottom: 10 }}>
                   {item.icon}
                 </div>
-
-                {/* Right: Content */}
-                <div style={{ flex: 1, marginLeft: 12, minWidth: 0 }}>
-                  {/* Row 1: Name + badge */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <span style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', lineHeight: 1.4 }}>
-                      {item.name}
-                    </span>
-                    {item.scene !== 'both' ? (
-                      <span
-                        style={{
-                          display: 'inline-block',
-                          padding: '1px 6px',
-                          borderRadius: 4,
-                          fontSize: 10,
-                          fontWeight: 500,
-                          background: `color-mix(in srgb, ${item.color} 12%, transparent)`,
-                          color: item.color,
-                        }}
-                      >
-                        {item.scene === 'editor' ? t('container.scene_editor') : t('container.scene_knowledge')}
-                      </span>
-                    ) : (
-                      <>
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            padding: '1px 6px',
-                            borderRadius: 4,
-                            fontSize: 10,
-                            fontWeight: 500,
-                            background: `color-mix(in srgb, ${item.color} 12%, transparent)`,
-                            color: item.color,
-                          }}
-                        >
-                          {t('container.scene_editor')}
-                        </span>
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            padding: '1px 6px',
-                            borderRadius: 4,
-                            fontSize: 10,
-                            fontWeight: 500,
-                            background: `color-mix(in srgb, ${item.color} 12%, transparent)`,
-                            color: item.color,
-                          }}
-                        >
-                          {t('container.scene_knowledge')}
-                        </span>
-                      </>
-                    )}
-                  </div>
-
-                  {/* Row 2: Description */}
-                  <div
-                    style={{
-                      fontSize: 13,
-                      color: '#6b7280',
-                      lineHeight: 1.4,
-                      marginBottom: 4,
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                      whiteSpace: 'nowrap',
-                    }}
-                  >
-                    {item.description}
-                  </div>
-
-                  {/* Row 3: Meta info */}
-                  <div style={{ fontSize: 12, color: '#9ca3af', lineHeight: 1.4 }}>
-                    <span style={{ color: item.hotRating >= 9 ? '#EF4444' : '#f59e0b' }}>⭐ {item.hotRating}</span>
-                    <span> · {item.installs} {t('container.installs')} · {item.category}</span>
-                  </div>
+                {/* Info */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+                  <span style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a' }}>{item.name}</span>
+                  <span style={{ fontSize: 12, color: '#9ca3af' }}>⭐ {item.hotRating} · {item.installs}</span>
+                </div>
+                {/* Tags */}
+                <div style={{ display: 'flex', gap: 6 }}>
+                  <span style={{ padding: '2px 8px', borderRadius: 9999, background: '#1a1a1a', color: '#fff', fontSize: 11 }}>{item.category}</span>
+                  <span style={{ padding: '2px 8px', borderRadius: 9999, background: '#1a1a1a', color: '#fff', fontSize: 11 }}>{item.scene === 'editor' ? t('container.scene_editor') : item.scene === 'knowledge' ? t('container.scene_knowledge') : t('container.scene_both')}</span>
                 </div>
               </div>
             ))}
@@ -849,9 +700,9 @@ export function ContainerPage() {
               transform: modalVisible
                 ? 'translate(-50%, -50%) scale(1)'
                 : 'translate(-50%, -50%) scale(0.95)',
-              maxWidth: 600,
+              maxWidth: 640,
               width: '92%',
-              maxHeight: '88vh',
+              maxHeight: '85vh',
               overflowY: 'auto',
               background: '#fff',
               borderRadius: 16,
@@ -885,17 +736,13 @@ export function ContainerPage() {
                   lineHeight: 1,
                   transition: 'background 0.15s ease',
                 }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'rgba(0,0,0,0.12)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(0,0,0,0.06)';
-                }}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.12)'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.06)'; }}
               >
                 ✕
               </button>
 
-              <div style={{ display: 'flex', alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                 {/* Icon */}
                 <div
                   style={{
@@ -914,13 +761,13 @@ export function ContainerPage() {
                   {selectedItem.icon}
                 </div>
 
-                {/* Name + Meta */}
-                <div style={{ marginLeft: 16, flex: 1 }}>
-                  <h2 style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px 0', lineHeight: 1.3 }}>
+                {/* Name + Author */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <h2 style={{ fontSize: 22, fontWeight: 700, color: '#1a1a1a', margin: '0 0 4px 0', lineHeight: 1.3 }}>
                     {selectedItem.name}
                   </h2>
                   <div style={{ fontSize: 13, color: '#6b7280' }}>
-                    {selectedItem.developer} · v{selectedItem.version}
+                    {t('container.author')}: {selectedItem.developer}
                   </div>
                 </div>
 
@@ -930,7 +777,7 @@ export function ContainerPage() {
                     padding: '8px 20px',
                     borderRadius: 8,
                     border: 'none',
-                    background: `linear-gradient(135deg, ${selectedItem.gradient[0]}, ${selectedItem.gradient[1]})`,
+                    background: '#000',
                     color: '#fff',
                     fontSize: 14,
                     fontWeight: 600,
@@ -938,20 +785,17 @@ export function ContainerPage() {
                     whiteSpace: 'nowrap',
                     transition: 'opacity 0.15s ease',
                   }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.opacity = '0.9';
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.opacity = '1';
-                  }}
+                  onMouseEnter={e => { e.currentTarget.style.opacity = '0.85'; }}
+                  onMouseLeave={e => { e.currentTarget.style.opacity = '1'; }}
                 >
                   {t('container.install_btn')}
                 </button>
               </div>
             </div>
 
-            {/* Screenshot Preview (horizontal scroll) */}
-            <div style={{ margin: '16px 0' }}>
+            {/* Preview section */}
+            <div style={{ margin: '20px 0' }}>
+              <h4 style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', margin: '0 0 10px 24px' }}>{t('container.preview')}</h4>
               <div
                 style={{
                   display: 'flex',
@@ -1008,98 +852,157 @@ export function ContainerPage() {
               </div>
             </div>
 
-            {/* Overview Section */}
-            <div style={{ padding: '0 24px', marginBottom: 20 }}>
-              <h4 style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', margin: '0 0 8px 0' }}>
-                {t('container.detail.overview')}
-              </h4>
-              <p style={{ fontSize: 14, color: '#4b5563', lineHeight: 1.7, margin: 0 }}>
-                {selectedItem.detailedDescription}
-              </p>
-            </div>
-
-            {/* Features Section */}
-            <div style={{ padding: '0 24px', marginBottom: 20 }}>
-              <h4 style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', margin: '0 0 8px 0' }}>
-                {t('container.detail.features')}
-              </h4>
-              <div>
-                {selectedItem.features.map((feat, idx) => (
-                  <div
-                    key={idx}
+            {/* Tab bar */}
+            <div style={{ padding: '0 24px', borderBottom: '1px solid #f3f4f6' }}>
+              <div style={{ display: 'flex', gap: 0 }}>
+                {modalTabs.map(tab => (
+                  <button
+                    key={tab.key}
+                    onClick={() => setActiveModalTab(tab.key)}
                     style={{
-                      display: 'flex',
-                      gap: 10,
-                      padding: '6px 0',
+                      padding: '10px 14px',
+                      border: 'none',
+                      background: 'transparent',
                       fontSize: 13,
-                      color: '#374151',
-                      lineHeight: 1.5,
-                      alignItems: 'flex-start',
+                      fontWeight: activeModalTab === tab.key ? 600 : 400,
+                      color: activeModalTab === tab.key ? '#1a1a1a' : '#9ca3af',
+                      cursor: 'pointer',
+                      borderBottom: activeModalTab === tab.key ? '2px solid #1a1a1a' : '2px solid transparent',
+                      transition: 'color 0.15s ease, border-color 0.15s ease',
+                      whiteSpace: 'nowrap',
                     }}
                   >
-                    <span style={{ color: '#10B981', flexShrink: 0, fontSize: 14, marginTop: 1 }}>✓</span>
-                    <span>{feat}</span>
-                  </div>
+                    {tab.label}
+                  </button>
                 ))}
               </div>
             </div>
 
-            {/* Changelog Section */}
-            <div style={{ padding: '0 24px', marginBottom: 20 }}>
-              <h4 style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', margin: '0 0 12px 0' }}>
-                {t('container.detail.changelog')}
-              </h4>
-              <div>
-                {selectedItem.changelog.map((entry, idx) => (
-                  <div key={idx} style={{ display: 'flex', gap: 12, marginBottom: idx < selectedItem.changelog.length - 1 ? 10 : 0 }}>
-                    {/* Timeline left */}
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+            {/* Tab content */}
+            <div style={{ padding: '20px 24px 24px' }}>
+              {activeModalTab === 'description' && (
+                <div>
+                  <p style={{ fontSize: 14, color: '#4b5563', lineHeight: 1.7, margin: 0 }}>
+                    {selectedItem.detailedDescription}
+                  </p>
+                </div>
+              )}
+
+              {activeModalTab === 'features' && (
+                <div>
+                  {selectedItem.features.map((feat, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        display: 'flex',
+                        gap: 10,
+                        padding: '6px 0',
+                        fontSize: 13,
+                        color: '#374151',
+                        lineHeight: 1.5,
+                        alignItems: 'flex-start',
+                      }}
+                    >
+                      <span style={{ color: '#10B981', flexShrink: 0, fontSize: 14, marginTop: 1 }}>✓</span>
+                      <span>{feat}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeModalTab === 'tutorial' && (
+                <div>
+                  {selectedItem.usageGuide.map((step, idx) => (
+                    <div
+                      key={idx}
+                      style={{
+                        display: 'flex',
+                        gap: 12,
+                        padding: '10px 0',
+                        alignItems: 'flex-start',
+                      }}
+                    >
                       <div
                         style={{
-                          width: 8,
-                          height: 8,
+                          width: 24,
+                          height: 24,
                           borderRadius: '50%',
-                          background: selectedItem.color,
+                          background: '#1a1a1a',
+                          color: '#fff',
+                          fontSize: 12,
+                          fontWeight: 700,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
                           flexShrink: 0,
+                          lineHeight: 1,
                         }}
-                      />
-                      {idx < selectedItem.changelog.length - 1 && (
-                        <div style={{ width: 1, flex: 1, background: '#e5e7eb', marginTop: 4 }} />
-                      )}
-                    </div>
-                    {/* Timeline right */}
-                    <div style={{ flex: 1, paddingBottom: idx < selectedItem.changelog.length - 1 ? 8 : 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                        <span
-                          style={{
-                            display: 'inline-block',
-                            padding: '2px 8px',
-                            borderRadius: 4,
-                            fontSize: 11,
-                            fontWeight: 600,
-                            background: '#eff6ff',
-                            color: '#3B82F6',
-                          }}
-                        >
-                          v{entry.version}
-                        </span>
-                        <span style={{ fontSize: 12, color: '#9ca3af' }}>{entry.date}</span>
+                      >
+                        {step.step}
                       </div>
-                      {entry.changes.map((change, ci) => (
-                        <div key={ci} style={{ fontSize: 13, color: '#4b5563', lineHeight: 1.6, paddingLeft: 0 }}>
-                          - {change}
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', marginBottom: 4 }}>
+                          {step.title}
                         </div>
-                      ))}
+                        <div style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.5 }}>
+                          {step.description}
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+                  ))}
+                </div>
+              )}
 
-            {/* Information Panel */}
-            <div style={{ padding: '0 24px', marginBottom: 20 }}>
-              <div style={{ borderTop: '1px solid #f3f4f6', paddingTop: 16 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+              {activeModalTab === 'changelog' && (
+                <div>
+                  {selectedItem.changelog.map((entry, idx) => (
+                    <div key={idx} style={{ display: 'flex', gap: 12, marginBottom: idx < selectedItem.changelog.length - 1 ? 10 : 0 }}>
+                      {/* Timeline left */}
+                      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                        <div
+                          style={{
+                            width: 8,
+                            height: 8,
+                            borderRadius: '50%',
+                            background: selectedItem.color,
+                            flexShrink: 0,
+                          }}
+                        />
+                        {idx < selectedItem.changelog.length - 1 && (
+                          <div style={{ width: 1, flex: 1, background: '#e5e7eb', marginTop: 4 }} />
+                        )}
+                      </div>
+                      {/* Timeline right */}
+                      <div style={{ flex: 1, paddingBottom: idx < selectedItem.changelog.length - 1 ? 8 : 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                          <span
+                            style={{
+                              display: 'inline-block',
+                              padding: '2px 8px',
+                              borderRadius: 4,
+                              fontSize: 11,
+                              fontWeight: 600,
+                              background: '#eff6ff',
+                              color: '#3B82F6',
+                            }}
+                          >
+                            v{entry.version}
+                          </span>
+                          <span style={{ fontSize: 12, color: '#9ca3af' }}>{entry.date}</span>
+                        </div>
+                        {entry.changes.map((change, ci) => (
+                          <div key={ci} style={{ fontSize: 13, color: '#4b5563', lineHeight: 1.6, paddingLeft: 0 }}>
+                            - {change}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeModalTab === 'info' && (
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 16 }}>
                   <div>
                     <div style={{ fontSize: 12, color: '#9ca3af', marginBottom: 2 }}>{t('container.detail.version')}</div>
                     <div style={{ fontSize: 13, color: '#374151', fontWeight: 500 }}>v{selectedItem.version}</div>
@@ -1131,103 +1034,7 @@ export function ContainerPage() {
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Usage Guide Section */}
-            <div style={{ padding: '0 24px', marginBottom: 24 }}>
-              <h4 style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', margin: '0 0 12px 0' }}>
-                {t('container.detail.usage_guide')}
-              </h4>
-              <div>
-                {selectedItem.usageGuide.map((step, idx) => (
-                  <div
-                    key={idx}
-                    style={{
-                      display: 'flex',
-                      gap: 12,
-                      padding: '10px 0',
-                      alignItems: 'flex-start',
-                    }}
-                  >
-                    <div
-                      style={{
-                        width: 24,
-                        height: 24,
-                        borderRadius: '50%',
-                        background: selectedItem.color,
-                        color: '#fff',
-                        fontSize: 12,
-                        fontWeight: 700,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        flexShrink: 0,
-                        lineHeight: 1,
-                      }}
-                    >
-                      {step.step}
-                    </div>
-                    <div style={{ flex: 1 }}>
-                      <div style={{ fontSize: 14, fontWeight: 600, color: '#1a1a1a', marginBottom: 4 }}>
-                        {t('container.detail.step')} {step.step}: {step.title}
-                      </div>
-                      <div style={{ fontSize: 13, color: '#6b7280', lineHeight: 1.5 }}>
-                        {step.description}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Bottom Buttons */}
-            <div style={{ padding: '0 24px 24px 24px' }}>
-              <button
-                style={{
-                  width: '100%',
-                  padding: '14px 0',
-                  borderRadius: 10,
-                  border: 'none',
-                  background: `linear-gradient(135deg, ${selectedItem.gradient[0]}, ${selectedItem.gradient[1]})`,
-                  color: '#fff',
-                  fontSize: 15,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  marginBottom: 10,
-                  transition: 'opacity 0.15s ease',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.opacity = '0.9';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.opacity = '1';
-                }}
-              >
-                {t('container.install_btn')}
-              </button>
-              <button
-                onClick={closeModal}
-                style={{
-                  width: '100%',
-                  padding: '12px 0',
-                  borderRadius: 10,
-                  border: '1px solid #e5e7eb',
-                  background: '#fff',
-                  color: '#6b7280',
-                  fontSize: 14,
-                  cursor: 'pointer',
-                  transition: 'background 0.15s ease',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = '#f9fafb';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = '#fff';
-                }}
-              >
-                {t('settings.close')}
-              </button>
+              )}
             </div>
           </div>
         </>
