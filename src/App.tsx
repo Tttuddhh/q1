@@ -7,6 +7,7 @@ import { EmptyState } from './components/EmptyState';
 import { SearchModal } from './components/SearchModal';
 import { DownloadModal } from './components/DownloadModal';
 import { SettingsPage } from './components/SettingsPage';
+import { MarketPage } from './components/MarketPage';
 import { useAppState } from './hooks/useAppState';
 import { useSettings } from './hooks/useSettings';
 import { useTranslation } from './i18n';
@@ -44,6 +45,11 @@ function App() {
   const handleNavigateToSettings = () => {
     autoSave();
     state.navigateToSettings();
+  };
+
+  const handleNavigateToMarket = () => {
+    autoSave();
+    state.navigateToMarket();
   };
 
   // Apply theme color settings
@@ -88,6 +94,7 @@ function App() {
       <FuncSidebar
         onNavigateHome={handleNavigateToHome}
         onNavigateSettings={handleNavigateToSettings}
+        onNavigateMarket={handleNavigateToMarket}
         currentView={state.currentView}
       />
 
@@ -117,7 +124,7 @@ function App() {
         <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
           {/* Page Tree - always rendered but hidden on settings page */}
           <div
-            className={`page-tree-wrapper ${state.pageTreeVisible && state.currentView !== 'settings' ? '' : 'collapsed'}`}
+            className={`page-tree-wrapper ${state.pageTreeVisible && state.currentView !== 'settings' && state.currentView !== 'market' ? '' : 'collapsed'}`}
             style={{
               width: state.pageTreeVisible ? settings.appearance.sidebarWidth : 0,
               minWidth: state.pageTreeVisible ? settings.appearance.sidebarWidth : 0,
@@ -141,7 +148,9 @@ function App() {
           </div>
 
           {/* Main Content */}
-          {state.currentView === 'settings' ? (
+          {state.currentView === 'market' ? (
+            <MarketPage />
+          ) : state.currentView === 'settings' ? (
             <SettingsPage onClose={() => {
               if (state.currentPageId) {
                 state.setCurrentView('page');

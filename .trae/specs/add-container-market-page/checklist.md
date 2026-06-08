@@ -1,0 +1,13 @@
+- [x] ViewType 扩展为 `'home' | 'settings' | 'page' | 'market'`
+- [x] `useAppState` 新增 `navigateToMarket` 方法
+- [x] `MarketPage` 组件已创建，包含搜索栏
+- [x] `MarketPage` 组件有筛选标签（全部/热门 + 分类标签）
+- [x] `MarketPage` 组件以卡片网格展示插件
+- [x] 每张卡片包含图标、名称、描述、热度、分类
+- [x] 卡片有悬停效果
+- [x] 预置15个编辑器插件/组件数据
+- [x] `FuncSidebar` 显示"容器"导航项，使用 ComponentIcon
+- [x] 点击"容器"导航项跳转到市场页面
+- [x] `App.tsx` 正确处理 market 视图，渲染 MarketPage
+- [x] i18n 四种语言均已添加 `sidebar.container` 翻译
+- [x] `npm run build` 构建成功

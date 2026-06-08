@@ -55,6 +55,10 @@ export function useAppState() {
     setCurrentView('settings');
   }, []);
 
+  const navigateToMarket = useCallback(() => {
+    setCurrentView('market');
+  }, []);
+
   const openSearch = useCallback(() => {
     setSearchOpen(true);
   }, []);
@@ -261,6 +265,7 @@ export function useAppState() {
     navigateToPage,
     navigateToHome,
     navigateToSettings,
+    navigateToMarket,
     openSearch,
     closeSearch,
     openDownload,
@@ -289,6 +294,7 @@ export function useAppState() {
     navigateToPage,
     navigateToHome,
     navigateToSettings,
+    navigateToMarket,
     openSearch,
     closeSearch,
     openDownload,

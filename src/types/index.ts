@@ -27,7 +27,7 @@ export interface SidebarItem {
   isActive?: boolean;
 }
 
-export type ViewType = 'home' | 'settings' | 'page';
+export type ViewType = 'home' | 'settings' | 'page' | 'market';
 
 export interface AppState {
   sidebarExpanded: boolean;
