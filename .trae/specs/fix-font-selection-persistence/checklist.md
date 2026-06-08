@@ -1,0 +1,5 @@
+- [x] `lastSelectedFontName` ref/state 已添加并正确初始化
+- [x] `handleFontSelect` 在选择字体时更新 `lastSelectedFontName`
+- [x] `onSelectionUpdate` 在无 fontFamily 时使用 `lastSelectedFontName` 而非系统默认
+- [x] 光标移动到已设置不同字体的文本时正确更新显示
+- [x] `npm run build` 构建成功

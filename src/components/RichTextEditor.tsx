@@ -871,12 +871,14 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [currentFontName, setCurrentFontName] = useState<string>(SYSTEM_FONT.name);
+  const lastSelectedFontName = useRef<string>(SYSTEM_FONT.name);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   const handleFontSelect = useCallback((font: FontData) => {
     if (!editor) return;
     setCurrentFontName(font.name);
+    lastSelectedFontName.current = font.name;
     if (font.family === 'inherit') {
       editor.chain().focus().unsetFontFamily().run();
     } else {
@@ -914,9 +916,8 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
           (f) => f.family === attrs.fontFamily
         );
         setCurrentFontName(matched ? matched.name : SYSTEM_FONT.name);
-      } else {
-        setCurrentFontName(SYSTEM_FONT.name);
       }
+      // 当光标位置没有设置 fontFamily 时，保持最后一次用户主动选择的字体
     },
   }, [language]);
 
