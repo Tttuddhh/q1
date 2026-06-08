@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Home01Icon, Clock01Icon, Bookmark01Icon, Tag01Icon, ArchiveIcon, Settings01Icon, ArrowDown01Icon, ComponentIcon } from '@hugeicons/core-free-icons';
+import { Home01Icon, Clock01Icon, Bookmark01Icon, Tag01Icon, ArchiveIcon, Settings01Icon, ArrowDown01Icon, Package01Icon } from '@hugeicons/core-free-icons';
 import { useTranslation } from '../i18n';
 
 interface FuncSidebarProps {
@@ -67,15 +67,6 @@ export function FuncSidebar({
       </div>
 
       <div className={`func-section-items ${!sections.knowledge ? 'collapsed' : ''}`}>
-        <a
-          className={`func-sidebar-item ${currentView === 'market' ? 'active' : ''}`}
-          onClick={onNavigateMarket}
-        >
-          <span className="func-sidebar-icon">
-            <HugeiconsIcon icon={ComponentIcon} size={20} strokeWidth={1.5} />
-          </span>
-          <span className="func-sidebar-text">{t('sidebar.container')}</span>
-        </a>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
             <HugeiconsIcon icon={Clock01Icon} size={20} strokeWidth={1.5} />
@@ -93,6 +84,15 @@ export function FuncSidebar({
             <HugeiconsIcon icon={Tag01Icon} size={20} strokeWidth={1.5} />
           </span>
           <span className="func-sidebar-text">{t('sidebar.tags')}</span>
+        </a>
+        <a
+          className={`func-sidebar-item ${currentView === 'market' ? 'active' : ''}`}
+          onClick={onNavigateMarket}
+        >
+          <span className="func-sidebar-icon">
+            <HugeiconsIcon icon={Package01Icon} size={20} strokeWidth={1.5} />
+          </span>
+          <span className="func-sidebar-text">{t('sidebar.container')}</span>
         </a>
       </div>
 

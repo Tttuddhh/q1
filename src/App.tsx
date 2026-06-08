@@ -7,7 +7,7 @@ import { EmptyState } from './components/EmptyState';
 import { SearchModal } from './components/SearchModal';
 import { DownloadModal } from './components/DownloadModal';
 import { SettingsPage } from './components/SettingsPage';
-import { MarketPage } from './components/MarketPage';
+import { ContainerPage } from './components/ContainerPage';
 import { useAppState } from './hooks/useAppState';
 import { useSettings } from './hooks/useSettings';
 import { useTranslation } from './i18n';
@@ -149,7 +149,7 @@ function App() {
 
           {/* Main Content */}
           {state.currentView === 'market' ? (
-            <MarketPage />
+            <ContainerPage />
           ) : state.currentView === 'settings' ? (
             <SettingsPage onClose={() => {
               if (state.currentPageId) {
