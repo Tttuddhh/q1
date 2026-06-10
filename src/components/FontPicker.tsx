@@ -10,6 +10,53 @@ interface FontPickerProps {
   onSelect: (font: FontData) => void;
 }
 
+interface FontPickerItemProps {
+  font: FontData;
+  isActive: boolean;
+  onSelect: (font: FontData) => void;
+}
+
+function FontPickerItem({ font, isActive, onSelect }: FontPickerItemProps) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(font)}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      style={{
+        width: '100%',
+        textAlign: 'left',
+        padding: '6px 10px',
+        border: 'none',
+        background: isActive
+          ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
+          : isHovered
+            ? '#f3f4f6'
+            : 'transparent',
+        cursor: 'pointer',
+        transition: 'background-color 0.15s ease',
+      }}
+    >
+      <span
+        style={{
+          fontFamily: font.family,
+          fontSize: 14,
+          lineHeight: 1.3,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          color: '#111827',
+          display: 'block',
+        }}
+      >
+        {font.preview}
+      </span>
+    </button>
+  );
+}
+
 const CATEGORY_ORDER: Array<'chinese' | 'english' | 'other'> = ['chinese', 'english', 'other'];
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -24,6 +71,17 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+
+  // Preload all fonts when picker opens
+  useEffect(() => {
+    if (isOpen) {
+      FONTS.forEach(font => {
+        if (font.googleFontName) {
+          loadGoogleFont(font.googleFontName);
+        }
+      });
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -229,43 +287,12 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                     {CATEGORY_LABELS[cat]}
                   </div>
                   {fonts.map(font => (
-                    <button
+                    <FontPickerItem
                       key={font.name}
-                      type="button"
-                      onClick={() => handleSelect(font)}
-                      style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        padding: '6px 10px',
-                        border: 'none',
-                        background: currentFont === font.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
-                        cursor: 'pointer',
-                        transition: 'background-color 0.15s ease',
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.background = '#f3f4f6';
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.background =
-                          currentFont === font.name
-                            ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
-                            : 'transparent';
-                      }}
-                    >
-                      <span
-                        style={{
-                          fontFamily: font.family,
-                          fontSize: 14,
-                          lineHeight: 1.3,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          color: '#111827',
-                        }}
-                      >
-                        {font.name}
-                      </span>
-                    </button>
+                      font={font}
+                      isActive={currentFont === font.name}
+                      onSelect={handleSelect}
+                    />
                   ))}
                 </div>
               );

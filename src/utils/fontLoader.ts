@@ -14,7 +14,7 @@ export function loadGoogleFont(googleFontName: string): void {
   const link = document.createElement('link');
   link.id = linkId;
   link.rel = 'stylesheet';
-  link.href = `https://fonts.googleapis.com/css2?family=${googleFontName}&display=swap`;
+  link.href = `https://fonts.googleapis.com/css2?family=${googleFontName}:wght@400;700&display=swap`;
   document.head.appendChild(link);
 
   loadedFonts.add(googleFontName);
