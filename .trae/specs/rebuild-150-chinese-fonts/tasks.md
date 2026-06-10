@@ -4,11 +4,29 @@
 - **Priority**: P0
 - **Depends On**: None
 - **Description**:
-  从以下渠道收集150个真实可用的中文字体：
-  1. @chinese-fonts npm 包（已验证68个包可用）
-  2. Google Fonts 中文字体（约15个）
-  3. 从 @chinese-fonts 的多变体包中提取不同字重（如 LXGW WenKai Regular/Light/Medium 算3个不同字体）
-  4. 搜索更多 Google Fonts 中文字体（如 Noto Sans HK, Noto Serif HK, ZCOOL 系列等）
+  从多个渠道收集150个真实可用的中文字体，不局限于单一字体库：
+  
+  **渠道1: @chinese-fonts npm 包**（已验证68个包可用）
+  - 使用 jsDelivr CDN: https://cdn.jsdelivr.net/npm/@chinese-fonts/{pkg}@latest/dist/{variant}/result.css
+  
+  **渠道2: Google Fonts 中文字体**（约15个）
+  - Noto Sans SC/TC/HK, Noto Serif SC/TC/HK
+  - ZCOOL 系列: KuaiLe, XiaoWei, QingKe HuangYou
+  - Ma Shan Zheng, Zhi Mang Xing, Liu Jian Mao Cao, Long Cang
+  - LXGW Marker Gothic, LXGW WenKai TC
+  
+  **渠道3: @chinese-fonts 多字重变体**
+  - 从有多个字重的包中提取不同字重作为独立字体
+  - 如 LXGW WenKai Regular/Light/Medium 算3个不同字体
+  
+  **渠道4: 其他开源中文字体库**（如不可用则跳过，不硬磕）
+  - 阿里妈妈字体: https://www.alibabafonts.com/
+  - 站酷字体: https://www.zcool.com.cn/special/zcoolfonts/
+  - 100font: https://www.100font.com/
+  - 字由: https://www.hellofont.cn/
+  - 华为字体: HarmonyOS Sans
+  - OPPO 字体: OPPO Sans
+  - MiSans 等
   
   每个字体需要：name, family, cssUrl/googleFontName, displayName, previewText, category(风格分类)
   
@@ -18,7 +36,7 @@
   - `programmatic` TR-1.1: 字体列表长度 === 150
   - `programmatic` TR-1.2: 所有字体都有有效的 cssUrl 或 googleFontName
   - `human-judgment` TR-1.3: 字体风格覆盖至少10个不同分类
-- **Notes**: 从 font_details.json 中提取可用字体，每个包取一个主要变体，多字重包取不同字重作为独立字体
+- **Notes**: 从 font_details.json 中提取可用字体，每个包取一个主要变体，多字重包取不同字重作为独立字体。如果某个字体库不可用，立即跳过寻找其他来源。
 
 ## Task 2: 批量验证150个字体可渲染性
 - **Priority**: P0
@@ -107,16 +125,43 @@
   - `programmatic` TR-6.1: 选择字体后编辑器文本正确应用该字体
   - `human-judgment` TR-6.2: 字体切换流畅，无明显延迟
 
-## Task 7: 构建并验证
+## Task 7: 实现字体下载和离线使用
 - **Priority**: P0
-- **Depends On**: Task 3, Task 4, Task 5, Task 6
+- **Depends On**: Task 3
 - **Description**:
-  1. 运行 npm run build 确保无 TypeScript 错误
-  2. 启动开发服务器
-  3. 手动验证字体选择器功能
-  4. 验证150个字体全部显示且可渲染
-  5. 验证字体应用功能正常
+  实现字体文件下载到本地，支持离线使用：
+  1. 创建 scripts/download-fonts.mjs 脚本
+  2. 脚本读取 fonts.ts 中的字体列表
+  3. 对每个字体的 cssUrl：
+     - 下载 result.css 到 public/fonts/{pkg}/result.css
+     - 解析 CSS 中的 @font-face src url()
+     - 下载所有字体文件（woff2/ttf）到 public/fonts/{pkg}/
+     - 重写 CSS 中的路径为相对路径
+  4. 对 Google Fonts：
+     - 下载 CSS 文件
+     - 解析并下载所有字体文件
+  5. 修改 fonts.ts 中的 cssUrl 指向本地路径
+  6. 在 package.json 中添加 "download-fonts" 脚本
+  7. 构建前自动执行字体下载
+- **Acceptance Criteria Addressed**: FR-7, FR-8
+- **Test Requirements**:
+  - `programmatic` TR-7.1: public/fonts/ 目录包含所有字体CSS和字体文件
+  - `programmatic` TR-7.2: 断开网络后字体仍能正常渲染
+  - `programmatic` TR-7.3: 本地CSS路径正确，无404错误
+
+## Task 8: 构建并验证
+- **Priority**: P0
+- **Depends On**: Task 3, Task 4, Task 5, Task 6, Task 7
+- **Description**:
+  1. 运行 npm run download-fonts 下载所有字体
+  2. 运行 npm run build 确保无 TypeScript 错误
+  3. 启动开发服务器
+  4. 手动验证字体选择器功能
+  5. 验证150个字体全部显示且可渲染
+  6. 验证字体应用功能正常
+  7. 验证离线模式下字体正常渲染
 - **Acceptance Criteria Addressed**: NFR-3
 - **Test Requirements**:
-  - `programmatic` TR-7.1: npm run build 成功，无错误
-  - `human-judgment` TR-7.2: 字体选择器UI正常，所有字体可渲染
+  - `programmatic` TR-8.1: npm run build 成功，无错误
+  - `human-judgment` TR-8.2: 字体选择器UI正常，所有字体可渲染
+  - `programmatic` TR-8.3: 离线模式下字体正常渲染

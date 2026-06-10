@@ -13,10 +13,8 @@
 - 选择字体后编辑器正确应用该字体格式
 
 ## Non-Goals (Out of Scope)
-- 不实现字体本地缓存或离线使用
-- 不实现字体文件下载到本地
-- 不实现字体自定义上传
 - 不实现字体子集化或按需加载（首次加载全部150个字体CSS）
+- 不实现字体自定义上传
 
 ## Background & Context
 - 当前系统使用 Google Fonts API 和 @chinese-fonts CDN 加载字体
@@ -29,6 +27,8 @@
 - **FR-2**: 每个字体 SHALL 通过真实浏览器渲染验证（Canvas 像素差异检测）
 - **FR-3**: 字体选择器打开时 SHALL 预加载所有字体CSS，确保列表中每个字体以自身字形显示
 - **FR-4**: 选择字体后 SHALL 等待字体加载完成再应用到编辑器
+- **FR-7**: 系统 SHALL 将字体文件下载到本地 public/fonts/ 目录，实现离线使用
+- **FR-8**: 系统 SHALL 在构建时自动下载所有字体CSS和字体文件到本地
 - **FR-5**: 字体选择器 SHALL 正确显示当前选中的字体名称
 - **FR-6**: 字体 SHALL 按风格分类（黑体/宋体/楷体/手写/艺术/像素/书法等）
 
@@ -38,9 +38,12 @@
 - **NFR-3**: 构建产物 SHALL 无TypeScript错误
 
 ## Constraints
-- **Technical**: 使用 Google Fonts CSS API v2 和 @chinese-fonts jsDelivr CDN
+- **Technical**: 
+  - 使用 Google Fonts CSS API v2 和 @chinese-fonts jsDelivr CDN 作为字体源
+  - 同时调研其他可用字体源（如 100font.com、字由、站酷、阿里妈妈字体等）
+  - 字体文件下载到本地 public/fonts/ 目录实现离线使用
 - **Business**: 只能使用免费商用字体
-- **Dependencies**: 依赖 Google Fonts 和 jsDelivr CDN 的网络可用性
+- **Dependencies**: 构建时需要网络下载字体，运行时无需外网依赖
 
 ## Assumptions
 - 用户浏览器支持 `document.fonts` API
