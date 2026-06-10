@@ -6,13 +6,22 @@
 2. **字体不存在**：很多字体（如 ZCOOL QingKe ChongYue、ZCOOL KuaiLeZhi、LXGW Marker Gothic 等）在 Google Fonts 上并不存在，导致无法加载和渲染
 3. **重复冗余**：Noto Sans SC/TC/HK、思源宋体简繁港等本质上是同一字体的不同地区变体，视觉上几乎无差异
 4. **数量不足**：真正可渲染的中文字体远不足150种
+5. **来源单一**：只依赖 Google Fonts，未利用其他中文字体库资源
 
 ## What Changes
-- **BREAKING**: 完全重写 `src/data/fonts.ts`，只保留真实存在于 Google Fonts 或可靠 CDN 的中文字体
+- **BREAKING**: 完全重写 `src/data/fonts.ts`，整合多个字体库来源
 - **BREAKING**: 日文/韩文字体正确归类到 `japanese`/`korean` 分类，不再混入 `chinese`
-- 使用 Google Fonts 官方 API 验证每个字体的真实存在性
+- 引入多个中文字体库来源：
+  - **Google Fonts**: Noto CJK 系列、LXGW 系列、ZCOOL 系列（只保留真实存在的）
+  - **@chinese-fonts CDN (jsDelivr)**: 中文网字项目，包含大量免费商用中文字体
+  - **Fontsource CDN**: 提供 @font-face 格式的字体
+  - **fc3 项目**: 阿里妈妈方圆体等免费商用字体
+- 每个字体来源研究其渲染逻辑和格式：
+  - Google Fonts: `https://fonts.googleapis.com/css2?family={name}&text={chars}&display=swap`
+  - @chinese-fonts: `https://cdn.jsdelivr.net/npm/@chinese-fonts/{pkg}/dist/{pkg}/result.css`
+  - Fontsource: `https://cdn.jsdelivr.net/fontsource/fonts/{name}@latest/latin-400-normal.woff2`
+  - fc3: `https://cdn.jsdelivr.net/npm/fc3/index.css`
 - 通过 `&text=` 参数只加载预览所需字符，确保字体文件能被正确请求
-- 保留 `cssUrl` 机制支持 @chinese-fonts CDN 作为补充来源
 - 英文字体精简到 ~20 种，去除重复和相似字体
 
 ## Impact
