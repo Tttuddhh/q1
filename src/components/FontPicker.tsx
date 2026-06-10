@@ -14,9 +14,10 @@ interface FontPickerItemProps {
   font: FontData;
   isActive: boolean;
   onSelect: (font: FontData) => void;
+  isLoaded: boolean;
 }
 
-function FontPickerItem({ font, isActive, onSelect }: FontPickerItemProps) {
+function FontPickerItem({ font, isActive, onSelect, isLoaded }: FontPickerItemProps) {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
@@ -41,7 +42,7 @@ function FontPickerItem({ font, isActive, onSelect }: FontPickerItemProps) {
     >
       <span
         style={{
-          fontFamily: font.family,
+          fontFamily: isLoaded ? font.family : 'inherit',
           fontSize: 14,
           lineHeight: 1.3,
           overflow: 'hidden',
@@ -49,6 +50,8 @@ function FontPickerItem({ font, isActive, onSelect }: FontPickerItemProps) {
           whiteSpace: 'nowrap',
           color: '#111827',
           display: 'block',
+          opacity: isLoaded ? 1 : 0.5,
+          transition: 'opacity 0.3s ease, font-family 0.3s ease',
         }}
       >
         {font.preview}
@@ -69,13 +72,19 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [loadedFonts, setLoadedFonts] = useState<Set<string>>(new Set());
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   // Preload all fonts when picker opens
   useEffect(() => {
     if (isOpen) {
-      preloadFonts(FONTS.map(f => ({ googleFontName: f.googleFontName, preview: f.preview })));
+      preloadFonts(
+        FONTS.map(f => ({ googleFontName: f.googleFontName, category: f.category }))
+      ).then(() => {
+        // After all fonts are preloaded, mark them as loaded
+        setLoadedFonts(new Set(FONTS.map(f => f.name)));
+      });
     }
   }, [isOpen]);
 
@@ -124,7 +133,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const handleSelect = useCallback(
     (font: FontData) => {
       if (font.googleFontName) {
-        loadGoogleFont(font.googleFontName, font.preview);
+        loadGoogleFont(font.googleFontName, font.category === 'chinese');
       }
       onSelect(font);
       setIsOpen(false);
@@ -288,6 +297,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                       font={font}
                       isActive={currentFont === font.name}
                       onSelect={handleSelect}
+                      isLoaded={loadedFonts.has(font.name)}
                     />
                   ))}
                 </div>
