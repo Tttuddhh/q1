@@ -1,0 +1,8 @@
+- [ ] 所有中文字体都真实存在于 Google Fonts 或可靠 CDN
+- [ ] category: 'chinese' 的字体数量 >= 150
+- [ ] 没有重复的字体 name
+- [ ] 日文/韩文字体正确归类，不混入 chinese 分类
+- [ ] 每个中文字体都有中文 displayName
+- [ ] 字体加载使用 &text= 参数优化
+- [ ] npm run build 通过无错误
+- [ ] 预览中字体选择器显示正确，中文字体可渲染
