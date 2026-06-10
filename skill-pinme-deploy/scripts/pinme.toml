@@ -1,0 +1,25 @@
+# PinMe Project Configuration Template
+# Copy this file to your project root and customize as needed
+
+[project]
+# Project name (used for display and URL generation)
+name = "my-app"
+
+# Project description
+description = "A static website deployed via PinMe"
+
+# Build command (optional - deploy.sh will use this if provided)
+build_cmd = "npm run build"
+
+# Output directory containing static files
+# Auto-detected: dist/ > build/ > out/ > public/ > current dir
+output_dir = "dist"
+
+[deploy]
+# PinMe upload options
+# PinMe uses IPFS for decentralized storage
+# No additional config needed - just run: pinme upload <dir>
+
+[env]
+# Environment variables for build (optional)
+# NODE_ENV = "production"

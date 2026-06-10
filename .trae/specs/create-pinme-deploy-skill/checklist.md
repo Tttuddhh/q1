@@ -1,0 +1,7 @@
+- [ ] skill.md 包含 PinMe 简介、快速开始、命令参考、限制说明
+- [ ] deploy.sh 支持自动安装 pinme CLI
+- [ ] deploy.sh 支持自动检测构建输出目录
+- [ ] deploy.sh 支持 --name 和 --dir 参数
+- [ ] deploy.sh 执行 pinme upload 并返回 URL
+- [ ] pinme.toml 配置模板格式正确
+- [ ] 技能包 zip 文件结构正确
