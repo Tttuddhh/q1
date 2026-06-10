@@ -6,7 +6,7 @@ function makeLoadKey(font: { googleFontName?: string; cssUrl?: string; name: str
   return 'sys:' + font.name;
 }
 
-export function loadGoogleFont(googleFontName: string): void {
+export function loadGoogleFont(googleFontName: string, text?: string): void {
   if (!googleFontName || loadedFonts.has('gf:' + googleFontName)) {
     return;
   }
@@ -18,10 +18,14 @@ export function loadGoogleFont(googleFontName: string): void {
   if (typeof document === 'undefined') {
     return;
   }
+  let href = 'https://fonts.googleapis.com/css2?family=' + googleFontName + '&display=swap';
+  if (text) {
+    href += '&text=' + encodeURIComponent(text);
+  }
   const link = document.createElement('link');
   link.id = linkId;
   link.rel = 'stylesheet';
-  link.href = 'https://fonts.googleapis.com/css2?family=' + googleFontName + '&display=swap';
+  link.href = href;
   document.head.appendChild(link);
   loadedFonts.add('gf:' + googleFontName);
 }
@@ -98,6 +102,8 @@ export async function loadFontAsync(
     } else if (font.googleFontName) {
       linkId = 'google-font-' + font.googleFontName.replace(/\+/g, '-');
       href = 'https://fonts.googleapis.com/css2?family=' + font.googleFontName + '&display=swap';
+      const sampleText = font.previewText || '天地玄黄';
+      href += '&text=' + encodeURIComponent(sampleText);
       familyNameForCheck = font.googleFontName.replace(/\+/g, ' ');
     } else {
       loadedFonts.add(key);

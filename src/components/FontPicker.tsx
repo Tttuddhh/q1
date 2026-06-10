@@ -10,15 +10,19 @@ interface FontPickerProps {
   onSelect: (font: FontData) => void;
 }
 
-const CATEGORY_ORDER: Array<'chinese' | 'english' | 'other'> = [
+const CATEGORY_ORDER: Array<'chinese' | 'english' | 'japanese' | 'korean' | 'other'> = [
   'chinese',
   'english',
+  'japanese',
+  'korean',
   'other',
 ];
 
 const CATEGORY_LABELS: Record<string, string> = {
   chinese: '中文字体',
   english: '英文字体',
+  japanese: '日文字体',
+  korean: '韩文字体',
   other: '其他字体',
 };
 
