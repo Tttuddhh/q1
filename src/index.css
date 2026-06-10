@@ -944,6 +944,42 @@ body {
   color: inherit !important;
 }
 
+/* Table styles in editor */
+.ProseMirror table {
+  border-collapse: collapse !important;
+  width: 100% !important;
+  margin: 1em 0 !important;
+  font-size: 0.95em !important;
+}
+
+.ProseMirror table td,
+.ProseMirror table th {
+  border: 1px solid #d1d5db !important;
+  padding: 8px 12px !important;
+  min-width: 60px !important;
+  vertical-align: top !important;
+}
+
+.ProseMirror table th {
+  background: #f3f4f6 !important;
+  font-weight: 600 !important;
+  color: #374151 !important;
+}
+
+.ProseMirror table td {
+  background: #ffffff !important;
+}
+
+.ProseMirror table td p,
+.ProseMirror table th p {
+  margin: 0 !important;
+  line-height: 1.5 !important;
+}
+
+.ProseMirror .selectedCell:after {
+  background: color-mix(in srgb, var(--color-primary) 15%, transparent) !important;
+}
+
 /* Tag */
 .tag {
   display: inline-flex;

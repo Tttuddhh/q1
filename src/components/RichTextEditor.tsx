@@ -870,9 +870,11 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const [highlightColor, setHighlightColor] = useState('#fef08a');
   const [activeFormats, setActiveFormats] = useState<Set<string>>(new Set());
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [showTablePicker, setShowTablePicker] = useState(false);
   const [currentFontName, setCurrentFontName] = useState<string>(SYSTEM_FONT.name);
   const lastSelectedFontName = useRef<string>(SYSTEM_FONT.name);
   const emojiButtonRef = useRef<HTMLDivElement>(null);
+  const tableButtonRef = useRef<HTMLDivElement>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   const handleFontSelect = useCallback((font: FontData) => {
@@ -984,9 +986,92 @@ const insertFile = useCallback(() => {
   input.click();
 }, [editor]);
 
-const insertTable = useCallback(() => {
+function TableGridPicker({
+  onSelect,
+  onClose,
+}: {
+  onSelect: (rows: number, cols: number) => void;
+  onClose: () => void;
+}) {
+  const panelRef = useRef<HTMLDivElement>(null);
+  const [hovered, setHovered] = useState<{ row: number; col: number } | null>(null);
+  const GRID_SIZE = 7;
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (panelRef.current && !panelRef.current.contains(event.target as Node)) {
+        onClose();
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [onClose]);
+
+  return (
+    <div
+      ref={panelRef}
+      style={{
+        position: 'absolute',
+        top: '100%',
+        right: 0,
+        zIndex: 1000,
+        background: '#ffffff',
+        border: '1px solid #e5e7eb',
+        borderRadius: 8,
+        boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
+        padding: 12,
+      }}
+    >
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${GRID_SIZE}, 24px)`,
+          gridTemplateRows: `repeat(${GRID_SIZE}, 24px)`,
+          gap: 3,
+        }}
+      >
+        {Array.from({ length: GRID_SIZE * GRID_SIZE }).map((_, index) => {
+          const row = Math.floor(index / GRID_SIZE);
+          const col = index % GRID_SIZE;
+          const isHighlighted = hovered && row <= hovered.row && col <= hovered.col;
+
+          return (
+            <div
+              key={index}
+              onMouseEnter={() => setHovered({ row, col })}
+              onClick={() => onSelect(row + 1, col + 1)}
+              style={{
+                width: 24,
+                height: 24,
+                borderRadius: 3,
+                border: '1px solid #e5e7eb',
+                background: isHighlighted ? 'var(--color-primary, #FF743D)' : '#f9fafb',
+                cursor: 'pointer',
+                transition: 'background 0.1s ease',
+              }}
+            />
+          );
+        })}
+      </div>
+      <div
+        style={{
+          marginTop: 8,
+          textAlign: 'center',
+          fontSize: 13,
+          color: '#6b7280',
+          minHeight: 20,
+        }}
+      >
+        {hovered ? `${hovered.row + 1} x ${hovered.col + 1}` : '\u00A0'}
+      </div>
+    </div>
+  );
+}
+
+const handleTableSelect = useCallback((rows: number, cols: number) => {
   if (!editor) return;
-  editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run();
+  editor.chain().focus().insertTable({ rows, cols, withHeaderRow: true }).run();
+  setShowTablePicker(false);
 }, [editor]);
 
   if (!editor) {
@@ -1199,12 +1284,21 @@ const insertTable = useCallback(() => {
         >
           <HugeiconsIcon icon={File01Icon} size={20} strokeWidth={2} />
         </ToolbarButton>
-        <ToolbarButton
-          onClick={insertTable}
-          title={t('editor.table') || '表格'}
-        >
-          <HugeiconsIcon icon={LayoutTable01Icon} size={20} strokeWidth={2} />
-        </ToolbarButton>
+        <div ref={tableButtonRef} style={{ position: 'relative' }}>
+          <ToolbarButton
+            active={showTablePicker}
+            onClick={() => setShowTablePicker(!showTablePicker)}
+            title={t('editor.table') || '表格'}
+          >
+            <HugeiconsIcon icon={LayoutTable01Icon} size={20} strokeWidth={2} />
+          </ToolbarButton>
+          {showTablePicker && (
+            <TableGridPicker
+              onSelect={handleTableSelect}
+              onClose={() => setShowTablePicker(false)}
+            />
+          )}
+        </div>
       </div>
 
       {/* Editor content */}
