@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Search01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
 import { FONTS, SYSTEM_FONT, type FontData } from '../data/fonts';
-import { loadGoogleFont, preloadFonts } from '../utils/fontLoader';
+import { loadFontAsync, preloadFonts } from '../utils/fontLoader';
 import { useTranslation } from '../i18n';
 
 interface FontPickerProps {
@@ -54,8 +54,11 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
       preloadStartedRef.current = true;
       setIsPreloading(true);
 
-      const fontsToLoad = FONTS.filter(f => f.googleFontName).map(f => ({
-        googleFontName: f.googleFontName,
+      const fontsToLoad = FONTS.filter(f => f.googleFontName || f.cssUrl).map(f => ({
+        googleFontName: f.googleFontName || undefined,
+        cssUrl: f.cssUrl || undefined,
+        name: f.name,
+        family: f.family,
         previewText: f.displayName || f.name,
       }));
 
@@ -100,9 +103,13 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
 
   const handleSelect = useCallback(
     (font: FontData) => {
-      if (font.googleFontName) {
-        loadGoogleFont(font.googleFontName);
-      }
+      loadFontAsync({
+        googleFontName: font.googleFontName || undefined,
+        cssUrl: font.cssUrl || undefined,
+        name: font.name,
+        family: font.family,
+        previewText: font.displayName || font.name,
+      }).catch(() => {});
       onSelect(font);
       setIsOpen(false);
       setSearchQuery('');
