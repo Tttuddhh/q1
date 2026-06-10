@@ -315,18 +315,6 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                         >
                           {font.displayName || font.name}
                         </span>
-                        {font.displayName && font.displayName !== font.name && (
-                          <span
-                            style={{
-                              fontSize: 11,
-                              color: '#9ca3af',
-                              display: 'block',
-                              marginTop: 2,
-                            }}
-                          >
-                            {font.name}
-                          </span>
-                        )}
                       </button>
                     );
                   })}
