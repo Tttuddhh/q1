@@ -56,7 +56,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
 
       const fontsToLoad = FONTS.filter(f => f.googleFontName).map(f => ({
         googleFontName: f.googleFontName,
-        previewText: f.previewText,
+        previewText: f.displayName || f.name,
       }));
 
       preloadFonts(fontsToLoad)
