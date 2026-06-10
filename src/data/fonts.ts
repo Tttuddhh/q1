@@ -27,7 +27,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
     tags: ['chinese', 'sans'],
-    preview: 'Noto Sans SC',
+    preview: '思源黑体',
   },
   {
     name: 'Noto Serif SC',
@@ -35,7 +35,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Serif+SC',
     category: 'chinese',
     tags: ['chinese', 'serif'],
-    preview: 'Noto Serif SC',
+    preview: '思源宋体',
   },
   {
     name: 'Ma Shan Zheng',
@@ -43,7 +43,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Ma+Shan+Zheng',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
-    preview: 'Ma Shan Zheng',
+    preview: '马善政毛笔',
   },
   {
     name: 'Zhi Mang Xing',
@@ -51,7 +51,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Zhi+Mang+Xing',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
-    preview: 'Zhi Mang Xing',
+    preview: '志莽行',
   },
   {
     name: 'Long Cang',
@@ -59,7 +59,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Long+Cang',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
-    preview: 'Long Cang',
+    preview: '龙苍',
   },
   {
     name: 'Liu Jian Mao Cao',
@@ -67,39 +67,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Liu+Jian+Mao+Cao',
     category: 'chinese',
     tags: ['chinese', 'handwriting'],
-    preview: 'Liu Jian Mao Cao',
-  },
-  {
-    name: 'LXGW WenKai',
-    family: '"LXGW WenKai", cursive',
-    googleFontName: 'LXGW+WenKai',
-    category: 'chinese',
-    tags: ['chinese', 'handwriting'],
-    preview: 'LXGW WenKai',
-  },
-  {
-    name: 'ZCOOL KuaiLe',
-    family: '"ZCOOL KuaiLe", cursive',
-    googleFontName: 'ZCOOL+KuaiLe',
-    category: 'chinese',
-    tags: ['chinese', 'cute'],
-    preview: 'ZCOOL KuaiLe',
-  },
-  {
-    name: 'ZCOOL QingKe HuangYou',
-    family: '"ZCOOL QingKe HuangYou", sans-serif',
-    googleFontName: 'ZCOOL+QingKe+HuangYou',
-    category: 'chinese',
-    tags: ['chinese', 'cute'],
-    preview: 'ZCOOL QingKe HuangYou',
-  },
-  {
-    name: 'ZCOOL GaoDuanHei',
-    family: '"ZCOOL GaoDuanHei", sans-serif',
-    googleFontName: 'ZCOOL+GaoDuanHei',
-    category: 'chinese',
-    tags: ['chinese', 'sans'],
-    preview: 'ZCOOL GaoDuanHei',
+    preview: '柳公权草书',
   },
 
   // ===== 英文字体 =====
@@ -141,7 +109,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Playfair+Display',
     category: 'english',
     tags: ['english', 'serif'],
-    preview: 'Playfair Display',
+    preview: 'Playfair',
   },
   {
     name: 'Merriweather',
@@ -173,7 +141,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Dancing+Script',
     category: 'english',
     tags: ['english', 'handwriting'],
-    preview: 'Dancing Script',
+    preview: 'Dancing',
   },
   {
     name: 'Caveat',
@@ -213,7 +181,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'JetBrains+Mono',
     category: 'english',
     tags: ['english', 'sans'],
-    preview: 'JetBrains Mono',
+    preview: 'JetBrains',
   },
   {
     name: 'Bebas Neue',
@@ -239,7 +207,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+JP',
     category: 'other',
     tags: ['other', 'sans'],
-    preview: 'Noto Sans JP',
+    preview: '日本語',
   },
   {
     name: 'Noto Sans KR',
@@ -247,7 +215,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+KR',
     category: 'other',
     tags: ['other', 'sans'],
-    preview: 'Noto Sans KR',
+    preview: '한국어',
   },
   {
     name: 'Noto Sans Arabic',
@@ -255,7 +223,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Noto+Sans+Arabic',
     category: 'other',
     tags: ['other', 'sans'],
-    preview: 'Noto Sans Arabic',
+    preview: 'العربية',
   },
   {
     name: 'Cinzel',
@@ -271,7 +239,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Permanent+Marker',
     category: 'other',
     tags: ['other', 'handwriting'],
-    preview: 'Permanent Marker',
+    preview: 'Marker',
   },
   {
     name: 'Press Start 2P',
@@ -279,7 +247,7 @@ export const FONTS: FontData[] = [
     googleFontName: 'Press+Start+2P',
     category: 'other',
     tags: ['other', 'gothic'],
-    preview: 'Press Start 2P',
+    preview: 'PIXEL',
   },
 ];
 

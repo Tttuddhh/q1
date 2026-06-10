@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Search01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
 import { FONTS, SYSTEM_FONT, type FontData } from '../data/fonts';
-import { loadGoogleFont } from '../utils/fontLoader';
+import { loadGoogleFont, preloadFonts } from '../utils/fontLoader';
 import { useTranslation } from '../i18n';
 
 interface FontPickerProps {
@@ -75,11 +75,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   // Preload all fonts when picker opens
   useEffect(() => {
     if (isOpen) {
-      FONTS.forEach(font => {
-        if (font.googleFontName) {
-          loadGoogleFont(font.googleFontName);
-        }
-      });
+      preloadFonts(FONTS.map(f => ({ googleFontName: f.googleFontName, preview: f.preview })));
     }
   }, [isOpen]);
 
@@ -128,7 +124,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const handleSelect = useCallback(
     (font: FontData) => {
       if (font.googleFontName) {
-        loadGoogleFont(font.googleFontName);
+        loadGoogleFont(font.googleFontName, font.preview);
       }
       onSelect(font);
       setIsOpen(false);
