@@ -1,0 +1,847 @@
+[
+  {
+    "pkg": "GuanKiapTsingKhai",
+    "name": "@chinese-fonts/guan-kiap-tsing-khai",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": null,
+    "variants": [],
+    "cssUrl": null,
+    "error": "No variants found"
+  },
+  {
+    "pkg": "LxgwNeoZhiSong",
+    "name": "@chinese-fonts/lxgw-neo-zhi-song",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": null,
+    "variants": [],
+    "cssUrl": null,
+    "error": "No variants found"
+  },
+  {
+    "pkg": "ToneOZ-Pinyin-Kai",
+    "name": "@chinese-fonts/toneoz-pinyin-kai-simplified",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": null,
+    "variants": [],
+    "cssUrl": null,
+    "error": "No variants found"
+  },
+  {
+    "pkg": "ToneOZ-Pinyin-WenKai",
+    "name": "@chinese-fonts/toneoz-pinyin-wenkai",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": null,
+    "variants": [],
+    "cssUrl": null,
+    "error": "No variants found"
+  },
+  {
+    "pkg": "ToneOZ-RadicalZ-Kai",
+    "name": "@chinese-fonts/toneoz-radicalz-kai",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": null,
+    "variants": [],
+    "cssUrl": null,
+    "error": "No variants found"
+  },
+  {
+    "pkg": "ToneOZ-Tsuipita",
+    "name": "@chinese-fonts/toneoz-tsuipita",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": null,
+    "variants": [],
+    "cssUrl": null,
+    "error": "No variants found"
+  },
+  {
+    "pkg": "XiaoheSimplify",
+    "name": "@chinese-fonts/xiaohe-simplify",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": null,
+    "variants": [],
+    "cssUrl": null,
+    "error": "No variants found"
+  },
+  {
+    "pkg": "blbbsxt",
+    "name": "@chinese-fonts/blbbsxt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "bailubangbangshouxieti",
+    "variants": [
+      "白路棒棒手写体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/blbbsxt@latest/dist/%E7%99%BD%E8%B7%AF%E6%A3%92%E6%A3%92%E6%89%8B%E5%86%99%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "bwckkt",
+    "name": "@chinese-fonts/bwckkt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "BWCKKT",
+    "variants": [
+      "白无常可可体-Bold",
+      "白无常可可体-Light",
+      "白无常可可体-Regular"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/bwckkt@latest/dist/%E7%99%BD%E6%97%A0%E5%B8%B8%E5%8F%AF%E5%8F%AF%E4%BD%93-Bold/result.css"
+  },
+  {
+    "pkg": "bxzlzt",
+    "name": "@chinese-fonts/bxzlzt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "LogoSC LongZhuTi",
+    "variants": [
+      "标小智龙珠体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/bxzlzt@latest/dist/%E6%A0%87%E5%B0%8F%E6%99%BA%E9%BE%99%E7%8F%A0%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "cef",
+    "name": "@chinese-fonts/cef",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "CEF Fonts CJK Mono",
+    "variants": [
+      "CEFFontsCJKMono-Regular",
+      "CEFFontsCJK-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/cef@latest/dist/CEFFontsCJKMono-Regular/result.css"
+  },
+  {
+    "pkg": "cezkzdbs",
+    "name": "@chinese-fonts/cezkzdbs",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "TsangerZhoukeZhengdabangshu",
+    "variants": [
+      "仓耳周珂正大榜书"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/cezkzdbs@latest/dist/%E4%BB%93%E8%80%B3%E5%91%A8%E7%8F%82%E6%AD%A3%E5%A4%A7%E6%A6%9C%E4%B9%A6/result.css"
+  },
+  {
+    "pkg": "cqscbbt",
+    "name": "@chinese-fonts/cqscbbt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "YunFengchongqingbangbangti",
+    "variants": [
+      "YunFengZiKuZhongQingShanChengBangBangTi-2"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/cqscbbt@latest/dist/YunFengZiKuZhongQingShanChengBangBangTi-2/result.css"
+  },
+  {
+    "pkg": "crgkk",
+    "name": "@chinese-fonts/crgkk",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "chengrongguangke",
+    "variants": [
+      "程荣光刻楷"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/crgkk@latest/dist/%E7%A8%8B%E8%8D%A3%E5%85%89%E5%88%BB%E6%A5%B7/result.css"
+  },
+  {
+    "pkg": "cubic",
+    "name": "@chinese-fonts/cubic",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Cubic 11",
+    "variants": [
+      "Cubic"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/cubic@latest/dist/Cubic/result.css"
+  },
+  {
+    "pkg": "dyh",
+    "name": "@chinese-fonts/dyh",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Smiley Sans Oblique",
+    "variants": [
+      "SmileySans-Oblique"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/dyh@latest/dist/SmileySans-Oblique/result.css"
+  },
+  {
+    "pkg": "dymh",
+    "name": "@chinese-fonts/dymh",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Douyin Sans",
+    "variants": [
+      "DouyinSansBold"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/dymh@latest/dist/DouyinSansBold/result.css"
+  },
+  {
+    "pkg": "dyzgt",
+    "name": "@chinese-fonts/dyzgt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "DOUYU Font",
+    "variants": [
+      "斗鱼追光体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/dyzgt@latest/dist/%E6%96%97%E9%B1%BC%E8%BF%BD%E5%85%89%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "fbdzt",
+    "name": "@chinese-fonts/fbdzt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Feibo Zheng Dots",
+    "variants": [
+      "飞波正点体V2_1"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/fbdzt@latest/dist/%E9%A3%9E%E6%B3%A2%E6%AD%A3%E7%82%B9%E4%BD%93V2_1/result.css"
+  },
+  {
+    "pkg": "fhst",
+    "name": "@chinese-fonts/fhst",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "FlyFlowerSong",
+    "variants": [
+      "飞花宋体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/fhst@latest/dist/%E9%A3%9E%E8%8A%B1%E5%AE%8B%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "hcqyt",
+    "name": "@chinese-fonts/hcqyt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "寒蝉全圆体",
+    "variants": [
+      "ChillRoundFRegular",
+      "ChillRoundFBold"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/hcqyt@latest/dist/ChillRoundFRegular/result.css"
+  },
+  {
+    "pkg": "hldqjt",
+    "name": "@chinese-fonts/hldqjt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "QIJIFALLBACK",
+    "variants": [
+      "qiji-fallback"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/hldqjt@latest/dist/qiji-fallback/result.css"
+  },
+  {
+    "pkg": "hlxsjt",
+    "name": "@chinese-fonts/hlxsjt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "hongleixingshu",
+    "variants": [
+      "鸿雷行书简体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/hlxsjt@latest/dist/%E9%B8%BF%E9%9B%B7%E8%A1%8C%E4%B9%A6%E7%AE%80%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "hqzmt",
+    "name": "@chinese-fonts/hqzmt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Hangeuljaemin4.0",
+    "variants": [
+      "Hangeuljaemin4-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/hqzmt@latest/dist/Hangeuljaemin4-Regular/result.css"
+  },
+  {
+    "pkg": "hwmct",
+    "name": "@chinese-fonts/hwmct",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Huiwen-mincho",
+    "variants": [
+      "汇文明朝体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/hwmct@latest/dist/%E6%B1%87%E6%96%87%E6%98%8E%E6%9C%9D%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "hyqzp",
+    "name": "@chinese-fonts/hyqzp",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "huangyinqi zhaopai",
+    "variants": [
+      "黄引齐招牌体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/hyqzp@latest/dist/%E9%BB%84%E5%BC%95%E9%BD%90%E6%8B%9B%E7%89%8C%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "jhlst",
+    "name": "@chinese-fonts/jhlst",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "KingHwa_OldSong",
+    "variants": [
+      "京華老宋体v1_007",
+      "京華老宋体v2_002"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/jhlst@latest/dist/%E4%BA%AC%E8%8F%AF%E8%80%81%E5%AE%8B%E4%BD%93v1_007/result.css"
+  },
+  {
+    "pkg": "jnjj",
+    "name": "@chinese-fonts/jnjj",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "荆南俊俊体",
+    "variants": [
+      "JUNJUN"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/jnjj@latest/dist/JUNJUN/result.css"
+  },
+  {
+    "pkg": "jpdzt",
+    "name": "@chinese-fonts/jpdzt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "BoutiqueBitmap9x9 1.6 R",
+    "variants": [
+      "BoutiqueBitmap9x9_1_6",
+      "BoutiqueBitmap7x7_1_6"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/jpdzt@latest/dist/BoutiqueBitmap9x9_1_6/result.css"
+  },
+  {
+    "pkg": "jxzk",
+    "name": "@chinese-fonts/jxzk",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "jiangxizhuokai",
+    "variants": [
+      "江西拙楷"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/jxzk@latest/dist/%E6%B1%9F%E8%A5%BF%E6%8B%99%E6%A5%B7/result.css"
+  },
+  {
+    "pkg": "jyhpws",
+    "name": "@chinese-fonts/jyhpws",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "极影毁片文宋 Medium",
+    "variants": [
+      "极影毁片文宋"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/jyhpws@latest/dist/%E6%9E%81%E5%BD%B1%E6%AF%81%E7%89%87%E6%96%87%E5%AE%8B/result.css"
+  },
+  {
+    "pkg": "kksjt",
+    "name": "@chinese-fonts/kksjt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "快看世界体",
+    "variants": [
+      "kuaikanshijieti20231213"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/kksjt@latest/dist/kuaikanshijieti20231213/result.css"
+  },
+  {
+    "pkg": "lxgwmanhei",
+    "name": "@chinese-fonts/lxgwmanhei",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "LXGW Marker Gothic",
+    "variants": [
+      "LXGWMarkerGothic"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/lxgwmanhei@latest/dist/LXGWMarkerGothic/result.css"
+  },
+  {
+    "pkg": "lxgwwenkai",
+    "name": "@chinese-fonts/lxgwwenkai",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "LXGW WenKai Light",
+    "variants": [
+      "LXGWWenKai-Light",
+      "LXGWWenKai-Medium",
+      "LXGWWenKai-Regular",
+      "LXGWWenKaiMono-Light",
+      "LXGWWenKaiMono-Medium",
+      "LXGWWenKaiMono-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/lxgwwenkai@latest/dist/LXGWWenKai-Light/result.css"
+  },
+  {
+    "pkg": "lxgwwenkaibright",
+    "name": "@chinese-fonts/lxgwwenkaibright",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "LXGW Bright",
+    "variants": [
+      "LXGWBright-Italic",
+      "LXGWBright-Light",
+      "LXGWBright-LightItalic",
+      "LXGWBright-Medium",
+      "LXGWBright-MediumItalic",
+      "LXGWBright-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/lxgwwenkaibright@latest/dist/LXGWBright-Italic/result.css"
+  },
+  {
+    "pkg": "lywkpmydb",
+    "name": "@chinese-fonts/lywkpmydb",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "LXGW WenKai Mono Screen",
+    "variants": [
+      "LXGWWenKaiMonoScreen",
+      "LXGWWenKaiScreen"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/lywkpmydb@latest/dist/LXGWWenKaiMonoScreen/result.css"
+  },
+  {
+    "pkg": "maple-mono-cn",
+    "name": "@chinese-fonts/maple-mono-cn",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Maple Mono CN",
+    "variants": [
+      "MapleMono-CN-Bold",
+      "MapleMono-CN-BoldItalic",
+      "MapleMono-CN-ExtraBold",
+      "MapleMono-CN-ExtraBoldItalic",
+      "MapleMono-CN-ExtraLight",
+      "MapleMono-CN-ExtraLightItalic",
+      "MapleMono-CN-Italic",
+      "MapleMono-CN-Light",
+      "MapleMono-CN-LightItalic",
+      "MapleMono-CN-Medium",
+      "MapleMono-CN-MediumItalic",
+      "MapleMono-CN-Regular",
+      "MapleMono-CN-SemiBold",
+      "MapleMono-CN-SemiBoldItalic",
+      "MapleMono-CN-Thin",
+      "MapleMono-CN-ThinItalic"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/maple-mono-cn@latest/dist/MapleMono-CN-Bold/result.css"
+  },
+  {
+    "pkg": "mksjh",
+    "name": "@chinese-fonts/mksjh",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "MaokenAssortedSans",
+    "variants": [
+      "MaokenAssortedSans"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/mksjh@latest/dist/MaokenAssortedSans/result.css"
+  },
+  {
+    "pkg": "mkwtyt",
+    "name": "@chinese-fonts/mkwtyt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "MaoKenTangYuan (beta)",
+    "variants": [
+      "MaoKenTangYuan"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/mkwtyt@latest/dist/MaoKenTangYuan/result.css"
+  },
+  {
+    "pkg": "mkzyt",
+    "name": "@chinese-fonts/mkzyt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "MaokenZhuyuanTi",
+    "variants": [
+      "猫啃珠圆体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/mkzyt@latest/dist/%E7%8C%AB%E5%95%83%E7%8F%A0%E5%9C%86%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "moon-stars-kai",
+    "name": "@chinese-fonts/moon-stars-kai",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Moon Stars Kai",
+    "variants": [
+      "MoonStarsKai-Bold",
+      "MoonStarsKai-Light",
+      "MoonStarsKai-Regular",
+      "MoonStarsKaiHW-Bold",
+      "MoonStarsKaiHW-Light",
+      "MoonStarsKaiHW-Regular",
+      "MoonStarsKaiT-Bold",
+      "MoonStarsKaiT-Light",
+      "MoonStarsKaiT-Regular",
+      "MoonStarsKaiTHW-Bold",
+      "MoonStarsKaiTHW-Light",
+      "MoonStarsKaiTHW-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/moon-stars-kai@latest/dist/MoonStarsKai-Bold/result.css"
+  },
+  {
+    "pkg": "mzxst",
+    "name": "@chinese-fonts/mzxst",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "MuzaiPixel",
+    "variants": [
+      "MZPXflat",
+      "MZPXorig"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/mzxst@latest/dist/MZPXflat/result.css"
+  },
+  {
+    "pkg": "pfgzt",
+    "name": "@chinese-fonts/pfgzt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "PING FANG GONG ZI TI",
+    "variants": [
+      "平方公子体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/pfgzt@latest/dist/%E5%B9%B3%E6%96%B9%E5%85%AC%E5%AD%90%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "pfljhfyt",
+    "name": "@chinese-fonts/pfljhfyt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "平方赖江湖飞扬体",
+    "variants": [
+      "PingFangLaiJiangHuFeiYangTi-2"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/pfljhfyt@latest/dist/PingFangLaiJiangHuFeiYangTi-2/result.css"
+  },
+  {
+    "pkg": "pfljhlyt",
+    "name": "@chinese-fonts/pfljhlyt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "平方赖江湖琅琊体",
+    "variants": [
+      "平方赖江湖琅琊体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/pfljhlyt@latest/dist/%E5%B9%B3%E6%96%B9%E8%B5%96%E6%B1%9F%E6%B9%96%E7%90%85%E7%90%8A%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "pfmmd",
+    "name": "@chinese-fonts/pfmmd",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "PING FANG MENG MNEG DA",
+    "variants": [
+      "平方萌萌哒"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/pfmmd@latest/dist/%E5%B9%B3%E6%96%B9%E8%90%8C%E8%90%8C%E5%93%92/result.css"
+  },
+  {
+    "pkg": "pmzdxxt",
+    "name": "@chinese-fonts/pmzdxxt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "PangMenZhengDao-XiXian",
+    "variants": [
+      "庞门正道细线体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/pmzdxxt@latest/dist/%E5%BA%9E%E9%97%A8%E6%AD%A3%E9%81%93%E7%BB%86%E7%BA%BF%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "qtbfsxt",
+    "name": "@chinese-fonts/qtbfsxt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "qiantubifengshouxieti",
+    "variants": [
+      "千图笔锋手写体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/qtbfsxt@latest/dist/%E5%8D%83%E5%9B%BE%E7%AC%94%E9%94%8B%E6%89%8B%E5%86%99%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "qxs",
+    "name": "@chinese-fonts/qxs",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "QuanPixel 8px",
+    "variants": [
+      "quan"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/qxs@latest/dist/quan/result.css"
+  },
+  {
+    "pkg": "rmjzqpybxs",
+    "name": "@chinese-fonts/rmjzqpybxs",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "瑞美加张清平硬笔行书",
+    "variants": [
+      "瑞美加张清平硬笔行书"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/rmjzqpybxs@latest/dist/%E7%91%9E%E7%BE%8E%E5%8A%A0%E5%BC%A0%E6%B8%85%E5%B9%B3%E7%A1%AC%E7%AC%94%E8%A1%8C%E4%B9%A6/result.css"
+  },
+  {
+    "pkg": "rzjkxzdmh",
+    "name": "@chinese-fonts/rzjkxzdmh",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "nzgrKangxi",
+    "variants": [
+      "nzgrKangxi"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/rzjkxzdmh@latest/dist/nzgrKangxi/result.css"
+  },
+  {
+    "pkg": "rzjryzzk",
+    "name": "@chinese-fonts/rzjryzzk",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "nzgrRuYinZouZhangKai",
+    "variants": [
+      "nzgrRuYinZouZhangKai"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/rzjryzzk@latest/dist/nzgrRuYinZouZhangKai/result.css"
+  },
+  {
+    "pkg": "scjssh",
+    "name": "@chinese-fonts/scjssh",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "SuCaiJiShi-SheHuiTi",
+    "variants": [
+      "素材集市社会体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/scjssh@latest/dist/%E7%B4%A0%E6%9D%90%E9%9B%86%E5%B8%82%E7%A4%BE%E4%BC%9A%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "sft",
+    "name": "@chinese-fonts/sft",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "The Peak Font 隨峰體 Beta",
+    "variants": [
+      "随峰体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/sft@latest/dist/%E9%9A%8F%E5%B3%B0%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "stdgt",
+    "name": "@chinese-fonts/stdgt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "STDongGuanTi",
+    "variants": [
+      "上图东观体-常规",
+      "上图东观体-粗体",
+      "上图东观体-细体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/stdgt@latest/dist/%E4%B8%8A%E5%9B%BE%E4%B8%9C%E8%A7%82%E4%BD%93-%E5%B8%B8%E8%A7%84/result.css"
+  },
+  {
+    "pkg": "stmdxf",
+    "name": "@chinese-fonts/stmdxf",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "shetumodengxiaofangti",
+    "variants": [
+      "摄图摩登小方体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/stmdxf@latest/dist/%E6%91%84%E5%9B%BE%E6%91%A9%E7%99%BB%E5%B0%8F%E6%96%B9%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "syftjkt",
+    "name": "@chinese-fonts/syftjkt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "YouSheShaYuFeiTeJianKangTi",
+    "variants": [
+      "优设鲨鱼菲特健康体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/syftjkt@latest/dist/%E4%BC%98%E8%AE%BE%E9%B2%A8%E9%B1%BC%E8%8F%B2%E7%89%B9%E5%81%A5%E5%BA%B7%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "sypxzs",
+    "name": "@chinese-fonts/sypxzs",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Source Han Serif CN for Display",
+    "variants": [
+      "思源屏显臻宋"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/sypxzs@latest/dist/%E6%80%9D%E6%BA%90%E5%B1%8F%E6%98%BE%E8%87%BB%E5%AE%8B/result.css"
+  },
+  {
+    "pkg": "syst",
+    "name": "@chinese-fonts/syst",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Source Han Serif CN VF",
+    "variants": [
+      "SourceHanSerifCN"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/syst@latest/dist/SourceHanSerifCN/result.css"
+  },
+  {
+    "pkg": "the-write-right-font",
+    "name": "@chinese-fonts/the-write-right-font",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "The Write Right Font",
+    "variants": [
+      "the-write-right-font-2023_0401"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/the-write-right-font@latest/dist/the-write-right-font-2023_0401/result.css"
+  },
+  {
+    "pkg": "tjl",
+    "name": "@chinese-fonts/tjl",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Tiejili",
+    "variants": [
+      "Tiejili_Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/tjl@latest/dist/Tiejili_Regular/result.css"
+  },
+  {
+    "pkg": "xiaolai",
+    "name": "@chinese-fonts/xiaolai",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Xiaolai SC",
+    "variants": [
+      "Xiaolai"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/xiaolai@latest/dist/Xiaolai/result.css"
+  },
+  {
+    "pkg": "xuandongkaishu",
+    "name": "@chinese-fonts/xuandongkaishu",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "XuandongKaishu",
+    "variants": [
+      "XuandongKaishu"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/xuandongkaishu@latest/dist/XuandongKaishu/result.css"
+  },
+  {
+    "pkg": "yfxy",
+    "name": "@chinese-fonts/yfxy",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "YuFanXinYu",
+    "variants": [
+      "YuFanXinYu-Bold",
+      "YuFanXinYu-Light",
+      "YuFanXinYu-Medium",
+      "YuFanXinYu-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/yfxy@latest/dist/YuFanXinYu-Bold/result.css"
+  },
+  {
+    "pkg": "yidianyan",
+    "name": "@chinese-fonts/yidianyan",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "I.Ngaan",
+    "variants": [
+      "yidianyan"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/yidianyan@latest/dist/yidianyan/result.css"
+  },
+  {
+    "pkg": "yozai",
+    "name": "@chinese-fonts/yozai",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Yozai",
+    "variants": [
+      "Yozai-Bold",
+      "Yozai-Light",
+      "Yozai-Medium",
+      "Yozai-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/yozai@latest/dist/Yozai-Bold/result.css"
+  },
+  {
+    "pkg": "yqt",
+    "name": "@chinese-fonts/yqt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Child Fun Sans Demo",
+    "variants": [
+      "ChildFunSans-Demo"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/yqt@latest/dist/ChildFunSans-Demo/result.css"
+  },
+  {
+    "pkg": "ysbth",
+    "name": "@chinese-fonts/ysbth",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "YouSheBiaoTiHei",
+    "variants": [
+      "优设标题黑"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/ysbth@latest/dist/%E4%BC%98%E8%AE%BE%E6%A0%87%E9%A2%98%E9%BB%91/result.css"
+  },
+  {
+    "pkg": "ysbzt",
+    "name": "@chinese-fonts/ysbzt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "峄山碑篆体",
+    "variants": [
+      "峄山碑篆体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/ysbzt@latest/dist/%E5%B3%84%E5%B1%B1%E7%A2%91%E7%AF%86%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "ysfxt",
+    "name": "@chinese-fonts/ysfxt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Slidefu",
+    "variants": [
+      "Slidefu-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/ysfxt@latest/dist/Slidefu-Regular/result.css"
+  },
+  {
+    "pkg": "ysyrxk",
+    "name": "@chinese-fonts/ysyrxk",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "slideyouran",
+    "variants": [
+      "slideyouran-Regular2_0"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/ysyrxk@latest/dist/slideyouran-Regular2_0/result.css"
+  },
+  {
+    "pkg": "yzgcxst",
+    "name": "@chinese-fonts/yzgcxst",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "YEFONTXiaoShiTou",
+    "variants": [
+      "也字工厂小石头"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/yzgcxst@latest/dist/%E4%B9%9F%E5%AD%97%E5%B7%A5%E5%8E%82%E5%B0%8F%E7%9F%B3%E5%A4%B4/result.css"
+  },
+  {
+    "pkg": "yzklct",
+    "name": "@chinese-fonts/yzklct",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Long Cang",
+    "variants": [
+      "有字库龙藏体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/yzklct@latest/dist/%E6%9C%89%E5%AD%97%E5%BA%93%E9%BE%99%E8%97%8F%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "zhbtt",
+    "name": "@chinese-fonts/zhbtt",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "zihunbiantaoti",
+    "variants": [
+      "字魂扁桃体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/zhbtt@latest/dist/%E5%AD%97%E9%AD%82%E6%89%81%E6%A1%83%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "zjmc",
+    "name": "@chinese-fonts/zjmc",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "SoukouMincho",
+    "variants": [
+      "装甲明朝体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/zjmc@latest/dist/%E8%A3%85%E7%94%B2%E6%98%8E%E6%9C%9D%E4%BD%93/result.css"
+  },
+  {
+    "pkg": "zkxw",
+    "name": "@chinese-fonts/zkxw",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "xiaowei",
+    "variants": [
+      "站酷小薇LOGO体_猫啃网"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/zkxw@latest/dist/%E7%AB%99%E9%85%B7%E5%B0%8F%E8%96%87LOGO%E4%BD%93_%E7%8C%AB%E5%95%83%E7%BD%91/result.css"
+  },
+  {
+    "pkg": "zlmyz",
+    "name": "@chinese-fonts/zlmyz",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "ZoomlaMengyas-A080",
+    "variants": [
+      "逐浪萌芽字"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/zlmyz@latest/dist/%E9%80%90%E6%B5%AA%E8%90%8C%E8%8A%BD%E5%AD%97/result.css"
+  },
+  {
+    "pkg": "zqfs",
+    "name": "@chinese-fonts/zqfs",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Zhuque Fangsong (technical preview)",
+    "variants": [
+      "ZhuqueFangsong-Regular"
+    ],
+    "cssUrl": "https://cdn.jsdelivr.net/npm/@chinese-fonts/zqfs@latest/dist/ZhuqueFangsong-Regular/result.css"
+  },
+  {
+    "pkg": "zqzmxs",
+    "name": "@chinese-fonts/zqzmxs",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "Zhi Mang Xing",
+    "variants": [
+      "钟齐志莽行书"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/zqzmxs@latest/dist/%E9%92%9F%E9%BD%90%E5%BF%97%E8%8E%BD%E8%A1%8C%E4%B9%A6/result.css"
+  },
+  {
+    "pkg": "zzqxmxht",
+    "name": "@chinese-fonts/zzqxmxht",
+    "displayName": "Self-host the Chinese Web Fonts! ",
+    "family": "FontQu Smile 常规",
+    "variants": [
+      "字制区喜脉喜欢体"
+    ],
+    "cssUrl": "https://unpkg.com/@chinese-fonts/zzqxmxht@latest/dist/%E5%AD%97%E5%88%B6%E5%8C%BA%E5%96%9C%E8%84%89%E5%96%9C%E6%AC%A2%E4%BD%93/result.css"
+  }
+]
