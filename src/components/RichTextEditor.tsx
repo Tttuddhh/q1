@@ -9,6 +9,7 @@ import TextAlign from '@tiptap/extension-text-align';
 import Link from '@tiptap/extension-link';
 import Image from '@tiptap/extension-image';
 import Placeholder from '@tiptap/extension-placeholder';
+import { loadFontAsync } from '../utils/fontLoader';
 import { HugeiconsIcon } from '@hugeicons/react';
 import {
   TextBoldIcon,
@@ -863,16 +864,35 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [currentFontName, setCurrentFontName] = useState<string>('');
   const emojiButtonRef = useRef<HTMLDivElement>(null);
+  const editorRef = useRef<ReturnType<typeof useEditor> | null>(null);
   const { addRecentEmoji } = useRecentEmojis();
 
   const handleFontSelect = useCallback((font: FontData) => {
-    if (!editor) return;
-    if (font.family === 'inherit') {
-      editor.chain().focus().unsetFontFamily().run();
+    const ed = editorRef.current;
+    if (!ed) return;
+    if (font.family === 'inherit' || font.family.includes('system-ui')) {
+      ed.chain().focus().unsetFontFamily().run();
       setCurrentFontName('');
     } else {
-      editor.chain().focus().setFontFamily(font.family).run();
-      setCurrentFontName(font.displayName || font.name);
+      // 先加载字体，加载完成后应用到编辑器
+      Promise.resolve()
+        .then(() =>
+          loadFontAsync({
+            googleFontName: font.googleFontName || undefined,
+            cssUrl: font.cssUrl,
+            name: font.name,
+            family: font.family,
+            previewText: font.displayName || font.name,
+            displayName: font.displayName,
+          })
+        )
+        .finally(() => {
+          const ed2 = editorRef.current;
+          if (ed2) {
+            ed2.chain().focus().setFontFamily(font.family).run();
+            setCurrentFontName(font.displayName || font.name);
+          }
+        });
     }
   }, []);
 
@@ -890,13 +910,13 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       Placeholder.configure({ placeholder: t('editor.placeholder') }),
     ],
     content,
-    onUpdate: ({ editor }) => {
-      onChange(editor.getHTML());
-      setActiveFormats(getActiveFormats(editor));
+    onUpdate: ({ editor: e }) => {
+      onChange(e.getHTML());
+      setActiveFormats(getActiveFormats(e));
     },
-    onSelectionUpdate: ({ editor }) => {
-      setActiveFormats(getActiveFormats(editor));
-      const fontFamily = editor.getAttributes('textStyle').fontFamily;
+    onSelectionUpdate: ({ editor: e }) => {
+      setActiveFormats(getActiveFormats(e));
+      const fontFamily = e.getAttributes('textStyle').fontFamily;
       if (fontFamily) {
         const found = FONTS.find(f => f.family === fontFamily);
         setCurrentFontName(found ? (found.displayName || found.name) : '');
@@ -908,6 +928,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
 
   useEffect(() => {
     if (editor) {
+      editorRef.current = editor;
       setActiveFormats(getActiveFormats(editor));
     }
   }, [editor]);

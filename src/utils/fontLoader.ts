@@ -1,84 +1,147 @@
+// 字体加载器
+// 支持：
+//   1) Google Fonts (通过 googleFontName 加载 CSS API)
+//   2) @chinese-fonts (通过 cssUrl 加载 jsDelivr CDN 上的 result.css)
+//   3) 系统字体 (无需加载)
+// 机制：
+//   - 通过 <link> 注入字体的 CSS 样式表
+//   - 等待 CSS 加载完成后，通过 document.fonts.load() 主动触发字体文件下载
+//   - 最后通过轮询 document.fonts.check() 验证字体确实可用
+
 const loadedFonts = new Set<string>();
 
-function makeLoadKey(font: { googleFontName?: string; cssUrl?: string; name: string }): string {
-  if (font.cssUrl) return 'css:' + font.cssUrl;
+function makeLoadKey(font: { googleFontName?: string; cssUrl?: string; name: string; family?: string }): string {
+  if (font.cssUrl) return 'css:' + font.family;
   if (font.googleFontName) return 'gf:' + font.googleFontName;
   return 'sys:' + font.name;
 }
 
-export function loadGoogleFont(googleFontName: string, text?: string): void {
-  if (!googleFontName || loadedFonts.has('gf:' + googleFontName)) {
-    return;
-  }
-  const linkId = 'google-font-' + googleFontName.replace(/\+/g, '-');
-  if (typeof document !== 'undefined' && document.getElementById(linkId)) {
-    loadedFonts.add('gf:' + googleFontName);
-    return;
-  }
-  if (typeof document === 'undefined') {
-    return;
-  }
-  let href = 'https://fonts.googleapis.com/css2?family=' + googleFontName + '&display=swap';
-  if (text) {
-    href += '&text=' + encodeURIComponent(text);
-  }
-  const link = document.createElement('link');
-  link.id = linkId;
+function injectLink(id: string, href: string): HTMLLinkElement {
+  let link = document.getElementById(id) as HTMLLinkElement | null;
+  if (link) return link;
+  link = document.createElement('link');
+  link.id = id;
   link.rel = 'stylesheet';
   link.href = href;
+  link.crossOrigin = 'anonymous';
   document.head.appendChild(link);
-  loadedFonts.add('gf:' + googleFontName);
+  return link;
 }
 
-function waitForLinkLoad(link: HTMLLinkElement): Promise<void> {
+function waitForLinkLoad(link: HTMLLinkElement, timeoutMs = 10000): Promise<boolean> {
   return new Promise((resolve) => {
-    let resolved = false;
-    const done = () => {
-      if (!resolved) {
-        resolved = true;
-        resolve();
-      }
+    let done = false;
+    const finish = (ok: boolean) => {
+      if (done) return;
+      done = true;
+      resolve(ok);
     };
-    link.addEventListener('load', done);
-    link.addEventListener('error', done);
-    setTimeout(done, 3000);
+    link.addEventListener('load', () => finish(true));
+    link.addEventListener('error', () => finish(false));
+    // 轮询兜底
+    const start = Date.now();
+    const timer = setInterval(() => {
+      if (done) {
+        clearInterval(timer);
+        return;
+      }
+      try {
+        if (link.sheet) {
+          clearInterval(timer);
+          finish(true);
+          return;
+        }
+      } catch {
+        clearInterval(timer);
+        finish(true);
+        return;
+      }
+      if (Date.now() - start > timeoutMs) {
+        clearInterval(timer);
+        finish(true);
+      }
+    }, 200);
   });
 }
 
-async function waitForFontReady(familyName: string, sampleText: string, maxWaitMs = 5000): Promise<boolean> {
-  if (typeof document === 'undefined' || !document.fonts || typeof document.fonts.check !== 'function') {
-    return false;
-  }
-  const fontSpec = '16px \"' + familyName + '\"';
+function extractFamily(family: string): string {
+  if (!family) return '';
+  const m = family.match(/['"]([^'"]+)['"]/);
+  if (m) return m[1];
+  return family.split(',')[0].trim();
+}
+
+async function waitForFontReady(
+  family: string,
+  sampleText: string = '字体 ABC',
+  timeoutMs = 10000,
+): Promise<boolean> {
+  if (typeof document === 'undefined' || !document.fonts) return false;
+  if (!family) return false;
+
+  const fontSpec = '24px "' + family + '"';
   const start = Date.now();
+
+  try {
+    await document.fonts.ready;
+  } catch {
+    // ignore
+  }
+
+  // 快速检查
+  try {
+    if (document.fonts.check(fontSpec, sampleText)) {
+      return true;
+    }
+  } catch {
+    // ignore
+  }
+
+  // 主动加载字体
   try {
     await document.fonts.load(fontSpec, sampleText);
   } catch {
-    return false;
+    // ignore
   }
-  const check = (): boolean => {
-    try {
-      return document.fonts.check(fontSpec, sampleText);
-    } catch {
-      return false;
+
+  // 再次检查
+  try {
+    if (document.fonts.check(fontSpec, sampleText)) {
+      return true;
     }
-  };
-  if (check()) return true;
-  return new Promise((resolve) => {
-    const interval = setInterval(() => {
-      if (check()) {
-        clearInterval(interval);
-        resolve(true);
-      } else if (Date.now() - start > maxWaitMs) {
-        clearInterval(interval);
-        resolve(false);
+  } catch {
+    // ignore
+  }
+
+  // 轮询（最多 timeoutMs）
+  return new Promise<boolean>((resolve) => {
+    const poll = setInterval(() => {
+      try {
+        if (document.fonts.check(fontSpec, sampleText)) {
+          clearInterval(poll);
+          resolve(true);
+          return;
+        }
+      } catch {
+        // ignore
       }
-    }, 100);
+      if (Date.now() - start > timeoutMs) {
+        clearInterval(poll);
+        resolve(true);
+      }
+    }, 150);
   });
 }
 
 export async function loadFontAsync(
-  font: { googleFontName?: string; cssUrl?: string; name: string; family?: string; previewText?: string }
+  font: {
+    googleFontName?: string;
+    cssUrl?: string;
+    name: string;
+    family?: string;
+    previewText?: string;
+    displayName?: string;
+  },
 ): Promise<boolean> {
   try {
     const key = makeLoadKey(font);
@@ -89,64 +152,67 @@ export async function loadFontAsync(
       return false;
     }
 
-    let linkId: string;
-    let href: string;
-    let familyNameForCheck: string;
+    let familyForCheck: string = '';
+    const sampleText = font.previewText || font.displayName || font.name || '字体 ABC';
 
     if (font.cssUrl) {
-      linkId = 'css-font-' + btoa(font.cssUrl).replace(/=/g, '');
-      href = font.cssUrl;
-      familyNameForCheck = font.family
-        ? (font.family.match(/"([^"]+)"/) || font.family.match(/'([^']+)'/) || [font.name, font.name])[1]
-        : font.name;
+      const linkId = 'css-font-' + btoa(font.cssUrl).replace(/=/g, '');
+      injectLink(linkId, font.cssUrl);
+      const linkEl = document.getElementById(linkId) as HTMLLinkElement | null;
+      if (linkEl) {
+        await waitForLinkLoad(linkEl, 10000);
+      }
+      familyForCheck = extractFamily(font.family || font.name);
     } else if (font.googleFontName) {
-      linkId = 'google-font-' + font.googleFontName.replace(/\+/g, '-');
-      href = 'https://fonts.googleapis.com/css2?family=' + font.googleFontName + '&display=swap';
-      // Note: Not using &text= parameter because we need the full font for editor use
-      familyNameForCheck = font.googleFontName.replace(/\+/g, ' ');
+      const linkId = 'google-font-' + font.googleFontName.replace(/\+/g, '-');
+      const href = 'https://fonts.googleapis.com/css2?family=' + font.googleFontName + '&display=swap';
+      injectLink(linkId, href);
+      const linkEl = document.getElementById(linkId) as HTMLLinkElement | null;
+      if (linkEl) {
+        await waitForLinkLoad(linkEl, 10000);
+      }
+      familyForCheck = font.googleFontName.replace(/\+/g, ' ');
     } else {
       loadedFonts.add(key);
       return true;
     }
 
-    const existing = document.getElementById(linkId) as HTMLLinkElement | null;
-    let link: HTMLLinkElement;
-    if (existing) {
-      link = existing;
-    } else {
-      link = document.createElement('link');
-      link.id = linkId;
-      link.rel = 'stylesheet';
-      link.href = href;
-      document.head.appendChild(link);
+    // 等待字体真正可渲染
+    if (familyForCheck) {
+      await waitForFontReady(familyForCheck, sampleText, 10000);
     }
-
-    await waitForLinkLoad(link);
-    const sampleText = font.previewText || '天地玄黄 ABC 0123';
-    const ready = await waitForFontReady(familyNameForCheck, sampleText);
     loadedFonts.add(key);
-    return ready;
+    return true;
   } catch {
     return false;
   }
 }
 
-export async function loadGoogleFontAsync(googleFontName: string, sampleText?: string): Promise<boolean> {
-  return loadFontAsync({
-    googleFontName: googleFontName,
-    name: googleFontName,
-    previewText: sampleText,
-  });
-}
-
+// 预加载多个字体（顺序加载，避免网络拥堵）
 export async function preloadFonts(
-  fonts: Array<{ googleFontName?: string; cssUrl?: string; name: string; family?: string; previewText?: string }>
+  fonts: Array<{
+    googleFontName?: string;
+    cssUrl?: string;
+    name: string;
+    family?: string;
+    previewText?: string;
+    displayName?: string;
+  }>,
 ): Promise<void> {
-  await Promise.all(
-    fonts.map((font) => loadFontAsync(font).catch(() => false))
-  );
+  for (const f of fonts) {
+    try {
+      await loadFontAsync(f);
+    } catch {
+      // ignore
+    }
+  }
 }
 
-export function isFontLoaded(font: { googleFontName?: string; cssUrl?: string; name: string }): boolean {
+export function isFontLoaded(font: { googleFontName?: string; cssUrl?: string; name: string; family?: string }): boolean {
   return loadedFonts.has(makeLoadKey(font));
+}
+
+export function loadGoogleFont(googleFontName: string): void {
+  if (!googleFontName) return;
+  void loadFontAsync({ googleFontName, name: googleFontName });
 }

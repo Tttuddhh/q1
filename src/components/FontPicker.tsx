@@ -36,6 +36,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const preloadStartedRef = useRef(false);
 
+  // 点击外部关闭下拉
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (
@@ -44,8 +45,8 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
         buttonRef.current &&
         !buttonRef.current.contains(event.target as Node)
       ) {
-        setIsOpen(false);
-      }
+          setIsOpen(false);
+        }
     }
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
@@ -53,6 +54,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
+  // 打开下拉时预加载所有字体
   useEffect(() => {
     if (isOpen && !preloadStartedRef.current) {
       preloadStartedRef.current = true;
@@ -141,23 +143,14 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
     flexShrink: 0,
   };
 
-  const hoverIn = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!isOpen) e.currentTarget.style.background = '#f3f4f6';
-  };
-  const hoverOut = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!isOpen) e.currentTarget.style.background = 'transparent';
-  };
-
   const itemHoverIn = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.currentTarget.style.background = '#f3f4f6';
   };
-  const makeItemHoverOut = (fontName: string) => (
+  const makeItemHoverOut = (fontFamily: string, isSelected: boolean) => (
     e: React.MouseEvent<HTMLButtonElement>
   ) => {
     e.currentTarget.style.background =
-      currentFont === fontName
-        ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
-        : 'transparent';
+      isSelected ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent';
   };
 
   return (
@@ -168,8 +161,8 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
         onClick={() => setIsOpen(v => !v)}
         title={t('editor.font')}
         style={buttonStyle}
-        onMouseEnter={hoverIn}
-        onMouseLeave={hoverOut}
+        onMouseEnter={itemHoverIn}
+        onMouseLeave={(e) => { e.currentTarget.style.background = isOpen ? '#f3f4f6' : 'transparent'; }}
       >
         <span style={{ fontSize: 16, fontFamily: 'serif' }}>T</span>
         <span style={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>
@@ -198,7 +191,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
             border: '1px solid #e5e7eb',
             borderRadius: 8,
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            width: 300,
+            width: 320,
             maxHeight: 420,
             display: 'flex',
             flexDirection: 'column',
@@ -243,6 +236,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
               scrollbarWidth: 'thin',
             }}
           >
+            {/* 系统默认字体 */}
             <button
               type="button"
               onClick={() => handleSelect(SYSTEM_FONT)}
@@ -252,7 +246,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                 padding: '8px 12px',
                 border: 'none',
                 background:
-                  currentFont === SYSTEM_FONT.name
+                  currentFont === SYSTEM_FONT.displayName || currentFont === SYSTEM_FONT.name
                     ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
                     : 'transparent',
                 cursor: 'pointer',
@@ -261,7 +255,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                 transition: 'background-color 0.15s ease',
               }}
               onMouseEnter={itemHoverIn}
-              onMouseLeave={makeItemHoverOut(SYSTEM_FONT.name)}
+              onMouseLeave={makeItemHoverOut(SYSTEM_FONT.family, currentFont === SYSTEM_FONT.displayName || currentFont === SYSTEM_FONT.name)}
             >
               <span style={{ fontSize: 11, color: '#9ca3af', display: 'block' }}>
                 {t('editor.font_system')}
@@ -271,6 +265,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
               </span>
             </button>
 
+            {/* 按分类显示字体 */}
             {CATEGORY_ORDER.map(cat => {
               const fonts = groupedFonts[cat];
               if (!fonts || fonts.length === 0) return null;
@@ -289,6 +284,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                     {CATEGORY_LABELS[cat]}
                   </div>
                   {fonts.map(font => {
+                    // 使用 preloadTick 作为 key 的一部分，确保字体加载后重新渲染
                     const key = `${font.name}-${preloadTick}`;
                     const isSelected =
                       currentFont === font.name ||
@@ -310,13 +306,13 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                           transition: 'background-color 0.15s ease',
                         }}
                         onMouseEnter={itemHoverIn}
-                        onMouseLeave={makeItemHoverOut(font.name)}
+                        onMouseLeave={makeItemHoverOut(font.family, isSelected)}
                       >
                         <span
                           style={{
                             fontFamily: font.family,
-                            fontSize: 16,
-                            lineHeight: 1.2,
+                            fontSize: 18,
+                            lineHeight: 1.3,
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
