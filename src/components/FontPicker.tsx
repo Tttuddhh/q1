@@ -301,18 +301,6 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                         onMouseEnter={itemHoverIn}
                         onMouseLeave={makeItemHoverOut(font.name)}
                       >
-                        {font.displayName && font.displayName !== font.name && (
-                          <span
-                            style={{
-                              fontSize: 11,
-                              color: '#9ca3af',
-                              display: 'block',
-                              marginBottom: 2,
-                            }}
-                          >
-                            {font.displayName}
-                          </span>
-                        )}
                         <span
                           style={{
                             fontFamily: font.family,
@@ -325,8 +313,20 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                             display: 'block',
                           }}
                         >
-                          {font.previewText || font.name}
+                          {font.displayName || font.name}
                         </span>
+                        {font.displayName && font.displayName !== font.name && (
+                          <span
+                            style={{
+                              fontSize: 11,
+                              color: '#9ca3af',
+                              display: 'block',
+                              marginTop: 2,
+                            }}
+                          >
+                            {font.name}
+                          </span>
+                        )}
                       </button>
                     );
                   })}
