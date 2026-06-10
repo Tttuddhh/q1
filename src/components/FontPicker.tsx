@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Search01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
 import { FONTS, SYSTEM_FONT, type FontData } from '../data/fonts';
-import { loadGoogleFont } from '../utils/fontLoader';
+import { loadGoogleFont, preloadFonts } from '../utils/fontLoader';
 import { useTranslation } from '../i18n';
 
 interface FontPickerProps {
@@ -10,7 +10,11 @@ interface FontPickerProps {
   onSelect: (font: FontData) => void;
 }
 
-const CATEGORY_ORDER: Array<'chinese' | 'english' | 'other'> = ['chinese', 'english', 'other'];
+const CATEGORY_ORDER: Array<'chinese' | 'english' | 'other'> = [
+  'chinese',
+  'english',
+  'other',
+];
 
 const CATEGORY_LABELS: Record<string, string> = {
   chinese: '中文字体',
@@ -22,8 +26,11 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [preloadTick, setPreloadTick] = useState(0);
+  const [isPreloading, setIsPreloading] = useState(false);
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const preloadStartedRef = useRef(false);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -42,16 +49,40 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
 
+  useEffect(() => {
+    if (isOpen && !preloadStartedRef.current) {
+      preloadStartedRef.current = true;
+      setIsPreloading(true);
+
+      const fontsToLoad = FONTS.filter(f => f.googleFontName).map(f => ({
+        googleFontName: f.googleFontName,
+        previewText: f.previewText,
+      }));
+
+      preloadFonts(fontsToLoad)
+        .catch(() => {})
+        .finally(() => {
+          setPreloadTick(v => v + 1);
+          setIsPreloading(false);
+        });
+    }
+    if (!isOpen) {
+      preloadStartedRef.current = false;
+    }
+  }, [isOpen]);
+
   const filteredFonts = useMemo(() => {
     let fonts = [...FONTS];
 
     if (searchQuery.trim()) {
       const q = searchQuery.toLowerCase();
-      fonts = fonts.filter(
-        f =>
-          f.name.toLowerCase().includes(q) ||
-          f.tags.some(tag => tag.toLowerCase().includes(q))
-      );
+      fonts = fonts.filter(f => {
+        if (f.name.toLowerCase().includes(q)) return true;
+        if (f.displayName && f.displayName.toLowerCase().includes(q)) return true;
+        if (f.previewText && f.previewText.toLowerCase().includes(q)) return true;
+        if (f.tags && f.tags.some(tag => tag.toLowerCase().includes(q))) return true;
+        return false;
+      });
     }
 
     return fonts;
@@ -81,6 +112,43 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
 
   const displayLabel = currentFont || t('editor.font_system');
 
+  const buttonStyle: React.CSSProperties = {
+    display: 'inline-flex',
+    alignItems: 'center',
+    gap: 4,
+    height: 32,
+    padding: '0 8px',
+    borderRadius: 6,
+    border: '1px solid transparent',
+    background: isOpen ? '#f3f4f6' : 'transparent',
+    color: '#374151',
+    cursor: 'pointer',
+    fontSize: 13,
+    fontWeight: 500,
+    transition: 'background-color 0.15s ease, border-color 0.15s ease',
+    whiteSpace: 'nowrap',
+    flexShrink: 0,
+  };
+
+  const hoverIn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!isOpen) e.currentTarget.style.background = '#f3f4f6';
+  };
+  const hoverOut = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (!isOpen) e.currentTarget.style.background = 'transparent';
+  };
+
+  const itemHoverIn = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.currentTarget.style.background = '#f3f4f6';
+  };
+  const makeItemHoverOut = (fontName: string) => (
+    e: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    e.currentTarget.style.background =
+      currentFont === fontName
+        ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
+        : 'transparent';
+  };
+
   return (
     <div style={{ position: 'relative', display: 'inline-flex' }}>
       <button
@@ -88,32 +156,12 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
         type="button"
         onClick={() => setIsOpen(v => !v)}
         title={t('editor.font')}
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: 4,
-          height: 32,
-          padding: '0 8px',
-          borderRadius: 6,
-          border: '1px solid transparent',
-          background: isOpen ? '#f3f4f6' : 'transparent',
-          color: '#374151',
-          cursor: 'pointer',
-          fontSize: 13,
-          fontWeight: 500,
-          transition: 'background-color 0.15s ease, border-color 0.15s ease',
-          whiteSpace: 'nowrap',
-          flexShrink: 0,
-        }}
-        onMouseEnter={e => {
-          if (!isOpen) e.currentTarget.style.background = '#f3f4f6';
-        }}
-        onMouseLeave={e => {
-          if (!isOpen) e.currentTarget.style.background = 'transparent';
-        }}
+        style={buttonStyle}
+        onMouseEnter={hoverIn}
+        onMouseLeave={hoverOut}
       >
         <span style={{ fontSize: 16, fontFamily: 'serif' }}>T</span>
-        <span style={{ maxWidth: 120, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        <span style={{ maxWidth: 160, overflow: 'hidden', textOverflow: 'ellipsis' }}>
           {displayLabel}
         </span>
         <HugeiconsIcon
@@ -139,15 +187,14 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
             border: '1px solid #e5e7eb',
             borderRadius: 8,
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            width: 220,
-            maxHeight: 360,
+            width: 300,
+            maxHeight: 420,
             display: 'flex',
             flexDirection: 'column',
             overflow: 'hidden',
             marginTop: 4,
           }}
         >
-          {/* Search */}
           <div
             style={{
               padding: '8px 10px',
@@ -172,9 +219,11 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                 background: 'transparent',
               }}
             />
+            {isPreloading && (
+              <span style={{ fontSize: 11, color: '#9ca3af' }}>…</span>
+            )}
           </div>
 
-          {/* Font list */}
           <div
             style={{
               flex: 1,
@@ -183,32 +232,32 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
               scrollbarWidth: 'thin',
             }}
           >
-            {/* System default */}
             <button
               type="button"
               onClick={() => handleSelect(SYSTEM_FONT)}
               style={{
                 width: '100%',
                 textAlign: 'left',
-                padding: '6px 10px',
+                padding: '8px 12px',
                 border: 'none',
-                background: currentFont === SYSTEM_FONT.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
+                background:
+                  currentFont === SYSTEM_FONT.name
+                    ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
+                    : 'transparent',
                 cursor: 'pointer',
-                fontSize: 12,
+                fontSize: 13,
                 color: '#374151',
                 transition: 'background-color 0.15s ease',
               }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = '#f3f4f6';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background =
-                  currentFont === SYSTEM_FONT.name
-                    ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
-                    : 'transparent';
-              }}
+              onMouseEnter={itemHoverIn}
+              onMouseLeave={makeItemHoverOut(SYSTEM_FONT.name)}
             >
-              {t('editor.font_system')}
+              <span style={{ fontSize: 11, color: '#9ca3af', display: 'block' }}>
+                {t('editor.font_system')}
+              </span>
+              <span style={{ fontSize: 16, color: '#111827', display: 'block', lineHeight: 1.2 }}>
+                {SYSTEM_FONT.displayName || SYSTEM_FONT.name}
+              </span>
             </button>
 
             {CATEGORY_ORDER.map(cat => {
@@ -218,7 +267,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                 <div key={cat}>
                   <div
                     style={{
-                      padding: '4px 10px 2px',
+                      padding: '6px 12px 2px',
                       fontSize: 11,
                       color: '#9ca3af',
                       fontWeight: 500,
@@ -228,45 +277,59 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                   >
                     {CATEGORY_LABELS[cat]}
                   </div>
-                  {fonts.map(font => (
-                    <button
-                      key={font.name}
-                      type="button"
-                      onClick={() => handleSelect(font)}
-                      style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        padding: '6px 10px',
-                        border: 'none',
-                        background: currentFont === font.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
-                        cursor: 'pointer',
-                        transition: 'background-color 0.15s ease',
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.background = '#f3f4f6';
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.background =
-                          currentFont === font.name
-                            ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
-                            : 'transparent';
-                      }}
-                    >
-                      <span
+                  {fonts.map(font => {
+                    const key = `${font.name}-${preloadTick}`;
+                    const isSelected =
+                      currentFont === font.name ||
+                      currentFont === font.displayName;
+                    return (
+                      <button
+                        key={key}
+                        type="button"
+                        onClick={() => handleSelect(font)}
                         style={{
-                          fontFamily: font.family,
-                          fontSize: 14,
-                          lineHeight: 1.3,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          color: '#111827',
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: '8px 12px',
+                          border: 'none',
+                          background: isSelected
+                            ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
+                            : 'transparent',
+                          cursor: 'pointer',
+                          transition: 'background-color 0.15s ease',
                         }}
+                        onMouseEnter={itemHoverIn}
+                        onMouseLeave={makeItemHoverOut(font.name)}
                       >
-                        {font.name}
-                      </span>
-                    </button>
-                  ))}
+                        {font.displayName && font.displayName !== font.name && (
+                          <span
+                            style={{
+                              fontSize: 11,
+                              color: '#9ca3af',
+                              display: 'block',
+                              marginBottom: 2,
+                            }}
+                          >
+                            {font.displayName}
+                          </span>
+                        )}
+                        <span
+                          style={{
+                            fontFamily: font.family,
+                            fontSize: 16,
+                            lineHeight: 1.2,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            color: '#111827',
+                            display: 'block',
+                          }}
+                        >
+                          {font.previewText || font.name}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
               );
             })}

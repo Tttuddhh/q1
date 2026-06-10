@@ -872,7 +872,7 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       setCurrentFontName('');
     } else {
       editor.chain().focus().setFontFamily(font.family).run();
-      setCurrentFontName(font.name);
+      setCurrentFontName(font.displayName || font.name);
     }
   }, []);
 
@@ -898,9 +898,8 @@ export function RichTextEditor({ content, onChange, fontSize = 'medium' }: RichT
       setActiveFormats(getActiveFormats(editor));
       const fontFamily = editor.getAttributes('textStyle').fontFamily;
       if (fontFamily) {
-        // Try to find font name from family
         const found = FONTS.find(f => f.family === fontFamily);
-        setCurrentFontName(found ? found.name : '');
+        setCurrentFontName(found ? (found.displayName || found.name) : '');
       } else {
         setCurrentFontName('');
       }
