@@ -1,0 +1,27 @@
+{
+  "name": "pinme-deploy",
+  "version": "1.0.0",
+  "description": "One-click deployment of static websites to PinMe — a zero-config IPFS deployment platform.",
+  "author": "AI Agent",
+  "scripts": {
+    "deploy": "bash scripts/deploy.sh",
+    "deploy:build": "bash scripts/deploy.sh --build-cmd 'npm run build'"
+  },
+  "files": [
+    "scripts/",
+    "skill.md"
+  ],
+  "keywords": [
+    "pinme",
+    "ipfs",
+    "deploy",
+    "static-site",
+    "hosting"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/glitternetwork/pinme"
+  },
+  "homepage": "https://pinme.eth.limo/"
+}
