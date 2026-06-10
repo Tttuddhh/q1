@@ -102,8 +102,7 @@ export async function loadFontAsync(
     } else if (font.googleFontName) {
       linkId = 'google-font-' + font.googleFontName.replace(/\+/g, '-');
       href = 'https://fonts.googleapis.com/css2?family=' + font.googleFontName + '&display=swap';
-      const sampleText = font.previewText || '天地玄黄';
-      href += '&text=' + encodeURIComponent(sampleText);
+      // Note: Not using &text= parameter because we need the full font for editor use
       familyNameForCheck = font.googleFontName.replace(/\+/g, ' ');
     } else {
       loadedFonts.add(key);

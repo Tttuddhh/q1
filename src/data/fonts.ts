@@ -420,8 +420,8 @@ export const FONTS: FontData[] = [
     category: 'chinese',
     tags: ['serif', 'cdn', '思源', '宋体'],
     preview: '',
-    displayName: '思源宋体',
-    previewText: '思源宋体',
+    displayName: '思源宋体 CN',
+    previewText: '思源宋体 CN',
   },
   {
     name: 'Slidefu',
