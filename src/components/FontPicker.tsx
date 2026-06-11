@@ -2,12 +2,65 @@ import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
 import { Search01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
 import { FONTS, SYSTEM_FONT, type FontData } from '../data/fonts';
-import { loadFontAsync, preloadFonts } from '../utils/fontLoader';
+import { loadFontAsync, preloadFonts, isFontLoaded } from '../utils/fontLoader';
 import { useTranslation } from '../i18n';
 
 interface FontPickerProps {
   currentFont?: string;
   onSelect: (font: FontData) => void;
+}
+
+interface FontItemProps {
+  font: FontData;
+  isSelected: boolean;
+  fontReady: boolean;
+  onSelect: () => void;
+  onMount: () => void;
+  itemHoverIn: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  makeItemHoverOut: (fontFamily: string, isSelected: boolean) => (e: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+function FontItem({ font, isSelected, fontReady, onSelect, onMount, itemHoverIn, makeItemHoverOut }: FontItemProps) {
+  useEffect(() => {
+    onMount();
+  }, [onMount]);
+
+  return (
+    <button
+      type="button"
+      onClick={onSelect}
+      style={{
+        width: '100%',
+        textAlign: 'left',
+        padding: '8px 12px',
+        border: 'none',
+        background: isSelected
+          ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
+          : 'transparent',
+        cursor: 'pointer',
+        transition: 'background-color 0.15s ease',
+      }}
+      onMouseEnter={itemHoverIn}
+      onMouseLeave={makeItemHoverOut(font.family, isSelected)}
+    >
+      <span
+        style={{
+          fontFamily: fontReady ? font.family : undefined,
+          fontSize: 18,
+          lineHeight: 1.3,
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap',
+          color: '#111827',
+          display: 'block',
+          opacity: fontReady ? 1 : 0.6,
+          transition: 'opacity 0.3s ease',
+        }}
+      >
+        {font.displayName || font.name}
+      </span>
+    </button>
+  );
 }
 
 const CATEGORY_ORDER = [
@@ -50,6 +103,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [preloadTick, setPreloadTick] = useState(0);
   const [isPreloading, setIsPreloading] = useState(false);
+  const [loadedFontKeys, setLoadedFontKeys] = useState<Set<string>>(new Set());
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const preloadStartedRef = useRef(false);
@@ -140,6 +194,45 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
     },
     [onSelect]
   );
+
+  const isSystemFont = useCallback((font: FontData) => {
+    return !font.googleFontName && !font.cssUrl;
+  }, []);
+
+  const markFontLoaded = useCallback((fontName: string) => {
+    setLoadedFontKeys(prev => {
+      if (prev.has(fontName)) return prev;
+      const next = new Set(prev);
+      next.add(fontName);
+      return next;
+    });
+  }, []);
+
+  const loadFontItem = useCallback((font: FontData) => {
+    if (isSystemFont(font)) {
+      markFontLoaded(font.name);
+      return;
+    }
+    if (isFontLoaded(font)) {
+      markFontLoaded(font.name);
+      return;
+    }
+    loadFontAsync({
+      googleFontName: font.googleFontName || undefined,
+      cssUrl: font.cssUrl || undefined,
+      name: font.name,
+      family: font.family,
+      previewText: font.displayName || font.name,
+    })
+      .then((success) => {
+        if (success) {
+          markFontLoaded(font.name);
+        }
+      })
+      .catch(() => {
+        // ignore
+      });
+  }, [isSystemFont, markFontLoaded]);
 
   const displayLabel = currentFont || t('editor.font_system');
 
@@ -302,45 +395,21 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                     {CATEGORY_LABELS[cat]}
                   </div>
                   {fonts.map(font => {
-                    // 使用 preloadTick 作为 key 的一部分，确保字体加载后重新渲染
-                    const key = `${font.name}-${preloadTick}`;
                     const isSelected =
                       currentFont === font.name ||
                       currentFont === font.displayName;
+                    const fontReady = loadedFontKeys.has(font.name) || isSystemFont(font);
                     return (
-                      <button
-                        key={key}
-                        type="button"
-                        onClick={() => handleSelect(font)}
-                        style={{
-                          width: '100%',
-                          textAlign: 'left',
-                          padding: '8px 12px',
-                          border: 'none',
-                          background: isSelected
-                            ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
-                            : 'transparent',
-                          cursor: 'pointer',
-                          transition: 'background-color 0.15s ease',
-                        }}
-                        onMouseEnter={itemHoverIn}
-                        onMouseLeave={makeItemHoverOut(font.family, isSelected)}
-                      >
-                        <span
-                          style={{
-                            fontFamily: font.family,
-                            fontSize: 18,
-                            lineHeight: 1.3,
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            whiteSpace: 'nowrap',
-                            color: '#111827',
-                            display: 'block',
-                          }}
-                        >
-                          {font.displayName || font.name}
-                        </span>
-                      </button>
+                      <FontItem
+                        key={font.name}
+                        font={font}
+                        isSelected={isSelected}
+                        fontReady={fontReady}
+                        onSelect={() => handleSelect(font)}
+                        onMount={() => loadFontItem(font)}
+                        itemHoverIn={itemHoverIn}
+                        makeItemHoverOut={makeItemHoverOut}
+                      />
                     );
                   })}
                 </div>

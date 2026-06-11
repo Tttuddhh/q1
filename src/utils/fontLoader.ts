@@ -200,7 +200,13 @@ export async function loadFontAsync(
   }
 }
 
-// 并发分批加载字体（默认每批 5 个）
+export function getFontLoadKey(
+  font: { googleFontName?: string; cssUrl?: string; name: string; family?: string },
+): string {
+  return makeLoadKey(font);
+}
+
+// 并发分批加载字体（默认每批 3 个）
 export async function preloadFonts(
   fonts: Array<{
     googleFontName?: string;
@@ -210,7 +216,7 @@ export async function preloadFonts(
     previewText?: string;
     displayName?: string;
   }>,
-  batchSize = 5,
+  batchSize = 3,
 ): Promise<void> {
   for (let i = 0; i < fonts.length; i += batchSize) {
     const batch = fonts.slice(i, i + batchSize);
