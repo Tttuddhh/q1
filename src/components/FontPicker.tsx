@@ -10,20 +10,38 @@ interface FontPickerProps {
   onSelect: (font: FontData) => void;
 }
 
-const CATEGORY_ORDER: Array<'chinese' | 'english' | 'japanese' | 'korean' | 'other'> = [
-  'chinese',
-  'english',
-  'japanese',
-  'korean',
-  'other',
+const CATEGORY_ORDER = [
+  '黑体',
+  '宋体',
+  '楷体',
+  '行书',
+  '草书',
+  '篆书',
+  '明体',
+  '仿宋',
+  '圆体',
+  '像素',
+  '手写',
+  '卡通',
+  '艺术',
+  '复古',
 ];
 
 const CATEGORY_LABELS: Record<string, string> = {
-  chinese: '中文字体',
-  english: '英文字体',
-  japanese: '日文字体',
-  korean: '韩文字体',
-  other: '其他字体',
+  '黑体': '黑体',
+  '宋体': '宋体',
+  '楷体': '楷体',
+  '行书': '行书',
+  '草书': '草书',
+  '篆书': '篆书',
+  '明体': '明体',
+  '仿宋': '仿宋',
+  '圆体': '圆体',
+  '像素': '像素',
+  '手写': '手写',
+  '卡通': '卡通',
+  '艺术': '艺术',
+  '复古': '复古',
 };
 
 export function FontPicker({ currentFont, onSelect }: FontPickerProps) {

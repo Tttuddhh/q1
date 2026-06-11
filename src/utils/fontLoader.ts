@@ -1,17 +1,18 @@
 // 字体加载器
 // 支持：
-//   1) Google Fonts (通过 googleFontName 加载 CSS API)
-//   2) @chinese-fonts (通过 cssUrl 加载 jsDelivr CDN 上的 result.css)
+//   1) Google Fonts (通过 googleFontName 加载 CSS API，支持 &text= 参数优化)
+//   2) @chinese-fonts / cn-fontsource / fc3 / swei (通过 cssUrl 加载 CDN 上的 CSS)
 //   3) 系统字体 (无需加载)
 // 机制：
 //   - 通过 <link> 注入字体的 CSS 样式表
 //   - 等待 CSS 加载完成后，通过 document.fonts.load() 主动触发字体文件下载
 //   - 最后通过轮询 document.fonts.check() 验证字体确实可用
+//   - preloadFonts 使用并发分批加载，避免网络拥堵
 
 const loadedFonts = new Set<string>();
 
 function makeLoadKey(font: { googleFontName?: string; cssUrl?: string; name: string; family?: string }): string {
-  if (font.cssUrl) return 'css:' + font.family;
+  if (font.cssUrl) return 'css:' + font.cssUrl;
   if (font.googleFontName) return 'gf:' + font.googleFontName;
   return 'sys:' + font.name;
 }
@@ -69,6 +70,15 @@ function extractFamily(family: string): string {
   const m = family.match(/['"]([^'"]+)['"]/);
   if (m) return m[1];
   return family.split(',')[0].trim();
+}
+
+function encodeTextForUrl(text: string): string {
+  // 对 text 参数进行 URL 编码，保留中文字符
+  try {
+    return encodeURIComponent(text);
+  } catch {
+    return text;
+  }
 }
 
 async function waitForFontReady(
@@ -165,7 +175,9 @@ export async function loadFontAsync(
       familyForCheck = extractFamily(font.family || font.name);
     } else if (font.googleFontName) {
       const linkId = 'google-font-' + font.googleFontName.replace(/\+/g, '-');
-      const href = 'https://fonts.googleapis.com/css2?family=' + font.googleFontName + '&display=swap';
+      // 使用 &text= 参数优化加载，只加载需要的字符
+      const textParam = encodeTextForUrl(sampleText);
+      const href = 'https://fonts.googleapis.com/css2?family=' + encodeURIComponent(font.googleFontName) + '&text=' + textParam + '&display=swap';
       injectLink(linkId, href);
       const linkEl = document.getElementById(linkId) as HTMLLinkElement | null;
       if (linkEl) {
@@ -188,7 +200,7 @@ export async function loadFontAsync(
   }
 }
 
-// 预加载多个字体（顺序加载，避免网络拥堵）
+// 并发分批加载字体（默认每批 5 个）
 export async function preloadFonts(
   fonts: Array<{
     googleFontName?: string;
@@ -198,13 +210,17 @@ export async function preloadFonts(
     previewText?: string;
     displayName?: string;
   }>,
+  batchSize = 5,
 ): Promise<void> {
-  for (const f of fonts) {
-    try {
-      await loadFontAsync(f);
-    } catch {
-      // ignore
-    }
+  for (let i = 0; i < fonts.length; i += batchSize) {
+    const batch = fonts.slice(i, i + batchSize);
+    await Promise.all(
+      batch.map((f) =>
+        loadFontAsync(f).catch(() => {
+          // ignore individual failures
+        })
+      )
+    );
   }
 }
 
@@ -212,7 +228,7 @@ export function isFontLoaded(font: { googleFontName?: string; cssUrl?: string; n
   return loadedFonts.has(makeLoadKey(font));
 }
 
-export function loadGoogleFont(googleFontName: string): void {
+export function loadGoogleFont(googleFontName: string, previewText?: string): void {
   if (!googleFontName) return;
-  void loadFontAsync({ googleFontName, name: googleFontName });
+  void loadFontAsync({ googleFontName, name: googleFontName, previewText });
 }
