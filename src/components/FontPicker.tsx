@@ -1,8 +1,13 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Search01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
+import { Search01Icon, ArrowDown01Icon, CheckmarkCircle02Icon, Loading03Icon } from '@hugeicons/core-free-icons';
 import { FONTS, SYSTEM_FONT, type FontData } from '../data/fonts';
-import { loadGoogleFont } from '../utils/fontLoader';
+import {
+  loadAndRegisterFont,
+  isFontLoaded,
+  getCachedFont,
+  loadGoogleFont,
+} from '../utils/fontLoader';
 import { useTranslation } from '../i18n';
 
 interface FontPickerProps {
@@ -18,12 +23,31 @@ const CATEGORY_LABELS: Record<string, string> = {
   other: '其他字体',
 };
 
+const PRELOAD_CHINESE_COUNT = 20;
+
+type FontLoadState = 'idle' | 'loading' | 'loaded' | 'error';
+
+const scheduleIdleTask = (cb: () => void): void => {
+  type IdleWindow = Window & {
+    requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+    cancelIdleCallback?: (handle: number) => void;
+  };
+  const w = window as IdleWindow;
+  if (typeof w.requestIdleCallback === 'function') {
+    w.requestIdleCallback(cb, { timeout: 1500 });
+  } else {
+    setTimeout(cb, 200);
+  }
+};
+
 export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [loadStates, setLoadStates] = useState<Record<string, FontLoadState>>({});
   const panelRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const inFlightRef = useRef<Set<string>>(new Set());
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -67,16 +91,88 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
     return groups;
   }, [filteredFonts]);
 
+  const ensureFontLoaded = useCallback(
+    async (font: FontData): Promise<void> => {
+      if (!font || font.name === SYSTEM_FONT.name) return;
+      if (isFontLoaded(font.name)) {
+        setLoadStates(prev => (prev[font.name] === 'loaded' ? prev : { ...prev, [font.name]: 'loaded' }));
+        return;
+      }
+      if (inFlightRef.current.has(font.name)) return;
+      inFlightRef.current.add(font.name);
+
+      // 命中 IndexedDB 缓存时跳过网络 loading 状态,直接尝试注册
+      setLoadStates(prev => ({ ...prev, [font.name]: prev[font.name] || 'loading' }));
+      try {
+        // 先尝试读取缓存(快速路径),有缓存则同步预热加载状态
+        const cached = await getCachedFont(font.name);
+        if (cached && isFontLoaded(font.name)) {
+          setLoadStates(prev => ({ ...prev, [font.name]: 'loaded' }));
+          return;
+        }
+        const ok = await loadAndRegisterFont(font);
+        setLoadStates(prev => ({ ...prev, [font.name]: ok ? 'loaded' : 'error' }));
+      } catch {
+        setLoadStates(prev => ({ ...prev, [font.name]: 'error' }));
+      } finally {
+        inFlightRef.current.delete(font.name);
+      }
+    },
+    []
+  );
+
+  // 打开选择器时: 预加载前 20 个中文字体
+  useEffect(() => {
+    if (!isOpen) return;
+    const chineseFonts = FONTS.filter(f => f.category === 'chinese').slice(0, PRELOAD_CHINESE_COUNT);
+    if (chineseFonts.length === 0) return;
+
+    // 标记初始状态
+    setLoadStates(prev => {
+      const next = { ...prev };
+      for (const f of chineseFonts) {
+        if (isFontLoaded(f.name)) {
+          next[f.name] = 'loaded';
+        } else if (!next[f.name]) {
+          next[f.name] = 'loading';
+        }
+      }
+      return next;
+    });
+
+    const runPreload = () => {
+      chineseFonts.forEach((font, idx) => {
+        // 错开请求,避免瞬时大量网络并发
+        setTimeout(() => {
+          void ensureFontLoaded(font);
+        }, idx * 60);
+      });
+    };
+
+    scheduleIdleTask(runPreload);
+  }, [isOpen, ensureFontLoaded]);
+
   const handleSelect = useCallback(
     (font: FontData) => {
-      if (font.googleFontName) {
-        loadGoogleFont(font.googleFontName);
+      if (font.name !== SYSTEM_FONT.name) {
+        if (font.googleFontName) {
+          loadGoogleFont(font.googleFontName);
+        }
+        void ensureFontLoaded(font);
       }
       onSelect(font);
       setIsOpen(false);
       setSearchQuery('');
     },
-    [onSelect]
+    [onSelect, ensureFontLoaded]
+  );
+
+  const handleHover = useCallback(
+    (font: FontData) => {
+      if (font.name === SYSTEM_FONT.name) return;
+      void ensureFontLoaded(font);
+    },
+    [ensureFontLoaded]
   );
 
   const displayLabel = currentFont || t('editor.font_system');
@@ -139,7 +235,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
             border: '1px solid #e5e7eb',
             borderRadius: 8,
             boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-            width: 220,
+            width: 260,
             maxHeight: 360,
             display: 'flex',
             flexDirection: 'column',
@@ -228,45 +324,101 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                   >
                     {CATEGORY_LABELS[cat]}
                   </div>
-                  {fonts.map(font => (
-                    <button
-                      key={font.name}
-                      type="button"
-                      onClick={() => handleSelect(font)}
-                      style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        padding: '6px 10px',
-                        border: 'none',
-                        background: currentFont === font.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
-                        cursor: 'pointer',
-                        transition: 'background-color 0.15s ease',
-                      }}
-                      onMouseEnter={e => {
-                        e.currentTarget.style.background = '#f3f4f6';
-                      }}
-                      onMouseLeave={e => {
-                        e.currentTarget.style.background =
-                          currentFont === font.name
-                            ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
-                            : 'transparent';
-                      }}
-                    >
-                      <span
+                  {fonts.map(font => {
+                    const state = loadStates[font.name] ?? (isFontLoaded(font.name) ? 'loaded' : 'idle');
+                    const isLoading = state === 'loading';
+                    const isLoaded = state === 'loaded';
+                    const isError = state === 'error';
+                    return (
+                      <button
+                        key={font.name}
+                        type="button"
+                        onClick={() => handleSelect(font)}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.background = '#f3f4f6';
+                          handleHover(font);
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.background =
+                            currentFont === font.name
+                              ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)'
+                              : 'transparent';
+                        }}
                         style={{
-                          fontFamily: font.family,
-                          fontSize: 14,
-                          lineHeight: 1.3,
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                          whiteSpace: 'nowrap',
-                          color: '#111827',
+                          width: '100%',
+                          textAlign: 'left',
+                          padding: '6px 10px',
+                          border: 'none',
+                          background: currentFont === font.name ? 'color-mix(in srgb, var(--color-primary) 8%, transparent)' : 'transparent',
+                          cursor: 'pointer',
+                          transition: 'background-color 0.15s ease',
+                          opacity: isError ? 0.7 : 1,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 6,
                         }}
                       >
-                        {font.name}
-                      </span>
-                    </button>
-                  ))}
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div
+                            style={{
+                              fontFamily: font.family,
+                              fontSize: 15,
+                              lineHeight: 1.3,
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                              color: isLoading ? '#9ca3af' : '#111827',
+                            }}
+                          >
+                            {font.preview || font.name}
+                          </div>
+                          <div
+                            style={{
+                              fontSize: 10,
+                              color: '#9ca3af',
+                              lineHeight: 1.2,
+                              marginTop: 1,
+                              overflow: 'hidden',
+                              textOverflow: 'ellipsis',
+                              whiteSpace: 'nowrap',
+                            }}
+                          >
+                            {font.name}
+                          </div>
+                        </div>
+                        {isLoading && (
+                          <HugeiconsIcon
+                            icon={Loading03Icon}
+                            size={12}
+                            strokeWidth={2}
+                            color="#9ca3af"
+                            style={{ animation: 'fontpicker-spin 1s linear infinite', flexShrink: 0 }}
+                          />
+                        )}
+                        {isLoaded && (
+                          <HugeiconsIcon
+                            icon={CheckmarkCircle02Icon}
+                            size={12}
+                            strokeWidth={2}
+                            color="#10b981"
+                            style={{ flexShrink: 0 }}
+                          />
+                        )}
+                        {isError && (
+                          <span
+                            title="加载失败"
+                            style={{
+                              fontSize: 10,
+                              color: '#ef4444',
+                              flexShrink: 0,
+                            }}
+                          >
+                            !
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               );
             })}
@@ -286,6 +438,8 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
           </div>
         </div>
       )}
+
+      <style>{`@keyframes fontpicker-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }`}</style>
     </div>
   );
 }

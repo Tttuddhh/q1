@@ -1,0 +1,88 @@
+=== 直链下载字体 ===
+AlibabaPuHuiTi-3-Regular: 200 (https://gw.alipayobjects.com/os-download/alipay-font/AlibabaPuHuiTi-3-55-Regular.ttf)
+HarmonyOS-Sans-SC-Regular: 200 (https://developer.huawei.com/images/202403/consumer/HarmonyOS-Sans/SC/HarmonyOS-Sans-SC-Regular.ttf)
+HarmonyOS-Sans-SC-Bold: 200 (https://developer.huawei.com/images/202403/consumer/HarmonyOS-Sans/SC/HarmonyOS-Sans-SC-Bold.ttf)
+MiSans-Regular: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-Regular.ttf)
+MiSans-Bold: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-Bold.ttf)
+MiSans-Light: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-Light.ttf)
+MiSans-Medium: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-Medium.ttf)
+MiSans-Heavy: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-Heavy.ttf)
+MiSans-Semibold: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-Semibold.ttf)
+MiSans-Demibold: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-Demibold.ttf)
+MiSans-Thin: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-Thin.ttf)
+MiSans-UltraLight: 200 (https://html-static.xiaomi.com/atom-fonts/MiSans/MiSans-UltraLight.ttf)
+HarmonyOS-Sans-Regular: 200 (https://html-static.xiaomi.com/atom-fonts/HarmonyOS-Sans/HarmonyOS-Sans-Regular.ttf)
+=== cdnfonts 第二轮 ===
+Smiley%20Sans%20WenQuanYi: 200
+MiSansVF: 200
+Noto%20Sans%20Mono: 200
+Sarasa%20Gothic%20SC: 200
+Sarasa%20Mono%20SC: 200
+TW%20Kai: 200
+Fake%20Pearl: 200
+AoyagiKouzanFont2: 200
+Klee%20One: 200
+Train%20One: 200
+Stick: 200
+RocknRoll%20One: 200
+Reggae%20One: 200
+Rampart%20One: 200
+DotGothic16: 200
+Yusei%20Magic: 200
+Zen%20Maru%20Gothic: 200
+Zen%20Kaku%20Gothic%20New: 200
+Zen%20Kurenaido: 200
+Zen%20Old%20Mincho: 200
+Zen%20Antique: 200
+Zen%20Antique%20Soft: 200
+Hachi%20Maru%20Pop: 200
+Kaisei%20Decol: 200
+Kaisei%20Opti: 200
+Kaisei%20Tokumin: 200
+Klee%20One%20Pro: 200
+Klee%20One: 200
+Klee%20One%20SemiBold: 200
+Zen%20Maru%20Gothic%20New: 200
+Mochiy%20Pop%20One: 200
+Mochiy%20Popp%20One: 200
+Dela%20Gothic%20One: 200
+Hina%20Mincho: 200
+Kaisei%20HarunoUmi: 200
+Kaisei%20Hunmin: 200
+Kaisei%20Reiwa: 200
+Kaisei%20Torture: 200
+Rampart%20One: 200
+Rock%20n%20Roll%20One: 200
+Reggae%20One: 200
+Stick: 200
+Train%20One: 200
+DotGothic16: 200
+New%20Tegomin: 200
+Shippori%20Mincho: 200
+Shippori%20Mincho%20B1: 200
+Sawarabi%20Gothic: 200
+Sawarabi%20Mincho: 200
+Yomogi: 200
+Zen%20Maru%20Gothic: 200
+Zen%20Kaku%20Gothic%20Antique: 200
+Zen%20Kaku%20Gothic%20New: 200
+Zen%20Kurenaido: 200
+Zen%20Old%20Mincho: 200
+Zen%20Antique: 200
+Zen%20Antique%20Soft: 200
+Klee%20One: 200
+Klee%20One%20Pro: 200
+Dela%20Gothic%20One: 200
+Hachi%20Maru%20Pop: 200
+Mochiy%20Pop%20One: 200
+Mochiy%20Popp%20One: 200
+Hina%20Mincho: 200
+Yusei%20Magic: 200
+Kaisei%20Decol: 200
+Kaisei%20HarunoUmi: 200
+Kaisei%20Hunmin: 200
+Kaisei%20Opti: 200
+Kaisei%20Reiwa: 200
+Kaisei%20Tokumin: 200
+Kaisei%20Torture: 200
+Kaisei%20Bunntoun: 200
