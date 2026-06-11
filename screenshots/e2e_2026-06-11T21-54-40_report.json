@@ -1,0 +1,351 @@
+{
+  "stamp": "2026-06-11T21-54-40",
+  "documentFontsSize": 68,
+  "loadedCount": 68,
+  "chineseLoadedCount": 0,
+  "cjkLoadedCount": 35,
+  "loaded": [
+    {
+      "family": "Noto Sans SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Source Han Sans SC VF",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans HK",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans JP",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Ma Shan Zheng",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "ZCOOL KuaiLe",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "LXGW WenKai Mono TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "ZCOOL QingKe HuangYou",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Long Cang",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "ZCOOL XiaoWei",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "WDXL Lubrifont SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Cactus Classical Serif",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "WDXL Lubrifont TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Chocolate Classical Sans",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Poppins",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Iansui",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Bpmf Iansui",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Shippori Antique",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Roboto",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Shippori Antique B1",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Shippori Mincho",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gothic A1",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Sawarabi Gothic",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Serif KR",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Klee One",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Gothic",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Sawarabi Mincho",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Rampart One",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Lato",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Kosugi Maru",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Merriweather",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Lora",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Inter",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Montserrat",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Open Sans",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "M PLUS Rounded 1c",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Shippori Mincho B1",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "M PLUS 1p",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Myeongjo",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Pen Script",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Kosugi",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gowun Batang",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Gothic Coding",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Brush Script",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gowun Dodum",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Poor Story",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Dokdo",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gugi",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Cute Font",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Black Han Sans",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gaegu",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Single Day",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Kirang Haerang",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Sunflower",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "IBM Plex Sans KR",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans JP",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Serif SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans KR",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans JP",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans JP",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Serif SC",
+      "weight": "normal",
+      "style": "normal"
+    }
+  ],
+  "failedRequests": [],
+  "consoleErrors": []
+}

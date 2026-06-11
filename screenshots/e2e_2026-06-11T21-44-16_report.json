@@ -1,0 +1,842 @@
+{
+  "stamp": "2026-06-11T21-44-16",
+  "documentFontsSize": 65,
+  "loadedCount": 65,
+  "chineseLoadedCount": 30,
+  "loaded": [
+    {
+      "family": "Noto Sans SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Serif HK",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Serif TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans JP",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Open Sans",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Roboto",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Lato",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Montserrat",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Poppins",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Liu Jian Mao Cao",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Playfair Display",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Inter",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Merriweather",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Lora",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "ZCOOL KuaiLe",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Ma Shan Zheng",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "ZCOOL QingKe HuangYou",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Long Cang",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans KR",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "WDXL Lubrifont SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "M PLUS 1p",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Serif SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Bpmf Iansui",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Kosugi Maru",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Kosugi",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Klee One",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Shippori Mincho",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Iansui",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Chocolate Classical Sans",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "WDXL Lubrifont TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gothic A1",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Gothic",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Sawarabi Gothic",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Shippori Mincho B1",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Cactus Classical Serif",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Myeongjo",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Rampart One",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Sawarabi Mincho",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "M PLUS Rounded 1c",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Pen Script",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Shippori Antique B1",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Nanum Brush Script",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gowun Batang",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gowun Dodum",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gaegu",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Single Day",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Cute Font",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Black Han Sans",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Gugi",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Poor Story",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "IBM Plex Sans KR",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Dokdo",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Serif SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans TC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Serif SC",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Shippori Antique",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans KR",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans JP",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans JP",
+      "weight": "normal",
+      "style": "normal"
+    },
+    {
+      "family": "Noto Sans JP",
+      "weight": "normal",
+      "style": "normal"
+    }
+  ],
+  "failedRequests": [
+    {
+      "url": "http://localhost:3000/files/noto-sans-sc-4-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/L1_7684_256.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-tc-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-hk-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-jp-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-sc-4-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-tc-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-hk-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/L1_7684_256.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-jp-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/L1_7684_256.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/L1_7684_256.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/zcool-xiaowei-5-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/zcool-kuaile-5-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/zcool-qingke-huangyou-5-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/ma-shan-zheng-5-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/lxgw-wenkai-mono-tc-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/lxgw-wenkai-tc-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/lxgw-marker-gothic-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/long-cang-5-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/zhi-mang-xing-5-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/lxgw-wenkai-mono-tc-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/chiron-hei-hk-chinese-traditional-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/wdxl-lubrifont-sc-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/bpmf-huninn-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/wdxl-lubrifont-tc-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/iansui-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/huninn-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/bpmf-zihi-kai-std-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/bpmf-iansui-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/cactus-classical-serif-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/chocolate-classical-sans-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-kr-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-kr-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/klee-one-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/kosugi-maru-2-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/kosugi-2-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/m-plus-1p-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/sawarabi-gothic-2-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/m-plus-rounded-1c-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/shippori-mincho-b1-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/sawarabi-mincho-2-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/shippori-mincho-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/shippori-antique-b1-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/nanum-gothic-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/gothic-a1-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/nanum-myeongjo-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/rampart-one-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/nanum-brush-script-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/nanum-pen-script-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/nanum-gothic-coding-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/gowun-batang-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/gowun-dodum-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/gugi-2-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/dokdo-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/black-han-sans-2-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/poor-story-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/cute-font-2-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/single-day-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/sunflower-2-300-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/ibm-plex-sans-kr-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/gaegu-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/kirang-haerang-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-mongolian-90-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-sc-4-300-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-sc-4-300-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-tc-0-700-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-sc-4-700-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-tc-0-700-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-jp-0-700-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-sc-4-700-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-tc-0-300-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-kr-0-700-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-sc-4-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-tc-0-500-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-sc-4-500-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-tc-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-sc-4-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-sc-4-900-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-jp-0-300-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-jp-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-sans-jp-0-500-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/noto-serif-sc-4-500-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    },
+    {
+      "url": "http://localhost:3000/files/shippori-antique-0-400-normal.woff2",
+      "method": "GET",
+      "status": 404,
+      "statusText": "Not Found"
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 404 (Not Found)"
+  ]
+}

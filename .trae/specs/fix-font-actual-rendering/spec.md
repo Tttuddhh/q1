@@ -37,6 +37,28 @@
 
 ## ADDED Requirements
 
+### Requirement: 每次修改后自动浏览器自验收
+The system SHALL have the agent itself open the browser (via Playwright) and verify the result after every modification, without requiring the user to manually check.
+
+#### Scenario: 修改 fonts.ts 后自验收
+- **WHEN** 完成 Task 2/3/4 的修改
+- **THEN** Agent 自动执行 `scripts/e2e-font-render.mjs` 验证
+- **AND** 截图保存到 `/workspace/screenshots/`
+- **AND** 输出实际加载的字体数（`document.fonts.size`）
+- **AND** 检查控制台是否有 404 错误
+
+#### Scenario: 修改 fontLoader.ts 后自验收
+- **WHEN** 完成 Task 5 的修改
+- **THEN** Agent 自动执行 `scripts/e2e-font-render.mjs`
+- **AND** 验证 `loadAndRegisterFont` 返回值符合预期
+- **AND** 验证失败字体显示 "!" 而不是绿色 ✓
+
+#### Scenario: 修改 FontPicker.tsx 后自验收
+- **WHEN** 完成 Task 6 的修改
+- **THEN** Agent 自动截图字体选择器
+- **AND** 验证 UI 状态显示正确
+- **AND** 验证 `document.fonts` 中实际加载的字体数 ≥ 50
+
 ### Requirement: 端到端验证 - 每个字体 URL 都必须真正可用
 The system SHALL verify every font source URL with HTTP 200 and a valid font file response. Fonts with no working source SHALL be removed from the selector.
 

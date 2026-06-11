@@ -168,7 +168,7 @@ function isCjkUnicodeRange(range: string): boolean {
   return /U\+4E00-9FFF|U\+3400-4DBF|U\+F900-FAFF/i.test(range);
 }
 
-function extractFontFromCss(css: string, preferredFormat: string): ExtractedFont | null {
+function extractFontFromCss(css: string, preferredFormat: string, baseUrl?: string): ExtractedFont | null {
   const faceRegex = /@font-face\s*\{([\s\S]*?)\}/gi;
   let m: RegExpExecArray | null;
   let first: ExtractedFont | null = null;
@@ -181,7 +181,9 @@ function extractFontFromCss(css: string, preferredFormat: string): ExtractedFont
     if (!urlMatch) continue;
     const fmt = urlMatch[4].toLowerCase();
     if (!FORMAT_EXT_MAP[fmt]) continue;
-    const url = urlMatch[2];
+    const rawUrl = urlMatch[2];
+    // 解析相对 URL 为绝对 URL, 避免 fetch 时回退到 document base
+    const url = resolveUrl(rawUrl, baseUrl);
     const rangeMatch = /unicode-range:\s*([^;]+);/i.exec(block);
     const range = rangeMatch ? rangeMatch[1] : '';
     const extracted: ExtractedFont = { url, format: fmt };
@@ -194,11 +196,29 @@ function extractFontFromCss(css: string, preferredFormat: string): ExtractedFont
   return cjk || preferred || first;
 }
 
+/**
+ * 将 CSS 中的相对 URL 解析为绝对 URL.
+ * 例如 baseUrl='https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc/index.css'
+ * + rawUrl='./files/noto-sans-sc-chinese-simplified-400-normal.woff2'
+ * = 'https://cdn.jsdelivr.net/npm/@fontsource/noto-sans-sc/files/noto-sans-sc-chinese-simplified-400-normal.woff2'
+ */
+function resolveUrl(rawUrl: string, baseUrl?: string): string {
+  if (!rawUrl) return rawUrl;
+  // 已经是绝对 URL (http/https/data/file) 直接返回
+  if (/^(https?:|data:|file:|blob:)/i.test(rawUrl)) return rawUrl;
+  if (!baseUrl) return rawUrl;
+  try {
+    return new URL(rawUrl, baseUrl).href;
+  } catch {
+    return rawUrl;
+  }
+}
+
 async function fetchCssFont(cssUrl: string, preferredFormat: string): Promise<ExtractedFont | null> {
   const res = await fetch(cssUrl, { mode: 'cors', credentials: 'omit' });
   if (!res.ok) return null;
   const css = await res.text();
-  return extractFontFromCss(css, preferredFormat);
+  return extractFontFromCss(css, preferredFormat, cssUrl);
 }
 
 // ===== Source 加载 =====
@@ -293,6 +313,32 @@ export function isFontLoaded(name: string): boolean {
   return loadedFonts.has(name);
 }
 
+/**
+ * 验证字体在 document.fonts 中已注册且可用.
+ * 通过尝试加载一个字形 (\u5b57, 常用汉字) 触发字体解析, 确认字体真的存在.
+ */
+async function verifyFontRegistered(family: string, timeoutMs: number = 4000): Promise<boolean> {
+  if (typeof document === 'undefined' || !('fonts' in document)) return false;
+  try {
+    const familyQuoted = `"${family}"`;
+    // document.fonts.check 仅检查已注册但未加载的字体
+    if (document.fonts.check('16px ' + familyQuoted)) return true;
+    // 否则尝试加载一个字形 (异步)
+    const testText = '\u4E2D\u6587\u6D4B\u8BD5'; // 中文测试
+    const facePromise = document.fonts.load('16px ' + familyQuoted, testText);
+    const timeoutPromise = new Promise<FontFace[]>((_, reject) => setTimeout(() => reject(new Error('timeout')), timeoutMs));
+    try {
+      const faces = await Promise.race([facePromise, timeoutPromise]);
+      // 检查返回的 FontFace 列表中是否有 family 匹配的
+      return faces.some(f => f.family === family || f.family === familyQuoted || f.family.includes(family));
+    } catch {
+      return false;
+    }
+  } catch {
+    return false;
+  }
+}
+
 // ===== 完整加载流程 =====
 
 function extractPrimaryFamily(family: string): string {
@@ -307,12 +353,23 @@ export async function loadAndRegisterFont(font: FontData): Promise<boolean> {
   const familyName = extractPrimaryFamily(font.family);
   if (!familyName || familyName === 'inherit') return false;
 
+  // 0) 字体已注册过直接返回成功
+  if (loadedFonts.has(font.name) && await verifyFontRegistered(familyName)) {
+    return true;
+  }
+
   // 1) 优先使用缓存
   try {
     const cached = await getCachedFontRecord(font.name);
     if (cached) {
       registerFontFace(font.name, familyName, cached.arrayBuffer, cached.format);
-      return true;
+      // 验证缓存的字体真的能加载
+      if (await verifyFontRegistered(familyName)) {
+        loadedFonts.add(font.name);
+        return true;
+      }
+      // 缓存可能已损坏, 删除重下
+      loadedFonts.delete(font.name);
     }
   } catch {
     // 缓存读取失败,继续走下载流程
@@ -322,9 +379,17 @@ export async function loadAndRegisterFont(font: FontData): Promise<boolean> {
   const result = await loadFontFromSources(font.sources);
 
   if (result) {
-    await cacheFont(font.name, result.buffer, result.format);
     registerFontFace(font.name, familyName, result.buffer, result.format);
-    return true;
+    // 验证下载的字体真的注册成功
+    if (await verifyFontRegistered(familyName)) {
+      await cacheFont(font.name, result.buffer, result.format);
+      loadedFonts.add(font.name);
+      return true;
+    }
+    // 字体注册失败, 清理
+    const styleId = sanitizeStyleId(font.name);
+    const style = typeof document !== 'undefined' ? document.getElementById(styleId) : null;
+    if (style) style.remove();
   }
 
   // 3) 网络失败时降级到缓存 (防止之前读缓存时偶发失败)
@@ -332,7 +397,10 @@ export async function loadAndRegisterFont(font: FontData): Promise<boolean> {
     const fallback = await getCachedFontRecord(font.name);
     if (fallback) {
       registerFontFace(font.name, familyName, fallback.arrayBuffer, fallback.format);
-      return true;
+      if (await verifyFontRegistered(familyName)) {
+        loadedFonts.add(font.name);
+        return true;
+      }
     }
   } catch {
     // 忽略
