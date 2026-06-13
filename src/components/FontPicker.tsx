@@ -15,12 +15,10 @@ interface FontPickerProps {
   onSelect: (font: FontData) => void;
 }
 
-const CATEGORY_ORDER: Array<'chinese' | 'english' | 'other'> = ['chinese', 'english', 'other'];
+const CATEGORY_ORDER: Array<'chinese'> = ['chinese'];
 
 const CATEGORY_LABELS: Record<string, string> = {
   chinese: '中文字体',
-  english: '英文字体',
-  other: '其他字体',
 };
 
 const PRELOAD_CHINESE_COUNT = 20;
