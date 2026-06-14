@@ -6,9 +6,14 @@ const STORE_NAME = 'fonts';
 
 export type { FontSource, FontData };
 
-interface CachedFontRecord {
-  arrayBuffer: ArrayBuffer;
+interface CachedFontChunk {
+  buffer: ArrayBuffer;
   format: string;
+  unicodeRange: string;
+}
+
+interface CachedFontRecord {
+  chunks: CachedFontChunk[];
   timestamp: number;
 }
 
@@ -59,8 +64,10 @@ export async function getCachedFont(name: string): Promise<ArrayBuffer | null> {
       const req = tx.objectStore(STORE_NAME).get(name);
       req.onsuccess = () => {
         const record = req.result as CachedFontRecord | undefined;
-        if (record && record.arrayBuffer instanceof ArrayBuffer && record.arrayBuffer.byteLength > 0) {
-          resolve(record.arrayBuffer);
+        if (record && Array.isArray(record.chunks) && record.chunks.length > 0 &&
+            record.chunks[0] && record.chunks[0].buffer instanceof ArrayBuffer &&
+            record.chunks[0].buffer.byteLength > 0) {
+          resolve(record.chunks[0].buffer);
         } else {
           resolve(null);
         }
@@ -81,7 +88,9 @@ async function getCachedFontRecord(name: string): Promise<CachedFontRecord | nul
       const req = tx.objectStore(STORE_NAME).get(name);
       req.onsuccess = () => {
         const record = req.result as CachedFontRecord | undefined;
-        if (record && record.arrayBuffer instanceof ArrayBuffer && record.arrayBuffer.byteLength > 0) {
+        if (record && Array.isArray(record.chunks) && record.chunks.length > 0 &&
+            record.chunks[0] && record.chunks[0].buffer instanceof ArrayBuffer &&
+            record.chunks[0].buffer.byteLength > 0) {
           resolve(record);
         } else {
           resolve(null);
@@ -96,10 +105,9 @@ async function getCachedFontRecord(name: string): Promise<CachedFontRecord | nul
 
 export async function cacheFont(
   name: string,
-  buffer: ArrayBuffer,
-  format: string,
+  chunks: LoadedFontChunk[],
 ): Promise<void> {
-  if (!isIDBAvailable() || !name || !(buffer instanceof ArrayBuffer) || buffer.byteLength === 0) {
+  if (!isIDBAvailable() || !name || !Array.isArray(chunks) || chunks.length === 0) {
     return;
   }
   try {
@@ -107,8 +115,7 @@ export async function cacheFont(
     await new Promise<void>((resolve) => {
       const tx = db.transaction(STORE_NAME, 'readwrite');
       const record: CachedFontRecord = {
-        arrayBuffer: buffer,
-        format,
+        chunks: chunks.map(c => ({ buffer: c.buffer, format: c.format, unicodeRange: c.unicodeRange })),
         timestamp: Date.now(),
       };
       tx.objectStore(STORE_NAME).put(record, name);
@@ -143,6 +150,7 @@ export async function downloadFont(url: string): Promise<ArrayBuffer> {
 interface ExtractedFont {
   url: string;
   format: string;
+  unicodeRange: string;
 }
 
 const FORMAT_EXT_MAP: Record<string, string> = {
@@ -164,16 +172,10 @@ function detectFormatFromUrl(url: string): string {
   return 'woff2';
 }
 
-function isCjkUnicodeRange(range: string): boolean {
-  return /U\+4E00-9FFF|U\+3400-4DBF|U\+F900-FAFF/i.test(range);
-}
-
-function extractFontFromCss(css: string, preferredFormat: string, baseUrl?: string): ExtractedFont | null {
+function extractFontFromCss(css: string, preferredFormat: string, baseUrl?: string): ExtractedFont[] {
   const faceRegex = /@font-face\s*\{([\s\S]*?)\}/gi;
+  const results: ExtractedFont[] = [];
   let m: RegExpExecArray | null;
-  let first: ExtractedFont | null = null;
-  let cjk: ExtractedFont | null = null;
-  let preferred: ExtractedFont | null = null;
 
   while ((m = faceRegex.exec(css)) !== null) {
     const block = m[1];
@@ -182,18 +184,13 @@ function extractFontFromCss(css: string, preferredFormat: string, baseUrl?: stri
     const fmt = urlMatch[4].toLowerCase();
     if (!FORMAT_EXT_MAP[fmt]) continue;
     const rawUrl = urlMatch[2];
-    // 解析相对 URL 为绝对 URL, 避免 fetch 时回退到 document base
     const url = resolveUrl(rawUrl, baseUrl);
     const rangeMatch = /unicode-range:\s*([^;]+);/i.exec(block);
-    const range = rangeMatch ? rangeMatch[1] : '';
-    const extracted: ExtractedFont = { url, format: fmt };
-
-    if (!first) first = extracted;
-    if (fmt === preferredFormat && !preferred) preferred = extracted;
-    if (isCjkUnicodeRange(range)) cjk = extracted;
+    const unicodeRange = rangeMatch ? rangeMatch[1].trim() : '';
+    results.push({ url, format: fmt, unicodeRange });
   }
 
-  return cjk || preferred || first;
+  return results;
 }
 
 /**
@@ -214,18 +211,25 @@ function resolveUrl(rawUrl: string, baseUrl?: string): string {
   }
 }
 
-async function fetchCssFont(cssUrl: string, preferredFormat: string): Promise<ExtractedFont | null> {
+async function fetchCssFont(cssUrl: string, preferredFormat: string): Promise<ExtractedFont[]> {
   const res = await fetch(cssUrl, { mode: 'cors', credentials: 'omit' });
-  if (!res.ok) return null;
+  if (!res.ok) return [];
   const css = await res.text();
   return extractFontFromCss(css, preferredFormat, cssUrl);
 }
 
 // ===== Source 加载 =====
 
+interface LoadedFontChunk {
+  buffer: ArrayBuffer;
+  format: string;
+  unicodeRange: string;
+  source: FontSource;
+}
+
 export async function loadFontFromSources(
   sources: FontSource[],
-): Promise<{ buffer: ArrayBuffer; format: string; source: FontSource } | null> {
+): Promise<LoadedFontChunk[] | null> {
   if (!sources || sources.length === 0) return null;
 
   const sorted = [...sources].sort((a, b) => a.priority - b.priority);
@@ -236,17 +240,40 @@ export async function loadFontFromSources(
         const format = source.format || detectFormatFromUrl(source.url);
         const buffer = await downloadFont(source.url);
         if (buffer.byteLength > 0) {
-          return { buffer, format, source };
+          return [{ buffer, format, unicodeRange: '', source }];
         }
         continue;
       }
       // CSS-based source: google-fonts / cdnfonts / jsdelivr-*
       const preferred = source.format || 'woff2';
-      const extracted = await fetchCssFont(source.url, preferred);
-      if (!extracted) continue;
-      const buffer = await downloadFont(extracted.url);
-      if (buffer.byteLength > 0) {
-        return { buffer, format: extracted.format, source };
+      const extractedList = await fetchCssFont(source.url, preferred);
+      if (extractedList.length === 0) continue;
+
+      // 下载所有分片（并发，但限制同时请求数以避免拥塞）
+      const chunks: LoadedFontChunk[] = [];
+      const concurrencyLimit = 8;
+      for (let i = 0; i < extractedList.length; i += concurrencyLimit) {
+        const batch = extractedList.slice(i, i + concurrencyLimit);
+        const batchBuffers = await Promise.all(
+          batch.map((ex) =>
+            downloadFont(ex.url)
+              .then((buf) => ({ buf, ex }))
+              .catch(() => null),
+          ),
+        );
+        for (const result of batchBuffers) {
+          if (result && result.buf.byteLength > 0) {
+            chunks.push({
+              buffer: result.buf,
+              format: result.ex.format,
+              unicodeRange: result.ex.unicodeRange,
+              source,
+            });
+          }
+        }
+      }
+      if (chunks.length > 0) {
+        return chunks;
       }
     } catch {
       // 单个 source 失败时,继续尝试下一个
@@ -276,36 +303,46 @@ function mimeForFormat(format: string): string {
   return FORMAT_MIME_MAP[format] || `font/${format}`;
 }
 
-export function registerFontFace(
+export async function registerFontFace(
   name: string,
   family: string,
-  buffer: ArrayBuffer,
-  format: string,
-): void {
-  if (typeof document === 'undefined' || typeof btoa === 'undefined') return;
-  if (!name || !family || !(buffer instanceof ArrayBuffer) || buffer.byteLength === 0) return;
+  chunks: LoadedFontChunk[],
+): Promise<boolean> {
+  if (typeof document === 'undefined' || !('fonts' in document)) return false;
+  if (!name || !family || !chunks || chunks.length === 0) return false;
 
-  const styleId = sanitizeStyleId(name);
-  if (document.getElementById(styleId)) {
+  const fontSet = (document as Document).fonts as FontFaceSet;
+  // 检查是否已经注册过该 family 的字体
+  let alreadyRegistered = false;
+  fontSet.forEach((face) => {
+    if (face.family === family) alreadyRegistered = true;
+  });
+  if (alreadyRegistered) {
     loadedFonts.add(name);
-    return;
+    return true;
   }
 
   try {
-    const base64 = arrayBufferToBase64(buffer);
-    const css =
-      `@font-face{` +
-      `font-family:"${family}";` +
-      `src:url(data:${mimeForFormat(format)};base64,${base64}) format("${format}");` +
-      `font-display:swap;` +
-      `}`;
-    const style = document.createElement('style');
-    style.id = styleId;
-    style.textContent = css;
-    document.head.appendChild(style);
+    const loadPromises: Promise<FontFace>[] = [];
+    for (const chunk of chunks) {
+      const face = new FontFace(family, chunk.buffer);
+      if (chunk.unicodeRange) {
+        (face as any).unicodeRange = chunk.unicodeRange;
+      }
+      loadPromises.push(face.load());
+    }
+    const results = await Promise.allSettled(loadPromises);
+    let successCount = 0;
+    for (const result of results) {
+      if (result.status === 'fulfilled') {
+        fontSet.add(result.value);
+        successCount++;
+      }
+    }
     loadedFonts.add(name);
+    return successCount > 0;
   } catch {
-    // 注入失败不阻塞后续逻辑
+    return false;
   }
 }
 
@@ -362,13 +399,17 @@ export async function loadAndRegisterFont(font: FontData): Promise<boolean> {
   try {
     const cached = await getCachedFontRecord(font.name);
     if (cached) {
-      registerFontFace(font.name, familyName, cached.arrayBuffer, cached.format);
-      // 验证缓存的字体真的能加载
-      if (await verifyFontRegistered(familyName)) {
+      const cachedChunks: LoadedFontChunk[] = cached.chunks.map(c => ({
+        buffer: c.buffer,
+        format: c.format,
+        unicodeRange: c.unicodeRange,
+        source: font.sources[0],
+      }));
+      const registered = await registerFontFace(font.name, familyName, cachedChunks);
+      if (registered && await verifyFontRegistered(familyName)) {
         loadedFonts.add(font.name);
         return true;
       }
-      // 缓存可能已损坏, 删除重下
       loadedFonts.delete(font.name);
     }
   } catch {
@@ -376,28 +417,29 @@ export async function loadAndRegisterFont(font: FontData): Promise<boolean> {
   }
 
   // 2) 尝试从 sources 下载 (loadFontFromSources 内部已捕获所有 source 错误)
-  const result = await loadFontFromSources(font.sources);
+  const chunks = await loadFontFromSources(font.sources);
 
-  if (result) {
-    registerFontFace(font.name, familyName, result.buffer, result.format);
-    // 验证下载的字体真的注册成功
-    if (await verifyFontRegistered(familyName)) {
-      await cacheFont(font.name, result.buffer, result.format);
+  if (chunks && chunks.length > 0) {
+    const registered = await registerFontFace(font.name, familyName, chunks);
+    if (registered && await verifyFontRegistered(familyName)) {
+      await cacheFont(font.name, chunks);
       loadedFonts.add(font.name);
       return true;
     }
-    // 字体注册失败, 清理
-    const styleId = sanitizeStyleId(font.name);
-    const style = typeof document !== 'undefined' ? document.getElementById(styleId) : null;
-    if (style) style.remove();
   }
 
   // 3) 网络失败时降级到缓存 (防止之前读缓存时偶发失败)
   try {
     const fallback = await getCachedFontRecord(font.name);
     if (fallback) {
-      registerFontFace(font.name, familyName, fallback.arrayBuffer, fallback.format);
-      if (await verifyFontRegistered(familyName)) {
+      const fallbackChunks: LoadedFontChunk[] = fallback.chunks.map(c => ({
+        buffer: c.buffer,
+        format: c.format,
+        unicodeRange: c.unicodeRange,
+        source: font.sources[0],
+      }));
+      const registered = await registerFontFace(font.name, familyName, fallbackChunks);
+      if (registered && await verifyFontRegistered(familyName)) {
         loadedFonts.add(font.name);
         return true;
       }
