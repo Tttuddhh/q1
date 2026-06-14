@@ -357,33 +357,20 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                         }}
                       >
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <div
-                            style={{
-                              fontFamily: font.family,
-                              fontSize: 15,
-                              lineHeight: 1.3,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                              color: isLoading ? '#9ca3af' : '#111827',
-                            }}
-                          >
-                            {font.preview || font.name}
-                          </div>
-                          <div
-                            style={{
-                              fontSize: 10,
-                              color: '#9ca3af',
-                              lineHeight: 1.2,
-                              marginTop: 1,
-                              overflow: 'hidden',
-                              textOverflow: 'ellipsis',
-                              whiteSpace: 'nowrap',
-                            }}
-                          >
-                            {font.name}
-                          </div>
+                        <div
+                          style={{
+                            fontFamily: font.family,
+                            fontSize: 15,
+                            lineHeight: 1.4,
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap',
+                            color: isLoading ? '#9ca3af' : '#111827',
+                          }}
+                        >
+                          {font.name}
                         </div>
+                      </div>
                         {isLoading && (
                           <HugeiconsIcon
                             icon={Loading03Icon}
