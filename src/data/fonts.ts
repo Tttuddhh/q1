@@ -434,7 +434,7 @@ export const FONTS: FontData[] = [
     ],
   },
   {
-    name: 'X12Y16圆体Monica',
+    name: '十二乘十六圆体',
     family: '"X12Y16PxMaruMonica", sans-serif',
     category: 'chinese',
     tags: ['chinese', 'sans'],
@@ -459,18 +459,6 @@ export const FONTS: FontData[] = [
     ],
   },
   {
-    name: '注音Iansui',
-    family: '"Bpmf Iansui", cursive',
-    googleFontName: 'Bpmf+Iansui',
-    category: 'chinese',
-    tags: ['chinese', 'handwriting'],
-    preview: '注音Iansui',
-    sources: [
-      { type: 'jsdelivr-fontsource', url: 'https://cdn.jsdelivr.net/npm/@fontsource/bpmf-iansui/index.css', priority: 1 },
-      { type: 'google-fonts', url: 'https://fonts.googleapis.com/css2?family=Bpmf+Iansui', priority: 2 },
-    ],
-  },
-  {
     name: '注音字嗨楷',
     family: '"Bpmf Zihi Kai Std", cursive',
     googleFontName: 'Bpmf+Zihi+Kai+Std',
@@ -492,18 +480,6 @@ export const FONTS: FontData[] = [
     sources: [
       { type: 'jsdelivr-fontsource', url: 'https://cdn.jsdelivr.net/npm/@fontsource/huninn/index.css', priority: 1 },
       { type: 'google-fonts', url: 'https://fonts.googleapis.com/css2?family=Huninn', priority: 2 },
-    ],
-  },
-  {
-    name: 'Iansui',
-    family: '"Iansui", cursive',
-    googleFontName: 'Iansui',
-    category: 'chinese',
-    tags: ['chinese', 'handwriting'],
-    preview: 'Iansui',
-    sources: [
-      { type: 'jsdelivr-fontsource', url: 'https://cdn.jsdelivr.net/npm/@fontsource/iansui/index.css', priority: 1 },
-      { type: 'google-fonts', url: 'https://fonts.googleapis.com/css2?family=Iansui', priority: 2 },
     ],
   },
 
@@ -571,7 +547,7 @@ export const FONTS: FontData[] = [
     ],
   },
   {
-    name: 'Cactus古典宋',
+    name: '仙人掌古典宋',
     family: '"Cactus Classical Serif", serif',
     googleFontName: 'Cactus+Classical+Serif',
     category: 'chinese',
@@ -583,7 +559,7 @@ export const FONTS: FontData[] = [
     ],
   },
   {
-    name: 'Chocolate古典黑',
+    name: '巧克力古典黑',
     family: '"Chocolate Classical Sans", sans-serif',
     googleFontName: 'Chocolate+Classical+Sans',
     category: 'chinese',
@@ -641,7 +617,7 @@ export const FONTS: FontData[] = [
     ],
   },
   {
-    name: '霞鹜文楷屏幕版R',
+    name: '霞鹜文楷屏幕粗体',
     family: '"LXGW WenKai Screen R", serif',
     category: 'chinese',
     tags: ['chinese', 'serif'],
@@ -762,7 +738,7 @@ export const FONTS: FontData[] = [
     ],
   },
   {
-    name: '龙珠体ZHS',
+    name: '龙珠体简体',
     family: '"LogoScLongZhuTiZhs", sans-serif',
     category: 'chinese',
     tags: ['chinese', 'sans'],
@@ -1042,18 +1018,7 @@ export const FONTS: FontData[] = [
     ],
   },
 
-  // Group C: 濑户/其他日系中文支持 (5)
-  {
-    name: '濑户字体',
-    family: '"Seto", sans-serif',
-    category: 'chinese',
-    tags: ['chinese', 'sans'],
-    preview: '濑户字体',
-    sources: [
-      { type: 'jsdelivr-cn-fontsource', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-seto-regular/font.css', priority: 1 },
-      { type: 'jsdelivr-cn-fontsource-latest', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-seto-regular@latest/font.css', priority: 2 },
-    ],
-  },
+
   {
     name: '庞门正道标题体',
     family: '"PangMenZhengDao", sans-serif',
@@ -1395,6 +1360,39 @@ export const FONTS: FontData[] = [
     sources: [
       { type: 'jsdelivr-cn-fontsource', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-hua-kang-wa-wa-ti-regular/font.css', priority: 1 },
       { type: 'jsdelivr-cn-fontsource-latest', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-hua-kang-wa-wa-ti-regular@latest/font.css', priority: 2 },
+    ],
+  },
+  {
+    name: '华康海报宋体',
+    family: '"HuaKang HaiBao", sans-serif',
+    category: 'chinese',
+    tags: ['chinese', 'sans'],
+    preview: '华康海报',
+    sources: [
+      { type: 'jsdelivr-cn-fontsource', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-hua-kang-hai-bao-ti-regular/font.css', priority: 1 },
+      { type: 'jsdelivr-cn-fontsource-latest', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-hua-kang-hai-bao-ti-regular@latest/font.css', priority: 2 },
+    ],
+  },
+  {
+    name: '华康墨字体',
+    family: '"HuaKang MoZi", serif',
+    category: 'chinese',
+    tags: ['chinese', 'serif'],
+    preview: '华康墨字',
+    sources: [
+      { type: 'jsdelivr-cn-fontsource', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-hua-kang-mo-zi-ti-regular/font.css', priority: 1 },
+      { type: 'jsdelivr-cn-fontsource-latest', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-hua-kang-mo-zi-ti-regular@latest/font.css', priority: 2 },
+    ],
+  },
+  {
+    name: '华康古印体',
+    family: '"HuaKang GuYin", serif',
+    category: 'chinese',
+    tags: ['chinese', 'serif'],
+    preview: '华康古印',
+    sources: [
+      { type: 'jsdelivr-cn-fontsource', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-hua-kang-gu-yin-ti-regular/font.css', priority: 1 },
+      { type: 'jsdelivr-cn-fontsource-latest', url: 'https://cdn.jsdelivr.net/npm/cn-fontsource-hua-kang-gu-yin-ti-regular@latest/font.css', priority: 2 },
     ],
   },
 ];
