@@ -18,6 +18,16 @@ const CATEGORY_LABELS: Record<string, string> = {
   other: '其他字体',
 };
 
+const STYLE_ORDER = ['handwriting', 'serif', 'sans', 'cute', 'gothic'] as const;
+
+const STYLE_LABELS: Record<string, string> = {
+  handwriting: '手写体',
+  serif: '衬线体',
+  sans: '无衬线体',
+  cute: '可爱风',
+  gothic: '哥特风',
+};
+
 export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
@@ -60,9 +70,9 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
   const groupedFonts = useMemo(() => {
     const groups: Record<string, FontData[]> = {};
     for (const font of filteredFonts) {
-      const cat = font.category;
-      if (!groups[cat]) groups[cat] = [];
-      groups[cat].push(font);
+      const style = font.tags.find(tag => tag !== 'chinese') || 'other';
+      if (!groups[style]) groups[style] = [];
+      groups[style].push(font);
     }
     return groups;
   }, [filteredFonts]);
@@ -211,11 +221,11 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
               {t('editor.font_system')}
             </button>
 
-            {CATEGORY_ORDER.map(cat => {
-              const fonts = groupedFonts[cat];
+            {STYLE_ORDER.map(style => {
+              const fonts = groupedFonts[style];
               if (!fonts || fonts.length === 0) return null;
               return (
-                <div key={cat}>
+                <div key={style}>
                   <div
                     style={{
                       padding: '4px 10px 2px',
@@ -226,7 +236,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                       letterSpacing: '0.02em',
                     }}
                   >
-                    {CATEGORY_LABELS[cat]}
+                    {STYLE_LABELS[style]}
                   </div>
                   {fonts.map(font => (
                     <button

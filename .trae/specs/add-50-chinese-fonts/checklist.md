@@ -1,0 +1,8 @@
+- [x] FONTS 数组包含恰好50个字体定义
+- [x] 所有字体 category 字段均为 'chinese'
+- [x] 每个字体包含完整的 name、family、googleFontName、category、tags、preview 字段
+- [x] 字体按风格标签（手写体/衬线体/无衬线体/可爱风/哥特风）正确分组
+- [x] 系统默认字体在列表顶部独立显示
+- [x] npm run build 构建成功，无 TypeScript 错误
+- [x] 字体选择器面板中可看到50种字体
+- [x] 选择任意字体后编辑区文字以该字体样式正确渲染
