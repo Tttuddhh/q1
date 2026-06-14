@@ -1,0 +1,6 @@
+- [x] 检查 FONTS 数组是否为空数组
+- [x] 检查 SYSTEM_FONT 常量是否保留且正确
+- [x] 检查 FontData 接口是否保留
+- [x] 检查 FONT_CATEGORIES 常量是否保留
+- [x] 验证构建是否成功（npm run build）
+- [x] 验证字体选择器仅显示系统默认字体
