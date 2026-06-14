@@ -179,7 +179,11 @@ function extractFontFromCss(css: string, preferredFormat: string, baseUrl?: stri
 
   while ((m = faceRegex.exec(css)) !== null) {
     const block = m[1];
-    const urlMatch = /url\((['"]?)([^'")]+)\1\)\s*format\((['"]?)([a-z0-9]+)\3\)/i.exec(block);
+    let urlMatch = /url\((['"]?)([^'")]+)\1\)\s*format\((['"]?)([a-z0-9]+)\3\)/i.exec(block);
+    // 也尝试匹配无空格的情况: url(...)format(...)
+    if (!urlMatch) {
+      urlMatch = /url\((['"]?)([^'")]+)\1\)format\((['"]?)([a-z0-9]+)\3\)/i.exec(block);
+    }
     if (!urlMatch) continue;
     const fmt = urlMatch[4].toLowerCase();
     if (!FORMAT_EXT_MAP[fmt]) continue;
