@@ -1,7 +1,7 @@
 export interface FontData {
   name: string;
   family: string;
-  googleFontName: string;
+  fontId: string;
   category: 'chinese' | 'english' | 'other';
   tags: string[];
   preview: string;
@@ -20,73 +20,71 @@ export const FONT_CATEGORIES = [
 ] as const;
 
 export const FONTS: FontData[] = [
-  // === Noto 系列 (8个) ===
-  { name: '思源黑体简', family: '"Noto Sans SC", sans-serif', googleFontName: 'Noto+Sans+SC', category: 'chinese', tags: ['chinese', 'sans'], preview: '天地玄黄' },
-  { name: '思源宋体简', family: '"Noto Serif SC", serif', googleFontName: 'Noto+Serif+SC', category: 'chinese', tags: ['chinese', 'serif'], preview: '汉字之美' },
-  { name: '思源黑体繁', family: '"Noto Sans TC", sans-serif', googleFontName: 'Noto+Sans+TC', category: 'chinese', tags: ['chinese', 'sans'], preview: '中文排版' },
-  { name: '思源宋体繁', family: '"Noto Serif TC", serif', googleFontName: 'Noto+Serif+TC', category: 'chinese', tags: ['chinese', 'serif'], preview: '字体样式' },
-  { name: '思源黑体港', family: '"Noto Sans HK", sans-serif', googleFontName: 'Noto+Sans+HK', category: 'chinese', tags: ['chinese', 'sans'], preview: '锦绣河山' },
-  { name: '思源宋体港', family: '"Noto Serif HK", serif', googleFontName: 'Noto+Serif+HK', category: 'chinese', tags: ['chinese', 'serif'], preview: '博大精深' },
-  { name: '思源等宽黑体简', family: '"Noto Sans Mono SC", monospace', googleFontName: 'Noto+Sans+Mono+SC', category: 'chinese', tags: ['chinese', 'sans'], preview: '笔墨纸砚' },
-  { name: '思源等宽黑体繁', family: '"Noto Sans Mono TC", monospace', googleFontName: 'Noto+Sans+Mono+TC', category: 'chinese', tags: ['chinese', 'sans'], preview: '文房四宝' },
+  // ===== 手写体 / 书法 (12个) =====
+  { name: '马山正', family: '"Ma Shan Zheng", cursive', fontId: 'ma-shan-zheng', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '华夏文明' },
+  { name: '志莽行', family: '"Zhi Mang Xing", cursive', fontId: 'zhi-mang-xing', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '锦绣河山' },
+  { name: '龙藏体', family: '"Long Cang", cursive', fontId: 'long-cang', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '中华文字' },
+  { name: '柳建毛草', family: '"Liu Jian Mao Cao", cursive', fontId: 'liu-jian-mao-cao', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '博大精深' },
+  { name: '霞鹜文楷', family: '"LXGW WenKai TC", cursive', fontId: 'lxgw-wenkai-tc', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '水墨丹青' },
+  { name: '芫荽体', family: '"Iansui", cursive', fontId: 'iansui', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '文房四宝' },
+  { name: '注音芫荽', family: '"Bpmf Iansui", cursive', fontId: 'bpmf-iansui', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '书香门第' },
+  { name: 'Klee One', family: '"Klee One", cursive', fontId: 'klee-one', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '风华正茂' },
+  { name: '站酷小薇', family: '"ZCOOL XiaoWei", serif', fontId: 'zcool-xiaowei', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '古今中外' },
+  { name: 'Yuji Mai', family: '"Yuji Mai", serif', fontId: 'yuji-mai', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '琴棋书画' },
+  { name: 'Chokokutai', family: '"Chokokutai", display', fontId: 'chokokutai', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '梅兰竹菊' },
+  { name: 'Aoboshi One', family: '"Aoboshi One", serif', fontId: 'aoboshi-one', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '风花雪月' },
 
-  // === LXGW 系列 (5个) ===
-  { name: '霞鹜文楷', family: '"LXGW WenKai", cursive', googleFontName: 'LXGW+WenKai', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '行云流水' },
-  { name: '霞鹜文楷繁', family: '"LXGW WenKai TC", cursive', googleFontName: 'LXGW+WenKai+TC', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '龙飞凤舞' },
-  { name: '霞鹜文楷等宽', family: '"LXGW WenKai Mono TC", monospace', googleFontName: 'LXGW+WenKai+Mono+TC', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '诗词歌赋' },
-  { name: '霞鹜明体', family: '"LXGW Bright", serif', googleFontName: 'LXGW+Bright', category: 'chinese', tags: ['chinese', 'serif'], preview: '水墨丹青' },
-  { name: '霞鹜明体繁', family: '"LXGW Bright TC", serif', googleFontName: 'LXGW+Bright+TC', category: 'chinese', tags: ['chinese', 'serif'], preview: '华夏文明' },
+  // ===== 宋体 / 衬线体 (12个) =====
+  { name: '思源宋体简', family: '"Noto Serif SC", serif', fontId: 'noto-serif-sc', category: 'chinese', tags: ['chinese', 'serif'], preview: '汉字之美' },
+  { name: '思源宋体繁', family: '"Noto Serif TC", serif', fontId: 'noto-serif-tc', category: 'chinese', tags: ['chinese', 'serif'], preview: '笔墨纸砚' },
+  { name: '思源宋体港', family: '"Noto Serif HK", serif', fontId: 'noto-serif-hk', category: 'chinese', tags: ['chinese', 'serif'], preview: '行云流水' },
+  { name: '昭源宋体', family: '"Chiron Sung HK", serif', fontId: 'chiron-sung-hk', category: 'chinese', tags: ['chinese', 'serif'], preview: '龙飞凤舞' },
+  { name: '仙人掌古典宋', family: '"Cactus Classical Serif", serif', fontId: 'cactus-classical-serif', category: 'chinese', tags: ['chinese', 'serif'], preview: '诗词歌赋' },
+  { name: 'Sawarabi Mincho', family: '"Sawarabi Mincho", serif', fontId: 'sawarabi-mincho', category: 'chinese', tags: ['chinese', 'serif'], preview: '天地玄黄' },
+  { name: 'Hina Mincho', family: '"Hina Mincho", serif', fontId: 'hina-mincho', category: 'chinese', tags: ['chinese', 'serif'], preview: '日月星辰' },
+  { name: 'Shippori Mincho', family: '"Shippori Mincho", serif', fontId: 'shippori-mincho', category: 'chinese', tags: ['chinese', 'serif'], preview: '江河湖海' },
+  { name: 'BIZ UDMincho', family: '"BIZ UDMincho", serif', fontId: 'biz-udmincho', category: 'chinese', tags: ['chinese', 'serif'], preview: '春夏秋冬' },
+  { name: '思源宋体日', family: '"Noto Serif JP", serif', fontId: 'noto-serif-jp', category: 'chinese', tags: ['chinese', 'serif'], preview: '金木水火' },
+  { name: 'UoqMunThenKhung', family: '"UoqMunThenKhung", serif', fontId: 'uoqmunthenkhung', category: 'chinese', tags: ['chinese', 'serif'], preview: '东西南北' },
+  { name: 'Kiwi Maru', family: '"Kiwi Maru", serif', fontId: 'kiwi-maru', category: 'chinese', tags: ['chinese', 'serif'], preview: '花鸟鱼虫' },
 
-  // === 手写体 (4个) ===
-  { name: '马山正', family: '"Ma Shan Zheng", cursive', googleFontName: 'Ma+Shan+Zheng', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '中华文字' },
-  { name: '志莽行', family: '"Zhi Mang Xing", cursive', googleFontName: 'Zhi+Mang+Xing', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '风花雪月' },
-  { name: '龙藏', family: '"Long Cang", cursive', googleFontName: 'Long+Cang', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '春华秋实' },
-  { name: '柳建毛草', family: '"Liu Jian Mao Cao", cursive', googleFontName: 'Liu+Jian+Mao+Cao', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '琴棋书画' },
+  // ===== 黑体 / 无衬线体 (12个) =====
+  { name: '思源黑体简', family: '"Noto Sans SC", sans-serif', fontId: 'noto-sans-sc', category: 'chinese', tags: ['chinese', 'sans'], preview: '天地玄黄' },
+  { name: '思源黑体繁', family: '"Noto Sans TC", sans-serif', fontId: 'noto-sans-tc', category: 'chinese', tags: ['chinese', 'sans'], preview: '宇宙洪荒' },
+  { name: '思源黑体港', family: '"Noto Sans HK", sans-serif', fontId: 'noto-sans-hk', category: 'chinese', tags: ['chinese', 'sans'], preview: '日月盈昃' },
+  { name: '昭源黑体', family: '"Chiron Hei HK", sans-serif', fontId: 'chiron-hei-hk', category: 'chinese', tags: ['chinese', 'sans'], preview: '辰宿列张' },
+  { name: '昭源圆体', family: '"Chiron GoRound TC", sans-serif', fontId: 'chiron-goround-tc', category: 'chinese', tags: ['chinese', 'sans'], preview: '寒来暑往' },
+  { name: '润滑体简', family: '"WDXL Lubrifont SC", sans-serif', fontId: 'wdxl-lubrifont-sc', category: 'chinese', tags: ['chinese', 'sans'], preview: '秋收冬藏' },
+  { name: '润滑体繁', family: '"WDXL Lubrifont TC", sans-serif', fontId: 'wdxl-lubrifont-tc', category: 'chinese', tags: ['chinese', 'sans'], preview: '闰余成岁' },
+  { name: '很黏体', family: '"Huninn", sans-serif', fontId: 'huninn', category: 'chinese', tags: ['chinese', 'sans'], preview: '律吕调阳' },
+  { name: '注音很黏', family: '"Bpmf Huninn", sans-serif', fontId: 'bpmf-huninn', category: 'chinese', tags: ['chinese', 'sans'], preview: '云腾致雨' },
+  { name: '注音字嗨楷', family: '"Bpmf Zihi Kai Std", sans-serif', fontId: 'bpmf-zihi-kai-std', category: 'chinese', tags: ['chinese', 'sans'], preview: '露结为霜' },
+  { name: '巧克力古典黑', family: '"Chocolate Classical Sans", sans-serif', fontId: 'chocolate-classical-sans', category: 'chinese', tags: ['chinese', 'sans'], preview: '金生丽水' },
+  { name: '思源黑体日', family: '"Noto Sans JP", sans-serif', fontId: 'noto-sans-jp', category: 'chinese', tags: ['chinese', 'sans'], preview: '玉出昆冈' },
 
-  // === ZCOOL 主系列 (8个) ===
-  { name: '站酷小薇', family: '"ZCOOL XiaoWei", serif', googleFontName: 'ZCOOL+XiaoWei', category: 'chinese', tags: ['chinese', 'serif'], preview: '梅兰竹菊' },
-  { name: '站酷快乐', family: '"ZCOOL KuaiLe", cursive', googleFontName: 'ZCOOL+KuaiLe', category: 'chinese', tags: ['chinese', 'cute'], preview: '万里长城' },
-  { name: '站酷庆科黄油', family: '"ZCOOL QingKe HuangYou", cursive', googleFontName: 'ZCOOL+QingKe+HuangYou', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '大江东去' },
-  { name: '站酷高端黑', family: '"ZCOOL GaoDuanHei", sans-serif', googleFontName: 'ZCOOL+GaoDuanHei', category: 'chinese', tags: ['chinese', 'sans'], preview: '千古风流' },
-  { name: '站酷酷黑', family: '"ZCOOL KuHei", sans-serif', googleFontName: 'ZCOOL+KuHei', category: 'chinese', tags: ['chinese', 'gothic'], preview: '星河灿烂' },
-  { name: '站酷傲然', family: '"ZCOOL AoRan", sans-serif', googleFontName: 'ZCOOL+AoRan', category: 'chinese', tags: ['chinese', 'gothic'], preview: '江山如画' },
-  { name: '站酷漫游', family: '"ZCOOL ManYao", sans-serif', googleFontName: 'ZCOOL+ManYao', category: 'chinese', tags: ['chinese', 'cute'], preview: '鸟语花香' },
-  { name: '站酷上瘾斜体', family: '"ZCOOL Addict Italic 01", cursive', googleFontName: 'ZCOOL+Addict+Italic+01', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '海阔天空' },
+  // ===== 可爱风 / 圆体 (8个) =====
+  { name: '站酷快乐', family: '"ZCOOL KuaiLe", cursive', fontId: 'zcool-kuaile', category: 'chinese', tags: ['chinese', 'cute'], preview: '剑号巨阙' },
+  { name: '站酷庆科黄油', family: '"ZCOOL QingKe HuangYou", cursive', fontId: 'zcool-qingke-huangyou', category: 'chinese', tags: ['chinese', 'cute'], preview: '珠称夜光' },
+  { name: 'Zen Maru Gothic', family: '"Zen Maru Gothic", sans-serif', fontId: 'zen-maru-gothic', category: 'chinese', tags: ['chinese', 'cute'], preview: '果珍李柰' },
+  { name: 'M PLUS Rounded 1c', family: '"M PLUS Rounded 1c", sans-serif', fontId: 'm-plus-rounded-1c', category: 'chinese', tags: ['chinese', 'cute'], preview: '菜重芥姜' },
+  { name: 'Kosugi Maru', family: '"Kosugi Maru", sans-serif', fontId: 'kosugi-maru', category: 'chinese', tags: ['chinese', 'cute'], preview: '海咸河淡' },
+  { name: 'Yusei Magic', family: '"Yusei Magic", sans-serif', fontId: 'yusei-magic', category: 'chinese', tags: ['chinese', 'cute'], preview: '鳞潜羽翔' },
+  { name: 'Cherry Bomb One', family: '"Cherry Bomb One", display', fontId: 'cherry-bomb-one', category: 'chinese', tags: ['chinese', 'cute'], preview: '龙师火帝' },
+  { name: 'Darumadrop One', family: '"Darumadrop One", display', fontId: 'darumadrop-one', category: 'chinese', tags: ['chinese', 'cute'], preview: '鸟官人皇' },
 
-  // === ZCOOL QingKe 子系列 (15个) ===
-  { name: '站酷庆科', family: '"ZCOOL QingKe", cursive', googleFontName: 'ZCOOL+QingKe', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '云淡风轻' },
-  { name: '站酷庆科本墨', family: '"ZCOOL QingKe BenMo", cursive', googleFontName: 'ZCOOL+QingKe+BenMo', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '山高水长' },
-  { name: '站酷庆科创客', family: '"ZCOOL QingKe ChuangKe", sans-serif', googleFontName: 'ZCOOL+QingKe+ChuangKe', category: 'chinese', tags: ['chinese', 'sans'], preview: '科技时代' },
-  { name: '站酷庆科大墨', family: '"ZCOOL QingKe DaMo", sans-serif', googleFontName: 'ZCOOL+QingKe+DaMo', category: 'chinese', tags: ['chinese', 'gothic'], preview: '大漠孤烟' },
-  { name: '站酷庆科构机', family: '"ZCOOL QingKe GouJi", sans-serif', googleFontName: 'ZCOOL+QingKe+GouJi', category: 'chinese', tags: ['chinese', 'sans'], preview: '匠心独运' },
-  { name: '站酷庆科君辰', family: '"ZCOOL QingKe JunChen", serif', googleFontName: 'ZCOOL+QingKe+JunChen', category: 'chinese', tags: ['chinese', 'serif'], preview: '君子之风' },
-  { name: '站酷庆科宁风', family: '"ZCOOL QingKe NingFeng", serif', googleFontName: 'ZCOOL+QingKe+NingFeng', category: 'chinese', tags: ['chinese', 'serif'], preview: '宁静致远' },
-  { name: '站酷庆科水墨', family: '"ZCOOL QingKe ShuiMo", cursive', googleFontName: 'ZCOOL+QingKe+ShuiMo', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '水墨江南' },
-  { name: '站酷庆科小薇', family: '"ZCOOL QingKe XiaoWei", serif', googleFontName: 'ZCOOL+QingKe+XiaoWei', category: 'chinese', tags: ['chinese', 'serif'], preview: '微风细雨' },
-  { name: '站酷庆科臻宋', family: '"ZCOOL QingKe ZhenSong", serif', googleFontName: 'ZCOOL+QingKe+ZhenSong', category: 'chinese', tags: ['chinese', 'serif'], preview: '臻于至善' },
-  { name: '站酷庆科中黑', family: '"ZCOOL QingKe ZhongHei", sans-serif', googleFontName: 'ZCOOL+QingKe+ZhongHei', category: 'chinese', tags: ['chinese', 'gothic'], preview: '黑白分明' },
-  { name: '站酷庆科紫云', family: '"ZCOOL QingKe ZiYun", cursive', googleFontName: 'ZCOOL+QingKe+ZiYun', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '紫气东来' },
-  { name: '站酷庆科综艺', family: '"ZCOOL QingKe ZongYi", sans-serif', googleFontName: 'ZCOOL+QingKe+ZongYi', category: 'chinese', tags: ['chinese', 'cute'], preview: '综艺大观' },
-  { name: '站酷楸衣', family: '"ZCOOL QiuYi", cursive', googleFontName: 'ZCOOL+QiuYi', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '楸树飘香' },
-  { name: '站酷小白', family: '"ZCOOL XiaoBai", sans-serif', googleFontName: 'ZCOOL+XiaoBai', category: 'chinese', tags: ['chinese', 'cute'], preview: '天真烂漫' },
-
-  // === 补充中文字体 (10个) ===
-  { name: '站酷快乐体', family: '"ZCOOL Happy", sans-serif', googleFontName: 'ZCOOL+Happy', category: 'chinese', tags: ['chinese', 'cute'], preview: '中华文字' },
-  { name: '站酷小蚂蚁', family: '"ZCOOL LittleAnt", sans-serif', googleFontName: 'ZCOOL+LittleAnt', category: 'chinese', tags: ['chinese', 'cute'], preview: '华夏文明' },
-  { name: '站酷猫咪', family: '"ZCOOL Cat", sans-serif', googleFontName: 'ZCOOL+Cat', category: 'chinese', tags: ['chinese', 'cute'], preview: '龙飞凤舞' },
-  { name: '站酷明朝', family: '"ZCOOL Mincho", serif', googleFontName: 'ZCOOL+Mincho', category: 'chinese', tags: ['chinese', 'serif'], preview: '诗词歌赋' },
-  { name: '站酷哥特', family: '"ZCOOL Gothic", sans-serif', googleFontName: 'ZCOOL+Gothic', category: 'chinese', tags: ['chinese', 'gothic'], preview: '水墨丹青' },
-  { name: '霞鹜文楷细', family: '"LXGW WenKai Light", cursive', googleFontName: 'LXGW+WenKai+Light', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '行云流水' },
-  { name: '霞鹜明体代码', family: '"LXGW Bright Code", serif', googleFontName: 'LXGW+Bright+Code', category: 'chinese', tags: ['chinese', 'serif'], preview: '文房四宝' },
-  { name: '思源黑体简细', family: '"Noto Sans SC", sans-serif', googleFontName: 'Noto+Sans+SC', category: 'chinese', tags: ['chinese', 'sans'], preview: '锦绣河山' },
-  { name: '思源宋体简粗', family: '"Noto Serif SC", serif', googleFontName: 'Noto+Serif+SC', category: 'chinese', tags: ['chinese', 'serif'], preview: '博大精深' },
-  { name: '马山正专业版', family: '"Ma Shan Zheng", cursive', googleFontName: 'Ma+Shan+Zheng', category: 'chinese', tags: ['chinese', 'handwriting'], preview: '笔墨纸砚' },
+  // ===== 哥特风 / 粗犷风 (6个) =====
+  { name: 'Dela Gothic One', family: '"Dela Gothic One", sans-serif', fontId: 'dela-gothic-one', category: 'chinese', tags: ['chinese', 'gothic'], preview: '始制文字' },
+  { name: 'Black Han Sans', family: '"Black Han Sans", sans-serif', fontId: 'black-han-sans', category: 'chinese', tags: ['chinese', 'gothic'], preview: '乃服衣裳' },
+  { name: '霞鹜标记哥特', family: '"LXGW Marker Gothic", sans-serif', fontId: 'lxgw-marker-gothic', category: 'chinese', tags: ['chinese', 'gothic'], preview: '推位让国' },
+  { name: 'Zen Kaku Gothic New', family: '"Zen Kaku Gothic New", sans-serif', fontId: 'zen-kaku-gothic-new', category: 'chinese', tags: ['chinese', 'gothic'], preview: '有虞陶唐' },
+  { name: 'M PLUS 1p', family: '"M PLUS 1p", sans-serif', fontId: 'm-plus-1p', category: 'chinese', tags: ['chinese', 'gothic'], preview: '吊民伐罪' },
+  { name: 'Sawarabi Gothic', family: '"Sawarabi Gothic", sans-serif', fontId: 'sawarabi-gothic', category: 'chinese', tags: ['chinese', 'gothic'], preview: '周发殷汤' },
 ];
 
 export const SYSTEM_FONT = {
   name: '系统默认',
   family: 'inherit',
-  googleFontName: '',
+  fontId: '',
   category: 'chinese' as const,
   tags: ['chinese'],
   preview: '天地玄黄',
