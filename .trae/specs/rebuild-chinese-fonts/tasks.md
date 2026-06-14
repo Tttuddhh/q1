@@ -1,6 +1,6 @@
 # 重建中文字体库 - Tasks
 
-## [x] Task 1: 调研并验证 120 个中文字体的可用 CDN URL
+## [ ] Task 1: 调研并验证 120 个中文字体的可用 CDN URL
 - **Priority**: P0
 - **Depends On**: None
 - **Description**:
@@ -12,7 +12,7 @@
 - **Test Requirements**:
   - `programmatic`: 验证脚本输出 120 个字体全部通过
 
-## [x] Task 2: 重写 fonts.ts - 构建 120 个中文字体数据
+## [ ] Task 2: 重写 fonts.ts - 构建 120 个中文字体数据
 - **Priority**: P0
 - **Depends On**: Task 1
 - **Description**:
@@ -28,7 +28,7 @@
   - `programmatic`: `tsc -b` 编译无错
   - `programmatic`: 中文字体数 = 120，英文字体数 = 0
 
-## [x] Task 3: 调整 FontPicker 分类显示
+## [ ] Task 3: 调整 FontPicker 分类显示
 - **Priority**: P1
 - **Depends On**: Task 2
 - **Description**:
@@ -37,7 +37,7 @@
   - 确保 UI 显示正常
 - **Acceptance Criteria**: FontPicker 不再显示 english/other 分类
 
-## [x] Task 4: 端到端验证 - 字体渲染
+## [ ] Task 4: 端到端验证 - 字体渲染
 - **Priority**: P0
 - **Depends On**: Task 3
 - **Description**:
