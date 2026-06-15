@@ -1,0 +1,17 @@
+- [x] 调研确认50个 fontsource 字体包真实存在且包含中文字形
+- [x] 所有50个 `@fontsource/xxx` 包已安装到 node_modules
+- [x] 每个字体包包含 woff2 字体文件
+- [x] fontLoader.ts 使用动态 import 加载本地 fontsource CSS
+- [x] fontLoader.ts 无外部 CDN 依赖
+- [x] FONTS 数组包含恰好50个字体定义
+- [x] 所有字体的 `name` 字段均为纯中文名称
+- [x] 所有字体的 `fontId` 对应真实存在的 `@fontsource/` 包名
+- [x] 移除思源系列中视觉差异极小的重复字体
+- [x] 移除所有在 fontsource 上不存在的字体（演示系列、巧克力、仙人掌等）
+- [x] 字体按风格标签（手写体/宋体/黑体/可爱风/哥特风）正确分组
+- [x] FontPicker 移除 Google Fonts 预加载逻辑
+- [x] 字体列表中每个字体名称以该字体自身样式渲染
+- [x] 选择字体后编辑器文字以该字体样式正确渲染
+- [x] `npm run build` 构建成功
+- [x] 构建产物中包含所有字体文件
+- [x] 离线环境下字体仍能正常加载
