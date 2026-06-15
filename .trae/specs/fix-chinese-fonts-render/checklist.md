@@ -1,0 +1,13 @@
+- [x] fontLoader.ts 使用 Google Fonts CSS2 API 加载字体，URL 格式正确
+- [x] fontLoader.ts 支持批量预加载多个字体
+- [x] fontLoader.ts 有加载缓存避免重复创建 `<link>` 标签
+- [x] FONTS 数组包含恰好 50 个字体定义
+- [x] 所有字体的 `name` 字段均为纯中文名称（无英文字母）
+- [x] 所有字体的 `category` 字段均为 `'chinese'`
+- [x] 所有字体的 `googleFontName` 对应 Google Fonts 上真实存在的字体
+- [x] 字体按风格标签（手写体/宋体/黑体/可爱风/哥特风）正确分组
+- [x] 系统默认字体在列表顶部独立显示
+- [x] FontPicker 打开时预加载所有字体 CSS
+- [x] 字体列表中每个字体名称以该字体自身样式渲染
+- [x] 选择字体后编辑器文字以该字体样式正确渲染
+- [x] `npm run build` 构建成功，无 TypeScript 错误
