@@ -1,5 +1,6 @@
 export interface FontData {
   name: string;
+  displayName: string;
   family: string;
   googleFontName: string;
   category: 'chinese';
@@ -21,6 +22,7 @@ export const FONTS: FontData[] = [
   // ===== 无衬线体 (Sans) =====
   {
     name: 'Noto Sans SC',
+    displayName: '思源黑体',
     family: '"Noto Sans SC", sans-serif',
     googleFontName: 'Noto+Sans+SC',
     category: 'chinese',
@@ -29,6 +31,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe HuangYou',
+    displayName: '站酷庆科黄油体',
     family: '"ZCOOL QingKe HuangYou", sans-serif',
     googleFontName: 'ZCOOL+QingKe+HuangYou',
     category: 'chinese',
@@ -37,6 +40,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL XiaoBai',
+    displayName: '站酷小白体',
     family: '"ZCOOL XiaoBai", sans-serif',
     googleFontName: 'ZCOOL+XiaoBai',
     category: 'chinese',
@@ -45,6 +49,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QiuYi',
+    displayName: '站酷秋意体',
     family: '"ZCOOL QiuYi", sans-serif',
     googleFontName: 'ZCOOL+QiuYi',
     category: 'chinese',
@@ -53,6 +58,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL KuHei',
+    displayName: '站酷酷黑体',
     family: '"ZCOOL KuHei", sans-serif',
     googleFontName: 'ZCOOL+KuHei',
     category: 'chinese',
@@ -61,6 +67,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL AoRan',
+    displayName: '站酷傲然体',
     family: '"ZCOOL AoRan", sans-serif',
     googleFontName: 'ZCOOL+AoRan',
     category: 'chinese',
@@ -69,6 +76,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL GaoDuanHei',
+    displayName: '站酷高端黑',
     family: '"ZCOOL GaoDuanHei", sans-serif',
     googleFontName: 'ZCOOL+GaoDuanHei',
     category: 'chinese',
@@ -77,6 +85,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe',
+    displayName: '站酷庆科体',
     family: '"ZCOOL QingKe", sans-serif',
     googleFontName: 'ZCOOL+QingKe',
     category: 'chinese',
@@ -85,6 +94,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe BenMo',
+    displayName: '站酷庆科本墨体',
     family: '"ZCOOL QingKe BenMo", sans-serif',
     googleFontName: 'ZCOOL+QingKe+BenMo',
     category: 'chinese',
@@ -93,6 +103,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe ChuangKe',
+    displayName: '站酷庆科创客体',
     family: '"ZCOOL QingKe ChuangKe", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ChuangKe',
     category: 'chinese',
@@ -101,6 +112,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe DaMo',
+    displayName: '站酷庆科大漠体',
     family: '"ZCOOL QingKe DaMo", sans-serif',
     googleFontName: 'ZCOOL+QingKe+DaMo',
     category: 'chinese',
@@ -109,6 +121,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe GouJi',
+    displayName: '站酷庆科钩稽体',
     family: '"ZCOOL QingKe GouJi", sans-serif',
     googleFontName: 'ZCOOL+QingKe+GouJi',
     category: 'chinese',
@@ -117,6 +130,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe JunChen',
+    displayName: '站酷庆科俊辰体',
     family: '"ZCOOL QingKe JunChen", sans-serif',
     googleFontName: 'ZCOOL+QingKe+JunChen',
     category: 'chinese',
@@ -125,6 +139,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe NingFeng',
+    displayName: '站酷庆科宁风体',
     family: '"ZCOOL QingKe NingFeng", sans-serif',
     googleFontName: 'ZCOOL+QingKe+NingFeng',
     category: 'chinese',
@@ -133,6 +148,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe XiaoWei',
+    displayName: '站酷庆科小薇体',
     family: '"ZCOOL QingKe XiaoWei", sans-serif',
     googleFontName: 'ZCOOL+QingKe+XiaoWei',
     category: 'chinese',
@@ -141,6 +157,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe ZhongHei',
+    displayName: '站酷庆科中黑体',
     family: '"ZCOOL QingKe ZhongHei", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZhongHei',
     category: 'chinese',
@@ -149,6 +166,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe ZiYun',
+    displayName: '站酷庆科紫云体',
     family: '"ZCOOL QingKe ZiYun", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZiYun',
     category: 'chinese',
@@ -157,6 +175,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe ZongYi',
+    displayName: '站酷庆科综艺体',
     family: '"ZCOOL QingKe ZongYi", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ZongYi',
     category: 'chinese',
@@ -167,6 +186,7 @@ export const FONTS: FontData[] = [
   // ===== 衬线体 (Serif) =====
   {
     name: 'Noto Serif SC',
+    displayName: '思源宋体',
     family: '"Noto Serif SC", serif',
     googleFontName: 'Noto+Serif+SC',
     category: 'chinese',
@@ -175,6 +195,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL XiaoWei',
+    displayName: '站酷小薇体',
     family: '"ZCOOL XiaoWei", serif',
     googleFontName: 'ZCOOL+XiaoWei',
     category: 'chinese',
@@ -183,6 +204,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe ZhenSong',
+    displayName: '站酷庆科真宋体',
     family: '"ZCOOL QingKe ZhenSong", serif',
     googleFontName: 'ZCOOL+QingKe+ZhenSong',
     category: 'chinese',
@@ -191,6 +213,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'LXGW WenKai',
+    displayName: '霞鹜文楷',
     family: '"LXGW WenKai", serif',
     googleFontName: 'LXGW+WenKai',
     category: 'chinese',
@@ -199,6 +222,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'LXGW WenKai TC',
+    displayName: '霞鹜文楷繁体',
     family: '"LXGW WenKai TC", serif',
     googleFontName: 'LXGW+WenKai+TC',
     category: 'chinese',
@@ -209,6 +233,7 @@ export const FONTS: FontData[] = [
   // ===== 手写体 (Handwriting) =====
   {
     name: 'Ma Shan Zheng',
+    displayName: '马善政毛笔',
     family: '"Ma Shan Zheng", cursive',
     googleFontName: 'Ma+Shan+Zheng',
     category: 'chinese',
@@ -217,6 +242,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'Zhi Mang Xing',
+    displayName: '志明星行书',
     family: '"Zhi Mang Xing", cursive',
     googleFontName: 'Zhi+Mang+Xing',
     category: 'chinese',
@@ -225,6 +251,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'Long Cang',
+    displayName: '龙苍体',
     family: '"Long Cang", cursive',
     googleFontName: 'Long+Cang',
     category: 'chinese',
@@ -233,6 +260,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'Liu Jian Mao Cao',
+    displayName: '刘建毛草体',
     family: '"Liu Jian Mao Cao", cursive',
     googleFontName: 'Liu+Jian+Mao+Cao',
     category: 'chinese',
@@ -241,6 +269,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe ShuiMo',
+    displayName: '站酷庆科水墨体',
     family: '"ZCOOL QingKe ShuiMo", cursive',
     googleFontName: 'ZCOOL+QingKe+ShuiMo',
     category: 'chinese',
@@ -251,6 +280,7 @@ export const FONTS: FontData[] = [
   // ===== 可爱/卡通风 (Cute) =====
   {
     name: 'ZCOOL KuaiLe',
+    displayName: '站酷快乐体',
     family: '"ZCOOL KuaiLe", cursive',
     googleFontName: 'ZCOOL+KuaiLe',
     category: 'chinese',
@@ -259,6 +289,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL ManYao',
+    displayName: '站酷曼妙体',
     family: '"ZCOOL ManYao", cursive',
     googleFontName: 'ZCOOL+ManYao',
     category: 'chinese',
@@ -267,6 +298,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL Addict Italic 01',
+    displayName: '站酷斜体01',
     family: '"ZCOOL Addict Italic 01", cursive',
     googleFontName: 'ZCOOL+Addict+Italic+01',
     category: 'chinese',
@@ -277,6 +309,7 @@ export const FONTS: FontData[] = [
   // ===== 哥特/装饰风 (Gothic) =====
   {
     name: 'ZCOOL QingKe BiaoSong',
+    displayName: '站酷庆科标宋体',
     family: '"ZCOOL QingKe BiaoSong", serif',
     googleFontName: 'ZCOOL+QingKe+BiaoSong',
     category: 'chinese',
@@ -285,6 +318,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe KeSong',
+    displayName: '站酷庆科刻宋体',
     family: '"ZCOOL QingKe KeSong", serif',
     googleFontName: 'ZCOOL+QingKe+KeSong',
     category: 'chinese',
@@ -293,6 +327,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe MingTi',
+    displayName: '站酷庆科明体',
     family: '"ZCOOL QingKe MingTi", serif',
     googleFontName: 'ZCOOL+QingKe+MingTi',
     category: 'chinese',
@@ -303,6 +338,7 @@ export const FONTS: FontData[] = [
   // ===== 其他中文字体 =====
   {
     name: 'Noto Sans TC',
+    displayName: '思源黑体繁体',
     family: '"Noto Sans TC", sans-serif',
     googleFontName: 'Noto+Sans+TC',
     category: 'chinese',
@@ -311,6 +347,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'Noto Serif TC',
+    displayName: '思源宋体繁体',
     family: '"Noto Serif TC", serif',
     googleFontName: 'Noto+Serif+TC',
     category: 'chinese',
@@ -319,6 +356,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'Noto Sans HK',
+    displayName: '思源黑体香港',
     family: '"Noto Sans HK", sans-serif',
     googleFontName: 'Noto+Sans+HK',
     category: 'chinese',
@@ -327,6 +365,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'Noto Serif HK',
+    displayName: '思源宋体香港',
     family: '"Noto Serif HK", serif',
     googleFontName: 'Noto+Serif+HK',
     category: 'chinese',
@@ -335,6 +374,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe CaiYun',
+    displayName: '站酷庆科彩云体',
     family: '"ZCOOL QingKe CaiYun", cursive',
     googleFontName: 'ZCOOL+QingKe+CaiYun',
     category: 'chinese',
@@ -343,6 +383,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe FengYa',
+    displayName: '站酷庆科风雅体',
     family: '"ZCOOL QingKe FengYa", cursive',
     googleFontName: 'ZCOOL+QingKe+FengYa',
     category: 'chinese',
@@ -351,6 +392,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe HuanLe',
+    displayName: '站酷庆科欢乐体',
     family: '"ZCOOL QingKe HuanLe", cursive',
     googleFontName: 'ZCOOL+QingKe+HuanLe',
     category: 'chinese',
@@ -359,6 +401,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe JianJia',
+    displayName: '站酷庆科简甲体',
     family: '"ZCOOL QingKe JianJia", sans-serif',
     googleFontName: 'ZCOOL+QingKe+JianJia',
     category: 'chinese',
@@ -367,6 +410,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe JingHong',
+    displayName: '站酷庆科惊鸿体',
     family: '"ZCOOL QingKe JingHong", sans-serif',
     googleFontName: 'ZCOOL+QingKe+JingHong',
     category: 'chinese',
@@ -375,6 +419,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe QingSong',
+    displayName: '站酷庆科轻松体',
     family: '"ZCOOL QingKe QingSong", sans-serif',
     googleFontName: 'ZCOOL+QingKe+QingSong',
     category: 'chinese',
@@ -383,6 +428,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe RunYuan',
+    displayName: '站酷庆科润圆体',
     family: '"ZCOOL QingKe RunYuan", sans-serif',
     googleFontName: 'ZCOOL+QingKe+RunYuan',
     category: 'chinese',
@@ -391,6 +437,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe ShanMu',
+    displayName: '站酷庆科杉木体',
     family: '"ZCOOL QingKe ShanMu", sans-serif',
     googleFontName: 'ZCOOL+QingKe+ShanMu',
     category: 'chinese',
@@ -399,6 +446,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe XingKai',
+    displayName: '站酷庆科行楷体',
     family: '"ZCOOL QingKe XingKai", cursive',
     googleFontName: 'ZCOOL+QingKe+XingKai',
     category: 'chinese',
@@ -407,6 +455,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe YaSong',
+    displayName: '站酷庆科雅宋体',
     family: '"ZCOOL QingKe YaSong", serif',
     googleFontName: 'ZCOOL+QingKe+YaSong',
     category: 'chinese',
@@ -415,6 +464,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe YouYan',
+    displayName: '站酷庆科幽烟体',
     family: '"ZCOOL QingKe YouYan", sans-serif',
     googleFontName: 'ZCOOL+QingKe+YouYan',
     category: 'chinese',
@@ -423,6 +473,7 @@ export const FONTS: FontData[] = [
   },
   {
     name: 'ZCOOL QingKe YueLi',
+    displayName: '站酷庆科悦隶体',
     family: '"ZCOOL QingKe YueLi", sans-serif',
     googleFontName: 'ZCOOL+QingKe+YueLi',
     category: 'chinese',
@@ -433,6 +484,7 @@ export const FONTS: FontData[] = [
 
 export const SYSTEM_FONT = {
   name: '系统默认',
+  displayName: '系统默认',
   family: 'inherit',
   googleFontName: '',
   category: 'chinese' as const,

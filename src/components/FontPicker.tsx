@@ -267,7 +267,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                           color: '#111827',
                         }}
                       >
-                        {font.name}
+                        {font.displayName}
                       </span>
                     </button>
                   ))}
