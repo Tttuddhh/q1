@@ -36,6 +36,12 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
     }
     if (isOpen) {
       document.addEventListener('mousedown', handleClickOutside);
+      // Preload all fonts when panel opens so previews render correctly
+      FONTS.forEach(font => {
+        if (font.googleFontName) {
+          loadGoogleFont(font.googleFontName);
+        }
+      });
     }
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOpen]);
@@ -261,7 +267,7 @@ export function FontPicker({ currentFont, onSelect }: FontPickerProps) {
                           color: '#111827',
                         }}
                       >
-                        {font.preview}
+                        {font.name}
                       </span>
                     </button>
                   ))}
