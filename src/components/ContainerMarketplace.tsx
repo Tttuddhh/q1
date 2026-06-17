@@ -82,33 +82,33 @@ export function ContainerMarketplace() {
             <button
               style={{
                 padding: '10px 24px',
-                borderRadius: 9999,
-                background: '#1a1a1a',
-                color: '#fff',
-                fontSize: 14,
-                fontWeight: 600,
-                border: 'none',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              上传容器
-            </button>
-            <button
-              style={{
-                padding: '10px 24px',
-                borderRadius: 9999,
-                background: '#1a1a1a',
-                color: '#fff',
-                fontSize: 14,
-                fontWeight: 600,
-                border: 'none',
-                cursor: 'pointer',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              我的
-            </button>
+              borderRadius: 9999,
+              background: 'var(--theme-primary, #FF743D)',
+              color: '#fff',
+              fontSize: 14,
+              fontWeight: 600,
+              border: 'none',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            上传容器
+          </button>
+          <button
+            style={{
+              padding: '10px 24px',
+              borderRadius: 9999,
+              background: 'var(--theme-primary, #FF743D)',
+              color: '#fff',
+              fontSize: 14,
+              fontWeight: 600,
+              border: 'none',
+              cursor: 'pointer',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            我的
+          </button>
           </div>
         </div>
 
@@ -130,7 +130,7 @@ export function ContainerMarketplace() {
                 style={{
                   padding: '8px 20px',
                   borderRadius: 9999,
-                  background: selectedCategory === cat ? 'var(--theme-primary, #FF743D)' : '#1a1a1a',
+                  background: selectedCategory === cat ? 'var(--theme-primary, #FF743D)' : 'var(--theme-primary, #FF743D)',
                   color: '#fff',
                   fontSize: 13,
                   fontWeight: 500,
@@ -148,7 +148,7 @@ export function ContainerMarketplace() {
             style={{
               padding: '8px 20px',
               borderRadius: 9999,
-              background: '#1a1a1a',
+              background: 'var(--theme-primary, #FF743D)',
               color: '#fff',
               fontSize: 13,
               fontWeight: 500,
@@ -162,12 +162,12 @@ export function ContainerMarketplace() {
           </button>
         </div>
 
-        {/* Grid */}
+        {/* Grid - responsive auto-fill */}
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(5, 1fr)',
-            gap: '20px 16px',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gap: '24px 20px',
           }}
         >
           {filteredContainers.map((container) => (

@@ -122,12 +122,12 @@ function App() {
 
         {/* Content area */}
         <div style={{ flex: 1, display: 'flex', overflow: 'hidden' }}>
-          {/* Page Tree - always rendered but hidden on settings page */}
+          {/* Page Tree - always rendered but hidden on settings/container page */}
           <div
-            className={`page-tree-wrapper ${state.pageTreeVisible && state.currentView !== 'settings' ? '' : 'collapsed'}`}
+            className={`page-tree-wrapper ${state.pageTreeVisible && state.currentView !== 'settings' && state.currentView !== 'container_marketplace' ? '' : 'collapsed'}`}
             style={{
-              width: state.pageTreeVisible ? settings.appearance.sidebarWidth : 0,
-              minWidth: state.pageTreeVisible ? settings.appearance.sidebarWidth : 0,
+              width: state.pageTreeVisible && state.currentView !== 'container_marketplace' ? settings.appearance.sidebarWidth : 0,
+              minWidth: state.pageTreeVisible && state.currentView !== 'container_marketplace' ? settings.appearance.sidebarWidth : 0,
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',

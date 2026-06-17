@@ -68,15 +68,15 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
           {container.name}
         </span>
         <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, marginLeft: 8 }}>
-          <span style={{ fontSize: 13, color: '#6b7280' }}>
-            {'★'.repeat(Math.floor(container.rating))}
-            {'☆'.repeat(5 - Math.floor(container.rating))}
-            {' '}{container.rating}
+          <span style={{ fontSize: 13, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 4 }}>
+            <span style={{ color: '#f59e0b' }}>★</span>
+            <span>{container.rating}</span>
           </span>
           <span style={{ fontSize: 13, color: '#6b7280' }}>
             {container.installs >= 10000
               ? `${(container.installs / 10000).toFixed(1)}万`
               : container.installs}
+            {' '}下载量
           </span>
         </div>
       </div>
@@ -98,7 +98,7 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
               alignItems: 'center',
               padding: '4px 14px',
               borderRadius: 9999,
-              background: '#1a1a1a',
+              background: 'var(--theme-primary, #FF743D)',
               color: '#fff',
               fontSize: 12,
               fontWeight: 500,

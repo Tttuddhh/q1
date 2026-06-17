@@ -34,6 +34,88 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
 
   if (!container) return null;
 
+  const renderTabContent = () => {
+    if (activeTab === 'updates') {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+          {container.tabs.updates.map((update, i) => (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
+                <span style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a' }}>
+                  {update.date}
+                </span>
+                <span
+                  style={{
+                    fontSize: 13,
+                    fontWeight: 600,
+                    color: 'var(--theme-primary, #FF743D)',
+                    background: 'rgba(255,116,61,0.1)',
+                    padding: '2px 10px',
+                    borderRadius: 9999,
+                  }}
+                >
+                  {update.version}
+                </span>
+              </div>
+              <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.6, paddingLeft: 4 }}>
+                {update.content}
+              </div>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    if (activeTab === 'other') {
+      return (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+          {container.tabs.other.map((item, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 12,
+                padding: '10px 14px',
+                background: '#f9fafb',
+                borderRadius: 10,
+              }}
+            >
+              <span
+                style={{
+                  fontSize: 13,
+                  fontWeight: 600,
+                  color: '#6b7280',
+                  minWidth: 80,
+                  flexShrink: 0,
+                }}
+              >
+                {item.label}
+              </span>
+              <span style={{ fontSize: 14, color: '#1a1a1a', fontWeight: 500 }}>
+                {item.value}
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        style={{
+          fontSize: 14,
+          color: '#374151',
+          lineHeight: 1.7,
+          whiteSpace: 'pre-line',
+          minHeight: 120,
+        }}
+      >
+        {container.tabs[activeTab] as string}
+      </div>
+    );
+  };
+
   return (
     <div
       style={{
@@ -111,7 +193,7 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
             style={{
               padding: '8px 24px',
               borderRadius: 9999,
-              background: '#1a1a1a',
+              background: 'var(--theme-primary, #FF743D)',
               color: '#fff',
               fontSize: 14,
               fontWeight: 600,
@@ -215,17 +297,7 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
           </div>
 
           {/* Tab Content */}
-          <div
-            style={{
-              fontSize: 14,
-              color: '#374151',
-              lineHeight: 1.7,
-              whiteSpace: 'pre-line',
-              minHeight: 120,
-            }}
-          >
-            {container.tabs[activeTab]}
-          </div>
+          {renderTabContent()}
         </div>
       </div>
     </div>
