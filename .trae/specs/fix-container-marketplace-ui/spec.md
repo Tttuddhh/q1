@@ -26,12 +26,12 @@ The container marketplace SHALL use full available width without maxWidth constr
 - **THEN** 每行显示 5-6 个卡片（通过调整 minmax 和 gap）
 
 ### Requirement: 分类标签按钮颜色
-The category filter buttons SHALL use light/gray color for unselected state.
+The category filter buttons SHALL match the parent/child page selection style from PageTree.
 
 #### Scenario: 未选中标签
 - **WHEN** 用户查看分类标签
-- **THEN** 未选中的标签按钮显示浅色/灰色背景和文字
-- **THEN** 选中的标签按钮显示主题色背景
+- **THEN** 未选中的标签按钮使用与 PageTree 中未选中页面项相同的样式（透明背景、灰色文字 #374151）
+- **THEN** 选中的标签按钮使用与 PageTree 中选中页面项相同的样式（主题色 8% 透明混合背景、主题色文字、fontWeight 600）
 
 ### Requirement: 功能介绍复选框形式
 The "功能介绍" tab SHALL display features as a checkbox list with implemented and planned features.

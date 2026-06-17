@@ -66,9 +66,66 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
       );
     }
 
+    if (activeTab === 'features') {
+      return (
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+          {container.tabs.features.map((feature, i) => (
+            <div
+              key={i}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                padding: '8px 0',
+              }}
+            >
+              <div
+                style={{
+                  width: 18,
+                  height: 18,
+                  borderRadius: 4,
+                  border: feature.implemented
+                    ? '2px solid var(--theme-primary, #FF743D)'
+                    : '2px solid #d1d5db',
+                  background: feature.implemented
+                    ? 'var(--theme-primary, #FF743D)'
+                    : 'transparent',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flexShrink: 0,
+                }}
+              >
+                {feature.implemented && (
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <path
+                      d="M2.5 6L5 8.5L9.5 4"
+                      stroke="white"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                )}
+              </div>
+              <span
+                style={{
+                  fontSize: 14,
+                  color: feature.implemented ? '#1a1a1a' : '#9ca3af',
+                  fontWeight: feature.implemented ? 500 : 400,
+                }}
+              >
+                {feature.name}
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+
     if (activeTab === 'other') {
       return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
           {container.tabs.other.map((item, i) => (
             <div
               key={i}

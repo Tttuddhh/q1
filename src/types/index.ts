@@ -41,7 +41,7 @@ export interface Container {
   previews: string[];
   tabs: {
     description: string;
-    features: string;
+    features: { name: string; implemented: boolean }[];
     tutorial: string;
     updates: { date: string; version: string; content: string }[];
     other: { label: string; value: string }[];

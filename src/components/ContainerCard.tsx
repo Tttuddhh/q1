@@ -76,7 +76,7 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
             {container.installs >= 10000
               ? `${(container.installs / 10000).toFixed(1)}万`
               : container.installs}
-            {' '}下载量
+            {' '}下载
           </span>
         </div>
       </div>

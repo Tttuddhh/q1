@@ -23,7 +23,7 @@ export function ContainerMarketplace() {
         background: '#fff',
       }}
     >
-      <div style={{ maxWidth: 1200, margin: '0 auto', padding: '32px 40px' }}>
+      <div style={{ padding: '32px 40px' }}>
         {/* Header */}
         <div
           style={{
@@ -130,14 +130,14 @@ export function ContainerMarketplace() {
                 style={{
                   padding: '8px 20px',
                   borderRadius: 9999,
-                  background: selectedCategory === cat ? 'var(--theme-primary, #FF743D)' : 'var(--theme-primary, #FF743D)',
-                  color: '#fff',
+                  background: selectedCategory === cat ? 'color-mix(in srgb, var(--theme-primary, #FF743D) 8%, transparent)' : 'transparent',
+                  color: selectedCategory === cat ? 'var(--theme-primary, #FF743D)' : '#374151',
                   fontSize: 13,
-                  fontWeight: 500,
+                  fontWeight: selectedCategory === cat ? 600 : 400,
                   border: 'none',
                   cursor: 'pointer',
                   whiteSpace: 'nowrap',
-                  transition: 'background 0.2s',
+                  transition: 'all 0.2s',
                 }}
               >
                 {cat}
@@ -166,7 +166,7 @@ export function ContainerMarketplace() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
             gap: '24px 20px',
           }}
         >
