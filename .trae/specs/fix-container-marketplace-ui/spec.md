@@ -1,65 +1,72 @@
 # 修复容器市场页面 UI Spec
 
 ## Why
-容器市场页面存在多处 UI 问题需要修复：页面树不应显示、卡片大小不一致、评分和安装量显示格式错误、按钮未使用主题色、网格布局不够灵活、详情弹窗内容不符合需求。
+容器市场页面存在多处 UI 问题需要修复：页面两侧空白过多未充分利用、分类标签按钮颜色过深、下载量文字过长、说明内容未根据插件描述、其他信息和功能介绍布局不合理。
 
 ## What Changes
-- 容器页面隐藏左侧页面树（PageTree）
-- 修复卡片大小不一致问题（统一使用固定最小宽度 + flex 布局）
-- 评分显示改为单个五角星 + 数字格式
-- 安装量显示改为数字 + "下载量"文字后缀
-- 所有按钮使用主题色（--theme-primary）替代黑色
-- 网格布局改为响应式（auto-fill + minmax），根据界面宽度自适应列数
-- 详情弹窗"其他信息"Tab 显示版本、更新人、最近上传/更新等信息
-- 详情弹窗"更新日杂"Tab 显示日期列表，日期使用大字号区分
+- 容器页面布局调整：移除 maxWidth 限制，让内容充分利用可用宽度，增加每行卡片数量至 5-6 个
+- 分类标签按钮颜色改浅：未选中状态使用浅色/灰色效果，而非主题色
+- 下载量显示改为仅"下载"两个字，去掉"量"字
+- 说明 Tab 内容改为根据插件实际描述来写（功能介绍 + 使用教程）
+- 其他信息 Tab 内容改为左右两列排布，而非竖向列表
+- 功能介绍 Tab 改为复选框形式展示功能列表，包含已具备功能和计划更新的功能（未实现的无对勾），左右排布
 
 ## Impact
 - Affected specs: add-container-marketplace
-- Affected code: `src/components/ContainerMarketplace.tsx`, `src/components/ContainerCard.tsx`, `src/components/ContainerDetailModal.tsx`, `src/App.tsx`, `src/types/index.ts`, `src/data/containers.ts`
+- Affected code: `src/components/ContainerMarketplace.tsx`, `src/components/ContainerCard.tsx`, `src/components/ContainerDetailModal.tsx`, `src/data/containers.ts`, `src/types/index.ts`
 
 ## ADDED Requirements
 
-### Requirement: 响应式网格布局
-The grid SHALL use CSS auto-fill with a minimum card width to adapt to screen width.
+### Requirement: 充分利用页面宽度
+The container marketplace SHALL use full available width without maxWidth constraint, showing 5-6 cards per row.
 
-#### Scenario: 自适应列数
-- **WHEN** 用户调整浏览器宽度
-- **THEN** 卡片列数自动调整，保证卡片不被截断，左右有留白
+#### Scenario: 宽屏布局
+- **WHEN** 用户进入容器市场页面
+- **THEN** 内容区域占满可用宽度，没有两侧大留白
+- **THEN** 每行显示 5-6 个卡片（通过调整 minmax 和 gap）
 
-### Requirement: 详情弹窗 Tab 内容
-The "其他信息" and "更新日杂" tabs SHALL display structured metadata.
+### Requirement: 分类标签按钮颜色
+The category filter buttons SHALL use light/gray color for unselected state.
 
-#### Scenario: 其他信息 Tab
+#### Scenario: 未选中标签
+- **WHEN** 用户查看分类标签
+- **THEN** 未选中的标签按钮显示浅色/灰色背景和文字
+- **THEN** 选中的标签按钮显示主题色背景
+
+### Requirement: 功能介绍复选框形式
+The "功能介绍" tab SHALL display features as a checkbox list with implemented and planned features.
+
+#### Scenario: 功能列表展示
+- **WHEN** 用户切换到"功能介绍"Tab
+- **THEN** 显示功能列表，每项左侧有复选框
+- **THEN** 已实现的功能显示对勾
+- **THEN** 计划更新的功能无对勾
+- **THEN** 内容左右排布，而非竖向
+
+### Requirement: 其他信息左右排布
+The "其他信息" tab SHALL display metadata in a two-column layout.
+
+#### Scenario: 其他信息展示
 - **WHEN** 用户切换到"其他信息"Tab
-- **THEN** 显示：版本号、更新人、最近上传时间、最近更新时间等
-
-#### Scenario: 更新日杂 Tab
-- **WHEN** 用户切换到"更新日杂"Tab
-- **THEN** 显示日期列表，日期使用大字号突出，下方列出更新内容
+- **THEN** 内容以左右两列排布
+- **THEN** 标签和值成对显示
 
 ## MODIFIED Requirements
 
-### Requirement: 页面树隐藏
-The page tree SHALL be hidden when viewing the container marketplace.
+### Requirement: 下载量显示
+The install count display SHALL show only "下载" suffix.
 
-#### Scenario: 容器页面布局
-- **WHEN** 用户进入容器市场页面
-- **THEN** 左侧页面树不显示，内容区域占满可用空间
-
-### Requirement: 按钮主题色
-All buttons on the container marketplace SHALL use the theme primary color.
-
-#### Scenario: 按钮颜色
-- **WHEN** 用户查看分类标签、筛选按钮、安装按钮
-- **THEN** 按钮背景色为 --theme-primary 而非黑色
-
-### Requirement: 评分和安装量显示
-The card info row SHALL display rating and installs in the correct format.
-
-#### Scenario: 评分显示
+#### Scenario: 卡片信息行
 - **WHEN** 用户查看容器卡片
-- **THEN** 评分显示为 "★ 4.8"（单个五角星 + 数字）
+- **THEN** 安装量显示为 "1.3万 下载"（仅"下载"两字，无"量"字）
 
-#### Scenario: 安装量显示
-- **WHEN** 用户查看容器卡片
-- **THEN** 安装量显示为 "1.3万 下载量"（数字 + "下载量"后缀）
+### Requirement: 说明 Tab 内容
+The "说明" tab SHALL contain actual plugin description combining features and tutorial.
+
+#### Scenario: 说明内容
+- **WHEN** 用户查看"说明"Tab
+- **THEN** 内容根据该插件的实际功能描述编写
+- **THEN** 包含功能介绍和使用教程
+
+## REMOVED Requirements
+无
