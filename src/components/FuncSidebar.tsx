@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { HugeiconsIcon } from '@hugeicons/react';
-import { Home01Icon, Clock01Icon, Bookmark01Icon, Tag01Icon, ArchiveIcon, Settings01Icon, ArrowDown01Icon } from '@hugeicons/core-free-icons';
+import { Home01Icon, Clock01Icon, Bookmark01Icon, Tag01Icon, ArchiveIcon, Settings01Icon, ArrowDown01Icon, PackageIcon } from '@hugeicons/core-free-icons';
 import { useTranslation } from '../i18n';
 
 interface FuncSidebarProps {
   onNavigateHome: () => void;
   onNavigateSettings: () => void;
+  onNavigateContainerMarketplace: () => void;
   currentView: string;
 }
 
@@ -17,6 +18,7 @@ interface SectionState {
 export function FuncSidebar({
   onNavigateHome,
   onNavigateSettings,
+  onNavigateContainerMarketplace,
   currentView,
 }: FuncSidebarProps) {
   const { t } = useTranslation();
@@ -103,6 +105,15 @@ export function FuncSidebar({
       </div>
 
       <div className={`func-section-items ${!sections.system ? 'collapsed' : ''}`}>
+        <a
+          className={`func-sidebar-item ${currentView === 'container_marketplace' ? 'active' : ''}`}
+          onClick={onNavigateContainerMarketplace}
+        >
+          <span className="func-sidebar-icon">
+            <HugeiconsIcon icon={PackageIcon} size={20} strokeWidth={1.5} />
+          </span>
+          <span className="func-sidebar-text">容器</span>
+        </a>
         <a className="func-sidebar-item">
           <span className="func-sidebar-icon">
             <HugeiconsIcon icon={ArchiveIcon} size={20} strokeWidth={1.5} />

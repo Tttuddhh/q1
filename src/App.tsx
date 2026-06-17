@@ -7,6 +7,7 @@ import { EmptyState } from './components/EmptyState';
 import { SearchModal } from './components/SearchModal';
 import { DownloadModal } from './components/DownloadModal';
 import { SettingsPage } from './components/SettingsPage';
+import { ContainerMarketplace } from './components/ContainerMarketplace';
 import { useAppState } from './hooks/useAppState';
 import { useSettings } from './hooks/useSettings';
 import { useTranslation } from './i18n';
@@ -44,6 +45,11 @@ function App() {
   const handleNavigateToSettings = () => {
     autoSave();
     state.navigateToSettings();
+  };
+
+  const handleNavigateToContainerMarketplace = () => {
+    autoSave();
+    state.navigateToContainerMarketplace();
   };
 
   // Apply theme color settings
@@ -88,6 +94,7 @@ function App() {
       <FuncSidebar
         onNavigateHome={handleNavigateToHome}
         onNavigateSettings={handleNavigateToSettings}
+        onNavigateContainerMarketplace={handleNavigateToContainerMarketplace}
         currentView={state.currentView}
       />
 
@@ -149,6 +156,8 @@ function App() {
                 state.setCurrentView('home');
               }
             }} />
+          ) : state.currentView === 'container_marketplace' ? (
+            <ContainerMarketplace />
           ) : state.currentPageId === null ? (
             <EmptyState onCreatePage={state.createPage} />
           ) : (

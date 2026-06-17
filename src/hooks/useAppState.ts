@@ -55,6 +55,10 @@ export function useAppState() {
     setCurrentView('settings');
   }, []);
 
+  const navigateToContainerMarketplace = useCallback(() => {
+    setCurrentView('container_marketplace');
+  }, []);
+
   const openSearch = useCallback(() => {
     setSearchOpen(true);
   }, []);
@@ -261,6 +265,7 @@ export function useAppState() {
     navigateToPage,
     navigateToHome,
     navigateToSettings,
+    navigateToContainerMarketplace,
     openSearch,
     closeSearch,
     openDownload,
@@ -289,6 +294,7 @@ export function useAppState() {
     navigateToPage,
     navigateToHome,
     navigateToSettings,
+    navigateToContainerMarketplace,
     openSearch,
     closeSearch,
     openDownload,

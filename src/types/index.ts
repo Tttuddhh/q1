@@ -27,7 +27,27 @@ export interface SidebarItem {
   isActive?: boolean;
 }
 
-export type ViewType = 'home' | 'settings' | 'page';
+export type ViewType = 'home' | 'settings' | 'page' | 'container_marketplace';
+
+export interface Container {
+  id: string;
+  name: string;
+  author: string;
+  description: string;
+  rating: number;
+  installs: number;
+  categories: string[];
+  cover: string;
+  previews: string[];
+  tabs: {
+    description: string;
+    features: string;
+    tutorial: string;
+    updates: string;
+    other: string;
+  };
+  iconColor: string;
+}
 
 export interface AppState {
   sidebarExpanded: boolean;
