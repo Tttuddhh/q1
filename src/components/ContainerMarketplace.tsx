@@ -23,7 +23,7 @@ export function ContainerMarketplace() {
         background: '#fff',
       }}
     >
-      <div style={{ padding: '32px 40px' }}>
+      <div style={{ padding: '32px 40px', maxWidth: 1200, margin: '0 auto' }}>
         {/* Header */}
         <div
           style={{
@@ -130,8 +130,8 @@ export function ContainerMarketplace() {
                 style={{
                   padding: '8px 20px',
                   borderRadius: 9999,
-                  background: selectedCategory === cat ? 'color-mix(in srgb, var(--theme-primary, #FF743D) 8%, transparent)' : 'transparent',
-                  color: selectedCategory === cat ? 'var(--theme-primary, #FF743D)' : '#374151',
+                  background: selectedCategory === cat ? 'var(--theme-primary, #FF743D)' : '#f3f4f6',
+                  color: selectedCategory === cat ? '#fff' : '#6b7280',
                   fontSize: 13,
                   fontWeight: selectedCategory === cat ? 600 : 400,
                   border: 'none',

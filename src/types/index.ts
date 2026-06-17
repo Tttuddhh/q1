@@ -43,7 +43,7 @@ export interface Container {
     description: string;
     features: { name: string; implemented: boolean }[];
     tutorial: string;
-    updates: { date: string; version: string; content: string }[];
+    updates: { date: string; version: string; content: string; detail?: string; images?: string[] }[];
     other: { label: string; value: string }[];
   };
   iconColor: string;

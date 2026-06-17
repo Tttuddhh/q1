@@ -12,6 +12,7 @@ const TAB_KEYS: TabKey[] = ['description', 'features', 'tutorial', 'updates', 'o
 
 export function ContainerDetailModal({ container, onClose }: ContainerDetailModalProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('description');
+  const [expandedUpdate, setExpandedUpdate] = useState<number | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -36,13 +37,25 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
 
   const renderTabContent = () => {
     if (activeTab === 'updates') {
+      const currentYear = new Date().getFullYear();
+      const formatDate = (dateStr: string) => {
+        const date = new Date(dateStr);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        if (year === currentYear) {
+          return `${month}-${day}`;
+        }
+        return `${year}-${month}-${day}`;
+      };
+      // expandedUpdate state is managed at component level
       return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
           {container.tabs.updates.map((update, i) => (
             <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-                <span style={{ fontSize: 20, fontWeight: 700, color: '#1a1a1a' }}>
-                  {update.date}
+                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a' }}>
+                  {formatDate(update.date)}
                 </span>
                 <span
                   style={{
@@ -60,6 +73,40 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
               <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.6, paddingLeft: 4 }}>
                 {update.content}
               </div>
+              {update.detail && (
+                <button
+                  onClick={() => setExpandedUpdate(expandedUpdate === i ? null : i)}
+                  style={{
+                    fontSize: 13,
+                    color: 'var(--theme-primary, #FF743D)',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    textAlign: 'left',
+                    marginTop: 4,
+                  }}
+                >
+                  {expandedUpdate === i ? '收起详情' : '查看详情'}
+                </button>
+              )}
+              {expandedUpdate === i && update.detail && (
+                <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.6, paddingLeft: 4, marginTop: 8 }}>
+                  {update.detail}
+                  {update.images && update.images.length > 0 && (
+                    <div style={{ display: 'flex', gap: 12, marginTop: 12, flexWrap: 'wrap' }}>
+                      {update.images.map((img, idx) => (
+                        <img
+                          key={idx}
+                          src={img}
+                          alt={`更新图片 ${idx + 1}`}
+                          style={{ maxWidth: 200, borderRadius: 8, border: '1px solid #e5e7eb' }}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           ))}
         </div>
@@ -67,58 +114,90 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
     }
 
     if (activeTab === 'features') {
+      const implementedFeatures = container.tabs.features.filter((f) => f.implemented);
+      const plannedFeatures = container.tabs.features.filter((f) => !f.implemented);
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
-          {container.tabs.features.map((feature, i) => (
-            <div
-              key={i}
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 10,
-                padding: '8px 0',
-              }}
-            >
-              <div
-                style={{
-                  width: 18,
-                  height: 18,
-                  borderRadius: 4,
-                  border: feature.implemented
-                    ? '2px solid var(--theme-primary, #FF743D)'
-                    : '2px solid #d1d5db',
-                  background: feature.implemented
-                    ? 'var(--theme-primary, #FF743D)'
-                    : 'transparent',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  flexShrink: 0,
-                }}
-              >
-                {feature.implemented && (
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path
-                      d="M2.5 6L5 8.5L9.5 4"
-                      stroke="white"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                )}
-              </div>
-              <span
-                style={{
-                  fontSize: 14,
-                  color: feature.implemented ? '#1a1a1a' : '#9ca3af',
-                  fontWeight: feature.implemented ? 500 : 400,
-                }}
-              >
-                {feature.name}
-              </span>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+          {implementedFeatures.length > 0 && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+              {implementedFeatures.map((feature, i) => (
+                <div
+                  key={i}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
+                    padding: '8px 0',
+                  }}
+                >
+                  <div
+                    style={{
+                      width: 18,
+                      height: 18,
+                      borderRadius: 4,
+                      border: '2px solid var(--theme-primary, #FF743D)',
+                      background: 'var(--theme-primary, #FF743D)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
+                    }}
+                  >
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                      <path
+                        d="M2.5 6L5 8.5L9.5 4"
+                        stroke="white"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </div>
+                  <span style={{ fontSize: 14, color: '#1a1a1a', fontWeight: 500 }}>
+                    {feature.name}
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
+          )}
+          {plannedFeatures.length > 0 && (
+            <>
+              <div style={{ borderTop: '1px dashed #e5e7eb', margin: '8px 0' }} />
+              <div style={{ fontSize: 13, color: '#9ca3af', fontWeight: 500, marginBottom: 4 }}>
+                开发下一步
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+                {plannedFeatures.map((feature, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: 10,
+                      padding: '8px 0',
+                    }}
+                  >
+                    <div
+                      style={{
+                        width: 18,
+                        height: 18,
+                        borderRadius: 4,
+                        border: '2px solid #d1d5db',
+                        background: 'transparent',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        flexShrink: 0,
+                      }}
+                    />
+                    <span style={{ fontSize: 14, color: '#9ca3af', fontWeight: 400 }}>
+                      {feature.name}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
         </div>
       );
     }
