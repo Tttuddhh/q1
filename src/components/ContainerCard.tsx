@@ -13,7 +13,7 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
         cursor: 'pointer',
         display: 'flex',
         flexDirection: 'column',
-        gap: 12,
+        gap: 10,
       }}
     >
       {/* Cover area - 16:10 ratio */}
@@ -21,7 +21,7 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
         style={{
           width: '100%',
           aspectRatio: '16/10',
-          borderRadius: 12,
+          borderRadius: 10,
           background: '#f3f4f6',
           border: '1px solid #e5e7eb',
           overflow: 'hidden',
@@ -51,7 +51,7 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          padding: '0 4px',
+          padding: '0 2px',
         }}
       >
         <span
@@ -63,11 +63,12 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
             textOverflow: 'ellipsis',
             whiteSpace: 'nowrap',
             flex: 1,
+            marginRight: 8,
           }}
         >
           {container.name}
         </span>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, marginLeft: 8 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
           <span style={{ fontSize: 13, color: '#6b7280', display: 'flex', alignItems: 'center', gap: 4 }}>
             <span style={{ color: '#f59e0b' }}>★</span>
             <span>{container.rating}</span>
@@ -85,9 +86,10 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
       <div
         style={{
           display: 'flex',
-          gap: 8,
+          gap: 6,
           flexWrap: 'wrap',
-          padding: '0 4px',
+          padding: '0 2px',
+          marginTop: 2,
         }}
       >
         {container.categories.map((cat) => (
@@ -96,7 +98,7 @@ export function ContainerCard({ container, onSelect }: ContainerCardProps) {
             style={{
               display: 'inline-flex',
               alignItems: 'center',
-              padding: '4px 14px',
+              padding: '3px 12px',
               borderRadius: 9999,
               background: '#e5e7eb',
               color: '#9ca3af',

@@ -23,18 +23,18 @@ export function ContainerMarketplace() {
         background: '#fff',
       }}
     >
-      <div style={{ padding: '32px 40px', maxWidth: 1200, margin: '0 auto' }}>
+      <div style={{ padding: '28px 32px', maxWidth: 1200, margin: '0 auto' }}>
         {/* Header */}
         <div
           style={{
             display: 'flex',
             alignItems: 'flex-start',
             justifyContent: 'space-between',
-            marginBottom: 32,
+            marginBottom: 24,
           }}
         >
           <div style={{ flex: 1 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 12 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 10 }}>
               <div
                 style={{
                   width: 64,
@@ -61,13 +61,13 @@ export function ContainerMarketplace() {
                 容器
               </h1>
             </div>
-            <div style={{ paddingLeft: 80 }}>
+            <div style={{ paddingLeft: 78 }}>
               <div
                 style={{
                   fontSize: 14,
                   color: '#6b7280',
                   lineHeight: 1.6,
-                  maxWidth: 480,
+                  maxWidth: 520,
                 }}
               >
                 <span style={{ fontWeight: 600, color: '#374151' }}>简述：</span>
@@ -78,7 +78,7 @@ export function ContainerMarketplace() {
               </div>
             </div>
           </div>
-          <div style={{ display: 'flex', gap: 12, flexShrink: 0, marginTop: 8 }}>
+          <div style={{ display: 'flex', gap: 10, flexShrink: 0, marginTop: 6 }}>
             <button
               style={{
                 padding: '10px 24px',
@@ -118,11 +118,11 @@ export function ContainerMarketplace() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            marginBottom: 28,
-            gap: 16,
+            marginBottom: 20,
+            gap: 14,
           }}
         >
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {containerCategories.map((cat) => (
               <button
                 key={cat}
@@ -166,8 +166,8 @@ export function ContainerMarketplace() {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-            gap: '24px 20px',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(170px, 1fr))',
+            gap: '28px 20px',
           }}
         >
           {filteredContainers.map((container) => (
