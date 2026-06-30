@@ -50,27 +50,27 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
       };
       // expandedUpdate state is managed at component level
       return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
           {container.tabs.updates.map((update, i) => (
-            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 12 }}>
-                <span style={{ fontSize: 16, fontWeight: 600, color: '#1a1a1a' }}>
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10 }}>
+                <span style={{ fontSize: 15, fontWeight: 600, color: '#1a1a1a' }}>
                   {formatDate(update.date)}
                 </span>
                 <span
                   style={{
-                    fontSize: 13,
+                    fontSize: 12,
                     fontWeight: 600,
                     color: 'var(--theme-primary, #FF743D)',
                     background: 'rgba(255,116,61,0.1)',
-                    padding: '2px 10px',
+                    padding: '2px 8px',
                     borderRadius: 9999,
                   }}
                 >
                   {update.version}
                 </span>
               </div>
-              <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.6, paddingLeft: 4 }}>
+              <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.6 }}>
                 {update.content}
               </div>
               {update.detail && (
@@ -84,23 +84,23 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
                     cursor: 'pointer',
                     padding: 0,
                     textAlign: 'left',
-                    marginTop: 4,
+                    marginTop: 2,
                   }}
                 >
                   {expandedUpdate === i ? '收起详情' : '查看详情'}
                 </button>
               )}
               {expandedUpdate === i && update.detail && (
-                <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.6, paddingLeft: 4, marginTop: 8 }}>
+                <div style={{ fontSize: 14, color: '#374151', lineHeight: 1.6, marginTop: 6 }}>
                   {update.detail}
                   {update.images && update.images.length > 0 && (
-                    <div style={{ display: 'flex', gap: 12, marginTop: 12, flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', gap: 10, marginTop: 10, flexWrap: 'wrap' }}>
                       {update.images.map((img, idx) => (
                         <img
                           key={idx}
                           src={img}
                           alt={`更新图片 ${idx + 1}`}
-                          style={{ maxWidth: 200, borderRadius: 8, border: '1px solid #e5e7eb' }}
+                          style={{ maxWidth: 180, borderRadius: 6, border: '1px solid #e5e7eb' }}
                         />
                       ))}
                     </div>
@@ -117,23 +117,23 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
       const implementedFeatures = container.tabs.features.filter((f) => f.implemented);
       const plannedFeatures = container.tabs.features.filter((f) => !f.implemented);
       return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
           {implementedFeatures.length > 0 && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 20px' }}>
               {implementedFeatures.map((feature, i) => (
                 <div
                   key={i}
                   style={{
                     display: 'flex',
                     alignItems: 'center',
-                    gap: 10,
-                    padding: '8px 0',
+                    gap: 8,
+                    padding: '6px 0',
                   }}
                 >
                   <div
                     style={{
-                      width: 18,
-                      height: 18,
+                      width: 16,
+                      height: 16,
                       borderRadius: 4,
                       border: '2px solid var(--theme-primary, #FF743D)',
                       background: 'var(--theme-primary, #FF743D)',
@@ -143,7 +143,7 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
                       flexShrink: 0,
                     }}
                   >
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
                       <path
                         d="M2.5 6L5 8.5L9.5 4"
                         stroke="white"
@@ -162,25 +162,25 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
           )}
           {plannedFeatures.length > 0 && (
             <>
-              <div style={{ borderTop: '1px dashed #e5e7eb', margin: '8px 0' }} />
-              <div style={{ fontSize: 13, color: '#9ca3af', fontWeight: 500, marginBottom: 4 }}>
+              <div style={{ borderTop: '1px dashed #e5e7eb', margin: '6px 0' }} />
+              <div style={{ fontSize: 13, color: '#9ca3af', fontWeight: 500, marginBottom: 2 }}>
                 开发下一步
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '8px 20px' }}>
                 {plannedFeatures.map((feature, i) => (
                   <div
                     key={i}
                     style={{
                       display: 'flex',
                       alignItems: 'center',
-                      gap: 10,
-                      padding: '8px 0',
+                      gap: 8,
+                      padding: '6px 0',
                     }}
                   >
                     <div
                       style={{
-                        width: 18,
-                        height: 18,
+                        width: 16,
+                        height: 16,
                         borderRadius: 4,
                         border: '2px solid #d1d5db',
                         background: 'transparent',
@@ -204,17 +204,17 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
 
     if (activeTab === 'other') {
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px 24px' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px 16px' }}>
           {container.tabs.other.map((item, i) => (
             <div
               key={i}
               style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: 12,
-                padding: '10px 14px',
+                gap: 10,
+                padding: '8px 12px',
                 background: '#f9fafb',
-                borderRadius: 10,
+                borderRadius: 8,
               }}
             >
               <span
@@ -222,7 +222,7 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
                   fontSize: 13,
                   fontWeight: 600,
                   color: '#6b7280',
-                  minWidth: 80,
+                  minWidth: 70,
                   flexShrink: 0,
                 }}
               >
@@ -269,7 +269,7 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
         ref={modalRef}
         style={{
           background: '#fff',
-          borderRadius: 16,
+          borderRadius: 14,
           width: '100%',
           maxWidth: 640,
           maxHeight: '85vh',
@@ -288,12 +288,12 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
             padding: '24px 28px 0',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
             <div
               style={{
-                width: 56,
-                height: 56,
-                borderRadius: 14,
+                width: 52,
+                height: 52,
+                borderRadius: 12,
                 background: container.iconColor,
                 display: 'flex',
                 alignItems: 'center',
@@ -301,12 +301,12 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
                 flexShrink: 0,
               }}
             >
-              <span style={{ fontSize: 28, color: '#fff' }}>📦</span>
+              <span style={{ fontSize: 26, color: '#fff' }}>📦</span>
             </div>
             <div>
               <div
                 style={{
-                  fontSize: 20,
+                  fontSize: 18,
                   fontWeight: 700,
                   color: '#1a1a1a',
                   lineHeight: 1.3,
@@ -316,9 +316,9 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
               </div>
               <div
                 style={{
-                  fontSize: 14,
+                  fontSize: 13,
                   color: '#6b7280',
-                  marginTop: 4,
+                  marginTop: 3,
                 }}
               >
                 作者：{container.author}
@@ -327,7 +327,7 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
           </div>
           <button
             style={{
-              padding: '8px 24px',
+              padding: '7px 20px',
               borderRadius: 9999,
               background: 'var(--theme-primary, #FF743D)',
               color: '#fff',
@@ -343,15 +343,15 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
         </div>
 
         {/* Content */}
-        <div style={{ padding: '24px 28px' }}>
+        <div style={{ padding: '20px 24px 24px' }}>
           {/* Description */}
-          <div style={{ marginBottom: 24 }}>
+          <div style={{ marginBottom: 18 }}>
             <div
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: 700,
                 color: '#1a1a1a',
-                marginBottom: 12,
+                marginBottom: 8,
               }}
             >
               简述
@@ -369,25 +369,25 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
           </div>
 
           {/* Previews */}
-          <div style={{ marginBottom: 24 }}>
+          <div style={{ marginBottom: 18 }}>
             <div
               style={{
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: 700,
                 color: '#1a1a1a',
-                marginBottom: 12,
+                marginBottom: 8,
               }}
             >
               预览
             </div>
-            <div style={{ display: 'flex', gap: 12 }}>
+            <div style={{ display: 'flex', gap: 10 }}>
               {container.previews.map((_, i) => (
                 <div
                   key={i}
                   style={{
                     flex: 1,
                     aspectRatio: '16/10',
-                    borderRadius: 12,
+                    borderRadius: 10,
                     background: container.iconColor,
                     opacity: 0.15,
                   }}
@@ -400,10 +400,10 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
           <div
             style={{
               display: 'flex',
-              gap: 8,
-              marginBottom: 16,
+              gap: 6,
+              marginBottom: 14,
               borderBottom: '1px solid #e5e7eb',
-              paddingBottom: 8,
+              paddingBottom: 6,
             }}
           >
             {TAB_LABELS.map((label, i) => {
@@ -414,7 +414,7 @@ export function ContainerDetailModal({ container, onClose }: ContainerDetailModa
                   key={key}
                   onClick={() => setActiveTab(key)}
                   style={{
-                    padding: '8px 16px',
+                    padding: '6px 12px',
                     borderRadius: 8,
                     fontSize: 14,
                     fontWeight: isActive ? 600 : 400,
